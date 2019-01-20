@@ -21,5 +21,5 @@ a software package to automate readjustments to the Departmental sequences and o
 3.    npm install ejs
 4.    npm install multer
 5.    npm install mv
-6.    npm install nodemailer --save // npdm install nodemailer
+6.    npm install nodemailer --save
 7.    node app.js
