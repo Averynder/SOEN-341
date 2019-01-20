@@ -13,7 +13,7 @@ a software package to automate readjustments to the Departmental sequences and o
     Leslie Poso           40057877
     Niels Justin Louis    40077435
     Rubiat Zaman          40062082
-    Victor Manea          40001995'
+    Victor Manea          40001995
 
 ### Run NodeJS:
 1.    Browse to right local directory
