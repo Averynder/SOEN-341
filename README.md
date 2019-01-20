@@ -17,9 +17,13 @@ a software package to automate readjustments to the Departmental sequences and o
 
 ### Run NodeJS:
 1.    Browse to right local directory
+2.    node app.js
+
+/*
 2.    npm install mysql
 3.    npm install ejs
 4.    npm install multer
 5.    npm install mv
 6.    npm install nodemailer --save
-7.    node app.js
+7.    npm install express
+*/
