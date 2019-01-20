@@ -4,16 +4,16 @@ a software package to automate readjustments to the Departmental sequences and o
 ***
 ### Group Members
 
-*  Averynder Singh       40058958
-*  Ali Mahram            40077663
-*  Andre Legault         40031363
-*  Jimmy Onya            40066773
-*  Julia Bazarbachian    26781357
-*  Karim Hasbini         40053498
-*  Leslie Poso           40057877
-*  Niels Justin Louis    40077435
-*  Rubiat Zaman          40062082
-*  Victor Manea          40001995'
+    Averynder Singh       40058958
+    Ali Mahram            40077663
+    Andre Legault         40031363
+    Jimmy Onya            40066773
+    Julia Bazarbachian    26781357
+    Karim Hasbini         40053498
+    Leslie Poso           40057877
+    Niels Justin Louis    40077435
+    Rubiat Zaman          40062082
+    Victor Manea          40001995'
 
 ### Run NodeJS:
 1.    Browse to right local directory
