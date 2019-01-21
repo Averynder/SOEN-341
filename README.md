@@ -15,7 +15,7 @@ a software package to automate readjustments to the Departmental sequences and o
     Rubiat Zaman          40062082
     Victor Manea          40001995
 
-### Run NodeJS:
+### Install NodeJS:
 1.    Browse to right local directory
-2.    npm install express
+2.    npm install ejs
 3.    node app.js
