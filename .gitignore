@@ -1,4 +1,4 @@
 /.idea
 /node_modules
 /my-app/node_modules
-/my-app/.gitignore
+/my-app/build

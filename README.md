@@ -19,13 +19,21 @@ a software package to automate readjustments to the Departmental sequences and o
 1.    Browse to right local directory
 2.    npm install ejs
 3.    npx create-react-app my-app
+4.    Browse to my-app
+5.    npm install -g serve
 
 ### Run NodeJS
 1.    Browse to right local directory
 2.    node app.js
 3.    open localhost:3000
 
-### Run React JS
+### Run React Scripts
 1.    Browse to right local directory / my-app
 2.    npm start
 3.    open localhost:3000
+
+### Run React in Half Compiled JS
+1.    Browse to right local directory / my-app
+2.    npm run build
+3.    serve -s build
+3.    open localhost:5000
