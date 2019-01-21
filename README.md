@@ -18,4 +18,14 @@ a software package to automate readjustments to the Departmental sequences and o
 ### Install NodeJS:
 1.    Browse to right local directory
 2.    npm install ejs
-3.    node app.js
+3.    npx create-react-app my-app
+
+### Run NodeJS
+1.    Browse to right local directory
+2.    node app.js
+3.    open localhost:3000
+
+### Run React JS
+1.    Browse to right local directory / my-app
+2.    npm start
+3.    open localhost:3000

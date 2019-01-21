@@ -21,13 +21,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // Starts Server on Port 3000
-const port = 3000
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
-
-// Hello World
-/*
-app.get('/', function(req, res){ res.send('Hello World!');});
- */
+const port = 3000;
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
