@@ -1,39 +1,23 @@
-# Concordia SOEN Schedule Designer (CSSD)
-a software package to automate readjustments to the Departmental sequences and optimize the resulting sequences to meet any special needs of the user as for timing of sections
+# Concordia Course Planner
+[![Build Status](https://travis-ci.org/andrelegault/node-react.svg?branch=master)](https://travis-ci.org/andrelegault/node-react)
 
-***
-### Group Members
+### Installation
 
-    Averynder Singh       40058958
-    Ali Mahram            40077663
-    Andre Legault         40031363
-    Jimmy Onya            40066773
-    Julia Bazarbachian    26781357
-    Karim Hasbini         40053498
-    Leslie Poso           40057877
-    Niels Justin Louis    40077435
-    Rubiat Zaman          40062082
-    Victor Manea          40001995
+The planner requires [Node.js](https://nodejs.org/) v8+ and [React](https://reactjs.org) to run.
 
-### Install NodeJS:
-1.    Browse to right local directory
-2.    npm install ejs
-3.    npx create-react-app my-app
-4.    Browse to my-app
-5.    npm install -g serve
+Install the dependencies for both Node.js and React.
 
-### Run NodeJS
-1.    Browse to right local directory
-2.    node app.js
-3.    open localhost:3000
+```sh
+$ yarn
+$ cd client
+$ yarn
+```
 
-### Run React Scripts
-1.    Browse to right local directory / my-app
-2.    npm start
-3.    open localhost:3000
+Start Node.js on port 3001 and react on port 3000.
+```sh
+$ PORT=3001 node bin/www &
+$ cd client
+$ yarn start
+```
 
-### Run React in Half Compiled JS
-1.    Browse to right local directory / my-app
-2.    npm run build
-3.    serve -s build
-3.    open localhost:5000
+Go to http://localhost:3000 and check to see if everything works.
