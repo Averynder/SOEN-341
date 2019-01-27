@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+/*
 var mysql = require('mysql');
 var connection = mysql.createConnection({
     host: '127.0.0.1',
@@ -15,6 +16,7 @@ connection.query('select 1+1 as solution', function(error, results, fields) {
 });
 
 connection.end();
+*/
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
