@@ -1,9 +1,9 @@
 {
-  "name": "node-react",
+  "name": "cssd",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "cross-env PORT=3001 node ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
@@ -13,5 +13,8 @@
     "morgan": "~1.9.0",
     "mysql": "^2.16.0",
     "pug": "2.0.0-beta11"
+  },
+  "devDependencies": {
+    "cross-env": "^5.2.0"
   }
 }
