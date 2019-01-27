@@ -1,22 +1,36 @@
-# Concordia Course Planner
-[![Build Status](https://travis-ci.org/andrelegault/node-react.svg?branch=master)](https://travis-ci.org/andrelegault/node-react)
+# Concordia SOEN Schedule Designer (CSSD)
+a software package to automate readjustments to the Departmental sequences and optimize the resulting sequences to meet any special needs of the user as for timing of sections
 
-### Installation
+***
+### Group Members
 
-The planner requires [Node.js](https://nodejs.org/) v8+ and [React](https://reactjs.org) to run. You can optionally install [Yarn](https://yarnpkg.com) and run `yarn` instead of `npm install`, it's slightly faster.
+    Averynder Singh       40058958
+    Ali Mahram            40077663
+    Andre Legault         40031363
+    Jimmy Onya            40066773
+    Julia Bazarbachian    26781357
+    Karim Hasbini         40053498
+    Leslie Poso           40057877
+    Niels Justin Louis    40077435
+    Rubiat Zaman          40062082
+    Victor Manea          40001995
 
-Install the dependencies for both Node.js and React.
-```sh
-$ npm install
-$ cd client
-$ npm install
-```
+### Installation:
+1.    Download [Node.js](https://nodejs.org/) v8+ and [React](https://reactjs.org)
+2.    Download the boiler plate code from Google drive set up
+3.    Open Git / Github Desktop
+4.    Go into branch labelled with your name
+5.    Pull Latest changes
 
-Start Node.js on port 3001 and React on port 3000.
-```sh
-$ yarn start # Node
-$ cd client
-$ yarn start # React
-```
+### Run Project
+1.    Open Command Prompt
+2.    Run this or open Node.js command prompt (C:\Windows\System32\cmd.exe /k "C:\Program Files\nodejs\nodevars.bat")
+3.    Browse to main project folder
+4.    Run (npm start)
+5.    Repeat steps 1-3
+6.    Run (cd client)
+7.    Run (npm start)
 
-Go to http://localhost:3000 and check to see if everything works.
+Go to http://localhost:3000 and check to see if everything works
+ExpressJs exclusively on port 3001
+React with ExpressJs  on port 3000
