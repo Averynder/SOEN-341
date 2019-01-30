@@ -9,10 +9,10 @@ class Modal extends React.Component{
       }
 
     const modalStyle = {
-      backgroundColor: 'white',
+      backgroundColor: '#FFF',
       borderRadius: 5,
       top: 0,
-      bottom: 0,
+      bottom: 10,
       left: 0,
       right: 0,
       maxWidth: 500,
@@ -22,7 +22,7 @@ class Modal extends React.Component{
     };
 
     return (
-        <div className="container">
+        <div className="container" id="modal-container">
           <div className="modal-content">
 
             <div className="modal-header">
@@ -31,21 +31,22 @@ class Modal extends React.Component{
             </div>
 
             <div className="modal-body" style={{textAlign: "center"}}>
-              <h5>Sign In</h5>
+              <h4>Sign In</h4>
               <br />
               <div class="md-form mb-5">
-                <input type="email" id="defaultForm-email" class="form-control validate" />
+                <h6 class="fas fa-envelope prefix grey-text">Netname:  </h6>
+                <input className="input validate" type="email" id="defaultForm-email"  />
               </div>
 
               <div class="md-form mb-5">
-                <i class="fas fa-envelope prefix grey-text"></i>
-                <input type="email" id="defaultForm-email" class="form-control validate" />
+                <h6 class="fas fa-envelope prefix grey-text">Password:  </h6>
+                <input className="input validate" type="email" id="defaultForm-email"  />
               </div>
 
             </div>
 
             <div className="modal-footer">
-              <button type="button" className="btn btn-dark" onClick={this.props.onClose}>Close</button>
+              <button type="button" className="btn btn-dark" onClick/*Process Login*/>Login</button>
             </div>
           </div>
         </div>
