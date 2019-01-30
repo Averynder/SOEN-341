@@ -1,6 +1,5 @@
 import React from "react"
 import Button from "./Button"
-import LoginButton from "./LoginButton"
 
 /*
 function ButtonContainer() {
