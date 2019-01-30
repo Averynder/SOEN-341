@@ -8,11 +8,11 @@ const logo = {
 
 function Greetings() {
   return (
-    <div class="container">
-      <div class="jumbotron j-greetings">
-        <h2 class="display-4">Hey Concordians!</h2>
+    <div className="container">
+      <div className="jumbotron j-greetings">
+        <h2 className="display-4">Hey Concordians!</h2>
         <hr color="#7e1530"/>
-        <p class="lead">Welcome to Concordia Software Engineering Schedule Builder</p>
+        <p className="lead">Welcome to Concordia Software Engineering Schedule Builder</p>
       </div>
     </div>
   )
