@@ -8,19 +8,6 @@ class Modal extends React.Component{
         return null;
       }
 
-    const modalStyle = {
-      backgroundColor: '#FFF',
-      borderRadius: 5,
-      top: 0,
-      bottom: 10,
-      left: 0,
-      right: 0,
-      maxWidth: 500,
-      minHeight: 300,
-      display: "inline-block",
-      zIndex: 4,
-    };
-
     return (
         <div className="container" id="modal-container">
           <div className="modal-content">
