@@ -62,3 +62,7 @@ typings/
 
 # WebStorm files
 /.idea
+/client/src/.idea
+
+# Mac Users
+*.DS_Store
