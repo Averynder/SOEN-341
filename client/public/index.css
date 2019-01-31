@@ -65,3 +65,7 @@ hr {
 .modal-body{
   height: 50%;
 }
+
+.icon {
+  align-items: flex-end;
+}
