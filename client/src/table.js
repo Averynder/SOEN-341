@@ -1,17 +1,19 @@
 import React from "react";
+import './table.css';
+
 
 function table1() {
   return (
-    <table className="TableTemplate1" border="1">
+    <table className="TableTemplate1" border="1px">
       <tr>
-        <th>Time</th>
-        <th>Monday</th>
-        <th>Tuesday</th>
-        <th>Wednesday</th>
-        <th>Thursday</th>
-        <th>Friday</th>
-        <th>Saturday</th>
-        <th>Sunday</th>
+        <th><h5>Time</h5></th>
+        <th><h5>Monday</h5></th>
+        <th><h5>Tuesday</h5></th>
+        <th><h5>Wednesday</h5></th>
+        <th><h5>Thursday</h5></th>
+        <th><h5>Friday</h5></th>
+        <th><h5>Saturday</h5></th>
+        <th><h5>Sunday</h5></th>
       </tr>
       <tr><td rowSpan="4">8:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
       <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
