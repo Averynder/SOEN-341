@@ -1,0 +1,243 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema soen341
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema soen341
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `soen341` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+USE `soen341` ;
+
+-- -----------------------------------------------------
+-- Table `soen341`.`account user`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `soen341`.`account user` (
+  `-Netname` TEXT NULL DEFAULT NULL,
+  `-Password` TEXT NULL DEFAULT NULL)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `soen341`.`teacher`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `soen341`.`teacher` (
+  `-Name` TEXT NOT NULL,
+  `-Faculty ID` INT(11) NOT NULL,
+  `-Course List` VARCHAR(200) NOT NULL,
+  `-Course History` TEXT NOT NULL,
+  PRIMARY KEY (`-Course List`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `soen341`.`student`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `soen341`.`student` (
+  `-Name` TEXT NOT NULL,
+  `-Student ID` INT(11) NOT NULL,
+  `-Program of Study` TEXT NOT NULL,
+  `-Academic Record` TEXT NOT NULL)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `soen341`.`user preferences`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `soen341`.`user preferences` (
+  `-Days` DATE NOT NULL,
+  `-Times` TIME NOT NULL,
+  `-Number of Courses` INT(11) NOT NULL,
+  `-Constraints` TEXT NOT NULL)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `soen341`.`student record`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `soen341`.`student record` (
+  `-Completed Courses` VARCHAR(200) DEFAULT NULL,
+  `-Academic Requirements` VARCHAR(200)DEFAULT NULL,
+  INDEX `fk_student record_student1_idx` (`-Completed Courses` ASC) VISIBLE,
+  INDEX `fk_student record_student2_idx` (`-Academic Requirements` ASC) VISIBLE,
+  CONSTRAINT `fk_student record_student1`
+    FOREIGN KEY (`-Completed Courses`)
+    REFERENCES `soen341`.`student` (`-Academic Record`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_student record_student2`
+    FOREIGN KEY (`-Academic Requirements`)
+    REFERENCES `soen341`.`student` (`-Academic Record`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_student record_user preferences1`
+    FOREIGN KEY (`-Completed Courses`)
+    REFERENCES `soen341`.`user preferences` (`-Number of Courses`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `soen341`.`course selection`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `soen341`.`course selection` (
+  `-Term` TEXT NOT NULL,
+  `-Course List` TEXT NULL DEFAULT NULL)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `soen341`.`course`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `soen341`.`course` (
+  `-Course Title` VARCHAR(200)DEFAULT NULL,
+  `-Class Number` INT(11) NULL DEFAULT NULL,
+  `-Description` TEXT NULL DEFAULT NULL,
+  `-Prerequisites` TEXT NULL DEFAULT NULL,
+  `-Co-requisites` TEXT NULL DEFAULT NULL,
+  `-Credits` INT(11) NULL DEFAULT NULL,
+  `-Term` TEXT NULL DEFAULT NULL,
+  `-Sessions` INT(11) NULL DEFAULT NULL,
+  `-Capacity` INT(11) NULL DEFAULT NULL,
+  `-Waitlist` INT(11) NULL DEFAULT NULL,
+  INDEX `fk_course_teacher1_idx` (`-Course Title` ASC) VISIBLE,
+  CONSTRAINT `fk_course_teacher1`
+    FOREIGN KEY (`-Course Title`)
+    REFERENCES `soen341`.`teacher` (`-Course List`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_course_student record1`
+    FOREIGN KEY (`-Course Title`)
+    REFERENCES `soen341`.`student record` (`-Completed Courses`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_course_course selection1`
+    FOREIGN KEY (`-Course Title`)
+    REFERENCES `soen341`.`course selection` (`-Course List`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `soen341`.`lecture`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `soen341`.`lecture` (
+  `-Instructor` VARCHAR(200) NULL DEFAULT NULL,
+  `-Section Number` INT(11) NULL DEFAULT NULL,
+  `-Days` DATE NULL DEFAULT NULL,
+  `-Times` TIME NULL DEFAULT NULL,
+  `-Location` TEXT NULL DEFAULT NULL,
+  INDEX `fk_lecture_teacher1_idx` (`-Instructor` ASC) VISIBLE,
+  CONSTRAINT `fk_lecture_teacher1`
+    FOREIGN KEY (`-Instructor`)
+    REFERENCES `soen341`.`teacher` (`-Name`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `soen341`.`laboratory`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `soen341`.`laboratory` (
+  `-Instructor` VARCHAR(200) DEFAULT NULL,
+  `-Section Number` INT(11) NULL DEFAULT NULL,
+  `-Days` DATE NULL DEFAULT NULL,
+  `-Times` TIME NULL DEFAULT NULL,
+  `-Location` TEXT NULL DEFAULT NULL,
+  INDEX `fk_laboratory_lecture_idx` (`-Instructor` ASC) VISIBLE,
+  CONSTRAINT `fk_laboratory_lecture`
+    FOREIGN KEY (`-Instructor`)
+    REFERENCES `soen341`.`lecture` (`-Instructor`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `soen341`.`schedule builder`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `soen341`.`schedule builder` (
+  `-uncertain` TEXT NOT NULL)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `soen341`.`optimized sequence`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `soen341`.`optimized sequence` (
+  `-Uncertain` VARCHAR(200) DEFAULT NULL,
+  INDEX `fk_optimized sequence_schedule builder1_idx` (`-Uncertain` ASC) VISIBLE,
+  CONSTRAINT `fk_optimized sequence_schedule builder1`
+    FOREIGN KEY (`-Uncertain`)
+    REFERENCES `soen341`.`schedule builder` (`-uncertain`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `soen341`.`tutorial`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `soen341`.`tutorial` (
+  `-Instructor` VARCHAR(200) DEFAULT NULL,
+  `-Section Number` INT(11) NULL DEFAULT NULL,
+  `-Days` DATE NULL DEFAULT NULL,
+  `-Times` TIME NULL DEFAULT NULL,
+  `-Location` TEXT NULL DEFAULT NULL,
+  INDEX `fk_tutorial_lecture1_idx` (`-Instructor` ASC) VISIBLE,
+  CONSTRAINT `fk_tutorial_lecture1`
+    FOREIGN KEY (`-Instructor`)
+    REFERENCES `soen341`.`lecture` (`-Instructor`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `soen341`.`user`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `soen341`.`user` (
+  `-Uncertain` TEXT NULL DEFAULT NULL)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
