@@ -7,7 +7,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
+var cookiesRouter = require('./routes/cookiesV');
 
 var app = express();
 app.use(cookieParser());
@@ -45,10 +45,11 @@ app.use(function (req, res, next) {
 
 app.use(express.static(__dirname + '/public'));
 
-
+/*
 app.listen(3000, function () {
   console.log('server started on port 3000');
 });
+*/
 
 // // set a cookie
 // // this version sets the username/password as their own cookie. This is, however, not safe.
@@ -118,6 +119,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/cookiesV', cookiesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
