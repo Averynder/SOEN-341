@@ -4,18 +4,26 @@ import Greetings from "./components/Greetings"
 import ButtonContainer from "./components/ButtonContainer"
 import Modal from "./components/Modal"
 import Backdrop from "./components/Backdrop"
+import './App.css';
 
 class App extends React.Component{
-  constructor() {
+    constructor() {
         super();
 
         this.state = {
+            users: [],
             isOpenStudent: false,
             isOpenTeacher: false
         }
 
         this.toggleStudent = this.toggleStudent.bind(this);
         this.toggleTeacher = this.toggleTeacher.bind(this);
+    }
+
+    componentDidMount() {
+        fetch('/users')
+        .then(res => res.json())
+        .then(users => this.setState({ users }));
     }
 
     toggleStudent(){
@@ -35,6 +43,9 @@ class App extends React.Component{
         <div className="bckgrnd">
           <Navbar />
           <Greetings />
+        {this.state.users.map(user =>
+            <div key={user.id}>{user.username}</div>
+        )}
           <ButtonContainer
             studentOnClick={this.toggleStudent}
             teacherOnClick={this.toggleTeacher}
@@ -51,6 +62,7 @@ class App extends React.Component{
         </div>
       )
     }
+
 }
 
 export default App
