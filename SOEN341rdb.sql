@@ -147,7 +147,6 @@ CREATE TABLE  `soen341`.`user` (
  ALTER TABLE `tutorial`
  add foreign key(`Class Number`) references `course`(`Class Number`);
  
- select* FROM `laboratory`;
  
   
   
