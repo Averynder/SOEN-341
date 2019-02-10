@@ -4,11 +4,7 @@ import Greetings from "./components/Greetings"
 import ButtonContainer from "./components/ButtonContainer"
 import Modal from "./components/Modal"
 import Backdrop from "./components/Backdrop"
-<<<<<<< HEAD
-import AndreApp from "./AndreApp"
-=======
 import './App.css';
->>>>>>> origin/master
 
 class App extends React.Component{
     constructor() {
@@ -24,11 +20,13 @@ class App extends React.Component{
         this.toggleTeacher = this.toggleTeacher.bind(this);
     }
 
+    /*
     componentDidMount() {
         fetch('/users')
         .then(res => res.json())
         .then(users => this.setState({ users }));
     }
+    */
 
     toggleStudent(){
       this.setState({
@@ -44,7 +42,7 @@ class App extends React.Component{
 
     render(){
       return (
-        <div className="bckgrnd">
+        <div className="bckgrnd container">
           <Navbar />
           <Greetings />
         {this.state.users.map(user =>
@@ -63,8 +61,6 @@ class App extends React.Component{
           <Backdrop show={this.state.isOpenTeacher} onClose={this.toggleTeacher}>
             <Modal show={this.state.isOpenTeacher} onClose={this.toggleTeacher} userType="Teacher" />
           </Backdrop>
-
-          <AndreApp/>
         </div>
       )
     }
