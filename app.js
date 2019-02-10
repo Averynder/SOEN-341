@@ -19,22 +19,14 @@ app.use(function (req, res, next) {
 
   // checks if the client has sent cookie
   var cookie = req.cookies.cookieID;
-
-
   // creates new cookies if there isn't already one
   if (cookie === undefined)
   {
-
     // the username and password below should be eventually linked to the user input
-
-    var randomID = Math.floor(Math.random() * 9000000000) + 1000000000;
-
+    var randomID = 2;
     res.cookie('cookieID', randomID, { httpOnly: true });
-    // res.cookie('cookieID2', 'password', { maxAge: 1000000, httpOnly: true });
-
+    res.cookie('cookieID2', 'password', { maxAge: 1000000, httpOnly: true });
     console.log('cookie has been set');
-
-
   }
   else
   {
