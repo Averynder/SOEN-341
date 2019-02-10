@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
-/*
+
 var mysql = require('mysql');
 var connection = mysql.createConnection({
+	connectionLimit: 20,
     host: '127.0.0.1',
     user: 'root',
     password: 'password',
@@ -16,7 +17,6 @@ connection.query('select 1+1 as solution', function(error, results, fields) {
 });
 
 connection.end();
-*/
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {

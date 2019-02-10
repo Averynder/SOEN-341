@@ -1,7 +1,10 @@
 import React from "react"
-import Modal from "./Modal"
 
 class Backdrop extends React.Component{
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
   render(){
     if(!this.props.show){
       return null;
