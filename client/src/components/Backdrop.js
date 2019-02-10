@@ -2,10 +2,6 @@ import React from "react"
 import Modal from "./Modal"
 
 class Backdrop extends React.Component{
-  constructor(){
-    super();
-  }
-
   render(){
     if(!this.props.show){
       return null;

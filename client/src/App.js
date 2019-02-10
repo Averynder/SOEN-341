@@ -3,8 +3,8 @@ import Navbar from "./components/Navbar"
 import Greetings from "./components/Greetings"
 import ButtonContainer from "./components/ButtonContainer"
 import Modal from "./components/Modal"
-import Button from "./components/Button"
 import Backdrop from "./components/Backdrop"
+import AndreApp from "./AndreApp"
 
 class App extends React.Component{
   constructor() {
@@ -49,6 +49,8 @@ class App extends React.Component{
           <Backdrop show={this.state.isOpenTeacher} onClose={this.toggleTeacher}>
             <Modal show={this.state.isOpenTeacher} onClose={this.toggleTeacher} userType="Teacher" />
           </Backdrop>
+
+          <AndreApp/>
         </div>
       )
     }
