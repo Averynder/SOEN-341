@@ -66,7 +66,6 @@ class App extends React.Component{
             <Modal show={this.state.isOpenTeacher} onClose={this.toggleTeacher} userType="Teacher" />
           </Backdrop>
           <AndreApp />
-          <BuildSeqOrSem />
         </div>
       )
     }
