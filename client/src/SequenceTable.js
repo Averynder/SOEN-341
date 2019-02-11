@@ -6,7 +6,7 @@ function SequenceTable1() {
     <table className="SequenceTable1" border="1px">
       <tr>
         <th colSpan="9">
-          <h2>Year #</h2>
+          <h2>Year {document.getElementById('semester-year').value}</h2>
         </th>
       </tr>
       <tr>

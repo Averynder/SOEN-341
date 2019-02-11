@@ -1,7 +1,8 @@
 import React from "react"
 import { BrowserRouter, Route } from "react-router-dom"
 import App from "./App"
-import SelectSemester from "./flow-chart-pages/SelectSemester"
+import SelectSemester from "./SelectSemester"
+import CourseSelectionMenu from "./CourseSelectionMenu"
 
 class Router extends React.Component{
   render(){
@@ -10,6 +11,7 @@ class Router extends React.Component{
         <div>
           <Route exact path="/" component={App} />
           <Route path="/select-semester" component={SelectSemester} />
+          <Route path="/course-selection-menu" component={CourseSelectionMenu} />
         </div>
       </BrowserRouter>
     )
