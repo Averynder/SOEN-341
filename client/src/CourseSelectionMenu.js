@@ -10,7 +10,7 @@ class CourseSelectionMenu extends React.Component{
         <Navbar />
 
         <div className="jumbotron j-greetings">
-          <h2 className="display-4">{semester.value} {year.value} Semester</h2>
+          <h2 className="display-4">{semester.value === null ? "null" : semester.value} {year.value} Semester</h2>
           <hr color="#7e1530"/>
           <p className="lead">Add here drag and drop menu + the courses for this particular semester</p>
         </div>
