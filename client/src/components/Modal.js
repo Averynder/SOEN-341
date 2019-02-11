@@ -9,26 +9,6 @@ class Modal extends React.Component{
     return (
         <div className="container" id="modal-container">
             <div className="modal-content ">
-
-<<<<<<< HEAD
-            <div className="modal-header">
-              <h3>{this.props.userType}</h3>
-              <button type="button" style={{margin: 0}} className="btn btn-dark" data-dismiss="modal" onClick={this.props.onClose}>&times;</button>
-            </div>
-            <form>
-              <div className="modal-body" style={{textAlign: "center"}}>
-                <h4>Sign In</h4>
-                <br />
-                <div class="md-form mb-5">
-                  <h6 class="fas fa-envelope prefix grey-text">Netname:  </h6>
-                  <input className="input validate" name="netname" type="text" id="defaultForm-email" placeholder="n_louis" required />
-                </div>
-
-                <div class="md-form mb-5">
-                  <h6 class="fas fa-envelope prefix grey-text">Password:  </h6>
-                  <input className="input validate" name="password" type="password" id="defaultForm-email"  placeholder="********" required />
-                </div>
-=======
               <div className="modal-header">
                 <h3>{this.props.userType}</h3>
                 <button type="button" style={{margin: 0}} className="btn btn-dark" data-dismiss="modal" onClick={this.props.onClose}>&times;</button>
@@ -42,7 +22,7 @@ class Modal extends React.Component{
                     <h6 class="fas fa-envelope prefix grey-text">Netname:  </h6>
                     <input className="input validate" type="text" id="defaultForm-email" placeholder="n_louis" required />
                   </div>
->>>>>>> origin/Jimmy
+
 
                   <div class="md-form mb-5">
                     <h6 class="fas fa-envelope prefix grey-text">Password:  </h6>

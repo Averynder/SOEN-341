@@ -6,7 +6,7 @@ import Modal from "./components/Modal"
 import Backdrop from "./components/Backdrop"
 import './App.css';
 import AndreApp from "./AndreApp"
-import SequenceTable from "./SequenceTable"
+import BuildSeqOrSem from "./BuildSeqOrSem"
 
 
 
@@ -24,13 +24,13 @@ class App extends React.Component{
         this.toggleTeacher = this.toggleTeacher.bind(this);
     }
 
-    /*
+
     componentDidMount() {
         fetch('/users')
         .then(res => res.json())
         .then(users => this.setState({ users }));
     }
-    */
+
 
     toggleStudent(){
       this.setState({
@@ -66,6 +66,7 @@ class App extends React.Component{
             <Modal show={this.state.isOpenTeacher} onClose={this.toggleTeacher} userType="Teacher" />
           </Backdrop>
           <AndreApp />
+          <BuildSeqOrSem />
         </div>
       )
     }

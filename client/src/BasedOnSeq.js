@@ -1,23 +1,36 @@
 import React, {Component} from "react"
 import Button from "./components/Button"
+import { Link } from "react-router-dom"
+import Navbar from "./components/Navbar"
 
 class BasedOnSeq extends Component {
-    constructor() {
-        super()
-      }
+    // constructor() {
+    //     super()
+    //   }
 
     render() {
       return (
         <div className="container">
-          <div className="cnt-button">
-            <h3>Is it based on a Sequence?</h3>
-            <hr/>
-            <div class="btn-group" role="group" aria-label="Basic example">
-              <Button text="No" onClick="#"/>
-              <Button text="Yes" onClick="#"/>
+          <Navbar />
+          <div className="container">
+            <div className="jumbotron j-greetings">
+              <h2 className="display-4">Is it based on a Sequence?</h2>
+              <hr color="#7e1530"/>
+              <div class="btn-group" role="group" aria-label="Basic example">
+                <Link to="/select-semester">
+                  <Button text="No" onClick="#"/>
+                </Link>
+                <Link to="/">
+                  <Button text="Yes" onClick="#"/>
+                </Link>
+              </div>
+              <Link to="/">
+                <Button text="Back"/>
+              </Link>
             </div>
           </div>
         </div>
+
       )
     }
 
