@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 
-class App extends Component {
+class AndreApp extends Component {
   state = {users: []}
 
   componentDidMount() {
@@ -12,7 +12,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="AndreApp">
         <h1>Users</h1>
         {this.state.users.map(user =>
           <div key={user.id}>{user.username}, {user.id}</div>
@@ -22,4 +22,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default AndreApp;
