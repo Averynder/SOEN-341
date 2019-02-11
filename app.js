@@ -2,16 +2,30 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-// var bodyParser = require('body-parser');
+var session = require('express-session');
 var logger = require('morgan');
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var cookiesRouter = require('./routes/cookiesV');
+// var bodyParser = require('body-parser');
+
 
 var app = express();
-app.use(cookieParser());
 
+app.use(cookieParser());
+app.use(session({secret: "Testing secret session."}));
+
+// This sets a session for when the user visits a site. This session remembers the number of visits.
+app.get('/', function(req, res){
+
+  if(req.session.userVisits){
+    req.session.userVisits++;
+    res.send("Number of page visits: " + req.session.userVisits);
+  } else {
+    req.session.userVisits = 1;
+    res.send("Number of page visits: 1");
+  }
+});
 
 // set a cookie with random number as ID
 // we should link this id to the given username/password input
@@ -25,7 +39,7 @@ app.use(function (req, res, next) {
     // the username and password below should be eventually linked to the user input
     var randomID = 2;
     res.cookie('cookieID', randomID, { httpOnly: true });
-    res.cookie('cookieID2', 'password', { maxAge: 1000000, httpOnly: true });
+    // res.cookie('cookieID2', 'password', { httpOnly: true });
     console.log('cookie has been set');
   }
   else
@@ -36,6 +50,11 @@ app.use(function (req, res, next) {
 });
 
 app.use(express.static(__dirname + '/public'));
+
+
+
+
+
 
 /*
 app.listen(3000, function () {
