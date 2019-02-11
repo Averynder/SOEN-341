@@ -20,12 +20,12 @@ class Modal extends React.Component{
                 <br />
                 <div class="md-form mb-5">
                   <h6 class="fas fa-envelope prefix grey-text">Netname:  </h6>
-                  <input className="input validate" type="text" id="defaultForm-email" placeholder="n_louis" required />
+                  <input className="input validate" name="netname" type="text" id="defaultForm-email" placeholder="n_louis" required />
                 </div>
 
                 <div class="md-form mb-5">
                   <h6 class="fas fa-envelope prefix grey-text">Password:  </h6>
-                  <input className="input validate" type="password" id="defaultForm-email"  placeholder="********" required />
+                  <input className="input validate" name="password" type="password" id="defaultForm-email"  placeholder="********" required />
                 </div>
 
               </div>

@@ -5,6 +5,9 @@ import ButtonContainer from "./components/ButtonContainer"
 import Modal from "./components/Modal"
 import Backdrop from "./components/Backdrop"
 import './App.css';
+import AndreApp from "./AndreApp"
+import SequenceTable from "./SequenceTable"
+import table from "./table"
 
 class App extends React.Component{
     constructor() {
@@ -59,6 +62,11 @@ class App extends React.Component{
           <Backdrop show={this.state.isOpenTeacher} onClose={this.toggleTeacher}>
             <Modal show={this.state.isOpenTeacher} onClose={this.toggleTeacher} userType="Teacher" />
           </Backdrop>
+          <AndreApp />
+          <div className="container" >
+            <table />
+          </div>
+
         </div>
       )
     }
