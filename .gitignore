@@ -67,5 +67,8 @@ typings/
 /testing/user_cases.iml
 testing/out
 
+# Java Libraries
+testing/dependencies
+
 # Mac Users
 *.DS_Store
