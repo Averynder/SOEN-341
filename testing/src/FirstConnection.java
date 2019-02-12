@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.io.BufferedReader;
+import java.util.Scanner;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -25,21 +25,25 @@ public class FirstConnection
             {
                 URL url;
                 InputStream connectionToSite = null;
-                BufferedReader htmlGrabber;
+                Scanner htmlGrabber;
                 String currentHTMLline;
                 
                 try
                 {
+                    // Opens Default browser to site
                     if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE))
                     {
                         Desktop.getDesktop().browse(new URI("http://localhost:3000/"));
                     }
+                    
+                    // Grabs info from site
                     url = new URL("http://localhost:3000/");
                     connectionToSite = url.openStream();
-                    htmlGrabber = new BufferedReader(new InputStreamReader(connectionToSite));
+                    htmlGrabber = new Scanner(connectionToSite);
 
-                    while ((currentHTMLline = htmlGrabber.readLine()) != null)
+                    while (htmlGrabber.hasNext())
                     {
+                        currentHTMLline = htmlGrabber.nextLine();
                         System.out.println(currentHTMLline);
                     }
                     System.out.println("Connection Successful!");
@@ -51,6 +55,18 @@ public class FirstConnection
                 catch (IOException ioe)
                 {
                     System.out.println("No default browser or failed to launch it");
+                }
+                finally
+                {
+                    try
+                    {
+                        if (connectionToSite != null)
+                            connectionToSite.close();
+                    }
+                    catch (IOException ioe)
+                    {
+                        System.out.println("An issue occured when closing the stream");
+                    }
                 }
             }
         }
