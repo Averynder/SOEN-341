@@ -1,5 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var cookieParser = require('cookie-parser');
+var app = express();
+app.use(cookieParser());
+
 /*
 var mysql = require('mysql');
 var connection = mysql.createConnection({
@@ -18,6 +22,8 @@ connection.query('select 1+1 as solution', function(error, results, fields) {
 connection.end();
 */
 
+
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
 	// Comment out this line:
@@ -31,6 +37,9 @@ router.get('/', function(req, res, next) {
   	id: 2,
   	username: "D0loresH4ze"
   }]);
+  next();
 });
+
+
 
 module.exports = router;

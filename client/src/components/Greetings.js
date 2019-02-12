@@ -1,11 +1,5 @@
 import React from "react"
 
-const logo = {
-  height: "120px",
-  width: "200px"
-}
-
-
 function Greetings() {
   return (
     <div className="container">
