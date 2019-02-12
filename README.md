@@ -32,5 +32,5 @@ a software package to automate readjustments to the Departmental sequences and o
 7.    Run (npm start)
 
 Go to http://localhost:3000 and check to see if everything works
-ExpressJs exclusively on port 3001
-React with ExpressJs  on port 3000
+* ExpressJs exclusively on port 3001
+* React with ExpressJs  on port 3000
