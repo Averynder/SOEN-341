@@ -6,7 +6,7 @@ import Modal from "./components/Modal"
 import Backdrop from "./components/Backdrop"
 import './App.css';
 import AndreApp from "./AndreApp"
-import BuildSeqOrSem from "./BuildSeqOrSem"
+
 
 
 
