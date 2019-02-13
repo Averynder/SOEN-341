@@ -7,6 +7,11 @@ import Backdrop from "./components/Backdrop"
 import Button from "./components/Button"
 import {Link} from "react-router-dom"
 import './App.css';
+import LinkBox from "./LinkBox"
+
+
+
+
 
 class App extends React.Component{
     constructor() {
@@ -22,13 +27,13 @@ class App extends React.Component{
         this.toggleTeacher = this.toggleTeacher.bind(this);
     }
 
-    /*
+
     componentDidMount() {
         fetch('/users')
         .then(res => res.json())
         .then(users => this.setState({ users }));
     }
-    */
+
 
     toggleStudent(){
       this.setState({
@@ -70,6 +75,9 @@ class App extends React.Component{
           <Backdrop show={this.state.isOpenTeacher} onClose={this.toggleTeacher}>
             <Modal show={this.state.isOpenTeacher} onClose={this.toggleTeacher} userType="Teacher" />
           </Backdrop>
+
+          <LinkBox />
+
         </div>
       )
     }
