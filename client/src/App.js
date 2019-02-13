@@ -4,6 +4,8 @@ import Greetings from "./components/Greetings"
 import ButtonContainer from "./components/ButtonContainer"
 import Modal from "./components/Modal"
 import Backdrop from "./components/Backdrop"
+import Button from "./components/Button"
+import {Link} from "react-router-dom"
 import './App.css';
 
 class App extends React.Component{
@@ -48,11 +50,18 @@ class App extends React.Component{
         {this.state.users.map(user =>
             <div key={user.id}>{user.username}</div>
         )}
-          <ButtonContainer
-            studentOnClick={this.toggleStudent}
-            teacherOnClick={this.toggleTeacher}
-            noAccountOnClick=""
-           />
+          <ButtonContainer>
+             <Button text="I Am A Student" onClick={this.toggleStudent}/>
+             <Button text="I Am A Professor" onClick={this.toggleTeacher}/>
+
+             <Link to="/select-semester">
+               <Button text="I Am New To This Website" />
+             </Link>
+
+             <Link to="/AndreAppTest">
+              <Button text="Andre App Test Button" />
+             </Link>
+           </ButtonContainer>
 
           <Backdrop show={this.state.isOpenStudent} onClose={this.toggleStudent}>
             <Modal show={this.state.isOpenStudent} onClose={this.toggleStudent} userType="Student" />
