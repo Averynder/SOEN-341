@@ -5,7 +5,8 @@ import ButtonContainer from "./components/ButtonContainer"
 import Modal from "./components/Modal"
 import Backdrop from "./components/Backdrop"
 import './App.css';
-import AndreApp from "./AndreApp"
+import LinkBox from "./LinkBox"
+
 
 
 
@@ -65,7 +66,9 @@ class App extends React.Component{
           <Backdrop show={this.state.isOpenTeacher} onClose={this.toggleTeacher}>
             <Modal show={this.state.isOpenTeacher} onClose={this.toggleTeacher} userType="Teacher" />
           </Backdrop>
-          <AndreApp />
+
+          <LinkBox />
+
         </div>
       )
     }

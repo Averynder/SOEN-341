@@ -4,6 +4,8 @@ import App from "./App"
 import SelectSemester from "./flow-chart-pages/SelectSemester"
 import BasedOnSeq from "./BasedOnSeq"
 import BuildSeqOrSem from "./BuildSeqOrSem"
+import AndreLink from "./AndreLink"
+import RubiatSeqLink from "./RubiatSeqLink"
 
 class Router extends React.Component{
   render(){
@@ -14,6 +16,8 @@ class Router extends React.Component{
           <Route path="/select-semester" component={SelectSemester} />
           <Route path="/build-seq-or-sem" component={BuildSeqOrSem} />
           <Route path="/seq-based-confirmation" component={BasedOnSeq} />
+          <Route path="/andre's-App" component={AndreLink} />
+          <Route path="/rubiat-seq-table" component={RubiatSeqLink} />
         </div>
       </BrowserRouter>
     )
