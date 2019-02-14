@@ -1,4 +1,5 @@
-
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+flush privileges;
 -- -----------------------------------------------------
 -- Schema soen341
 -- -----------------------------------------------------
@@ -146,3 +147,7 @@ CREATE TABLE  `soen341`.`user` (
  add foreign key(`Class Number`) references `course`(`Class Number`);
  ALTER TABLE `tutorial`
  add foreign key(`Class Number`) references `course`(`Class Number`);
+ 
+ Insert into `laboratory` (Name)
+ values (`Niels`);
+ 
