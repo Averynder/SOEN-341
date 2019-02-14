@@ -14,7 +14,7 @@ class Modal extends React.Component{
                 <h3>{this.props.userType}</h3>
                 <button type="button" style={{margin: 0}} className="btn btn-dark" data-dismiss="modal" onClick={this.props.onClose}>&times;</button>
               </div>
-              <form><!--action={this.props.link} -->
+              <form/*action={this.props.link}*/>
                 <div className="modal-body" style={{textAlign: "center"}}>
                   <h4>Sign In</h4>
                   <br />
