@@ -53,7 +53,7 @@ class SelectSemester extends React.Component{
               <br />
 
               <Link to="/">
-                <Button text="Back" />
+                <Button text="Back To Homepage" />
               </Link>
             </div>
           </div>

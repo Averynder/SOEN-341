@@ -25,7 +25,7 @@ class BuildSeqOrSem extends Component {
                 </Link>
               </div>
               <Link to="/">
-                <Button text="Back"/>
+                <Button text="Back To Homepage"/>
               </Link>
             </div>
           </div>

@@ -2,6 +2,7 @@ import React from "react"
 import Navbar from "./components/Navbar"
 import SequenceTable1 from "./SequenceTable"
 import Button from "./components/Button"
+import { Link } from "react-router-dom"
 import {Modal, Form, FormControl} from "react-bootstrap"
 
 class CourseSelectionMenu extends React.Component{
@@ -48,7 +49,14 @@ class CourseSelectionMenu extends React.Component{
           <Button text="Add A Class" onClick={this.handleShow}/>
           <Button text="Remove A Class"/>
           <Button text="Finalize" />
-          <Button text="Export As PDF" />
+
+          <Link to="/select-semester">
+            <Button text="Export As PDF" />
+          </Link>
+
+          <Link to="/select-semester">
+            <Button text="Back To Select Semester" />
+          </Link>
         </div>
 
         <Modal show={this.state.show} onHide={this.handleClose}>

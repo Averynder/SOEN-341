@@ -65,11 +65,11 @@ class App extends React.Component{
            </ButtonContainer>
 
           <Backdrop show={this.state.isOpenStudent} onClose={this.toggleStudent}>
-            <Modal show={this.state.isOpenStudent} onClose={this.toggleStudent} userType="Student" link="/build-seq-or-sem"/>
+            <Modal show={this.state.isOpenStudent} onClose={this.toggleStudent} userType="Student" link="/previous-courses-taken"/>
           </Backdrop>
 
           <Backdrop show={this.state.isOpenTeacher} onClose={this.toggleTeacher}>
-            <Modal show={this.state.isOpenTeacher} onClose={this.toggleTeacher} userType="Teacher" link="/select-semester"/>
+            <Modal show={this.state.isOpenTeacher} onClose={this.toggleTeacher} userType="Teacher" link="/pull-previous-courses"/>
           </Backdrop>
 
           <LinkBox />

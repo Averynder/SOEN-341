@@ -7,6 +7,9 @@ import BasedOnSeq from "./BasedOnSeq"
 import BuildSeqOrSem from "./BuildSeqOrSem"
 import AndreLink from "./AndreLink"
 import RubiatSeqLink from "./RubiatSeqLink"
+import PullPreviousCourses from "./PullPreviousCourses"
+import PreviousCoursesTaken from "./PreviousCoursesTaken"
+import ObtainUploadedSequence from "./ObtainUploadedSequence"
 
 class Router extends React.Component{
   render(){
@@ -20,6 +23,9 @@ class Router extends React.Component{
           <Route path="/seq-based-confirmation" component={BasedOnSeq} />
           <Route path="/andre's-App" component={AndreLink} />
           <Route path="/rubiat-seq-table" component={RubiatSeqLink} />
+          <Route path="/pull-previous-courses" component={PullPreviousCourses} />
+          <Route path="/previous-courses-taken" component={PreviousCoursesTaken} />
+          <Route path="/obtain-uploaded-sequence" component={ObtainUploadedSequence} />
         </div>
       </BrowserRouter>
     )

@@ -12,7 +12,7 @@ function SequenceTable1(props) {
     <table className="SequenceTable1" border="1px">
       <tr>
         <th colSpan="9">
-          <h2>Year {year}</h2>
+          <h2>{year}</h2>
         </th>
       </tr>
       <tr>
