@@ -131,7 +131,7 @@ CREATE TABLE  `soen341`.`user` (
 
 -- -----------------------------------------------------
 -- Relationships
--- -----------------------------------------------------  
+-- -----------------------------------------------------
  ALTER TABLE `lecture`
  add foreign key(`Name`) references `teacher`(`Name`);
   ALTER TABLE `laboratory`
@@ -146,9 +146,3 @@ CREATE TABLE  `soen341`.`user` (
  add foreign key(`Class Number`) references `course`(`Class Number`);
  ALTER TABLE `tutorial`
  add foreign key(`Class Number`) references `course`(`Class Number`);
- 
- 
-  
-  
-
-
