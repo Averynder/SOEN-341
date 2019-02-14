@@ -8,6 +8,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var loginRouter = require('./routes/login');
 var cookiesRouter = require('./routes/cookiesV');
 // var bodyParser = require('body-parser');
 
@@ -68,6 +69,9 @@ passport.use(new LocalStrategy(
 
 app.use(express.static(__dirname + '/public'));
 
+
+app.post('/login', passport.authenticate('local', { successRedirect: '/',
+                                                    failureRedirect: '/login' }));
 
 
 
@@ -147,6 +151,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/login', usersRouter);
 app.use('/cookiesV', cookiesRouter);
 
 // catch 404 and forward to error handler
