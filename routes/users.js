@@ -1,8 +1,6 @@
 var express = require('express');
-var router = express.Router();
-var app = express();
 var mysql = require('mysql');
-
+var app = express();
 var connection = mysql.createConnection({
 	connectionLimit: 20,
     host: '127.0.0.1',
@@ -10,42 +8,29 @@ var connection = mysql.createConnection({
     password: 'password',
     database: 'soen341'
 });
+
 connection.connect();
-
-
-connection.query('select* from `account user`', function(error, results, fields) {
+connection.query('select * from `account user`', function(error, results, fields) {
     if(error) throw error;
     console.log('The solution is: ', results);
 });
 
-connection.end();
-
-// GET users listing. 
-router.get('/users', function(req, res, next) {
-	// Comment out this line:
-  res.send('respond with a resource');
-  // And insert something like this instead:
-  res.json([{
-  	Netname: "D0loresH4ze",
-  	Password: "samsepi0l"
-  }]);
-});
 
 
+/* GET users listing. */
+app.get('/', function(req, res, next) {
+	// Modify this query for the desired action on the database
+	connection.query('INSERT INTO `account user`(`Netname`, `Password`) values ("D0loresH4ze","samsepi0l")', function (error, results, fields) {
+	if (error) throw error;
+	res.send/*(JSON.stringify(results))-This will show the results in the web page itself, uncomment to try*/;
+	});
+})
 
-// Listen to POST requests to /users.
-app.post('/users', function(req, res) {
-  // Get sent data.
-  var user = req.body;
-  // Do a MySQL query.
-  var query = connection.query('INSERT INTO `account user`(`Netname, `Password`)values("D0loresH4ze","samsepi0l")', user, function(err, result) {
-    // Neat!
-  });
-  res.end('Success');
-});
 
 app.listen(3000, function() {
   console.log('Listening on port 3000!');
 });
+module.exports = app;
+connection.end;
 
-module.exports = router;
+
