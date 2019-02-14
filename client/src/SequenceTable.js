@@ -1,12 +1,18 @@
 import React from "react";
 import './SequenceTable.css';
 
-function SequenceTable1() {
+function SequenceTable1(props) {
+  let year;
+  if(document.getElementById('semester-year') === null)
+    year = (new Date()).getFullYear();
+  else
+    year = document.getElementById('semester-year').value;
+
   return (
     <table className="SequenceTable1" border="1px">
       <tr>
         <th colSpan="9">
-          <h2>Year {document.getElementById('semester-year').value}</h2>
+          <h2>Year {year}</h2>
         </th>
       </tr>
       <tr>

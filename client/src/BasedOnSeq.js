@@ -20,7 +20,7 @@ class BasedOnSeq extends Component {
                 <Link to="/select-semester">
                   <Button text="No" onClick="#"/>
                 </Link>
-                <Link to="/">
+                <Link to="/course-selection-menu">
                   <Button text="Yes" onClick="#"/>
                 </Link>
               </div>

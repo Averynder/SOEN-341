@@ -8,12 +8,14 @@ class SelectSemester extends React.Component{
   render(){
     const currentYear = (new Date()).getFullYear();
     var yeetus = [];
-    for(let i=0;i<8;i++){ /*Basically choose a year from current year up to 8 years later. Don't touch this*/
+    for(let i=1;i<8;i++){ /*Basically choose a year from current year up to 8 years later. Don't touch this*/
       yeetus[i] = currentYear + i;
     }
-    const years = yeetus.map(jimmy => <option>{jimmy}</option>)
+    const years = yeetus.map(jimmy =>
+      <option>{jimmy}</option>
+    )
 
-    
+
     return(
       <div className="container">
         <Navbar />
@@ -27,7 +29,7 @@ class SelectSemester extends React.Component{
                 <Form.Group controlId="semester">
                   <Form.Label>Select Semester</Form.Label>
                   <Form.Control as="select">
-                    <option>Fall</option>
+                    <option selected="selected">Fall</option>
                     <option>Winter</option>
                     <option>Summer</option>
                   </Form.Control>
@@ -37,7 +39,8 @@ class SelectSemester extends React.Component{
               <Form>
                 <Form.Group controlId="semester-year">
                   <Form.Label>Select Year</Form.Label>
-                  <Form.Control as="select">
+                  <Form.Control as="select" selected={currentYear}>
+                    <option selected="selected">{currentYear}</option>
                     {years}
                   </Form.Control>
                 </Form.Group>

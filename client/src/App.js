@@ -27,13 +27,13 @@ class App extends React.Component{
         this.toggleTeacher = this.toggleTeacher.bind(this);
     }
 
-
+/*
     componentDidMount() {
         fetch('/users')
         .then(res => res.json())
         .then(users => this.setState({ users }));
     }
-
+*/
 
     toggleStudent(){
       this.setState({
@@ -62,18 +62,14 @@ class App extends React.Component{
              <Link to="/select-semester">
                <Button text="I Am New To This Website" />
              </Link>
-
-             <Link to="/AndreAppTest">
-              <Button text="Andre App Test Button" />
-             </Link>
            </ButtonContainer>
 
           <Backdrop show={this.state.isOpenStudent} onClose={this.toggleStudent}>
-            <Modal show={this.state.isOpenStudent} onClose={this.toggleStudent} userType="Student" />
+            <Modal show={this.state.isOpenStudent} onClose={this.toggleStudent} userType="Student" link="/build-seq-or-sem"/>
           </Backdrop>
 
           <Backdrop show={this.state.isOpenTeacher} onClose={this.toggleTeacher}>
-            <Modal show={this.state.isOpenTeacher} onClose={this.toggleTeacher} userType="Teacher" />
+            <Modal show={this.state.isOpenTeacher} onClose={this.toggleTeacher} userType="Teacher" link="/select-semester"/>
           </Backdrop>
 
           <LinkBox />

@@ -14,7 +14,7 @@ class Modal extends React.Component{
                 <button type="button" style={{margin: 0}} className="btn btn-dark" data-dismiss="modal" onClick={this.props.onClose}>&times;</button>
               </div>
 
-              <form>
+              <form action={this.props.link}>
                 <div className="modal-body" style={{textAlign: "center"}}>
                   <h4>Sign In</h4>
                   <br />
@@ -32,9 +32,11 @@ class Modal extends React.Component{
                 </div>
 
                 <div className="modal-footer">
-                    <button type="submit" className="btn btn-dark" onClick/*Process Login*/>Login</button>
+                  <button type="submit" className="btn btn-dark" onClick/*Process Login*/>Login</button>
                 </div>
               </form>
+
+
             </div>
         </div>
     )
