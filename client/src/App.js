@@ -27,13 +27,13 @@ class App extends React.Component{
         this.toggleTeacher = this.toggleTeacher.bind(this);
     }
 
-/*
+
     componentDidMount() {
         fetch('/users')
         .then(res => res.json())
         .then(users => this.setState({ users }));
     }
-*/
+
 
     toggleStudent(){
       this.setState({
