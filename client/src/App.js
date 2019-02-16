@@ -2,6 +2,7 @@ import React from "react"
 import Navbar from "./components/Navbar"
 import Greetings from "./components/Greetings"
 import ButtonContainer from "./components/ButtonContainer"
+import TestData from "./components/TestData"
 import Modal from "./components/Modal"
 import Backdrop from "./components/Backdrop"
 import Button from "./components/Button"
@@ -18,7 +19,6 @@ class App extends React.Component{
         super();
 
         this.state = {
-            users: [],
             isOpenStudent: false,
             isOpenTeacher: false
         }
@@ -26,14 +26,6 @@ class App extends React.Component{
         this.toggleStudent = this.toggleStudent.bind(this);
         this.toggleTeacher = this.toggleTeacher.bind(this);
     }
-
-/*
-    componentDidMount() {
-        fetch('/users')
-        .then(res => res.json())
-        .then(users => this.setState({ users }));
-    }
-*/
 
     toggleStudent(){
       this.setState({
@@ -50,11 +42,10 @@ class App extends React.Component{
     render(){
       return (
         <div className="bckgrnd container">
+          <TestData>
+          </TestData>
           <Navbar />
           <Greetings />
-        {this.state.users.map(user =>
-            <div key={user.id}>{user.username}</div>
-        )}
           <ButtonContainer>
              <Button text="I Am A Student" onClick={this.toggleStudent}/>
              <Button text="I Am A Professor" onClick={this.toggleTeacher}/>
