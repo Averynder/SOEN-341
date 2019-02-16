@@ -39,31 +39,30 @@ app.use(function (req, res, next) {
 
 // This sets a session for when the user visits a site. This session remembers the number of visits.
 app.get('/api', function(req, res){
-
   if(req.session.userVisits){
     req.session.userVisits++;
   } else {
     req.session.userVisits = 1;
   }
-    res.json({
-        "visits": req.session.userVisits,
-        "cookie": req.cookies.cookieID
-    });
+	res.json({
+		"visits": req.session.userVisits,
+		"cookie": req.cookies.cookieID
+	});
 });
 
 passport.use(new LocalStrategy(
-    function(username, password, done) {
-        User.findOne({ username: username }, function(err, user) {
-            if (err) { return done(err); }
-                if (!user) {
-                    return done(null, false, { message: 'Incorrect username.' });
-                }
-            if (!user.validPassword(password)) {
-                return done(null, false, { message: 'Incorrect password.' });
-            }
-            return done(null, user);
-        });
-    }
+	function(username, password, done) {
+		User.findOne({ username: username }, function(err, user) {
+			if (err) { return done(err); }
+				if (!user) {
+					return done(null, false, { message: 'Incorrect username.' });
+				}
+				if (!user.validPassword(password)) {
+					return done(null, false, { message: 'Incorrect password.' });
+				}
+			return done(null, user);
+		});
+	}
 ));
 
 app.use(express.static(__dirname + '/public'));
@@ -82,6 +81,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
