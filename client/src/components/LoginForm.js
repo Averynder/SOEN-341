@@ -21,11 +21,13 @@ class LoginForm extends React.Component {
 			}),
 			headers: {'Content-Type': 'application/json'}
     });
+		this.setState({'username': username, 'password': password});
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
+			{JSON.stringify(this.state)}
         <div className="form-group">
 					<label htmlFor="username">UserName</label>
 					<input placeholder="Username" type="text" className="form-control" name="username"/>

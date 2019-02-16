@@ -46,7 +46,9 @@ app.get('/api', function(req, res){
   }
 	res.json({
 		"visits": req.session.userVisits,
-		"cookie": req.cookies.cookieID
+		"cookie": req.cookies.cookieID,
+		"username": req.cookies.username,
+		"password": req.cookies.password
 	});
 });
 
