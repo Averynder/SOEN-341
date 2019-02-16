@@ -1,25 +1,19 @@
 import React, { Component } from 'react';
 import './App.css';
+import LoginForm from "./components/LoginForm";
 
-class AndreApp extends Component {
-  state = {users: []}
+class AndreApp extends React.Component {
 
-
-  componentDidMount() {
-    fetch('/users')
-      .then(res => res.json())
-      .then(users => this.setState({ users }));
-  }
-
+    constructor(props) {
+        super(props);
+    }
 
   render() {
     return (
       <div className="container">
         <div className="jumbotron j-greetings">
-          <h1>Users</h1>
-          {this.state.users.map(user =>
-            <div key={user.id}>{user.username}, {user.id}</div>
-          )}
+          <h1>User Login</h1>
+            <LoginForm />
         </div>
       </div>
     );
