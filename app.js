@@ -18,38 +18,37 @@ var app = express();
 app.use(cookieParser());
 app.use(session({secret: "Testing secret session."}));
 
-// This sets a session for when the user visits a site. This session remembers the number of visits.
-app.get('/', function(req, res){
-
-  if(req.session.userVisits){
-    req.session.userVisits++;
-    res.send("Number of page visits: " + req.session.userVisits);
-  } else {
-    req.session.userVisits = 1;
-    res.send("Number of page visits: 1");
-  }
-});
 
 // set a cookie with random number as ID
 // we should link this id to the given username/password input
 app.use(function (req, res, next) {
-
   // checks if the client has sent cookie
   var cookie = req.cookies.cookieID;
   // creates new cookies if there isn't already one
-  if (cookie === undefined)
-  {
+  if (cookie === undefined) {
     // the username and password below should be eventually linked to the user input
     var randomID = 2;
     res.cookie('cookieID', randomID, { httpOnly: true });
     // res.cookie('cookieID2', 'password', { httpOnly: true });
     console.log('cookie has been set');
-  }
-  else
-  {
+  } else {
     console.log('cookie already exists', cookie);
   }
   next();
+});
+
+// This sets a session for when the user visits a site. This session remembers the number of visits.
+app.get('/api', function(req, res){
+
+  if(req.session.userVisits){
+    req.session.userVisits++;
+  } else {
+    req.session.userVisits = 1;
+  }
+    res.json({
+        "visits": req.session.userVisits,
+        "cookie": req.cookies.cookieID
+    });
 });
 
 passport.use(new LocalStrategy(
@@ -70,8 +69,8 @@ passport.use(new LocalStrategy(
 app.use(express.static(__dirname + '/public'));
 
 
-app.post('/login', passport.authenticate('local', { successRedirect: '/',
-                                                    failureRedirect: '/login' }));
+//app.post('/login', passport.authenticate('local', { successRedirect: '/',
+                                                    //failureRedirect: '/login' }));
 
 
 // view engine setup (keep this)
@@ -86,8 +85,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/login', usersRouter);
-app.use('/cookiesV', cookiesRouter);
+app.use('/login', loginRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
