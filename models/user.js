@@ -6,5 +6,12 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = function(models) {
     // associations can be defined here
   };
+
+    User.sync({force: true}).then(() => {
+        return User.create({
+            username: 'John'
+        });
+    });
   return User;
 };
+
