@@ -1,5 +1,5 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import OGApp from "./App"
+import Router from "./Router"
 
-ReactDOM.render(<OGApp /> ,document.getElementById('root'))
+ReactDOM.render(<Router /> ,document.getElementById('root'))
