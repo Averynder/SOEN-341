@@ -1,11 +1,11 @@
 {
   "development": {
     "username": "root",
-    "password": null,
-    "database": "database_development",
+    "password": "password",
+    "database": "soen341",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "operatorAliases": "Sequelize.Op"
+    "operatorAliases": "false"
   },
   "test": {
     "username": "root",
