@@ -44,7 +44,6 @@ class App extends React.Component{
 	render(){
 		return (
 			<div className="bckgrnd container">
-				<TestData />
 				<Navbar />
 				<Greetings />
 				<ButtonContainer>
