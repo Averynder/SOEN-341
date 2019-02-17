@@ -2,6 +2,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.FileOutputStream;
+import java.util.logging.Level;
+
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Function;
@@ -38,9 +40,16 @@ public class Scraper
         boolean success = false;
         try
         {
+            // Removing Logging from console
+            System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE,"true");
+            System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"C:/Users/MonPC/Desktop/School/SOEN/SOEN 341 Software Process'/Project/cssd/testing/dependencies/logs.txt");
+            java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
+            
             filewriter = new PrintWriter(new FileOutputStream(output));
             System.setProperty("webdriver.gecko.driver", "C:/Users/MonPC/Desktop/School/SOEN/SOEN 341 Software Process'/Project/cssd/testing/dependencies/geckodriver.exe");
             WebDriver firefoxInstance = new FirefoxDriver();
+            //System.setProperty("webdriver.chrome.driver", "C:/Users/MonPC/Desktop/School/SOEN/SOEN 341 Software Process'/Project/cssd/testing/dependencies/chromedriver.exe");
+            //WebDriver ChromeInstance = new ChromeDriver();
             firefoxInstance.get(websiteLocation);
             firefoxInstance.manage().window().maximize();
             System.out.println("Currently Running Firefox on: " + websiteLocation);
