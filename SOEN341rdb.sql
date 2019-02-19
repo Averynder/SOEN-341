@@ -146,3 +146,5 @@ CREATE TABLE  `soen341`.`user` (
  add foreign key(`Class Number`) references `course`(`Class Number`);
  ALTER TABLE `tutorial`
  add foreign key(`Class Number`) references `course`(`Class Number`);
+
+INSERT INTO `account user` (Netname, Password) VALUES('user', 'pass');

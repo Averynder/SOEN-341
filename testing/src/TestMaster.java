@@ -1,6 +1,7 @@
 
 public class TestMaster
 {
+    
     public static void main(String[] args)
     {
         // If no script used, just run this once
@@ -18,7 +19,7 @@ public class TestMaster
                 if (UserCase1.run())
                     System.out.println("Test Completed Successfully");
                 else
-                    System.out.println("Test Failed, please verify in the log above");
+                    System.out.println("Test Failed, please verify in the log file");
             }
         }
     }
