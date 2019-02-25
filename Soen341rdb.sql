@@ -7,12 +7,12 @@ CREATE SCHEMA IF NOT EXISTS `soen341`;
 USE `soen341` ;
 
 
--- -----------------------------------------------------
--- Table `soen341`.`user`
--- -----------------------------------------------------
--- CREATE TABLE  `soen341`.`user` (
---   `netname` varchar(50) PRIMARY KEY,
---   `password` varchar(50) DEFAULT NULL);
+ -- ---------------------------------------------------
+ Table `soen341`.`account user`
+ -- ---------------------------------------------------
+ CREATE TABLE  `soen341`.`user` (
+   `netname` varchar(50) PRIMARY KEY,
+   `password` varchar(50) DEFAULT NULL);
 
 -- -----------------------------------------------------
 -- Table `soen341`.`teacher`
