@@ -1,36 +1,39 @@
 var express = require('express');
-var router = express.Router();
-/*
-var mysql = require('mysql');
+var mysql = require('mysql2');
+var app = express();
 var connection = mysql.createConnection({
+	connectionLimit: 20,
     host: '127.0.0.1',
     user: 'root',
     password: 'password',
-    database: 'test'
+    database: 'soen341'
 });
 
 connection.connect();
-connection.query('select 1+1 as solution', function(error, results, fields) {
+connection.query('select * from `account user`', function(error, results, fields) {
     if(error) throw error;
-    console.log('The solution is: ', results[0].solution);
+    console.log('The solution is: ', results);
 });
 
-connection.end();
-*/
+
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-	// Comment out this line:
-  //res.send('respond with a resource');
-
-  // And insert something like this instead:
-  res.json([{
+app.get('/', function(req, res, next) {
+	// Modify this query for the desired action on the database
+	connection.query('select `Password` from `account user`', function (error, results, fields) {
+	if (error) throw error;
+	console.log('Operation is: ', results);
+	});
+	res.json([{
   	id: 1,
   	username: "samsepi0l"
   }, {
   	id: 2,
   	username: "D0loresH4ze"
   }]);
-});
+})
 
-module.exports = router;
+
+
+module.exports = app;
+connection.end;

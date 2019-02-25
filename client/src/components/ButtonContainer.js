@@ -1,5 +1,4 @@
 import React from "react"
-import Button from "./Button"
 
 
 class ButtonContainer extends React.Component{
@@ -15,9 +14,7 @@ class ButtonContainer extends React.Component{
       <div className="container last-container">
         <div className="cnt-button">
           <h6>Click on the option that describes you the most {this.state.count}</h6>
-          <Button text="I Am A Student" onClick={this.props.studentOnClick}/>
-          <Button text="I Am A Professor" onClick={this.props.teacherOnClick}/>
-          <Button text="I Am New To This Website" onClick={this.props.noAccountOnClick}/>
+          {this.props.children}
         </div>
       </div>
     )
