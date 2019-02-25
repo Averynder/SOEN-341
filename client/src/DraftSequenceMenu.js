@@ -103,7 +103,7 @@ class DraftSequenceMenu extends React.Component {
               <Button text="Formalize" />
             </Link>
             <Link to="/build-seq-or-sem">
-              <Button text="Back to build Seq/Sem" />
+              <Button text="Back to Main Selector" />
             </Link>
 
             <Modal show={this.state.show} onHide={this.handleClose}>
