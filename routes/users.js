@@ -36,7 +36,7 @@ app.get('/', function(req, res, next) {
 app.get('/', (req, res) => {
     res.send('<script>var r=new Date().valueOf() + ( ' + (new Date().getTimezoneOffset()) +
         ' - (new Date().getTimezoneOffset()) ) * -60000;' +
-        'setInterval(()=>{document.body.innerHTML = (new Date(r+=1000)).toLocaleString("en",{weekday:"long", month:"long", day:"numeric", year:"numeric", hour:"numeric", minute:"numeric", second:"numeric", hour12:false})},1000);' +
+        'setInterval(()=>{document.getElementById('+'currentTime'+').innerHTML = (new Date(r+=1000)).toLocaleString("en",{weekday:"long", month:"long", day:"numeric", year:"numeric", hour:"numeric", minute:"numeric", second:"numeric", hour12:false})},1000);' +
         '</script>');
 });
 
