@@ -8,7 +8,7 @@ USE `soen341` ;
 
 
  -- ---------------------------------------------------
- Table `soen341`.`account user`
+ -- Table `soen341`.`account user`
  -- ---------------------------------------------------
  CREATE TABLE  `soen341`.`account user` (
    `netname` varchar(50) PRIMARY KEY,
