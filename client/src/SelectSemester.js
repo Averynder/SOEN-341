@@ -52,8 +52,8 @@ class SelectSemester extends React.Component{
 
               <br />
 
-              <Link to="/">
-                <Button text="Back To Homepage" />
+              <Link to="/build-seq-or-sem">
+                <Button text="Go To Built Seq/Sem" />
               </Link>
             </div>
           </div>

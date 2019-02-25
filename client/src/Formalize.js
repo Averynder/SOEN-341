@@ -3,10 +3,7 @@ import Button from "./components/Button"
 import { Link } from "react-router-dom"
 import Navbar from "./components/Navbar"
 
-class BuildSeqOrSem extends Component {
-    // constructor() {
-    //     super()
-    //   }
+class Formalize extends Component {
 
     render() {
       return (
@@ -14,23 +11,23 @@ class BuildSeqOrSem extends Component {
           <Navbar />
           <div className="container">
             <div className="jumbotron j-greetings">
-              <h2 className="display-4">Which build option would you like?</h2>
+              <h2 className="display-4">Do you want to formalize upcoming semester</h2>
               <hr color="#7e1530"/>
               <div class="btn-group" role="group" aria-label="Basic example">
-                <Link to="/select-semester">
-                  <Button text="Semester"/>
+                <Link to="/draft-sequence-menu">
+                  <Button text="No"/>
                 </Link>
-                <Link to="/obtain-uploaded-sequence">
-                  <Button text="Sequence"/>
+                <Link to="/course-selection-menu">
+                  <Button text="Yes"/>
                 </Link>
               </div>
-
             </div>
           </div>
         </div>
+
       )
     }
 
 }
 
-export default BuildSeqOrSem
+export default Formalize
