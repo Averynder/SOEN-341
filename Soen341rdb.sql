@@ -10,7 +10,7 @@ USE `soen341` ;
  -- ---------------------------------------------------
  Table `soen341`.`account user`
  -- ---------------------------------------------------
- CREATE TABLE  `soen341`.`user` (
+ CREATE TABLE  `soen341`.`account user` (
    `netname` varchar(50) PRIMARY KEY,
    `password` varchar(50) DEFAULT NULL);
 
