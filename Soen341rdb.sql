@@ -155,7 +155,7 @@ CREATE TABLE  `soen341`.`contains`(
 -- -----------------------------------------------------
 -- Table `soen341`.`memberOf`    (same same)
 -- -----------------------------------------------------
-CREATE TABLE  `soen341`.`memberOf`(
+CREATE TABLE  `soen341`.`member of`(
   `classNumber` int(11) NOT NULL,
   `lectureSectionNumber` varchar(7) NOT NULL,
   `labSectionNumber` varchar(7) NOT NULL,
@@ -168,18 +168,18 @@ CREATE TABLE  `soen341`.`memberOf`(
 
 
 -- -----------------------------------------------------
--- Table `soen341`.`courseSelection`
+-- Table `soen341`.`course selection`
 -- -----------------------------------------------------
-CREATE TABLE  `soen341`.`courseSelection`(
+CREATE TABLE  `soen341`.`course selection`(
   `term` varchar(10) DEFAULT NULL,
   `courseList` varchar(200) DEFAULT NULL);
 
 
 
 -- -----------------------------------------------------
--- Table `soen341`.`selectedWith`
+-- Table `soen341`.`selected with`
 -- -----------------------------------------------------
-CREATE TABLE  `soen341`.`selectedWith`(
+CREATE TABLE  `soen341`.`selected with`(
   `classNumber` int(11) NOT NULL,
   `term` varchar(10) DEFAULT NULL,
   `courseList` varchar(200)  DEFAULT NULL,
@@ -190,7 +190,7 @@ CREATE TABLE  `soen341`.`selectedWith`(
 -- -----------------------------------------------------
 -- Table `soen341`.`user preferences`
 -- -----------------------------------------------------
-CREATE TABLE  `soen341`.`userPreferences` (
+CREATE TABLE  `soen341`.`user preferences` (
   `days` date NULL DEFAULT NULL,
   `times` time NULL DEFAULT NULL,
   `numberOfCourses` int(11) NOT NULL,
@@ -200,7 +200,7 @@ CREATE TABLE  `soen341`.`userPreferences` (
 -- -----------------------------------------------------
 -- Table `soen341`.`student record`
 -- -----------------------------------------------------
-CREATE TABLE  `soen341`.`studentRecord` (
+CREATE TABLE  `soen341`.`student record` (
   `completedCourses` varchar(200) DEFAULT NULL,
   `academicRequirements` varchar(200)DEFAULT NULL);
 
