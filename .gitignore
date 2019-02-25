@@ -60,9 +60,15 @@ typings/
 # next.js build output
 .next
 
-# WebStorm files
+# JetBrains files
 /.idea
 /client/src/.idea
+/testing/.idea
+/testing/user_cases.iml
+testing/out
+
+# Java Libraries
+testing/dependencies
 
 # Mac Users
 *.DS_Store

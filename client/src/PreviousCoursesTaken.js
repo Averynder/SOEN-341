@@ -1,0 +1,48 @@
+import React from "react"
+import Navbar from "./components/Navbar"
+import Button from "./components/Button"
+import { Link } from "react-router-dom"
+
+class PreviousCoursesTaken extends React.Component{
+  render(){
+    return(
+      <div className="container">
+        <Navbar /> <br />
+        <div className="container">
+          <div className="jumbotron j-greetings">
+            <table className="SequenceTable1" border="1px">
+              <tr>
+                <th colSpan="9">
+                  <h2>Previous Courses Taken</h2>
+                </th>
+              </tr>
+              <tr>
+                <th>Term</th>
+                <th className="thCourse">Course</th>
+                <th className="thCredit">Credit</th>
+                <th>Term</th>
+                <th className="thCourse">Course</th>
+                <th className="thCredit">Credit</th>
+                <th>Term</th>
+                <th className="thCourse">Course</th>
+                <th className="thCredit">Credit</th>
+              </tr>
+              <tr><td rowSpan="6" className="TermName">Fall</td><td></td><td></td><td rowSpan="6" className="TermName">Winter</td><td></td><td></td><td rowSpan="6" className="TermName">Summer</td><td></td><td></td></tr>
+              <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            </table>
+
+            <Link to="/build-seq-or-sem">
+              <Button text="Continue" />
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
+}
+
+export default PreviousCoursesTaken

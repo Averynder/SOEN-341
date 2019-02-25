@@ -12,15 +12,13 @@ class RubiatSeqLink extends Component {
     render() {
       return (
         <div className="container">
-          <navbar />
-          <div className="container">
+          <Navbar />
             <div className="jumbotron j-greetings">
               <SequenceTable />
               <Link to="/">
                 <Button text="Back"/>
               </Link>
             </div>
-          </div>
         </div>
       )
     }
