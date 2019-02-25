@@ -34,3 +34,4 @@ a software package to automate readjustments to the Departmental sequences and o
 Go to http://localhost:3000 and check to see if everything works
 * ExpressJs exclusively on port 3001
 * React with ExpressJs  on port 3000
+* Concordia's Open Data on : http://localhost:3001/opendata
