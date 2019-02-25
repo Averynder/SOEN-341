@@ -11,6 +11,7 @@ var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var cookiesRouter = require('./routes/cookiesV');
 // var bodyParser = require('body-parser');
+var https = require('https');
 
 
 var app = express();
@@ -50,6 +51,17 @@ app.get('/api', function(req, res){
 		"username": req.cookies.username,
 		"password": req.cookies.password
 	});
+});
+
+app.get('/opendata', function(req, res) {
+	https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/description/filter/000106', (response) => {
+		response.on('data', (d) => {
+			process.stdout.write(d);
+		});
+	}).on('error', (e) => {
+		console.log(e);
+	});
+	res.end();
 });
 
 passport.use(new LocalStrategy(
