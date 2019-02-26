@@ -15,6 +15,10 @@ connection.query('select * from `account user`', function(error, results, fields
     console.log('The solution is: ', results);
 });
 
+// Server time, intially local time
+var time = (new Date()).toLocaleString("en",{weekday:"long", month:"long", day:"numeric", year:"numeric", hour:"numeric", minute:"numeric", second:"numeric", hour12:false});
+	// Reinitialization of time to keep it updated
+	setInterval(() => {time = (new Date()).toLocaleString("en",{weekday:"long", month:"long", day:"numeric", year:"numeric", hour:"numeric", minute:"numeric", second:"numeric", hour12:false})},1000);
 
 
 /* GET users listing. */
@@ -32,13 +36,14 @@ app.get('/', function(req, res, next) {
   	username: "D0loresH4ze"
   }]);
 })
-/* Script to place time in correct spot and format*/
+/* Script to place time in correct spot and format
 app.get('/', (req, res) => {
     res.send('<script>var r=new Date().valueOf() + ( ' + (new Date().getTimezoneOffset()) +
         ' - (new Date().getTimezoneOffset()) ) * -60000;' +
         'setInterval(()=>{document.getElementById('+'currentTime'+').innerHTML = (new Date(r+=1000)).toLocaleString("en",{weekday:"long", month:"long", day:"numeric", year:"numeric", hour:"numeric", minute:"numeric", second:"numeric", hour12:false})},1000);' +
         '</script>');
 });
+*/
 
 module.exports = app;
 connection.end;
