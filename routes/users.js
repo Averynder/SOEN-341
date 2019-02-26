@@ -1,5 +1,5 @@
 var express = require('express');
-var mysql = require('mysql');
+var mysql = require('mysql2');
 var app = express();
 var connection = mysql.createConnection({
 	connectionLimit: 20,
@@ -37,5 +37,3 @@ app.get('/', function(req, res, next) {
 
 module.exports = app;
 connection.end;
-
-

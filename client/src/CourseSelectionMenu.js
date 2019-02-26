@@ -11,9 +11,12 @@ class CourseSelectionMenu extends React.Component{
 
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleShow1 = this.handleShow1.bind(this);
+    this.handleClose1 = this.handleClose1.bind(this);
 
     this.state = {
       show: false,
+      show1: false,
     };
   }
 
@@ -23,6 +26,14 @@ class CourseSelectionMenu extends React.Component{
 
   handleShow() {
     this.setState({ show: true });
+  }
+
+  handleClose1() {
+    this.setState({ show1: false });
+  }
+
+  handleShow1() {
+    this.setState({ show1: true });
   }
 
   render(){
@@ -42,16 +53,15 @@ class CourseSelectionMenu extends React.Component{
         <Navbar />
 
         <div className="jumbotron j-greetings">
-          <h2 className="display-4">{semester} {year} Semester</h2>
+          <h2 className="display-4">Course Selection Menu</h2>
           <hr color="#7e1530"/>
+          <h2 className="display-5">{semester} {year} Semester</h2>
           <p className="lead"></p>
           <SequenceTable1 year={year}/>
           <Button text="Add A Class" onClick={this.handleShow}/>
-          <Button text="Remove A Class"/>
-          <Button text="Finalize" />
-
-          <Link to="/select-semester">
-            <Button text="Export As PDF" />
+          <Button text="Remove A Class" onClick={this.handleShow1}/>
+          <Link to="/finalize-export-sem">
+            <Button text="Finalize" />
           </Link>
 
           <Link to="/select-semester">
@@ -64,7 +74,7 @@ class CourseSelectionMenu extends React.Component{
             <Modal.Title>Add A Course</Modal.Title>
           </Modal.Header>
           <Modal.Body style={{textAlign: "center"}}>
-              Select A Course You'd Like To Add <br /> <br />
+              <p>Select A Course You'd Like To Add </p> <br />
               <Form inline style={{textAlign: "center"}}>
                   <FormControl type="text" placeholder="Search" className=" mr-sm-2" style={{width: "100%", textAlign: "center"}}/>
                 <Button type="submit" text="Add Course"/>
@@ -72,6 +82,23 @@ class CourseSelectionMenu extends React.Component{
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleClose} text="Close" />
+            <Button variant="primary" text="Save Changes" />
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={this.state.show1} onHide={this.handleClose1}>
+          <Modal.Header closeButton>
+            <Modal.Title>Remove A Course</Modal.Title>
+          </Modal.Header>
+          <Modal.Body style={{textAlign: "center"}}>
+              <p>Select A Course You'd Like To Remove </p> <br />
+              <Form inline style={{textAlign: "center"}}>
+                  <FormControl type="text" placeholder="Search" className=" mr-sm-2" style={{width: "100%", textAlign: "center"}}/>
+                <Button type="submit" text="Remove Course"/>
+              </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.handleClose1} text="Close" />
             <Button variant="primary" text="Save Changes" />
           </Modal.Footer>
         </Modal>

@@ -12,8 +12,20 @@ class ObtainUploadedSequence extends React.Component{
           <div className="jumbotron j-greetings">
             <h1>The Uploaded Sequence Will Go Here</h1>
             <hr color="#7E1530" />
-            <Link to="/course-selection-menu">
-              <Button text="Generate Semester" />
+            <div class="container">
+              <h3>The courses not taken yet are: </h3>
+              <dl>
+                <li>course1</li>
+                <li>course2</li>
+                <li>course3</li>
+                <li>course4</li>
+                <li>course5</li>
+                <li>course6</li>
+              </dl>
+            </div>
+            <Button text="Put in Order" />
+            <Link to="/draft-sequence-menu">
+              <Button text="Generate Sequence" />
             </Link>
           </div>
         </div>
