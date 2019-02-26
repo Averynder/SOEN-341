@@ -25,7 +25,9 @@ class App extends React.Component{
 	componentDidMount() {
 		fetch('/users')
 		.then(res => res.json())
-		.then(users => this.setState({ users }));
+		.then(users => this.setState({ users }))
+		// Placing the time while always getting the newest value
+		.then(setInterval(() => {document.getElementById('currentTime').innerHTML = time},1000));
 	}
 
 	toggleStudent(){
