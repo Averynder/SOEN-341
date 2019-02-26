@@ -171,7 +171,7 @@ class CourseSelectionMenu extends React.Component{
                 <td id="winter-credit1"></td>
               <td rowSpan="6" className="TermName">Summer</td>
                 <td id="summer-class1"></td>
-                <td id="summer-credit"></td>
+                <td id="summer-credit1"></td>
             </tr>
 
             <tr>
