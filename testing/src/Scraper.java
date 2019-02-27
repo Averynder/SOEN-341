@@ -1,7 +1,5 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.FileOutputStream;
+import java.io.*;
+import java.util.Scanner;
 import java.util.logging.Level;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -36,6 +34,7 @@ public class Scraper
     
     public boolean scrap()
     {
+        Scanner verifier = null;
         PrintWriter filewriter = null;
         boolean success = false;
         try
@@ -64,8 +63,10 @@ public class Scraper
                     return ((WebDriver)driver).findElement(By.className("display-4"));
                 }
             });
-            //firefoxInstance.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); doesn't work
+            //firefoxInstance.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); //doesn't work
             WebElement frame = firefoxInstance.findElement(By.tagName("html"));
+            if (firefoxInstance.getTitle().contains("404"))
+                throw new FourZeroFourException(websiteLocation);
             filewriter.println("<html>");
             filewriter.println(frame.getAttribute("innerHTML"));
             filewriter.println("</html>");
@@ -76,10 +77,33 @@ public class Scraper
         {
             System.out.println("File was moved or deleted during the write process");
         }
+        catch (FourZeroFourException fofe)
+        {
+            System.out.println(fofe.getMessage());
+        }
         finally
         {
             if (filewriter != null)
                 filewriter.close();
+            try
+            {
+                verifier = new Scanner(new FileInputStream(outputLocation));
+                if (!verifier.hasNextLine())
+                {
+                    throw new ProblemLoadingPageException(websiteLocation);
+                }
+            }
+            catch (FileNotFoundException fnf)
+            {
+                System.out.println("The file Result.html was moved during the verification process thus resulting in an exception");
+            }
+            catch (ProblemLoadingPageException plpe)
+            {
+                System.out.println(plpe.getMessage());
+                success = false;
+            }
+            if (verifier != null)
+                verifier.close();
             return success;
         }
     }
