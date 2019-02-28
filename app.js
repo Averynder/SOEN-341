@@ -4,21 +4,28 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var logger = require('morgan');
+var bodyParser = require('body-parser');
+var https = require('https');
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var cookiesRouter = require('./routes/cookiesV');
-// var bodyParser = require('body-parser');
-var https = require('https');
-
 
 var app = express();
 
-app.use(cookieParser());
-app.use(session({secret: "Testing secret session."}));
 
+app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(bodyParser.json());
+
+
+var sequelize = require('./sequelize'); // get running instance of Sequelize
+require('./passport')(passport, sequelize); // importing passport.js with as a parameter the imported passport library from above
+
+app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/', failureFlash: false }));
 
 // set a cookie with random number as ID
 // we should link this id to the given username/password input
@@ -64,26 +71,11 @@ app.get('/opendata', function(req, res) {
 	res.end();
 });
 
-passport.use(new LocalStrategy(
-	function(username, password, done) {
-		User.findOne({ username: username }, function(err, user) {
-			if (err) { return done(err); }
-				if (!user) {
-					return done(null, false, { message: 'Incorrect username.' });
-				}
-				if (!user.validPassword(password)) {
-					return done(null, false, { message: 'Incorrect password.' });
-				}
-			return done(null, user);
-		});
-	}
-));
+
 
 app.use(express.static(__dirname + '/public'));
 
 
-//app.post('/login', passport.authenticate('local', { successRedirect: '/',
-                                                    //failureRedirect: '/login' }));
 
 
 // view engine setup (keep this)
@@ -95,8 +87,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
