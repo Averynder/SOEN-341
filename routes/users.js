@@ -21,7 +21,7 @@ var time = (new Date()).toLocaleString("en",{weekday:"long", month:"long", day:"
 	setInterval(() => {time = (new Date()).toLocaleString("en",{weekday:"long", month:"long", day:"numeric", year:"numeric", hour:"numeric", minute:"numeric", second:"numeric", hour12:false})},1000);
 
 
-/* GET users listing. */
+/* GET users listing. Do we still need this? 
 app.get('/', function(req, res, next) {
 	// Modify this query for the desired action on the database
 	connection.query('select `Password` from `account user`', function (error, results, fields) {
@@ -36,14 +36,11 @@ app.get('/', function(req, res, next) {
   	username: "D0loresH4ze"
   }]);
 })
-/* Script to place time in correct spot and format
-app.get('/', (req, res) => {
-    res.send('<script>var r=new Date().valueOf() + ( ' + (new Date().getTimezoneOffset()) +
-        ' - (new Date().getTimezoneOffset()) ) * -60000;' +
-        'setInterval(()=>{document.getElementById('+'currentTime'+').innerHTML = (new Date(r+=1000)).toLocaleString("en",{weekday:"long", month:"long", day:"numeric", year:"numeric", hour:"numeric", minute:"numeric", second:"numeric", hour12:false})},1000);' +
-        '</script>');
-});
 */
+
+app.get('/', (req, res, next)=>{
+	res.json(time);
+});
 
 module.exports = app;
 connection.end;
