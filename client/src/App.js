@@ -16,7 +16,7 @@ class App extends React.Component{
 		this.state ={
 			clock:[]
 		}
-
+		
 		this.state = {
 			isOpenStudent: false,
 			isOpenTeacher: false
@@ -29,10 +29,12 @@ class App extends React.Component{
 	componentDidMount() {
 		fetch('/users')
 		.then(res => res.json())
-		.then(clock => this.setState({clock}))
-		setInterval(() => {document.getElementById('currentTime').innerHTML = this.state.clock},1000)
-	}
-
+       	 	.then(users => this.setState({ users }));
+    	}
+	
+	
+	
+	
 	toggleStudent(){
 		this.setState({
 			isOpenStudent: !this.state.isOpenStudent
@@ -46,14 +48,17 @@ class App extends React.Component{
 	}
 
 	render(){
+		fetch('/users')
+		.then(res => res.json())
+		.then(clock => this.setState({clock}))
+		.then(setInterval(() => {document.getElementById('currentTime').innerHTML = this.state.clock},1000))
 		return (
 			<div className="bckgrnd container">
 				<Navbar />
-				<Greetings />
+				<Greetings/>
 				<ButtonContainer>
 					<Button text="I Am A Student" onClick={this.toggleStudent}/>
 					<Button text="I Am A Professor" onClick={this.toggleTeacher}/>
-
 					<Link to="/build-seq-or-sem">
 						<Button text="I Am New To This Website" />
 					</Link>
@@ -68,10 +73,11 @@ class App extends React.Component{
 				</Backdrop>
 
 				<LinkBox />
-
+				
 			</div>
 		)
 	}
 }
 
 export default App
+
