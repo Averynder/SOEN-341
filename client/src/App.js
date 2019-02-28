@@ -12,6 +12,10 @@ import LinkBox from "./LinkBox"
 class App extends React.Component{
 	constructor() {
 		super();
+		
+		this.state ={
+			clock:[]
+		}
 
 		this.state = {
 			isOpenStudent: false,
@@ -25,9 +29,8 @@ class App extends React.Component{
 	componentDidMount() {
 		fetch('/users')
 		.then(res => res.json())
-		.then(users => this.setState({ users }))
-		// Placing the time while always getting the newest value
-		.then(setInterval(() => {document.getElementById('currentTime').innerHTML = time},1000));
+		.then(clock => this.setState({clock}))
+		setInterval(() => {document.getElementById('currentTime').innerHTML = this.state.clock},1000)
 	}
 
 	toggleStudent(){
