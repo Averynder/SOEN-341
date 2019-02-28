@@ -9,12 +9,14 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = function(models) {
     // associations can be defined here
   };
-
-    User.sync({force: true}).then(() => {
-        return User.create({
-            username: 'John'
-        });
-    });
+	/*
+	User.sync({force: false}).then(() => {
+			return User.create({
+				netname: 'user',
+				password: 'pass'
+			});
+	});
+	*/
   return User;
 };
 
