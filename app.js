@@ -98,7 +98,7 @@ app.get('/opendata', function(req, res) {
 				console.log(e);
 				});	
 		}
-			else if(level = "200"){
+			if(level = "200"){
 				for(i=0;i<38;i++){
 					var w = 5326;	
 					w = w+i;	
@@ -120,7 +120,7 @@ app.get('/opendata', function(req, res) {
 					});
 			}			
 			
-				else if(level = "300"){
+				if(level = "300"){
 					for(i=0;i<25;i++){
 					var w = 5391;	
 					w = w+i;	
@@ -134,7 +134,7 @@ app.get('/opendata', function(req, res) {
 						});
 					}	
 				}
-					else if (level = "400"){
+					if (level = "400"){
 						for(i=0;i<47;i++){
 						var w = 5446;	
 						w = w+i;	
@@ -148,7 +148,7 @@ app.get('/opendata', function(req, res) {
 							});
 						}
 					}
-					else if (level = "GRAD"){
+					if (level = "GRAD"){
 						for(i=0;i<36;i++){
 						var w = 5500;	
 						w = w+i;	
