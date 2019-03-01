@@ -5,6 +5,7 @@ import Button from "./components/Button"
 import { Link } from "react-router-dom"
 import {Modal, Form, FormControl} from "react-bootstrap"
 
+
 class CourseSelectionMenu extends React.Component{
   constructor(props,context){
     super(props, context);
@@ -51,24 +52,28 @@ class CourseSelectionMenu extends React.Component{
     return(
       <div className="container">
         <Navbar />
+        <div className="container">
+          <div className="jumbotron j-greetings">
+            <h2 className="display-4">Course Selection Menu</h2>
+            <hr color="#7e1530"/>
+            <h2 className="display-5">{semester} {year} Semester</h2>
+            <p className="lead"></p>
+            <SequenceTable1 year={year}/>
+            <Button text="Add A Class" onClick={this.handleShow}/>
+            <Button text="Remove A Class" onClick={this.handleShow1}/>
+            <Link to="/finalize-export-sem">
+              <Button text="Finalize" />
+            </Link>
 
-        <div className="jumbotron j-greetings">
-          <h2 className="display-4">Course Selection Menu</h2>
-          <hr color="#7e1530"/>
-          <h2 className="display-5">{semester} {year} Semester</h2>
-          <p className="lead"></p>
-          <SequenceTable1 year={year}/>
-          <Button text="Add A Class" onClick={this.handleShow}/>
-          <Button text="Remove A Class" onClick={this.handleShow1}/>
-          <Link to="/finalize-export-sem">
-            <Button text="Finalize" />
-          </Link>
+            <Link to="/select-semester">
+              <Button text="Back To Select Semester" />
+            </Link>
 
-          <Link to="/select-semester">
-            <Button text="Back To Select Semester" />
-          </Link>
+
+          </div>
+
+
         </div>
-
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Add A Course</Modal.Title>
@@ -102,6 +107,7 @@ class CourseSelectionMenu extends React.Component{
             <Button variant="primary" text="Save Changes" />
           </Modal.Footer>
         </Modal>
+
       </div>
     )
   }
