@@ -42,9 +42,9 @@ app.get('/', function(req, res, next) {
 })
 */
 
-app.get('/', (req, res, next)=>{
+setInterval(() => {app.get('/', (req, res, next)=>{
 	res.json(time);
-});
+});}, 1000);
 
 module.exports = app;
 connection.end;
