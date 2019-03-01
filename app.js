@@ -13,6 +13,7 @@ var cookiesRouter = require('./routes/cookiesV');
 // var bodyParser = require('body-parser');
 var https = require('https');
 var readlineSync = require('readline-sync');
+var fs = require('fs');
 
 
 var app = express();
@@ -59,27 +60,78 @@ app.get('/opendata', function(req, res) {
 	//Scanner type variable to choose discipline
 	var choice = readlineSync.question("COMP or SOEN ");
 	// SOEN COURSES
-	if (choice == "SOEN"){	
+	if (choice == "SOEN"){
+		
 		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/catalog/filter/SOEN/*/*', (response) => {
 		response.on('data', (d) => {
 			process.stdout.write(d);
+			fs.writeFile('routes/soenschedule.txt', d, (err) => {  
+			if (err) throw err;
+				console.log('Schedule written!');
+			});
+			
 		});
-	}).on('error', (e) => {
-		console.log(e);
-	});
-		}
-	
+		}).on('error', (e) => {
+			console.log(e);
+			});
+			
+		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@https://opendata.concordia.ca/API/v1/course/schedule/filter/*/SOEN/* ', (response) => {
+		response.on('data', (d) => {
+			process.stdout.write(d);
+			fs.writeFile('routes/catalog.txt', d, (err) => {  
+			if (err) throw err;
+				console.log('Catalog written!');
+			});
+			fs.readFile('routes/catalog.txt', 'utf-8', function(err, data){
+			if (err) throw err;
+				var fix = data.replace(/},/gim, '},\n');
+				fs.writeFile('routes/catalogfix.txt', fix, 'utf-8', function (err) {
+				if (err) throw err;
+					console.log('Catalog is ordered');
+				});
+			});
+		});
+		}).on('error', (e) => {
+			console.log(e);
+			});
+	res.end();		
+	}
 	// COMP COURSES
 	else{
+		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@https://opendata.concordia.ca/API/v1/course/schedule/filter/*/COMP/*' , (response) => {
+		response.on('data', (d) => {
+			process.stdout.write(d);
+			fs.writeFile('routes/compschedule.txt', d, (err) => {  
+			if (err) throw err;
+				console.log('Schedule written!');
+			});
+			
+		});
+		}).on('error', (e) => {
+			console.log(e);
+			});
 		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/catalog/filter/COMP/*/*', (response) => {
 		response.on('data', (d) => {
 			process.stdout.write(d);
+			fs.writeFile('routes/catalog.txt', d, (err) => {  
+			if (err) throw err;
+				console.log('\nCatalog written!\n');
+			});
+			fs.readFile('routes/catalog.txt', 'utf-8', function(err, data){
+			if (err) throw err;
+				var fix = data.replace(/},/gim, '},\n');
+				fs.writeFile('routes/catalogfix.txt', fix, 'utf-8', function (err) {
+				if (err) throw err;
+					console.log('Catalog is ordered');
+				});
+			});
 		});
-	}).on('error', (e) => {
-		console.log(e);
-	});
+		}).on('error', (e) => {
+			console.log(e);
+			});
+	res.end();		
+
 	}						
-	res.end();
 });
 
 passport.use(new LocalStrategy(
