@@ -31,6 +31,14 @@ a software package to automate readjustments to the Departmental sequences and o
 6.    Run (cd client)
 7.    Run (npm start)
 
+### Setting up Database
+1.    Run the 'test' script first
+2.    Next run the 'soen341' script
+3.    Open up MySQL Workbench
+4.    Browse to the correct schema
+5.    RIGHT Click on Stored Procedures
+6.    Copy Paste the procedures script and hit Apply
+
 Go to http://localhost:3000 and check to see if everything works
 * ExpressJs exclusively on port 3001
 * React with ExpressJs  on port 3000
