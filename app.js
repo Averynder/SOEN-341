@@ -60,156 +60,24 @@ app.get('/opendata', function(req, res) {
 	var choice = readlineSync.question("COMP or SOEN ");
 	// SOEN COURSES
 	if (choice == "SOEN"){	
-		for(i=0;i<46;i++){
-			var w = 32001;	
-			w = w+i;	
-			var x = 'https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/description/filter/0'+w;	
-			https.get(x, (response) => {
-				response.on('data', (d) => {
-					process.stdout.write('\n'+d+'\n');
-						});
-			}).on('error', (e) => {
-				console.log(e);
-				});
+		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/catalog/filter/SOEN/*/*', (response) => {
+		response.on('data', (d) => {
+			process.stdout.write(d);
+		});
+	}).on('error', (e) => {
+		console.log(e);
+	});
 		}
-		var rem = [42553, 44220, 44221, 47100, 47101, 47209, 47979, 48218, 48693, 48873, 48957, 49308];
-		for(i=0;i<rem.length;i++){
-			var x = 'https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/description/filter/0'+rem[i];	
-			https.get(x, (response) => {
-				response.on('data', (d) => {
-					process.stdout.write('\n'+d+'\n');
-						});
-			}).on('error', (e) => {
-				console.log(e);
-				});
-		}
-	}
 	
 	// COMP COURSES
 	else{
-		// Added choice for levels or else the result is too big for console
-		var level = readlineSync.question("100,200,300,400 or GRAD?");
-		if (level = "100"){
-			https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/description/filter/040329', (response) => {
-				response.on('data', (d) => {
-					process.stdout.write('\n'+d+'\n');
-						});
-			}).on('error', (e) => {
-				console.log(e);
-				});	
-		}
-			if(level = "200"){
-				for(i=0;i<38;i++){
-					var w = 5326;	
-					w = w+i;	
-					var x = 'https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/description/filter/00'+w;	
-					https.get(x, (response) => {
-						response.on('data', (d) => {
-							process.stdout.write('\n'+d+'\n');
-								});
-					}).on('error', (e) => {
-						console.log(e);
-						});
-				}	
-				https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/description/filter/0403331', (response) => {
-					response.on('data', (d) => {
-						process.stdout.write('\n'+d+'\n');
-					});
-				}).on('error', (e) => {
-					console.log(e);
-					});
-			}			
-			
-				if(level = "300"){
-					for(i=0;i<25;i++){
-					var w = 5391;	
-					w = w+i;	
-					var x = 'https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/description/filter/00'+w;	
-					https.get(x, (response) => {
-						response.on('data', (d) => {
-							process.stdout.write('\n'+d+'\n');
-							});
-					}).on('error', (e) => {
-						console.log(e);
-						});
-					}	
-				}
-					if (level = "400"){
-						for(i=0;i<47;i++){
-						var w = 5446;	
-						w = w+i;	
-						var x = 'https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/description/filter/00'+w;	
-						https.get(x, (response) => {
-							response.on('data', (d) => {
-								process.stdout.write('\n'+d+'\n');
-								});
-						}).on('error', (e) => {
-							console.log(e);
-							});
-						}
-					}
-					if (level = "GRAD"){
-						for(i=0;i<36;i++){
-						var w = 5500;	
-						w = w+i;	
-						var x = 'https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/description/filter/00'+w;	
-						https.get(x, (response) => {
-							response.on('data', (d) => {
-								process.stdout.write('\n'+d+'\n');
-							});
-						}).on('error', (e) => {
-							console.log(e);
-							});
-							
-						}
-						for(i=0;i<31;i++){
-						var w = 5567;	
-						w = w+i;	
-						var x = 'https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/description/filter/00'+w;	
-						https.get(x, (response) => {
-							response.on('data', (d) => {
-								process.stdout.write('\n'+d+'\n');
-							});
-						}).on('error', (e) => {
-							console.log(e);
-							});	
-						}
-						var rem = [5603, 5605, 5615, 5617, 5619, 5620, 5621, 5625, 5656, 5661, 5702, 5703, 5720, 5724, 5731];
-						for(i=0;i<rem.length;i++){
-							var x = 'https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/description/filter/00'+rem[i];	
-							https.get(x, (response) => {
-								response.on('data', (d) => {
-									process.stdout.write('\n'+d+'\n');
-								});
-							}).on('error', (e) => {
-								console.log(e);
-								});
-	
-						}
-						for(i=0;i<29;i++){
-						var w = 40329;	
-						w = w+i;	
-						var x = 'https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/description/filter/0'+w;	
-						https.get(x, (response) => {
-							response.on('data', (d) => {
-								process.stdout.write('\n'+d+'\n');
-							});
-						}).on('error', (e) => {
-							console.log(e);
-							});
-						}
-						var rem = [44019, 46579, 46580, 46581, 46582, 46583, 46584, 46585, 46586, 47980, 48285, 48454, 48956, 48967,49296, 49309, 49310];
-						for(i=0;i<rem.length;i++){
-							var x = 'https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/description/filter/0'+rem[i];	
-								https.get(x, (response) => {
-									response.on('data', (d) => {
-										process.stdout.write('\n'+d+'\n');
-									});
-								}).on('error', (e) => {
-									console.log(e);
-									});
-						}
-					}
+		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/catalog/filter/COMP/*/*', (response) => {
+		response.on('data', (d) => {
+			process.stdout.write(d);
+		});
+	}).on('error', (e) => {
+		console.log(e);
+	});
 	}						
 	res.end();
 });
