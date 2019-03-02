@@ -31,7 +31,7 @@ a software package to automate readjustments to the Departmental sequences and o
 6.    Run (cd client)
 7.    Run (npm start)
 
-## Check User Login
+### Check User Login
 1.    In the user account of your db enter in netname = user, password = password
 2.    Launch the application
 3.    Enter Andre's App and Enter in user password
