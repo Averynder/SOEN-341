@@ -31,6 +31,13 @@ a software package to automate readjustments to the Departmental sequences and o
 6.    Run (cd client)
 7.    Run (npm start)
 
+## Check User Login
+1.    In the user account of your db enter in netname = user, password = password
+2.    Launch the application
+3.    Enter Andre's App and Enter in user password
+4.    Go to http://localhost:3001/check to verify logged in or out
+5.    Go to http://localhost:3001/logout to log out, all changes in console
+
 Go to http://localhost:3000 and check to see if everything works
 * ExpressJs exclusively on port 3001
 * React with ExpressJs  on port 3000
