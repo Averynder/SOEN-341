@@ -25,7 +25,10 @@ app.use(bodyParser.json());
 app.use(session({
 	secret: 'keyboard cat',
 	saveUninitialized: false,
-	resave: false
+	resave: false,
+	cookie: {
+		maxAge: 1000 * 60 * 60 // 1 hour
+	}
 }));
 app.use(logger('dev'));
 app.use(express.json());
