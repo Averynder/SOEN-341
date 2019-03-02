@@ -2,6 +2,7 @@ import React from "react"
 import Navbar from "./components/Navbar"
 import Button from "./components/Button"
 import { Link } from "react-router-dom"
+import Upload from "./Upload"
 
 class ObtainUploadedSequence extends React.Component{
   render(){
@@ -13,6 +14,7 @@ class ObtainUploadedSequence extends React.Component{
             <h1>The Uploaded Sequence Will Go Here</h1>
             <hr color="#7E1530" />
             <div class="container">
+              <Upload />
               <h3>The courses not taken yet are: </h3>
               <dl>
                 <li>course1</li>
