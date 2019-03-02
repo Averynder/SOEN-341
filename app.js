@@ -16,10 +16,20 @@ var cookiesRouter = require('./routes/cookiesV');
 var app = express();
 
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(session({
+	secret: 'keyboard cat',
+	saveUninitialized: false,
+	resave: false
+}));
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(bodyParser.json());
 
 
 var sequelize = require('./sequelize'); // get running instance of Sequelize
@@ -71,23 +81,12 @@ app.get('/opendata', function(req, res) {
 	res.end();
 });
 
-
-
 app.use(express.static(__dirname + '/public'));
-
-
-
 
 // view engine setup (keep this)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
 
 app.use('/', indexRouter);
 //app.use('/users', usersRouter);
