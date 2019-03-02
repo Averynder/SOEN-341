@@ -91,8 +91,7 @@ app.get('/opendata', function(req, res) {
 			fs.writeFile('routes/SOENcatalog.txt', d, (err) => {  
 			if (err) throw err;
 				console.log('Catalog written!');
-			});
-			fs.readFile('routes/SOENcatalog.txt', 'utf-8', function(err, data){
+				fs.readFile('routes/SOENcatalog.txt', 'utf-8', function(err, data){
 			if (err) throw err;
 				var fix = data.replace(/},/gim, '},\n');
 				fs.writeFile('routes/SOENcatalog.txt', fix, 'utf-8', function (err) {
@@ -100,7 +99,7 @@ app.get('/opendata', function(req, res) {
 					console.log('Catalog is ordered');
 				});
 			});
-			
+			});
 		});
 		}).on('error', (e) => {
 			console.log(e);
