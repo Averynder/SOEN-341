@@ -38,6 +38,7 @@ a software package to automate readjustments to the Departmental sequences and o
 4.    Browse to the correct schema
 5.    RIGHT Click on Stored Procedures
 6.    Copy Paste the procedures script and hit Apply
+7.    Go to http://localhost:3001/opendata and enter into terminal
 
 Go to http://localhost:3000 and check to see if everything works
 * ExpressJs exclusively on port 3001
