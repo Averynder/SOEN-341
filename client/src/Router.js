@@ -14,6 +14,7 @@ import FinalizeExportSem from "./FinalizeExportSem"
 import FinalizeExportSeq from "./FinalizeExportSeq"
 import DraftSequenceMenu from "./DraftSequenceMenu"
 import Formalize from "./Formalize"
+import pdfSequenceGenerator from "./pdfSequenceGenerator"
 
 class Router extends React.Component{
   render(){
@@ -34,6 +35,7 @@ class Router extends React.Component{
           <Route path="/finalize-export-seq" component={FinalizeExportSeq} />
           <Route path="/draft-sequence-menu" component={DraftSequenceMenu} />
           <Route path="/formalize" component={Formalize} />
+          <Route path="/pdfSequenceGenerator" component={pdfSequenceGenerator} />
         </div>
       </BrowserRouter>
     )
