@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     netname: DataTypes.STRING,
-    password: DataTypes.STRING,
+    password: DataTypes.STRING
   }, {
 		tableName: "account user",
 		timestamps: false
@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
 				password: 'pass'
 			});
 	});
+	User.validPassword = function(password) {
+		console.log('pass from user', password);
+		return password == this.password;
+	};
   return User;
 };
 

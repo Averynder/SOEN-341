@@ -8,33 +8,30 @@ module.exports = function(passport, sequelize) {
 			usernameField: 'netname'
 		}, function(netname, password, done) {
 			User.findOne({
-				where: {
-					netname: netname,
-					password: password
-				}
+				where: { netname: netname }
 			})
 			.then(function(user, err) {
-				if (err) return done(err);
-
-				if (!user) return done(null, false);
-				//if (!user.validPassword(password)) {
-				if (user.password != 'pass') {
+				if (!user) { return done(null, false); } // invalid usernmae
+				//if (!user.validPassword(password)) { // invalid password
+				if (password != 'pass') { // invalid pass (static for now)
 					return done(null, false, { message: 'Incorrect password.' });
 				}
-
 				return done(null, user);
 			})
-			.catch(err => done(err));
+			.catch(err => done(err)); // error of some sort
 		}
 	));
 
-	passport.serializeUser(function(users, done) {
-		console.log('Users serialized!');
-		return done(null, users);
+	passport.serializeUser(function(user, done) {
+		console.log('Serialized!');
+		return done(null, user.id);
 	});
 
 	passport.deserializeUser(function(id, done) {
-		console.log('Users serialized!');
-		return done(null, users);
+		console.log('Deserialized!');
+		User.findByPk(id)
+		.then(function(user, err) {
+			done(err, user);
+		});
 	});
 };

@@ -35,7 +35,29 @@ app.use(passport.session());
 var sequelize = require('./sequelize'); // get running instance of Sequelize
 require('./passport')(passport, sequelize); // importing passport.js with as a parameter the imported passport library from above
 
-app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/', failureFlash: false }));
+app.post('/login', function(req, res, next) {
+	passport.authenticate('local', function(err, user, info) {
+		if (err) { return next(err); }
+		if (!user) {
+			res.end('/home');
+		} else {
+			req.login(user, function(error) {
+				res.end('/');
+			});
+		}
+	})(req, res, next);
+});
+
+app.get('/logout', (req, res, next) => {
+	req.logout();
+	res.end();
+});
+
+app.get('/check', function(req, res, next) {
+	if (req.user) { console.log('logged in'); }
+	if (!req.user) { console.log('logged out'); }
+	res.end();
+});
 
 // set a cookie with random number as ID
 // we should link this id to the given username/password input

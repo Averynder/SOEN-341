@@ -7,13 +7,12 @@ class LoginForm extends React.Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(event) {
+  handleSubmit = async function(event) {
     event.preventDefault();
 		const inputData = new FormData(event.target);
     const netname = inputData.get('netname');
     const password = inputData.get('password');
-		console.log('transferring', netname, password);
-    fetch('/login', {
+    const resp = await fetch('/login', {
 			method: 'POST',
 			mode: "cors",
 			body: JSON.stringify({
@@ -21,7 +20,9 @@ class LoginForm extends React.Component {
 				password: password
 			}),
 			headers: {'Content-Type': 'application/json'}
-    });
+		});
+		const body = await resp.text();
+		console.log(body);
 		this.setState({'netname': netname, 'password': password});
   }
 
