@@ -2,13 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import LoginForm from "./components/LoginForm";
 
-class AndreApp extends React.Component {
-
-	constructor(props) {
-		super(props);
-	}
-
-
+class AndreApp extends Component {
   render() {
     return (
       <div className="container">

@@ -10,6 +10,11 @@ import RubiatSeqLink from "./RubiatSeqLink"
 import PullPreviousCourses from "./PullPreviousCourses"
 import PreviousCoursesTaken from "./PreviousCoursesTaken"
 import ObtainUploadedSequence from "./ObtainUploadedSequence"
+import FinalizeExportSem from "./FinalizeExportSem"
+import FinalizeExportSeq from "./FinalizeExportSeq"
+import DraftSequenceMenu from "./DraftSequenceMenu"
+import Formalize from "./Formalize"
+import pdfSequenceGenerator from "./pdfSequenceGenerator"
 
 class Router extends React.Component{
   render(){
@@ -26,6 +31,11 @@ class Router extends React.Component{
           <Route path="/pull-previous-courses" component={PullPreviousCourses} />
           <Route path="/previous-courses-taken" component={PreviousCoursesTaken} />
           <Route path="/obtain-uploaded-sequence" component={ObtainUploadedSequence} />
+          <Route path="/finalize-export-sem" component={FinalizeExportSem} />
+          <Route path="/finalize-export-seq" component={FinalizeExportSeq} />
+          <Route path="/draft-sequence-menu" component={DraftSequenceMenu} />
+          <Route path="/formalize" component={Formalize} />
+          <Route path="/pdfSequenceGenerator" component={pdfSequenceGenerator} />
         </div>
       </BrowserRouter>
     )
