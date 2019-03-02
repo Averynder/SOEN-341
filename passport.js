@@ -24,12 +24,14 @@ module.exports = function(passport, sequelize) {
 
 	passport.serializeUser(function(user, done) {
 		console.log('Serialized!');
-		return done(null, user.id);
+		return done(null, user.netname);
 	});
 
-	passport.deserializeUser(function(id, done) {
+	passport.deserializeUser(function(netname, done) {
 		console.log('Deserialized!');
-		User.findByPk(id)
+		User.findOne({
+			where: { netname: netname }
+		})
 		.then(function(user, err) {
 			done(err, user);
 		});

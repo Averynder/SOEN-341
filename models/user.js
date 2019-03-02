@@ -1,7 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
-    netname: DataTypes.STRING,
+    netname: {
+			type: DataTypes.STRING,
+			primaryKey: true,
+			field: 'netname'
+		},
     password: DataTypes.STRING
   }, {
 		tableName: "account user",
@@ -10,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = function(models) {
     // associations can be defined here
   };
+	/*
 	User.sync({force: false}).then(() => {
 			return User.create({
 				netname: 'user',
@@ -20,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
 		console.log('pass from user', password);
 		return password == this.password;
 	};
+	*/
   return User;
 };
 
