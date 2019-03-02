@@ -58,41 +58,49 @@ app.get('/api', function(req, res){
 	});
 });
 
-// Get Course Descriptions
+// Get Course Descriptions, to be reimplemented in regards to database refresh
 app.get('/opendata', function(req, res) {
 	//Scanner type variable to choose discipline
 	var choice = readlineSync.question("COMP or SOEN ");
 	// SOEN COURSES
 	if (choice == "SOEN"){
 		
-		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/catalog/filter/SOEN/*/*', (response) => {
+		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/schedule/filter/*/SOEN/*', (response) => {
 		response.on('data', (d) => {
-			process.stdout.write(d);
 			fs.writeFile('routes/soenschedule.txt', d, (err) => {  
 			if (err) throw err;
 				console.log('Schedule written!');
 			});
+			fs.readFile('routes/SOENschedule.txt', 'utf-8', function(err, data){
+			if (err) throw err;
+				var fix = data.replace(/},/gim, '},\n');
+				fs.writeFile('routes/SOENschedule.txt', fix, 'utf-8', function (err) {
+				if (err) throw err;
+					console.log('Schedule is ordered');
+				});
+			});	
 			
 		});
 		}).on('error', (e) => {
 			console.log(e);
 			});
 			
-		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@https://opendata.concordia.ca/API/v1/course/schedule/filter/*/SOEN/* ', (response) => {
+		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/catalog/filter/SOEN/*/*', (response) => {
 		response.on('data', (d) => {
 			process.stdout.write(d);
-			fs.writeFile('routes/catalog.txt', d, (err) => {  
+			fs.writeFile('routes/SOENcatalog.txt', d, (err) => {  
 			if (err) throw err;
 				console.log('Catalog written!');
 			});
-			fs.readFile('routes/catalog.txt', 'utf-8', function(err, data){
+			fs.readFile('routes/SOENcatalog.txt', 'utf-8', function(err, data){
 			if (err) throw err;
 				var fix = data.replace(/},/gim, '},\n');
-				fs.writeFile('routes/catalogfix.txt', fix, 'utf-8', function (err) {
+				fs.writeFile('routes/SOENcatalog.txt', fix, 'utf-8', function (err) {
 				if (err) throw err;
 					console.log('Catalog is ordered');
 				});
 			});
+			
 		});
 		}).on('error', (e) => {
 			console.log(e);
@@ -101,10 +109,9 @@ app.get('/opendata', function(req, res) {
 	}
 	// COMP COURSES
 	else{
-		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@https://opendata.concordia.ca/API/v1/course/schedule/filter/*/COMP/*' , (response) => {
+		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/schedule/filter/*/COMP/*' , (response) => {
 		response.on('data', (d) => {
-			process.stdout.write(d);
-			fs.writeFile('routes/compschedule.txt', d, (err) => {  
+			fs.writeFile('routes/COMPschedule.txt', d, (err) => {  
 			if (err) throw err;
 				console.log('Schedule written!');
 			});
@@ -112,20 +119,28 @@ app.get('/opendata', function(req, res) {
 		});
 		}).on('error', (e) => {
 			console.log(e);
-			});
+		});
 		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/catalog/filter/COMP/*/*', (response) => {
 		response.on('data', (d) => {
 			process.stdout.write(d);
-			fs.writeFile('routes/catalog.txt', d, (err) => {  
+			fs.writeFile('routes/COMPcatalog.txt', d, (err) => {  
 			if (err) throw err;
 				console.log('\nCatalog written!\n');
 			});
-			fs.readFile('routes/catalog.txt', 'utf-8', function(err, data){
+			fs.readFile('routes/COMPcatalog.txt', 'utf-8', function(err, data){
 			if (err) throw err;
 				var fix = data.replace(/},/gim, '},\n');
-				fs.writeFile('routes/catalogfix.txt', fix, 'utf-8', function (err) {
+				fs.writeFile('routes/COMPcatalog.txt', fix, 'utf-8', function (err) {
 				if (err) throw err;
 					console.log('Catalog is ordered');
+				});
+			});
+			fs.readFile('routes/COMPschedule.txt', 'utf-8', function(err, data){
+			if (err) throw err;
+				var fix = data.replace(/},/gim, '},\n');
+				fs.writeFile('routes/COMPschedule.txt', fix, 'utf-8', function (err) {
+				if (err) throw err;
+					console.log('Schedule is ordered');
 				});
 			});
 		});
