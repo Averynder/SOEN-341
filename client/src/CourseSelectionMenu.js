@@ -3,7 +3,6 @@ import Navbar from "./components/Navbar"
 import Button from "./components/Button"
 import { Link } from "react-router-dom"
 import {Modal, Form, FormControl} from "react-bootstrap"
-import * as data from "./courses.json"
 
 class CourseSelectionMenu extends React.Component{
   constructor(props,context){
