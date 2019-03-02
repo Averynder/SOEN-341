@@ -87,9 +87,9 @@ if (line.search(/(subject":".....,"catalog":.{6},)/) >= 0) {
     console.log('Inserted all courses.');
 });
 */
-setInterval(() => {app.get('/', (req, res, next)=>{
+app.get('/', (req, res, next)=>{
 	res.json(time);
-});}, 1000);
+});
 
 module.exports = app;
 connection.end;
