@@ -35,3 +35,4 @@ Go to http://localhost:3000 and check to see if everything works
 * ExpressJs exclusively on port 3001
 * React with ExpressJs  on port 3000
 * Concordia's Open Data on : http://localhost:3001/opendata
+* Look at the PDF download : http://localhost:3000/dooks
