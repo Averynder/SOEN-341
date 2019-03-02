@@ -35,7 +35,7 @@ class Router extends React.Component{
           <Route path="/finalize-export-seq" component={FinalizeExportSeq} />
           <Route path="/draft-sequence-menu" component={DraftSequenceMenu} />
           <Route path="/formalize" component={Formalize} />
-          <Route path="/dooks" component={pdfSequenceGenerator} />
+          <Route path="/pdfSequenceGenerator" component={pdfSequenceGenerator} />
         </div>
       </BrowserRouter>
     )

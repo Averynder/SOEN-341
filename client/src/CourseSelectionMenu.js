@@ -13,6 +13,8 @@ class CourseSelectionMenu extends React.Component{
     this.handleClose = this.handleClose.bind(this);
     this.handleShow1 = this.handleShow1.bind(this);
     this.handleClose1 = this.handleClose1.bind(this);
+    this.openRubiat = this.openRubiat.bind(this);
+    this.closeRubiat = this.closeRubiat.bind(this);
 
     var year;
     var semester;
@@ -28,6 +30,7 @@ class CourseSelectionMenu extends React.Component{
     this.state = {
       show: false,
       show1: false,
+      rubiat: false,
       semester: semester,
       year: year,
       classes: [],
@@ -50,12 +53,23 @@ class CourseSelectionMenu extends React.Component{
     this.setState({ show1: true });
   }
 
+  openRubiat(){
+    this.setState({
+      rubiat: true
+    })
+  }
+
+  closeRubiat(){
+    this.setState({
+      rubiat: false
+    })
+  }
+
   addClass(days_array){
     document.getElementById('id')
   }
 
   render(){
-    var string = "monday";
     return(
       <div className="container">
         <Navbar />
@@ -737,6 +751,7 @@ class CourseSelectionMenu extends React.Component{
 
           <Button text="Add A Class" onClick={this.handleShow}/>
           <Button text="Remove A Class" onClick={this.handleShow1}/>
+          <Button text="Rubiat's Color Selection" onClick={this.openRubiat}/>
           <Link to="/finalize-export-sem">
             <Button text="Finalize" />
           </Link>
@@ -782,6 +797,28 @@ class CourseSelectionMenu extends React.Component{
             <Button variant="primary" text="Save Changes" />
           </Modal.Footer>
         </Modal>
+
+        <Modal show={this.state.rubiat} onHide={this.closeRubiat}>
+          <Modal.Header closeButton>
+            <Modal.Title>Rubiat's Color Thing goes in here</Modal.Title>
+          </Modal.Header>
+          <Modal.Body style={{textAlign: "center"}}>
+              <p>Select A Course and Color </p> <br />
+              <Form inline style={{textAlign: "center"}}>
+                <div className="container" style={{width: "40%"}}>
+                  <FormControl type="text" placeholder="Search" className=" mr-sm-2" style={{width: "100%", textAlign: "center"}}/>
+                  <FormControl type="color" placeholder="Search" className=" mr-sm-2" style={{width: "100%", textAlign: "center"}}/>
+                </div>
+                <Button type="submit" text="Remove Course"/>
+              </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.closeRubiat} text="Close" />
+            <Button variant="primary" text="Save Changes" />
+          </Modal.Footer>
+        </Modal>
+
+
       </div>
     )
   }

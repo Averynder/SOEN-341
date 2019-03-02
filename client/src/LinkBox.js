@@ -18,8 +18,8 @@ class LinkBox extends Component {
                 <Button text="Andre's App" onClick="#"/>
               </Link>
 
-              <Link to="/rubiat-seq-table">
-                <Button text="Table of seq." onClick="#"/>
+              <Link to="/pdfSequenceGenerator">
+                <Button text="Table of seq."/>
               </Link>
             </div>
           </div>
