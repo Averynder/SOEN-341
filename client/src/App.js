@@ -48,10 +48,13 @@ class App extends React.Component{
 	}
 
 	render(){
-		fetch('/users')
-		.then(res => res.json())
-		.then(clock => this.setState({clock}))
+		axios.get('/users')
+		.then(res => {
+			var clock =res.data;
+			this.setState({clock});
+			})
 		.then(setInterval(() => {document.getElementById('currentTime').innerHTML = this.state.clock},1000))
+		
 		return (
 			<div className="bckgrnd container">
 				<Navbar />
