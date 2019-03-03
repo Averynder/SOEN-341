@@ -59,7 +59,7 @@ app.get('/api', function(req, res){
 });
 
 // Get Course Descriptions, to be reimplemented in regards to database refresh
-app.get('/concordia', function(req, res) {
+app.get('/concordia1', function(req, res) {
 	//Scanner type variable to choose discipline
 	var choice = readlineSync.question("COMP or SOEN ");
 	// SOEN COURSES
