@@ -3,6 +3,8 @@ import Navbar from "./components/Navbar"
 import Button from "./components/Button"
 import { Link } from "react-router-dom"
 import {Modal, Form, FormControl} from "react-bootstrap"
+import time from "./data/calendar.js"
+import * as data from "./data/courses.json"
 
 class CourseSelectionMenu extends React.Component{
   constructor(props,context){
@@ -32,7 +34,8 @@ class CourseSelectionMenu extends React.Component{
       rubiat: false,
       semester: semester,
       year: year,
-      classes: [],
+      weekdays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      classes: data.sequence,
     };
   }
 
@@ -79,7 +82,38 @@ class CourseSelectionMenu extends React.Component{
           <h2 className="display-5">{this.state.semester} {this.state.year} Semester</h2>
           <p className="lead"></p>
 
-          
+          <div> {/* Schedule */}
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <table>
+                      <tbody>
+                        <th>Time</th>
+
+                        <tr>
+                          <td>{time.map(element => <div>{element}</div>)}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+
+                  {this.state.weekdays.map(days => <td>
+                    <table>
+                      <tbody>
+                        <th>{days}</th>
+                        <tr>
+                          <td>{time.map(element =>
+                            <div>-</div>
+                          )}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>)}
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
           <Button text="Add A Class" onClick={this.handleShow}/>
           <Button text="Remove A Class" onClick={this.handleShow1}/>
@@ -107,12 +141,10 @@ class CourseSelectionMenu extends React.Component{
           </Modal.Body>
           <Modal.Footer>
             <Button
-
              variant="secondary" onClick={this.handleClose} text="Close" />
             <Button variant="primary" text="Save Changes" />
           </Modal.Footer>
         </Modal>
-
         <Modal show={this.state.show1} onHide={this.handleClose1}>
           <Modal.Header closeButton>
             <Modal.Title>Remove A Course</Modal.Title>
@@ -149,11 +181,8 @@ class CourseSelectionMenu extends React.Component{
             <Button variant="primary" text="Save Changes" />
           </Modal.Footer>
         </Modal>
-
-
       </div>
     )
   }
 }
-
 export default CourseSelectionMenu

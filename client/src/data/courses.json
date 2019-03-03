@@ -4,6 +4,8 @@
             "course": "COMP248",
             "name": "Object-Oriented Programming I",
             "credit": 3.5,
+            "startTime": "11:00",
+            "endTime": "12:30",
             "semester": "Fall 2017"
         },
         {

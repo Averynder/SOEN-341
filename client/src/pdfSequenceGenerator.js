@@ -1,6 +1,6 @@
 import React from "react"
 import Navbar from "./components/Navbar"
-import * as data from "./components/courses.json"
+import * as data from "./data/courses.json"
 import * as jsPDF from 'jspdf'
 import {Table} from "react-bootstrap"
 import Button from "./components/Button"
