@@ -37,26 +37,11 @@ var time = (new Date()).toLocaleString("en",{weekday:"long", month:"long", day:"
 	setInterval(() => {time = (new Date()).toLocaleString("en",{weekday:"long", month:"long", day:"numeric", year:"numeric", hour:"numeric", minute:"numeric", second:"numeric", hour12:false})},1000);
 
 
-/* GET users listing. Do we still need this? 
-app.get('/', function(req, res, next) {
-	// Modify this query for the desired action on the database
-	connection.query('select `Password` from `account user`', function (error, results, fields) {
-	if (error) throw error;
-	console.log('Operation is: ', results);
-	});
-	res.json([{
-  	id: 1,
-  	username: "samsepi0l"
-  }, {
-  	id: 2,
-  	username: "D0loresH4ze"
-  }]);
-})
-*/
-/* Database entries
+// Database entries
+if(false){
 var rl = require('readline').createInterface({
 
-input : require('fs').createReadStream('catalogfix.txt')
+input : require('fs').createReadStream('routes/SOENcatalog.txt')
 });
 
 rl.on('line', function(line) {
@@ -64,7 +49,8 @@ rl.on('line', function(line) {
 	var b = 14;
 	var c = 27;
 	var d = 30;
-if (line.search(/(subject":".....,"catalog":.{5},)/) >= 0) {
+if ((line.search(/("career":"UGRD")/) >= 0) && (line.search(/(Course Co-requisite)/) == -1 ) && (line.search(/(Course Corequisite)/) == -1 ) ) 
+{
 	var classNumber = line.substring(line.search(/(subject)/)+a,line.search(/(subject)/)+b)+" "+line.substring(line.search(/(subject)/)+c,line.search(/(subject)/)+d);
 	var a = 11;
 	var b = 15;
@@ -72,14 +58,15 @@ if (line.search(/(subject":".....,"catalog":.{5},)/) >= 0) {
 	var d = 31;
 	var courseTitle = line.substring(line.search(/(title)/)+8,line.search(/(","subject")/));
 	var credits = line.substring(line.search(/(Unit)/)+7,line.search(/(Unit)/)+11)
-	//var prereqs = line.substring(line.search(/(Course Prerequisite: )/)+21,line.lastIndexOf(/(",")/))
-	//var coreqs =line.substring(line.search(/(Corequisite:)/)+a,line.search(/(; )/))
-	connection.query("INSERT INTO `course`(classNumber,courseTitle,credits) VALUES("+classNumber+", "+courseTitle+", "+credits+")", function(error, results, fields) {
-    if(error) throw error;
-	console.log("Succesfully inserted: Title: "+ courseTitle+" classNumber: "+classNumber+" credits: "+credits);
-	});
+	var prereqs = line.substring(line.search(/(Prerequisite:)/)+13,line.search('","crosslisted'));
+	var coreqs = null;
+	/*connection.query("INSERT INTO `course`(classNumber,courseTitle,credits) VALUES("+classNumber+", "+courseTitle+", "+credits+")", function(error, results, fields) {
+    if(error) throw error;*/
+	console.log(/*"Succesfully inserted: Title: "+ courseTitle+" classNumber: "+classNumber+" credits: "+credits*/" prereqs: "+prereqs);
+	//});
 }
-if (line.search(/(subject":".....,"catalog":.{6},)/) >= 0) {
+if ((line.search(/("career":"GRAD")/) >= 0) && (line.search(/(Course Co-requisite)/) == -1 ) && (line.search(/(Course Corequisite)/) == -1 ) ) 
+{
 	var a = 10;
 	var b = 14;
 	var c = 27;
@@ -87,17 +74,13 @@ if (line.search(/(subject":".....,"catalog":.{6},)/) >= 0) {
 	var classNumber = line.substring(line.search(/(subject)/)+a,line.search(/(subject)/)+b)+" "+line.substring(line.search(/(subject)/)+c,line.search(/(subject)/)+d);
 	var courseTitle = line.substring(line.search(/(title)/)+8,line.search(/(","subject")/));
 	var credits = line.substring(line.search(/(Unit)/)+7,line.search(/(Unit)/)+11)
-	//var prereqs = line.substring(line.search(/(Course Prerequisite: )/)+21,line.lastIndexOf(/(",")/))
-	//var coreqs =line.substring(line.search(/(Corequisite:)/)+a,line.search(/(; )/))
-	connection.query("INSERT INTO `course`(classNumber,courseTitle,credits) VALUES("+classNumber+", "+courseTitle+", "+credits+")", function(error, results, fields) {
-    if(error) throw error;
-	console.log("Succesfully inserted: Title: "+ courseTitle+" classNumber: "+classNumber+" credits: "+credits);
-	});
-}    
-}).on('close', function() {
-    console.log('Inserted all courses.');
-});
-*/
+	var prereqs = line.substring(line.search(/(Prerequisite:)/)+13,line.search('","crosslisted'));
+	var coreqs =null;
+	/*connection.query("INSERT INTO `course`(classNumber,courseTitle,credits) VALUES("+classNumber+", "+courseTitle+", "+credits+")", function(error, results, fields) {
+    if(error) throw error;*/
+	console.log(/*"Succesfully inserted: Title: "+ courseTitle+" classNumber: "+classNumber+" credits: "+credits+*/" prereqs: "+prereqs);
+	//});
+}
 app.get('/niels', (req, res, next)=>{
 	res.json(time);
 });
