@@ -87,7 +87,7 @@ if (line.search(/(subject":".....,"catalog":.{6},)/) >= 0) {
     console.log('Inserted all courses.');
 });
 */
-app.get('/', (req, res, next)=>{
+app.get('/niels', (req, res, next)=>{
 	res.json(time);
 });
 
