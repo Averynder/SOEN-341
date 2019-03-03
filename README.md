@@ -31,6 +31,13 @@ a software package to automate readjustments to the Departmental sequences and o
 6.    Run (cd client)
 7.    Run (npm start)
 
+### Check User Login
+1.    In the user account of your db enter in netname = user, password = password
+2.    Launch the application
+3.    Enter Andre's App and Enter in username & password {user, pass}
+4.    Go to http://localhost:3001/check to verify logged in or out
+5.    Go to http://localhost:3001/logout to log out, all changes in console
+
 ### Setting up Database
 1.    Run the 'test' script first
 2.    Next run the 'soen341' script
