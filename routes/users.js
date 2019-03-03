@@ -83,12 +83,11 @@ if ((line.search(/("career":"GRAD")/) >= 0) && (line.search(/(Course Co-requisit
 }
 });
 }	
-app.get('/niels', (req, res, next)=>{
-	res.json(time);
-});
+
 
 /* GET users listing. */
 app.get('/', function(req, res, next) {
+	res.json(time)
 	User
 		.findOne()
 		.then(function(user) {
