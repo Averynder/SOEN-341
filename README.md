@@ -34,7 +34,7 @@ a software package to automate readjustments to the Departmental sequences and o
 ### Check User Login
 1.    In the user account of your db enter in netname = user, password = password
 2.    Launch the application
-3.    Enter Andre's App and Enter in user password
+3.    Enter Andre's App and Enter in username & password {user, pass}
 4.    Go to http://localhost:3001/check to verify logged in or out
 5.    Go to http://localhost:3001/logout to log out, all changes in console
 
