@@ -14,7 +14,7 @@ var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var cookiesRouter = require('./routes/cookiesV');
 var https = require('https');
-var readlineSync = require('readline-sync');
+var rompt =require('prompt');
 var fs = require('fs');
 var bodyParser = require('body-parser');
 
@@ -109,34 +109,28 @@ app.get('/concordia', function(req, res) {
 	}).on('error', (e) => {
 		console.log(e);
 	});
-	res.end();
-});
-
-app.use(express.static(__dirname + '/public'));
-app.use('/public', express.static(__dirname + '/public'));
-
-// Get Course Descriptions, to be reimplemented in regards to database refresh
-app.get('/concordia1', function(req, res) {
+	
 	//Scanner type variable to choose discipline
-	var choice = readlineSync.question("COMP or SOEN ");
+	var schema ={
+		properties:{
+			choice:{
+				message:"COMP OR SOEN"
+			}
+		}
+	};
+	rompt.start()
+	rompt.get(schema, function (err, result) {
+   
 	// SOEN COURSES
-	if (choice == "SOEN"){
+	if (result.choice == "SOEN")
+	{
 		
 		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/schedule/filter/*/SOEN/*', (response) => {
 		response.on('data', (d) => {
-			fs.writeFile('routes/soenschedule.txt', d, (err) => {  
-			if (err) throw err;
-				console.log('Schedule written!');
-			});
-			fs.readFile('routes/SOENschedule.txt', 'utf-8', function(err, data){
-			if (err) throw err;
-				var fix = data.replace(/},/gim, '},\n');
-				fs.writeFile('routes/SOENschedule.txt', fix, 'utf-8', function (err) {
+			fs.writeFile('routes/SOENschedule.txt', d, (err) => {  
 				if (err) throw err;
-					console.log('Schedule is ordered');
-				});
+				console.log('Schedule written!');				
 			});	
-			
 		});
 		}).on('error', (e) => {
 			console.log(e);
@@ -146,16 +140,16 @@ app.get('/concordia1', function(req, res) {
 		response.on('data', (d) => {
 			process.stdout.write(d);
 			fs.writeFile('routes/SOENcatalog.txt', d, (err) => {  
-			if (err) throw err;
+				if (err) throw err;
 				console.log('Catalog written!');
 				fs.readFile('routes/SOENcatalog.txt', 'utf-8', function(err, data){
-			if (err) throw err;
-				var fix = data.replace(/},/gim, '},\n');
-				fs.writeFile('routes/SOENcatalog.txt', fix, 'utf-8', function (err) {
-				if (err) throw err;
+					if (err) throw err;
+					var fix = data.replace(/},/gim, '},\n');
+					fs.writeFile('routes/SOENcatalog.txt', fix, 'utf-8', function (err) {
+					if (err) throw err;
 					console.log('Catalog is ordered');
+					});
 				});
-			});
 			});
 		});
 		}).on('error', (e) => {
@@ -164,23 +158,22 @@ app.get('/concordia1', function(req, res) {
 	res.end();		
 	}
 	// COMP COURSES
-	else{
+	if (result.choice == "COMP"){
 		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/schedule/filter/*/COMP/*' , (response) => {
 		response.on('data', (d) => {
 			fs.writeFile('routes/COMPschedule.txt', d, (err) => {  
-			if (err) throw err;
+				if (err) throw err;
 				console.log('Schedule written!');
-			});
-			
+			});	
 		});
 		}).on('error', (e) => {
 			console.log(e);
-		});
+			});
 		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/catalog/filter/COMP/*/*', (response) => {
 		response.on('data', (d) => {
 			process.stdout.write(d);
 			fs.writeFile('routes/COMPcatalog.txt', d, (err) => {  
-			if (err) throw err;
+				if (err) throw err;
 				console.log('\nCatalog written!\n');
 			});
 			fs.readFile('routes/COMPcatalog.txt', 'utf-8', function(err, data){
@@ -191,22 +184,20 @@ app.get('/concordia1', function(req, res) {
 					console.log('Catalog is ordered');
 				});
 			});
-			fs.readFile('routes/COMPschedule.txt', 'utf-8', function(err, data){
-			if (err) throw err;
-				var fix = data.replace(/},/gim, '},\n');
-				fs.writeFile('routes/COMPschedule.txt', fix, 'utf-8', function (err) {
-				if (err) throw err;
-					console.log('Schedule is ordered');
-				});
-			});
 		});
 		}).on('error', (e) => {
 			console.log(e);
 			});
-	res.end();		
-
-	}						
+	res.end();
+	}
+	})
 });
+
+app.use(express.static(__dirname + '/public'));
+app.use('/public', express.static(__dirname + '/public'));
+
+
+
 
 /*
 passport.use(new LocalStrategy(
