@@ -49,7 +49,7 @@ class App extends React.Component{
 	}
 
 	render(){
-		axios.get('/niels')
+		axios.get('/users')
 		.then(res => {
 			var clock =res.data;
 			this.setState({clock});
