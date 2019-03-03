@@ -100,7 +100,7 @@ app.get('/api', function(req, res){
 	});
 });
 
-app.get('/opendata', function(req, res) {
+app.get('/concordia', function(req, res) {
 	https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/description/filter/000106', (response) => {
 		response.on('data', (d) => {
 			process.stdout.write(d);
