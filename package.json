@@ -21,7 +21,7 @@
     "passport-local": "^1.0.0",
     "pug": "2.0.0-beta11",
     "readline-sync": "^1.4.9",
-    "sequelize": "^4.42.0",
+    "sequelize": "^4.43.0",
     "sequelize-cli": "^5.4.0"
   },
   "devDependencies": {
