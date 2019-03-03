@@ -204,12 +204,13 @@ CREATE TABLE  `soen341`.`student record` (
   `completedCourses` varchar(200) DEFAULT NULL,
   `academicRequirements` varchar(200)DEFAULT NULL);
 
-
-
-
-
-
-
+-- -----------------------------------------------------
+-- Additional Table for an old format
+-- -----------------------------------------------------
+CREATE TABLE  `soen341`.`users` (
+`username` varchar(50) PRIMARY KEY,
+`password` varchar(50) DEFAULT NULL);
+INSERT INTO `soen341`.`users` (`username`, `password`) VALUES ('Avery', 'Singh');
 
 
 
