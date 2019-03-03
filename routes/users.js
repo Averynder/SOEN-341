@@ -49,7 +49,7 @@ rl.on('line', function(line) {
 	var b = 14;
 	var c = 27;
 	var d = 30;
-if ((line.search(/("career":"UGRD")/) >= 0) && (line.search(/(Course Co-requisite)/) == -1 ) && (line.search(/(Course Corequisite)/) == -1 ) ) 
+if ((line.search(/("career":"UGRD")/) >= 0) && (line.search(/(Course Co-requisite)/) == -1 ) && (line.search(/(Course Corequisite)/) == -1 ) )
 {
 	var classNumber = line.substring(line.search(/(subject)/)+a,line.search(/(subject)/)+b)+" "+line.substring(line.search(/(subject)/)+c,line.search(/(subject)/)+d);
 	var a = 11;
@@ -65,7 +65,7 @@ if ((line.search(/("career":"UGRD")/) >= 0) && (line.search(/(Course Co-requisit
 	console.log(/*"Succesfully inserted: Title: "+ courseTitle+" classNumber: "+classNumber+" credits: "+credits*/" prereqs: "+prereqs);
 	//});
 }
-if ((line.search(/("career":"GRAD")/) >= 0) && (line.search(/(Course Co-requisite)/) == -1 ) && (line.search(/(Course Corequisite)/) == -1 ) ) 
+if ((line.search(/("career":"GRAD")/) >= 0) && (line.search(/(Course Co-requisite)/) == -1 ) && (line.search(/(Course Corequisite)/) == -1 ) )
 {
 	var a = 10;
 	var b = 14;
