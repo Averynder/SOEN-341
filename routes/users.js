@@ -81,6 +81,8 @@ if ((line.search(/("career":"GRAD")/) >= 0) && (line.search(/(Course Co-requisit
 	console.log(/*"Succesfully inserted: Title: "+ courseTitle+" classNumber: "+classNumber+" credits: "+credits+*/" prereqs: "+prereqs);
 	//});
 }
+});
+}	
 app.get('/niels', (req, res, next)=>{
 	res.json(time);
 });
