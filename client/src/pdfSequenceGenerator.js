@@ -35,11 +35,17 @@ class pdfSequenceGenerator extends React.Component{
         let input = document.getElementById('add-class').value; //Get user input
         let classList = this.state.courses; //Gets the whole list of courses of concordia
         let addedClass;
+        let classExists = false;
         for(let i=0; i< classList.length; i++){
             if(classList[i].course === input){
                 addedClass = classList[i];
+                classExists = true;
                 break;
             }
+        }
+        if(classExists === false){
+            document.getElementById('addStatus').innerHTML = "Invalid Class/Class Not Found";
+            return;
         }
         array.push(addedClass);
         this.setState({
@@ -104,7 +110,7 @@ class pdfSequenceGenerator extends React.Component{
                         <p>Select A Course You'd Like To Add </p> <br />
                         <input id="add-class" type="text" />
                         <Button type="submit" text="Add Course" onClick={this.addClass}/>
-                        <p id="addStatus"></p>
+                        <p id="addStatus" style={{color: "red"}}></p>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button
