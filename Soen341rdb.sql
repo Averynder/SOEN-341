@@ -211,7 +211,7 @@ CREATE TABLE  `soen341`.`users` (
 `username` varchar(50) PRIMARY KEY,
 `password` varchar(50) DEFAULT NULL);
 INSERT INTO `soen341`.`users` (`username`, `password`) VALUES ('Avery', 'Singh');
-
+DROP TABLE soen341.`teacher`
 
 
 
