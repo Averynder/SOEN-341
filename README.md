@@ -20,7 +20,8 @@ a software package to automate readjustments to the Departmental sequences and o
 2.    Download the boiler plate code from Google drive set up
 3.    Open Git / Github Desktop
 4.    Go into branch labelled with your name
-5.    Pull Latest changes
+5.    Make sure github is properly installed: https://stackoverflow.com/questions/20666989/bower-enogit-git-is-not-installed-or-not-in-the-path
+6.    Pull Latest changes
 
 ### Run Project
 1.    Open Command Prompt
@@ -44,8 +45,9 @@ a software package to automate readjustments to the Departmental sequences and o
 3.    Open up MySQL Workbench
 4.    Browse to the correct schema
 5.    RIGHT Click on Stored Procedures
-6.    Copy Paste the procedures script and hit Apply
-7.    Go to http://localhost:3001/concordia and enter into terminal
+6.    Click on Create Stored Procedure
+7.    Copy Paste the procedures script (Until line 14) and hit Apply
+8.    Go to http://localhost:3001/concordia and enter into terminal
 
 Go to http://localhost:3000 and check to see if everything works
 * ExpressJs exclusively on port 3001
