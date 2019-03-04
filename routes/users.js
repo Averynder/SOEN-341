@@ -12,18 +12,16 @@ var connection = mysql.createConnection({
 });
 
 connection.connect();
-connection.query('select * from `Users`', function(error, results, fields) {
-    if(error) throw error;
-    console.log('The solution is: ', results);
-});
 connection.query('SELECT*FROM `teacher`;', function(error, results, fields) {
     if(error) throw error;
     console.log('The solution is: ', results);
 });
+/*
 connection.query('CALL ValidateEngineer();', function(error, results, fields) {
     if(error) throw error;
     console.log('The solution is: ', results);
 });
+*/
 
 // Server time, intially local time
 var time = (new Date()).toLocaleString("en",{weekday:"long", month:"long", day:"numeric", year:"numeric", hour:"numeric", minute:"numeric", second:"numeric", hour12:false});
