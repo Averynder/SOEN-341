@@ -19,6 +19,7 @@
     "mysql2": "^1.6.5",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+    "prompt": "^1.0.0",
     "pug": "2.0.0-beta11",
     "readline-sync": "^1.4.9",
     "sequelize": "^4.43.0",
