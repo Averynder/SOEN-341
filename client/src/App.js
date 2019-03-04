@@ -8,7 +8,7 @@ import Button from "./components/Button"
 import {Link} from "react-router-dom"
 import './App.css';
 import LinkBox from "./LinkBox"
-/*import axios from 'axios';*/
+
 
 class App extends React.Component{
 	constructor() {
@@ -30,7 +30,8 @@ class App extends React.Component{
 	componentDidMount() {
 		fetch('/users')
 		.then(res => res.json())
-       	 	.then(users => this.setState({ users }));
+       	 	.then(users => this.setState({ users }))
+		.then(setInterval(() => {document.getElementById('currentTime').innerHTML = this.state.users},1000));;
     	}
 	
 	
@@ -49,14 +50,6 @@ class App extends React.Component{
 	}
 
 	render(){
-		/*
-		axios.get('/users')
-		.then(res => {
-			var clock =res.data;
-			this.setState({clock});
-			})
-		.then(setInterval(() => {document.getElementById('currentTime').innerHTML = this.state.clock},1000))
-		*/
 		return (
 			<div className="bckgrnd container">
 				<Navbar />
