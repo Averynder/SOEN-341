@@ -12,7 +12,7 @@ var https = require('https');
 var passport = require('passport');
 
 var indexRouter = require('./routes/index');
-//var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/users');
 //var loginRouter = require('./routes/login');
 var cookiesRouter = require('./routes/cookiesV');
 
@@ -119,7 +119,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 app.use('/', indexRouter);
-//app.use('/users', usersRouter);
+app.use('/users', usersRouter);
 //app.use('/login', loginRouter);
 
 var fileUploaded = {};
