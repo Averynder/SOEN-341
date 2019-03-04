@@ -2,7 +2,7 @@ import React from "react"
 import Navbar from "./components/Navbar"
 import * as data from "./data/courses.json"
 import * as jsPDF from 'jspdf'
-import {Table} from "react-bootstrap"
+import {Table, Modal} from "react-bootstrap"
 import Button from "./components/Button"
 import * as html2canvas from 'html2canvas'
 
@@ -12,12 +12,14 @@ class pdfSequenceGenerator extends React.Component{
 
         this.state = {
             courses: data.default.sequence,
+            selectedCourses: [],
+            show: false,
         }
-
-        this.convertToPDF = this.convertToPDF.bind(this);
     }
 
-    convertToPDF(){
+
+
+    convertToPDF = () => {
         const input = document.getElementById('divToPrint');
         html2canvas(input).then((canvas) => {
             const imgData = canvas.toDataURL('image/png');
@@ -28,8 +30,26 @@ class pdfSequenceGenerator extends React.Component{
         });
     }
 
+    addClass = () => {
+        let array = this.state.selectedCourses; //Keep track of user selected classes
+        let input = document.getElementById('add-class').value; //Get user input
+        let classList = this.state.courses; //Gets the whole list of courses of concordia
+        let addedClass;
+        for(let i=0; i< classList.length; i++){
+            if(classList[i].course === input){
+                addedClass = classList[i];
+                break;
+            }
+        }
+        array.push(addedClass);
+        this.setState({
+            selectedCourses: array,
+            show: !this.state.show,
+        });
+    }
+
     render(){
-        let x = this.state.courses.map(element => 
+        let x = this.state.selectedCourses.map(element => 
             <tr>
                 <td>{element.semester}</td>
                 <td>{element.course}</td>
@@ -60,16 +80,39 @@ class pdfSequenceGenerator extends React.Component{
                         <h2 className="display-4">Sequence To PDF</h2>
                         <hr color="#7e1530"/>
                         <p className="lead">
-                            This is just an example of a sequence with handmade examples of courses, not a the litteral final product.
-                            This is just testing out the issue #69. The real json file with actual classes and sequence can be substituted later.
+                            Click Add Course and try out COMP248, COMP232, SOEN228 or ENGR213 to test it out.<br/>
+                            These 4 classes are only available because this is a test. The real json file with all the classes can easily be substituted later.
                         </p>
 
                         <div className="mt4" id="divToPrint">
                             {table}
                         </div>
+                        <Button text="Add Course" onClick={() => {
+                            this.setState({show: !this.state.show})
+                        }}/>
                         <Button id="mb5" text="PDF" onClick={this.convertToPDF}/>
                     </div>
                 </div>
+
+                <Modal show={this.state.show} onHide={() => {
+                    this.setState({show: !this.state.show})
+                }}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Add A Course</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body style={{textAlign: "center"}}>
+                        <p>Select A Course You'd Like To Add </p> <br />
+                        <input id="add-class" type="text" />
+                        <Button type="submit" text="Add Course" onClick={this.addClass}/>
+                        <p id="addStatus"></p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button
+                        variant="secondary" onClick={() => {
+                            this.setState({show: !this.state.show})
+                        }} text="Close" />
+                    </Modal.Footer>
+                </Modal>
             </div>
         )
     }
