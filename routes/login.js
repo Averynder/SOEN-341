@@ -3,7 +3,6 @@ var router = express.Router();
 var cookieParser = require('cookie-parser');
 var app = express();
 var Sequelize = require('sequelize');
-var passport = require('passport');
 
 const config = require('../config/config.json');
 const bodyParser = require('body-parser');
@@ -18,8 +17,6 @@ const sequelize = new Sequelize(
 		operatorsAliases: config.development.operatorsAliases,
 	}
 );
-
-const User = sequelize.define('Users', {});
 
 app.use(
 	bodyParser.urlencoded({
