@@ -17,10 +17,12 @@ class LinkBox extends Component {
               <Link to="/andre's-App">
                 <Button text="Andre's App" onClick="#"/>
               </Link>
-
               <Link to="/pdfSequenceGenerator">
                 <Button text="Table of seq."/>
               </Link>
+                <Link to="/binary_tree">
+                    <Button text="Binary Tree" onClick="#"/>
+                </Link>
             </div>
           </div>
         </div>

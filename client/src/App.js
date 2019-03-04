@@ -8,7 +8,7 @@ import Button from "./components/Button"
 import {Link} from "react-router-dom"
 import './App.css';
 import LinkBox from "./LinkBox"
-import axios from 'axios';
+/*import axios from 'axios';*/
 
 class App extends React.Component{
 	constructor() {
@@ -76,9 +76,7 @@ class App extends React.Component{
 				<Backdrop show={this.state.isOpenTeacher} onClose={this.toggleTeacher}>
 					<Modal show={this.state.isOpenTeacher} onClose={this.toggleTeacher} userType="Teacher" link="/pull-previous-courses"/>
 				</Backdrop>
-
 				<LinkBox />
-				
 			</div>
 		)
 	}
