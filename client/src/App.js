@@ -49,13 +49,14 @@ class App extends React.Component{
 	}
 
 	render(){
+		/*
 		axios.get('/users')
 		.then(res => {
 			var clock =res.data;
 			this.setState({clock});
 			})
 		.then(setInterval(() => {document.getElementById('currentTime').innerHTML = this.state.clock},1000))
-		
+		*/
 		return (
 			<div className="bckgrnd container">
 				<Navbar />
