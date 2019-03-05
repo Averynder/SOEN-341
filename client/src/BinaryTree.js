@@ -59,6 +59,9 @@ class BinaryTree extends Component {
 					bottom: '0px',
 					left: '0px',
 				},
+				trial: {
+					color: `rgba(${ this.state.color.r }, ${ this.state.color.g }, ${ this.state.color.b }, ${ this.state.color.a })`,
+				}
 			},
 		});
 
@@ -73,7 +76,7 @@ class BinaryTree extends Component {
 				</div> : null }
 				<div className="container">
 					<div className="jumbotron j-greetings">
-						<h1>Binary Tree</h1>
+						<h1 style={ styles.trial }>Binary Tree</h1>
 						<LoginForm/>
 					</div>
 				</div>
