@@ -109,7 +109,7 @@ app.get('/concordia', function(req, res) {
 	}).on('error', (e) => {
 		console.log(e);
 	});
-	
+
 	//Scanner type variable to choose discipline
 	var schema ={
 		properties:{
@@ -120,26 +120,26 @@ app.get('/concordia', function(req, res) {
 	};
 	rompt.start()
 	rompt.get(schema, function (err, result) {
-   
+
 	// SOEN COURSES
 	if (result.choice == "SOEN")
 	{
-		
+
 		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/schedule/filter/*/SOEN/*', (response) => {
 		response.on('data', (d) => {
-			fs.writeFile('routes/SOENschedule.txt', d, (err) => {  
+			fs.writeFile('routes/SOENschedule.txt', d, (err) => {
 				if (err) throw err;
-				console.log('Schedule written!');				
-			});	
+				console.log('Schedule written!');
+			});
 		});
 		}).on('error', (e) => {
 			console.log(e);
 			});
-			
+
 		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/catalog/filter/SOEN/*/*', (response) => {
 		response.on('data', (d) => {
 			process.stdout.write(d);
-			fs.writeFile('routes/SOENcatalog.txt', d, (err) => {  
+			fs.writeFile('routes/SOENcatalog.txt', d, (err) => {
 				if (err) throw err;
 				console.log('Catalog written!');
 				fs.readFile('routes/SOENcatalog.txt', 'utf-8', function(err, data){
@@ -155,16 +155,16 @@ app.get('/concordia', function(req, res) {
 		}).on('error', (e) => {
 			console.log(e);
 			});
-	res.end();		
+	res.end();
 	}
 	// COMP COURSES
 	if (result.choice == "COMP"){
 		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/schedule/filter/*/COMP/*' , (response) => {
 		response.on('data', (d) => {
-			fs.writeFile('routes/COMPschedule.txt', d, (err) => {  
+			fs.writeFile('routes/COMPschedule.txt', d, (err) => {
 				if (err) throw err;
 				console.log('Schedule written!');
-			});	
+			});
 		});
 		}).on('error', (e) => {
 			console.log(e);
@@ -172,7 +172,7 @@ app.get('/concordia', function(req, res) {
 		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/catalog/filter/COMP/*/*', (response) => {
 		response.on('data', (d) => {
 			process.stdout.write(d);
-			fs.writeFile('routes/COMPcatalog.txt', d, (err) => {  
+			fs.writeFile('routes/COMPcatalog.txt', d, (err) => {
 				if (err) throw err;
 				console.log('\nCatalog written!\n');
 			});
@@ -197,31 +197,12 @@ app.use(express.static(__dirname + '/public'));
 app.use('/public', express.static(__dirname + '/public'));
 
 
-
-
-/*
-passport.use(new LocalStrategy(
-	function(username, password, done) {
-		User.findOne({ username: username }, function(err, user) {
-			if (err) { return done(err); }
-				if (!user) {
-					return done(null, false, { message: 'Incorrect username.' });
-				}
-				if (!user.validPassword(password)) {
-					return done(null, false, { message: 'Incorrect password.' });
-				}
-			return done(null, user);
-		});
-	}
-));
-*/
-
 // view engine setup (keep this)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 app.use('/', indexRouter);
-//app.use('/users', usersRouter);
+app.use('/users', usersRouter);
 //app.use('/login', loginRouter);
 
 var fileUploaded = {};

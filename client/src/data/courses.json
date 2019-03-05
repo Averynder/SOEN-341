@@ -1,0 +1,95 @@
+{
+    "sequence": [
+        {
+            "course": "COMP248",
+            "name": "Object-Oriented Programming I",
+            "credit": 3.5,
+            "startTime": "11:00",
+            "endTime": "12:30",
+            "semester": "Fall",
+            "year": 2019
+        },
+        {
+            "course": "COMP232",
+            "name": "Discrete Mathematics",
+            "credit": 3,
+            "semester": "Fall",
+            "year": 2019
+        },
+        {
+            "course": "SOEN228",
+            "name": "System Hardware",
+            "credit": 4,
+            "semester": "Fall",
+            "year": 2019
+        },
+        {
+            "course": "ENGR213",
+            "name": "Ordinary Differential Equations",
+            "credit": 3,
+            "semester": "Fall",
+            "year": 2019
+        },
+        {
+            "course": "COMP248",
+            "name": "Object-Oriented Programming I",
+            "credit": 3.5,
+            "startTime": "11:00",
+            "endTime": "12:30",
+            "semester": "Winter",
+            "year": 2019
+        },
+        {
+            "course": "COMP232",
+            "name": "Discrete Mathematics",
+            "credit": 3,
+            "semester": "Winter",
+            "year": 2019
+        },
+        {
+            "course": "SOEN228",
+            "name": "System Hardware",
+            "credit": 4,
+            "semester": "Winter",
+            "year": 2019
+        },
+        {
+            "course": "ENGR213",
+            "name": "Ordinary Differential Equations",
+            "credit": 3,
+            "semester": "Winter",
+            "year": 2019
+        },
+        {
+            "course": "COMP248",
+            "name": "Object-Oriented Programming I",
+            "credit": 3.5,
+            "startTime": "11:00",
+            "endTime": "12:30",
+            "semester": "Summer",
+            "year": 2019
+        },
+        {
+            "course": "COMP232",
+            "name": "Discrete Mathematics",
+            "credit": 3,
+            "semester": "Summer",
+            "year": 2019
+        },
+        {
+            "course": "SOEN228",
+            "name": "System Hardware",
+            "credit": 4,
+            "semester": "Summer",
+            "year": 2019
+        },
+        {
+            "course": "ENGR213",
+            "name": "Ordinary Differential Equations",
+            "credit": 3,
+            "semester": "Summer",
+            "year": 2019
+        }
+
+    ]
+}
