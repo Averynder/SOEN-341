@@ -30,10 +30,16 @@ class App extends React.Component{
 	componentDidMount() {
 		fetch('/users')
 		.then(res => res.json())
-       	 	.then(users => this.setState({ users }))
-		.then(setInterval(() => {document.getElementById('currentTime').innerHTML = this.state.users},1000));;
-    	}
-	
+       	.then(users => this.setState({ users }))
+		.then(setInterval(() => {document.getElementById('currentTime').innerHTML = this.state.users.clock},1000));
+		}
+
+	getTime = () => {
+		fetch('/users')
+		.then(res => res.json())
+       	.then(users => this.setState({ users }))
+		.then(setInterval(() => {document.getElementById('currentTime').innerHTML = this.state.users},1000));
+	}
 	
 	
 	
@@ -53,7 +59,9 @@ class App extends React.Component{
 		return (
 			<div className="bckgrnd container">
 				<Navbar />
-				<Greetings/>
+				<Greetings>
+					<Button text="Refresh Time" onClick={this.getTime}/>
+				</Greetings>
 				<ButtonContainer>
 					<Button text="I Am A Student" onClick={this.toggleStudent}/>
 					<Button text="I Am A Professor" onClick={this.toggleTeacher}/>
