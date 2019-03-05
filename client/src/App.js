@@ -30,14 +30,14 @@ class App extends React.Component{
 		fetch('/users')
 		.then(res => res.json())
        	.then(users => this.setState({ users },()=>console.log("We got the JSON "+users)))
-		.then(() => {document.getElementById('currentTime').innerHTML = this.state.users.substring(10,39)});
+		.then(() => {document.getElementById('currentTime').innerHTML = this.state.users.substring(10,this.state.users.search(/"},/))});
 		}
 
 	getTime = () => {
 		fetch('/users')
 		.then(res => res.json())
        	.then(users => this.setState({ users }))
-		.then(() => {document.getElementById('currentTime').innerHTML = this.state.users.substring(10,39)});
+		.then(() => {document.getElementById('currentTime').innerHTML = this.state.users.substring(10,this.state.users.search(/"},/))});
 	}
 	
 	
