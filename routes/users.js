@@ -85,7 +85,14 @@ if ((line.search(/("career":"GRAD")/) >= 0) && (line.search(/(Course Co-requisit
 }	
 
 /* GET users listing. */
-app.get('/users', function(req, res, next) {
+app.get('/', function(req, res, next) {
+	const users =
+	[
+	{time},
+	{id: 1, username: "samsepi0l"},  
+	{id: 2, username: "D0loresH4ze"}
+	];
+	res.json(JSON.stringify(users));
 	User
 		.findOne()
 		.then(function(user) {
@@ -93,11 +100,6 @@ app.get('/users', function(req, res, next) {
 			console.log(user.netname);
 			console.log(user.password);
 	});
-	res.json([
-	{id:0, username: "dunebuggy", clock:time},
-	{id: 1, username: "samsepi0l"},  
-	{id: 2, username: "D0loresH4ze"}
-	]);
 });
 
 
