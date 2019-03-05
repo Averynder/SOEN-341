@@ -1,9 +1,10 @@
 import React from "react"
 import Navbar from "./components/Navbar"
-import SequenceTable1 from "./SequenceTable"
 import Button from "./components/Button"
 import { Link } from "react-router-dom"
 import {Modal, Form, FormControl} from "react-bootstrap"
+import time from "./data/calendar.js"
+import * as data from "./data/courses.json"
 
 class CourseSelectionMenu extends React.Component{
   constructor(props,context){
@@ -13,10 +14,28 @@ class CourseSelectionMenu extends React.Component{
     this.handleClose = this.handleClose.bind(this);
     this.handleShow1 = this.handleShow1.bind(this);
     this.handleClose1 = this.handleClose1.bind(this);
+    this.openRubiat = this.openRubiat.bind(this);
+    this.closeRubiat = this.closeRubiat.bind(this);
+
+    var year;
+    var semester;
+
+    if(document.getElementById('semester-year') === null || document.getElementById('semester') === null){
+      year = (new Date()).getFullYear();
+      semester = "Fall";
+    } else{
+      year = document.getElementById('semester-year').value;
+      semester = document.getElementById('semester').value;
+    }
 
     this.state = {
       show: false,
       show1: false,
+      rubiat: false,
+      semester: semester,
+      year: year,
+      weekdays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      classes: data.sequence,
     };
   }
 
@@ -36,18 +55,23 @@ class CourseSelectionMenu extends React.Component{
     this.setState({ show1: true });
   }
 
+  openRubiat(){
+    this.setState({
+      rubiat: true
+    })
+  }
+
+  closeRubiat(){
+    this.setState({
+      rubiat: false
+    })
+  }
+
+  addClass(days_array){
+    document.getElementById('id')
+  }
+
   render(){
-    let year;
-    let semester;
-
-    if(document.getElementById('semester-year') === null || document.getElementById('semester') === null){
-      year = (new Date()).getFullYear();
-      semester = "Fall";
-    } else{
-      year = document.getElementById('semester-year').value;
-      semester = document.getElementById('semester').value;
-    }
-
     return(
       <div className="container">
         <Navbar />
@@ -55,11 +79,45 @@ class CourseSelectionMenu extends React.Component{
         <div className="jumbotron j-greetings">
           <h2 className="display-4">Course Selection Menu</h2>
           <hr color="#7e1530"/>
-          <h2 className="display-5">{semester} {year} Semester</h2>
+          <h2 className="display-5">{this.state.semester} {this.state.year} Semester</h2>
           <p className="lead"></p>
-          <SequenceTable1 year={year}/>
+
+          <div> {/* Schedule */}
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <table>
+                      <tbody>
+                        <th>Time</th>
+
+                        <tr>
+                          <td>{time.map(element => <div>{element}</div>)}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+
+                  {this.state.weekdays.map(days => <td>
+                    <table>
+                      <tbody>
+                        <th>{days}</th>
+                        <tr>
+                          <td>{time.map(element =>
+                            <div>-</div>
+                          )}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>)}
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
           <Button text="Add A Class" onClick={this.handleShow}/>
           <Button text="Remove A Class" onClick={this.handleShow1}/>
+          <Button text="Rubiat's Color Selection" onClick={this.openRubiat}/>
           <Link to="/finalize-export-sem">
             <Button text="Finalize" />
           </Link>
@@ -79,13 +137,14 @@ class CourseSelectionMenu extends React.Component{
                   <FormControl type="text" placeholder="Search" className=" mr-sm-2" style={{width: "100%", textAlign: "center"}}/>
                 <Button type="submit" text="Add Course"/>
               </Form>
+              <p id="addStatus"></p>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={this.handleClose} text="Close" />
+            <Button
+             variant="secondary" onClick={this.handleClose} text="Close" />
             <Button variant="primary" text="Save Changes" />
           </Modal.Footer>
         </Modal>
-
         <Modal show={this.state.show1} onHide={this.handleClose1}>
           <Modal.Header closeButton>
             <Modal.Title>Remove A Course</Modal.Title>
@@ -102,9 +161,28 @@ class CourseSelectionMenu extends React.Component{
             <Button variant="primary" text="Save Changes" />
           </Modal.Footer>
         </Modal>
+
+        <Modal show={this.state.rubiat} onHide={this.closeRubiat}>
+          <Modal.Header closeButton>
+            <Modal.Title>Rubiat's Color Thing goes in here</Modal.Title>
+          </Modal.Header>
+          <Modal.Body style={{textAlign: "center"}}>
+              <p>Select A Course and Color </p> <br />
+              <Form inline style={{textAlign: "center"}}>
+                <div className="container" style={{width: "40%"}}>
+                  <FormControl type="text" placeholder="Search" className=" mr-sm-2" style={{width: "100%", textAlign: "center"}}/>
+                  <FormControl type="color" placeholder="Search" className=" mr-sm-2" style={{width: "100%", textAlign: "center"}}/>
+                </div>
+                <Button type="submit" text="Remove Course"/>
+              </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.closeRubiat} text="Close" />
+            <Button variant="primary" text="Save Changes" />
+          </Modal.Footer>
+        </Modal>
       </div>
     )
   }
 }
-
 export default CourseSelectionMenu

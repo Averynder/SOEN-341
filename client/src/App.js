@@ -8,11 +8,16 @@ import Button from "./components/Button"
 import {Link} from "react-router-dom"
 import './App.css';
 import LinkBox from "./LinkBox"
+/*import axios from 'axios';*/
 
 class App extends React.Component{
 	constructor() {
 		super();
-
+		
+		this.state ={
+			clock:[]
+		}
+		
 		this.state = {
 			isOpenStudent: false,
 			isOpenTeacher: false
@@ -25,9 +30,12 @@ class App extends React.Component{
 	componentDidMount() {
 		fetch('/users')
 		.then(res => res.json())
-		.then(users => this.setState({ users }));
-	}
-
+       	 	.then(users => this.setState({ users }));
+    	}
+	
+	
+	
+	
 	toggleStudent(){
 		this.setState({
 			isOpenStudent: !this.state.isOpenStudent
@@ -41,14 +49,21 @@ class App extends React.Component{
 	}
 
 	render(){
+		/*
+		axios.get('/users')
+		.then(res => {
+			var clock =res.data;
+			this.setState({clock});
+			})
+		.then(setInterval(() => {document.getElementById('currentTime').innerHTML = this.state.clock},1000))
+		*/
 		return (
 			<div className="bckgrnd container">
 				<Navbar />
-				<Greetings />
+				<Greetings/>
 				<ButtonContainer>
 					<Button text="I Am A Student" onClick={this.toggleStudent}/>
 					<Button text="I Am A Professor" onClick={this.toggleTeacher}/>
-
 					<Link to="/build-seq-or-sem">
 						<Button text="I Am New To This Website" />
 					</Link>
@@ -61,12 +76,11 @@ class App extends React.Component{
 				<Backdrop show={this.state.isOpenTeacher} onClose={this.toggleTeacher}>
 					<Modal show={this.state.isOpenTeacher} onClose={this.toggleTeacher} userType="Teacher" link="/pull-previous-courses"/>
 				</Backdrop>
-
 				<LinkBox />
-
 			</div>
 		)
 	}
 }
 
 export default App
+

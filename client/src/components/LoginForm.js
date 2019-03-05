@@ -1,27 +1,29 @@
 import React, { Component } from 'react';
 
-class LoginForm extends React.Component {
+class LoginForm extends Component {
   constructor(props) {
 		super(props);
 		this.state = {};
 		this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(event) {
+  handleSubmit = async function(event) {
     event.preventDefault();
 		const inputData = new FormData(event.target);
-    const username = inputData.get('username');
+    const netname = inputData.get('netname');
     const password = inputData.get('password');
-    fetch('login', {
+    const resp = await fetch('/login', {
 			method: 'POST',
 			mode: "cors",
 			body: JSON.stringify({
-				username: username,
+				netname: netname,
 				password: password
 			}),
 			headers: {'Content-Type': 'application/json'}
-    });
-		this.setState({'username': username, 'password': password});
+		});
+		const body = await resp.text();
+		console.log(body);
+		this.setState({'netname': netname, 'password': password});
   }
 
   render() {
@@ -29,8 +31,8 @@ class LoginForm extends React.Component {
       <form onSubmit={this.handleSubmit}>
 			{JSON.stringify(this.state)}
         <div className="form-group">
-					<label htmlFor="username">UserName</label>
-					<input placeholder="Username" type="text" className="form-control" name="username"/>
+					<label htmlFor="netname">UserName</label>
+					<input placeholder="Netname" type="text" className="form-control" name="netname"/>
         </div>
         <div className="form-group">
 					<label htmlFor="password">Password</label>

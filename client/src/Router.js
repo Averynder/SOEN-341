@@ -14,6 +14,8 @@ import FinalizeExportSem from "./FinalizeExportSem"
 import FinalizeExportSeq from "./FinalizeExportSeq"
 import DraftSequenceMenu from "./DraftSequenceMenu"
 import Formalize from "./Formalize"
+import pdfSequenceGenerator from "./pdfSequenceGenerator"
+import BinaryTree from "./BinaryTree";
 
 class Router extends React.Component{
   render(){
@@ -27,6 +29,7 @@ class Router extends React.Component{
           <Route path="/seq-based-confirmation" component={BasedOnSeq} />
           <Route path="/andre's-App" component={AndreLink} />
           <Route path="/rubiat-seq-table" component={RubiatSeqLink} />
+          <Route path="/binary_tree" component={BinaryTree} />
           <Route path="/pull-previous-courses" component={PullPreviousCourses} />
           <Route path="/previous-courses-taken" component={PreviousCoursesTaken} />
           <Route path="/obtain-uploaded-sequence" component={ObtainUploadedSequence} />
@@ -34,6 +37,7 @@ class Router extends React.Component{
           <Route path="/finalize-export-seq" component={FinalizeExportSeq} />
           <Route path="/draft-sequence-menu" component={DraftSequenceMenu} />
           <Route path="/formalize" component={Formalize} />
+          <Route path="/pdfSequenceGenerator" component={pdfSequenceGenerator} />
         </div>
       </BrowserRouter>
     )

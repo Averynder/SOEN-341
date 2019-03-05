@@ -8,7 +8,8 @@ public class UserCase1
     {
         boolean success = false;
         Scraper myWebsitePlease = new Scraper("http://localhost:3000/", "C:/Users/MonPC/Desktop/School/SOEN/SOEN 341 Software Process'/Project/cssd/testing/UserCase_1/Result.html");
-        if (myWebsitePlease.scrap());
+        boolean result = myWebsitePlease.scrap();
+        if (result)
         {
             File downloadedPage;
             try

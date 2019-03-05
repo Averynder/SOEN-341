@@ -3,12 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cross-env PORT=3001 node ./bin/www"
+    "start": "cross-env PORT=3001 nodemon ./bin/www"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "cookie-parser": "~1.4.3",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "^4.16.4",
+    "express-fileupload": "^1.1.1-alpha.3",
     "express-session": "^1.15.6",
     "http-errors": "~1.6.2",
     "https": "^1.0.0",
@@ -16,11 +19,14 @@
     "mysql2": "^1.6.5",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+    "prompt": "^1.0.0",
     "pug": "2.0.0-beta11",
-    "sequelize": "^4.42.0",
+    "readline-sync": "^1.4.9",
+    "sequelize": "^4.43.0",
     "sequelize-cli": "^5.4.0"
   },
   "devDependencies": {
-    "cross-env": "^5.2.0"
+    "cross-env": "^5.2.0",
+    "nodemon": "^1.18.10"
   }
 }
