@@ -26,19 +26,18 @@ class App extends React.Component{
 		this.toggleStudent = this.toggleStudent.bind(this);
 		this.toggleTeacher = this.toggleTeacher.bind(this);
 	}
-
 	componentDidMount() {
 		fetch('/users')
 		.then(res => res.json())
-       	.then(users => this.setState({ users }))
-		.then(setInterval(() => {document.getElementById('currentTime').innerHTML = this.state.users.clock},1000));
+       	.then(users => this.setState({ users },()=>console.log("We got the JSON "+users)))
+		.then(() => {document.getElementById('currentTime').innerHTML = this.state.users.substring(10,39)});
 		}
 
 	getTime = () => {
 		fetch('/users')
 		.then(res => res.json())
        	.then(users => this.setState({ users }))
-		.then(setInterval(() => {document.getElementById('currentTime').innerHTML = this.state.users},1000));
+		.then(() => {document.getElementById('currentTime').innerHTML = this.state.users.substring(10,39)});
 	}
 	
 	
