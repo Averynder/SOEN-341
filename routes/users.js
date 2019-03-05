@@ -80,7 +80,6 @@ if(false) {
 
 /* GET users listing. */
 app.get('/', function(req, res, next) {
-	res.json(time);
 	res.json([{
   	id: 1,
   	username: "samsepi0l"
