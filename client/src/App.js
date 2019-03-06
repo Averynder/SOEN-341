@@ -1,86 +1,110 @@
-import React from "react"
-import Navbar from "./components/Navbar"
-import Greetings from "./components/Greetings"
-import ButtonContainer from "./components/ButtonContainer"
-import Modal from "./components/Modal"
-import Backdrop from "./components/Backdrop"
-import Button from "./components/Button"
-import {Link} from "react-router-dom"
-import './App.css';
-import LinkBox from "./LinkBox"
+import React from "react";
+import Navbar from "./components/Navbar";
+import Greetings from "./components/Greetings";
+import ButtonContainer from "./components/ButtonContainer";
+import Modal from "./components/Modal";
+import Backdrop from "./components/Backdrop";
+import Button from "./components/Button";
+import { Link } from "react-router-dom";
+import "./App.css";
+import LinkBox from "./LinkBox";
 
+class App extends React.Component {
+  constructor() {
+    super();
 
-class App extends React.Component{
-	constructor() {
-		super();
-		
-		this.state ={
-			clock:[]
-		}
-		
-		this.state = {
-			isOpenStudent: false,
-			isOpenTeacher: false
-		}
+    this.state = {
+      clock: []
+    };
 
-		this.toggleStudent = this.toggleStudent.bind(this);
-		this.toggleTeacher = this.toggleTeacher.bind(this);
-	}
-	componentDidMount() {
-		fetch('/users')
-		.then(res => res.json())
-       	.then(users => this.setState({ users },()=>console.log("We got the JSON "+users)))
-		.then(() => {document.getElementById('currentTime').innerHTML = this.state.users.substring(10,this.state.users.search(/"},/))});
-		}
+    this.state = {
+      isOpenStudent: false,
+      isOpenTeacher: false
+    };
 
-	getTime = () => {
-		fetch('/users')
-		.then(res => res.json())
-       	.then(users => this.setState({ users }))
-		.then(() => {document.getElementById('currentTime').innerHTML = this.state.users.substring(10,this.state.users.search(/"},/))});
-	}
-	
-	
-	
-	toggleStudent(){
-		this.setState({
-			isOpenStudent: !this.state.isOpenStudent
-		})
-	}
+    this.toggleStudent = this.toggleStudent.bind(this);
+    this.toggleTeacher = this.toggleTeacher.bind(this);
+  }
+  componentDidMount() {
+    fetch("/users")
+      .then(res => res.json())
+      .then(users =>
+        this.setState({ users }, () => console.log("We got the JSON " + users))
+      )
+      .then(() => {
+        document.getElementById(
+          "currentTime"
+        ).innerHTML = this.state.users.substring(
+          10,
+          this.state.users.search(/"},/)
+        );
+      });
+  }
 
-	toggleTeacher(){
-		this.setState({
-			isOpenTeacher: !this.state.isOpenTeacher
-		})
-	}
+  getTime = () => {
+    fetch("/users")
+      .then(res => res.json())
+      .then(users =>
+        this.setState({ users }, () => console.log("We got the JSON " + users))
+      )
+      .then(() => {
+        document.getElementById(
+          "currentTime"
+        ).innerHTML = this.state.users.substring(
+          10,
+          this.state.users.search(/"},/)
+        );
+      });
+  };
 
-	render(){
-		return (
-			<div className="bckgrnd container">
-				<Navbar />
-				<Greetings>
-					<Button text="Refresh Time" onClick={this.getTime}/>
-				</Greetings>
-				<ButtonContainer>
-					<Button text="I Am A Student" onClick={this.toggleStudent}/>
-					<Button text="I Am A Professor" onClick={this.toggleTeacher}/>
-					<Link to="/build-seq-or-sem">
-						<Button text="I Am New To This Website" />
-					</Link>
-				</ButtonContainer>
+  toggleStudent() {
+    this.setState({
+      isOpenStudent: !this.state.isOpenStudent
+    });
+  }
 
-				<Backdrop show={this.state.isOpenStudent} onClose={this.toggleStudent}>
-					<Modal show={this.state.isOpenStudent} onClose={this.toggleStudent} userType="Student" link="/previous-courses-taken"/>
-				</Backdrop>
+  toggleTeacher() {
+    this.setState({
+      isOpenTeacher: !this.state.isOpenTeacher
+    });
+  }
 
-				<Backdrop show={this.state.isOpenTeacher} onClose={this.toggleTeacher}>
-					<Modal show={this.state.isOpenTeacher} onClose={this.toggleTeacher} userType="Teacher" link="/pull-previous-courses"/>
-				</Backdrop>
-				<LinkBox />
-			</div>
-		)
-	}
+  render() {
+    return (
+      <div className="bckgrnd container">
+        <Navbar />
+        <Greetings>
+          <Button text="Refresh Time" onClick={this.getTime} />
+        </Greetings>
+        <ButtonContainer>
+          <Button text="I Am A Student" onClick={this.toggleStudent} />
+          <Button text="I Am A Professor" onClick={this.toggleTeacher} />
+          <Link to="/build-seq-or-sem">
+            <Button text="I Am New To This Website" />
+          </Link>
+        </ButtonContainer>
+
+        <Backdrop show={this.state.isOpenStudent} onClose={this.toggleStudent}>
+          <Modal
+            show={this.state.isOpenStudent}
+            onClose={this.toggleStudent}
+            userType="Student"
+            link="/previous-courses-taken"
+          />
+        </Backdrop>
+
+        <Backdrop show={this.state.isOpenTeacher} onClose={this.toggleTeacher}>
+          <Modal
+            show={this.state.isOpenTeacher}
+            onClose={this.toggleTeacher}
+            userType="Teacher"
+            link="/pull-previous-courses"
+          />
+        </Backdrop>
+        <LinkBox />
+      </div>
+    );
+  }
 }
 
-export default App
-
+export default App;
