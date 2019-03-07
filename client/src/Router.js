@@ -16,7 +16,7 @@ import DraftSequenceMenu from "./DraftSequenceMenu"
 import Formalize from "./Formalize"
 import pdfSequenceGenerator from "./pdfSequenceGenerator"
 import BinaryTree from "./BinaryTree";
-import LinkedListU from "./LinkedListU";
+import MyDoublyLinkedList from "./MyDoublyLinkedList";
 
 class Router extends React.Component{
   render(){
@@ -39,7 +39,7 @@ class Router extends React.Component{
           <Route path="/draft-sequence-menu" component={DraftSequenceMenu} />
           <Route path="/formalize" component={Formalize} />
           <Route path="/pdfSequenceGenerator" component={pdfSequenceGenerator} />
-          <Route path="/linkedlistu" component={LinkedListU} />
+          <Route path="/linkedlist" component={MyDoublyLinkedList} />
         </div>
       </BrowserRouter>
     )
