@@ -180,6 +180,7 @@ if (true) {
         var bool2 = line.search(/(Co-requisite)/) > -1;
         if (bool1)
         {
+          line = line.substring(line.search(/(Corequisite)/));
           coreqs = line.substring
           (
               line.search(/(Corequisite)/) + 13,
@@ -189,6 +190,7 @@ if (true) {
         }
         else if (bool2)
         {
+          line = line.substring(line.search(/(Co-requisite)/));
           coreqs = line.substring
           (
               line.search(/(Co-requisite)/) + 14,
