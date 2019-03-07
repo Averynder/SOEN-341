@@ -85,7 +85,9 @@ if (true) {
         line.search(/(Unit)/) + 7,
         line.search(/(Unit)/) + 11
       );
+
       var prereqs = "";
+      // Prereqs
       if (line.search(/(Corequisite|Co-requisite)/) > -1)
       {
         var bool1 = line.search(/(Prerequisite)/) > -1;
@@ -94,6 +96,7 @@ if (true) {
         {
           if (line.search(/(Prerequisite)/) + 13 > line.search(/(Course Corequisite|Corequisite|Co-requisite|Never Taken)/))
           {
+          	line = line.substring(line.search(/(Prerequisite)/));
             prereqs = line.substring
             (
                 line.search(/(Prerequisite)/) + 13,
@@ -102,6 +105,7 @@ if (true) {
           }
           else
           {
+          	line = line.substring(line.search(/(Prerequisite)/));
             prereqs = line.substring
             (
                 line.search(/(Prerequisite)/) + 13,
@@ -113,6 +117,7 @@ if (true) {
         {
           if (line.search(/(PREREQ)/) + 7 > line.search(/(Course Corequisite|Corequisite|Co-requisite|Never Taken)/))
           {
+          	line = line.substring(line.search(/(PREREQ)/));
             prereqs = line.substring
             (
                 line.search(/(PREREQ)/) + 7,
@@ -121,6 +126,7 @@ if (true) {
           }
           else
           {
+          	line = line.substring(line.search(/(PREREQ)/));
             prereqs = line.substring
             (
                 line.search(/(PREREQ)/) + 7,
@@ -137,6 +143,7 @@ if (true) {
         {
           if (line.search(/(Never Taken|","crosslisted")/) > line.search(/(Prerequisite)/) + 13)
           {
+          	line = line.substring(line.search(/(Prerequisite)/));
             prereqs = line.substring
             (
                 line.search(/(Prerequisite)/) + 13,
@@ -145,6 +152,7 @@ if (true) {
           }
           else
           {
+          	line = line.substring(line.search(/(Prerequisite)/));
             prereqs = line.substring
             (
                 line.search(/(Prerequisite)/) + 13,
@@ -156,6 +164,7 @@ if (true) {
         {
           if (line.search(/(Never Taken|","crosslisted")/) > line.search(/(PREREQ)/) + 7)
           {
+          	line = line.substring(line.search(/(PREREQ)/));
             prereqs = line.substring
             (
                 line.search(/(PREREQ)/) + 7,
@@ -164,6 +173,7 @@ if (true) {
           }
           else
           {
+          	line = line.substring(line.search(/(PREREQ)/));
             prereqs = line.substring
             (
                 line.search(/(PREREQ)/) + 7,
@@ -173,7 +183,22 @@ if (true) {
         }
       }
 
+
       var coreqs = "";
+      if (prereqs.search(/(previously or concurrently)/) > -1)
+      {
+      	coreqs += prereqs.substring
+		(
+			prereqs.search(/(;)/) + 2,
+			prereqs.search(/(previously or concurrently)/)
+		);
+		prereqs = prereqs.substring
+		(
+			prereqs.charAt(0),
+			prereqs.search(/(;)/)
+		);
+      }
+
       if (line.search(/(Corequisite|Co-requisite)/) > -1)
       {
         var bool1 = line.search(/(Corequisite)/) > -1;
@@ -181,7 +206,7 @@ if (true) {
         if (bool1)
         {
           line = line.substring(line.search(/(Corequisite)/));
-          coreqs = line.substring
+          coreqs += line.substring
           (
               line.search(/(Corequisite)/) + 13,
               line.search(/(;|","crosslisted")/)
@@ -191,7 +216,7 @@ if (true) {
         else if (bool2)
         {
           line = line.substring(line.search(/(Co-requisite)/));
-          coreqs = line.substring
+          coreqs += line.substring
           (
               line.search(/(Co-requisite)/) + 14,
               line.search(/(;|","crosslisted")/)
