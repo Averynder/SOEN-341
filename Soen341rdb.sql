@@ -126,6 +126,7 @@ CREATE TABLE  `soen341`.`tutorial` (
 -- -----------------------------------------------------
 CREATE TABLE `soen341`.`course` (
   `classNumber` int(11) PRIMARY KEY,
+  `subject` varchar(4) DEFAULT NULL,
   `courseTitle` varchar(200) DEFAULT NULL,
   `description` text NULL DEFAULT NULL,
   `waitlist` int(11) DEFAULT NULL,
