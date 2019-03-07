@@ -1,30 +1,36 @@
 {
-    "sequence": [
-        {
-            "course": "COMP248",
-            "name": "Object-Oriented Programming I",
-            "credit": 3.5,
-            "startTime": "11:00",
-            "endTime": "12:30",
-            "semester": "Fall 2017"
-        },
-        {
-            "course": "COMP232",
-            "name": "Discrete Mathematics",
-            "credit": 3,
-            "semester": "Fall 2017"
-        },
-        {
-            "course": "SOEN228",
-            "name": "System Hardware",
-            "credit": 4,
-            "semester": "Winter 2018"
-        },
-        {
-            "course": "ENGR213",
-            "name": "Ordinary Differential Equations",
-            "credit": 3,
-            "semester": "Winter 2018"
-        }
-    ]
+  "sequence": [
+    {
+      "course": "COMP248",
+      "name": "Object-Oriented Programming I",
+      "credit": 3.5,
+      "startTime": "11:00",
+      "endTime": "12:30",
+      "semester": "Fall 2017"
+    },
+    {
+      "course": "COMP232",
+      "name": "Discrete Mathematics",
+      "credit": 3,
+      "startTime": "18:00",
+      "endTime": "19:15",
+      "semester": "Fall 2017"
+    },
+    {
+      "course": "SOEN228",
+      "name": "System Hardware",
+      "credit": 4,
+      "startTime": "14:15",
+      "endTime": "15:30",
+      "semester": "Winter 2018"
+    },
+    {
+      "course": "ENGR213",
+      "name": "Ordinary Differential Equations",
+      "credit": 3,
+      "startTime": "16:45",
+      "endTime": "18:00",
+      "semester": "Winter 2018"
+    }
+  ]
 }
