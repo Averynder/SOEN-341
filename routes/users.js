@@ -86,26 +86,47 @@ if (true) {
         line.search(/(Unit)/) + 11
       );
       var prereqs = "";
-      if (line.search(/(Corequisite|Co-requisite|Course Corequisite:)/) > -1)
+      if (line.search(/(Corequisite|Co-requisite)/) > -1)
       {
         var bool1 = line.search(/(Prerequisite)/) > -1;
         var bool2 = line.search(/(PREREQ)/) > -1;
         if (bool1)
         {
-          prereqs = line.substring
-          (
-              line.search(/(Prerequisite)/) + 13,
-              line.search(/(Corequisite|Co-requisite|Course Corequisite:)/)
-          );
-
+          if (line.search(/(Prerequisite)/) + 13 > line.search(/(Course Corequisite|Corequisite|Co-requisite|Never Taken)/))
+          {
+            prereqs = line.substring
+            (
+                line.search(/(Prerequisite)/) + 13,
+                line.search(/(Course Corequisite|Course Co-requisite|Corequisite|Co-requisite)/)
+            );
+          }
+          else
+          {
+            prereqs = line.substring
+            (
+                line.search(/(Prerequisite)/) + 13,
+                line.search(/(Course Corequisite|Course Co-requisite|Corequisite|Co-requisite|Never Taken)/)
+            );
+          }
         }
         else if (bool2)
         {
-          prereqs = line.substring
-          (
-              line.search(/(PREREQ)/) + 7,
-              line.search(/(Corequisite|Co-requisite|Course Corequisite:)/)
-          );
+          if (line.search(/(PREREQ)/) + 7 > line.search(/(Course Corequisite|Corequisite|Co-requisite|Never Taken)/))
+          {
+            prereqs = line.substring
+            (
+                line.search(/(PREREQ)/) + 7,
+                line.search(/(Course Corequisite|Course Co-requisite|Corequisite|Co-requisite)/)
+            );
+          }
+          else
+          {
+            prereqs = line.substring
+            (
+                line.search(/(PREREQ)/) + 7,
+                line.search(/(Course Corequisite|Course Co-requisite|Corequisite|Co-requisite|Never Taken)/)
+            );
+          }
         }
       }
       else
@@ -114,29 +135,49 @@ if (true) {
         var bool2 = line.search(/(PREREQ)/) > -1;
         if (bool1)
         {
-          prereqs = line.substring
-          (
-              line.search(/(Prerequisite)/) + 13,
-              line.search(/(","crosslisted")/)
-          );
-
+          if (line.search(/(Never Taken|","crosslisted")/) > line.search(/(Prerequisite)/) + 13)
+          {
+            prereqs = line.substring
+            (
+                line.search(/(Prerequisite)/) + 13,
+                line.search(/(Never Taken|","crosslisted")/)
+            );
+          }
+          else
+          {
+            prereqs = line.substring
+            (
+                line.search(/(Prerequisite)/) + 13,
+                line.search(/(","crosslisted")/)
+            );
+          }
         }
         else if (bool2)
         {
-          prereqs = line.substring
-          (
-              line.search(/(PREREQ)/) + 7,
-              line.search(/(","crosslisted")/)
-          );
+          if (line.search(/(Never Taken|","crosslisted")/) > line.search(/(PREREQ)/) + 7)
+          {
+            prereqs = line.substring
+            (
+                line.search(/(PREREQ)/) + 7,
+                line.search(/(Never Taken|","crosslisted")/)
+            );
+          }
+          else
+          {
+            prereqs = line.substring
+            (
+                line.search(/(PREREQ)/) + 7,
+                line.search(/(","crosslisted")/)
+            );
+          }
         }
       }
 
       var coreqs = "";
-      if (line.search(/(Corequisite|Co-requisite|Course Corequisite)/) > -1)
+      if (line.search(/(Corequisite|Co-requisite)/) > -1)
       {
         var bool1 = line.search(/(Corequisite)/) > -1;
         var bool2 = line.search(/(Co-requisite)/) > -1;
-        //var bool3 = line.search(/(Course Corequisite)/) > -1;
         if (bool1)
         {
           coreqs = line.substring
@@ -155,7 +196,7 @@ if (true) {
           );
         }
       }
-      // var coreqs = null;
+
       // connection.query("INSERT INTO `course`(subject,courseTitle,credits) VALUES("+subject+", "+courseTitle+", "+credits+")", function(error, results, fields) {
 		// 		if(error) throw error;
       console.log(
