@@ -40,6 +40,22 @@ class CourseSelectionMenu extends React.Component{
       weekdays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
       classes: data.sequence,
       bgColor: 'red',
+
+      displayColorPicker1: false,
+      displayColorPicker2: false,
+      displayColorPicker3: false,
+      displayColorPicker4: false,
+      displayColorPicker5: false,
+      displayColorPicker6: false,
+      displayColorPicker7: false,
+
+      color1: 'red',
+      color2: 'pink',
+      color3: 'green',
+      color4: 'yellow',
+      color5: 'orange',
+      color6: 'blue',
+      color7: 'black',
     };
   }
 
