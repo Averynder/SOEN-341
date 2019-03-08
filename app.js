@@ -14,6 +14,7 @@ var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var cookiesRouter = require('./routes/cookiesV');
 var https = require('https');
+var axios = require('axios');
 var rompt =require('prompt');
 var fs = require('fs');
 var bodyParser = require('body-parser');
@@ -36,7 +37,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(fileUpload());
-app.use(cors());
+app.use(cors({credentials: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -191,6 +192,39 @@ app.get('/concordia', function(req, res) {
 	res.end();
 	}
 	})
+});
+
+app.get('/concordia/:netname/:password', async function (req, res, next) {
+  let concat = 'device=&cufld=' + req.params.password + '&resource=%2Fcontent%2Fcspace%2Fen%2Flogin.html&_charset_=UTF-8&userid=' + req.params.netname + '&pwd=' + req.params.password;
+  let redir;
+  try {
+    let res1 = await axios.get('https://my.concordia.ca');
+    let initial = res1.headers['set-cookie']; // NSC_nz.dpodpsejb.db-ttm=ffffffff87c5c68645525d5f4f58455e445a4a422970; concordia-cookie=9LhZu5tXNRMucxnqsw8_OQziR-jmA2rn!-1304658802
+    console.log(initial);
+    let req2 = await axios.post('https://my.concordia.ca/psp/upprpr9/EMPLOYEE/EMPL/?&cmd=login', concat, {
+      headers: {
+        cookie: initial
+      }
+    });
+    console.log('works');
+    let cookie = req2.headers['set-cookie'][0]; // get cookie needed to get second cookie
+    console.log('1: ', initial[0], ' 2: ', cookie);
+    //console.log(req2);
+    let req3 = await axios.get(req2.request.res.responseUrl, {
+      headers: {
+        cookie: cookie // required, otherwise connection is kept-alive but not closed
+      }
+    }).then((response) => {
+      let cook = response.headers['set-cookie'];
+      axios.get('https://my.concordia.ca/psp/upprpr9/EMPLOYEE/EMPL/h/?tab=CU_MY_FRONT_PAGE2', {
+        headers: {
+          cookie: cook
+        }
+      }).then((response) => { console.log(); });
+    });
+  } catch(err) {
+    console.log(err);
+  }
 });
 
 app.use(express.static(__dirname + '/public'));
