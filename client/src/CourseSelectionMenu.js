@@ -5,6 +5,8 @@ import { Link } from "react-router-dom"
 import {Modal, Form, FormControl} from "react-bootstrap"
 import time from "./data/calendar.js"
 import * as data from "./data/courses.json"
+import { CirclePicker } from 'react-color';
+import reactCSS from 'reactcss'
 
 class CourseSelectionMenu extends React.Component{
   constructor(props,context){
@@ -109,7 +111,107 @@ class CourseSelectionMenu extends React.Component{
     })
   }
 
+  handleClick1 = () => {
+		this.setState({ displayColorPicker1: !this.state.displayColorPicker1 })
+  };
+  
+  handleClick2 = () => {
+		this.setState({ displayColorPicker2: !this.state.displayColorPicker2 })
+  };
+  
+  handleClick3 = () => {
+		this.setState({ displayColorPicker3: !this.state.displayColorPicker3 })
+  };
+  
+  handleClick4 = () => {
+		this.setState({ displayColorPicker4: !this.state.displayColorPicker4 })
+  };
+  
+  handleClick5 = () => {
+		this.setState({ displayColorPicker5: !this.state.displayColorPicker5 })
+  };
+  
+  handleClick6 = () => {
+		this.setState({ displayColorPicker6: !this.state.displayColorPicker6 })
+  };
+  
+  handleClick7 = () => {
+		this.setState({ displayColorPicker7: !this.state.displayColorPicker7 })
+    };
+    
+    handleCloseColor1 = () => {
+		this.setState({ displayColorPicker1: false })
+  };
+  
+  handleCloseColor2 = () => {
+		this.setState({ displayColorPicker2: false })
+  };
+  
+  handleCloseColor3 = () => {
+		this.setState({ displayColorPicker3: false })
+  };
+  
+  handleCloseColor4 = () => {
+		this.setState({ displayColorPicker4: false })
+  };
+  
+  handleCloseColor5 = () => {
+		this.setState({ displayColorPicker5: false })
+  };
+  
+  handleCloseColor6 = () => {
+		this.setState({ displayColorPicker6: false })
+  };
+  
+  handleCloseColor7 = () => {
+		this.setState({ displayColorPicker7: false })
+	};
+
+	handleChangeComplete1 = (color) => {
+    this.setState({ color1: color.hex });
+  };
+
+  handleChangeComplete2 = (color) => {
+    this.setState({ color2: color.hex });
+  };
+
+  handleChangeComplete3 = (color) => {
+    this.setState({ color3: color.hex });
+  };
+
+  handleChangeComplete4 = (color) => {
+    this.setState({ color4: color.hex });
+  };
+
+  handleChangeComplete5 = (color) => {
+    this.setState({ color5: color.hex });
+  };
+
+  handleChangeComplete6 = (color) => {
+    this.setState({ color6: color.hex });
+  };
+
+  handleChangeComplete7 = (color) => {
+    this.setState({ color7: color.hex });
+  };
+
   render(){
+    const styles = reactCSS({
+      'default': {
+        popover: {
+          position: 'absolute',
+          zIndex: '2',
+        },
+        cover: {
+          position: 'fixed',
+          top: '0px',
+          right: '0px',
+          bottom: '0px',
+          left: '0px',
+        },
+      },
+    });
+
     return(
       <div className="container">
         <Navbar />
@@ -230,7 +332,11 @@ class CourseSelectionMenu extends React.Component{
             <Form inline style={{textAlign: "center"}}>
               <div className="container" style={{width: "40%"}}>
                 <FormControl type="text" placeholder="Search" className=" mr-sm-2" style={{width: "100%", textAlign: "center"}}/>
-                <FormControl type="color" placeholder="Search" className=" mr-sm-2" style={{width: "100%", textAlign: "center"}}/>
+                <button onClick={ this.handleClick1 }>Pick Color</button>
+            { this.state.displayColorPicker1 ? <div style={ styles.popover }>
+              <div style={ styles.cover } onClick={ this.handleCloseColor1 }/>
+              <CirclePicker onChangeComplete={ this.handleChangeComplete1 }/>
+            </div> : null }/>
               </div>
               <Button type="submit" text="Remove Course"/>
             </Form>
