@@ -49,24 +49,34 @@ class ConcordiaSimilar extends React.Component {
     });
   };
 
+  remove = () => {
+    let coursecode = document.getElementById('add-class').value;
+    let array = this.state.selectedCourses.map(data => coursecode !== data.course);
+    this.setState({
+      selectedCourses: array
+    })
+  }
+
   render() {
     let x = this.state.selectedCourses.map(element => (
       <tr>
         <td>
-          <input type="checkbox" className="" checked /> &nbsp;
-          <strong>{element.course}</strong>
-          <br />
-          <strong>{element.name}</strong>{" "}
-          <select name="course-section">
-            <option value="section1">section 1</option>
-            <option value="section2">section 2</option>
-            <option value="section3">section 3</option>
-            <option value="section4">section 4</option>
-          </select>
-          <br />
-          <p id="requirements">
-            <strong>Requirement: </strong> related info goes here
-          </p>
+          <div>
+            <input type="checkbox" checked /> &nbsp;
+            <strong id={element.course}>{element.course}</strong>
+            <br />
+            <strong>{element.name}</strong>{" "}
+            <select name="course-section">
+              <option value="section1">section 1</option>
+              <option value="section2">section 2</option>
+              <option value="section3">section 3</option>
+              <option value="section4">section 4</option>
+            </select>
+            <br />
+            <p id="requirements">
+              <strong>Requirement: </strong> related info goes here
+            </p>
+          </div>
         </td>
       </tr>
     ));
@@ -109,7 +119,7 @@ class ConcordiaSimilar extends React.Component {
               <div className="row bg-secondary text-white rounded">
                 <div className="col">
                   <label for="add-class">
-                    <h6>Select Course</h6>
+                    <h6 id="test">Select Course</h6>
                   </label>
                   <input
                     type="text"
@@ -124,6 +134,11 @@ class ConcordiaSimilar extends React.Component {
                   <Button
                     text="Select"
                     onClick={this.addClass}
+                    style={{ float: "left" }}
+                  />
+                  <Button
+                    text="Remove"
+                    onClick={this.remove}
                     style={{ float: "left" }}
                   />
                 </div>
