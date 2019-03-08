@@ -47,31 +47,32 @@ setInterval(() => {
 }, 1000);
 
 // Database entries
-if (false) {
+
+
+if (true) {
   var rl = require("readline").createInterface({
     input: require("fs").createReadStream("routes/SOENcatalog.txt")
   });
+
+
 
   rl.on("line", function(line) {
     var a = 10;
     var b = 14;
     var c = 27;
     var d = 30;
-    if (
-      line.search(/("career":"UGRD")/) >= 0 &&
-      line.search(/(Course Co-requisite)/) == -1 &&
-      line.search(/(Course Corequisite)/) == -1
-    ) {
-      var classNumber =
-        line.substring(
-          line.search(/(subject)/) + a,
-          line.search(/(subject)/) + b
-        ) +
-        " " +
-        line.substring(
-          line.search(/(subject)/) + c,
-          line.search(/(subject)/) + d
-        );
+    if (line.search(/("career":"UGRD")/) >= 0)
+    {
+      var subject =
+          line.substring(
+              line.search(/(subject)/) + a,
+              line.search(/(subject)/) + b
+          );
+      var catalog =
+          line.substring(
+              line.search(/(subject)/) + c,
+              line.search(/(subject)/) + d
+          );
       var a = 11;
       var b = 15;
       var c = 28;
@@ -84,58 +85,155 @@ if (false) {
         line.search(/(Unit)/) + 7,
         line.search(/(Unit)/) + 11
       );
-      var prereqs = line.substring(
-        line.search(/(Prerequisite:)/) + 13,
-        line.search('","crosslisted')
-      );
-      var coreqs = null;
-      /*connection.query("INSERT INTO `course`(classNumber,courseTitle,credits) VALUES("+classNumber+", "+courseTitle+", "+credits+")", function(error, results, fields) {
-				if(error) throw error;*/
+
+      var prereqs = "";
+      // Prereqs
+      if (line.search(/(Corequisite|Co-requisite)/) > -1)
+      {
+        var bool1 = line.search(/(Prerequisite)/) > -1;
+        var bool2 = line.search(/(PREREQ)/) > -1;
+        if (bool1)
+        {
+          if (line.search(/(Prerequisite)/) + 13 > line.search(/(Course Corequisite|Corequisite|Co-requisite|Never Taken)/))
+          {
+          	line = line.substring(line.search(/(Prerequisite)/));
+            prereqs = line.substring
+            (
+                line.search(/(Prerequisite)/) + 13,
+                line.search(/(Course Corequisite|Course Co-requisite|Corequisite|Co-requisite)/)
+            );
+          }
+          else
+          {
+          	line = line.substring(line.search(/(Prerequisite)/));
+            prereqs = line.substring
+            (
+                line.search(/(Prerequisite)/) + 13,
+                line.search(/(Course Corequisite|Course Co-requisite|Corequisite|Co-requisite|Never Taken)/)
+            );
+          }
+        }
+        else if (bool2)
+        {
+          if (line.search(/(PREREQ)/) + 7 > line.search(/(Course Corequisite|Corequisite|Co-requisite|Never Taken)/))
+          {
+          	line = line.substring(line.search(/(PREREQ)/));
+            prereqs = line.substring
+            (
+                line.search(/(PREREQ)/) + 7,
+                line.search(/(Course Corequisite|Course Co-requisite|Corequisite|Co-requisite)/)
+            );
+          }
+          else
+          {
+          	line = line.substring(line.search(/(PREREQ)/));
+            prereqs = line.substring
+            (
+                line.search(/(PREREQ)/) + 7,
+                line.search(/(Course Corequisite|Course Co-requisite|Corequisite|Co-requisite|Never Taken)/)
+            );
+          }
+        }
+      }
+      else
+      {
+        var bool1 = line.search(/(Prerequisite)/) > -1;
+        var bool2 = line.search(/(PREREQ)/) > -1;
+        if (bool1)
+        {
+          if (line.search(/(Never Taken|","crosslisted")/) > line.search(/(Prerequisite)/) + 13)
+          {
+          	line = line.substring(line.search(/(Prerequisite)/));
+            prereqs = line.substring
+            (
+                line.search(/(Prerequisite)/) + 13,
+                line.search(/(Never Taken|","crosslisted")/)
+            );
+          }
+          else
+          {
+          	line = line.substring(line.search(/(Prerequisite)/));
+            prereqs = line.substring
+            (
+                line.search(/(Prerequisite)/) + 13,
+                line.search(/(","crosslisted")/)
+            );
+          }
+        }
+        else if (bool2)
+        {
+          if (line.search(/(Never Taken|","crosslisted")/) > line.search(/(PREREQ)/) + 7)
+          {
+          	line = line.substring(line.search(/(PREREQ)/));
+            prereqs = line.substring
+            (
+                line.search(/(PREREQ)/) + 7,
+                line.search(/(Never Taken|","crosslisted")/)
+            );
+          }
+          else
+          {
+          	line = line.substring(line.search(/(PREREQ)/));
+            prereqs = line.substring
+            (
+                line.search(/(PREREQ)/) + 7,
+                line.search(/(","crosslisted")/)
+            );
+          }
+        }
+      }
+
+
+      var coreqs = "";
+      if (prereqs.search(/(previously or concurrently)/) > -1)
+      {
+      	coreqs += prereqs.substring
+		(
+			prereqs.search(/(;)/) + 2,
+			prereqs.search(/(previously or concurrently)/)
+		);
+		prereqs = prereqs.substring
+		(
+			prereqs.charAt(0),
+			prereqs.search(/(;)/)
+		);
+      }
+
+      if (line.search(/(Corequisite|Co-requisite)/) > -1)
+      {
+        var bool1 = line.search(/(Corequisite)/) > -1;
+        var bool2 = line.search(/(Co-requisite)/) > -1;
+        if (bool1)
+        {
+          line = line.substring(line.search(/(Corequisite)/));
+          coreqs += line.substring
+          (
+              line.search(/(Corequisite)/) + 13,
+              line.search(/(;|","crosslisted")/)
+          );
+
+        }
+        else if (bool2)
+        {
+          line = line.substring(line.search(/(Co-requisite)/));
+          coreqs += line.substring
+          (
+              line.search(/(Co-requisite)/) + 14,
+              line.search(/(;|","crosslisted")/)
+          );
+        }
+      }
+
+      // connection.query("INSERT INTO `course`(subject,courseTitle,credits) VALUES("+subject+", "+courseTitle+", "+credits+")", function(error, results, fields) {
+		// 		if(error) throw error;
       console.log(
-        /*"Succesfully inserted: Title: "+ courseTitle+" classNumber: "+classNumber+" credits: "+credits*/ " prereqs: " +
-          prereqs
+        "Succesfully inserted: Title: "+ courseTitle+" subject: "+subject+ " catalog:  " + catalog + " credits: " + credits + " prereqs: " +
+          prereqs + " coreqs: " + coreqs
       );
-      //});
     }
-    if (
-      line.search(/("career":"GRAD")/) >= 0 &&
-      line.search(/(Course Co-requisite)/) == -1 &&
-      line.search(/(Course Corequisite)/) == -1
-    ) {
-      var a = 10;
-      var b = 14;
-      var c = 27;
-      var d = 31;
-      var classNumber =
-        line.substring(
-          line.search(/(subject)/) + a,
-          line.search(/(subject)/) + b
-        ) +
-        " " +
-        line.substring(
-          line.search(/(subject)/) + c,
-          line.search(/(subject)/) + d
-        );
-      var courseTitle = line.substring(
-        line.search(/(title)/) + 8,
-        line.search(/(","subject")/)
-      );
-      var credits = line.substring(
-        line.search(/(Unit)/) + 7,
-        line.search(/(Unit)/) + 11
-      );
-      var prereqs = line.substring(
-        line.search(/(Prerequisite:)/) + 13,
-        line.search('","crosslisted')
-      );
-      var coreqs = null;
-      /*connection.query("INSERT INTO `course`(classNumber,courseTitle,credits) VALUES("+classNumber+", "+courseTitle+", "+credits+")", function(error, results, fields) {
-				if(error) throw error;*/
-      console.log(
-        /*"Succesfully inserted: Title: "+ courseTitle+" classNumber: "+classNumber+" credits: "+credits+*/ " prereqs: " +
-          prereqs
-      );
-      //});
+    else
+    {
+      console.log("Victor was right");
     }
   });
 }

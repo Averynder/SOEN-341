@@ -127,6 +127,7 @@ app.get('/concordia', function(req, res) {
 
 		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/schedule/filter/*/SOEN/*', (response) => {
 		response.on('data', (d) => {
+			// START here
 			fs.writeFile('routes/SOENschedule.txt', d, (err) => {
 				if (err) throw err;
 				console.log('Schedule written!');
@@ -191,6 +192,9 @@ app.get('/concordia', function(req, res) {
 	res.end();
 	}
 	})
+
+
+
 });
 
 app.use(express.static(__dirname + '/public'));
