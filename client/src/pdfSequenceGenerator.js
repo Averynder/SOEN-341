@@ -5,6 +5,7 @@ import * as jsPDF from 'jspdf'
 import {Table, Modal} from "react-bootstrap"
 import Button from "./components/Button"
 import * as html2canvas from 'html2canvas'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 class pdfSequenceGenerator extends React.Component{
     constructor(){
@@ -22,20 +23,7 @@ class pdfSequenceGenerator extends React.Component{
         }
     }
 
-
-
-
-
-
-
-
-
-
-
     // FUNCTIONS() HERE *********************************************************
-
-
-
     convertToPDF = () => {
         const input = document.getElementById('divToPrint');
         html2canvas(input).then((canvas) => {
@@ -141,24 +129,7 @@ class pdfSequenceGenerator extends React.Component{
         })
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // RENDER() HERE *********************************************************
-
-
     render(){
         let falltable = <Table id="pdfTable" striped bordered hover variant="dark">
                                 <thead>
@@ -170,7 +141,7 @@ class pdfSequenceGenerator extends React.Component{
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.state.selectedCoursesFall.map(element => 
+                                    {this.state.selectedCoursesFall.map(element =>
                                         <tr>
                                             <td>{element.semester} {element.year}</td>
                                             <td>{element.course}</td>
@@ -191,7 +162,7 @@ class pdfSequenceGenerator extends React.Component{
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.state.selectedCoursesWinter.map(element => 
+                                    {this.state.selectedCoursesWinter.map(element =>
                                         <tr>
                                             <td>{element.semester} {element.year}</td>
                                             <td>{element.course}</td>
@@ -212,7 +183,7 @@ class pdfSequenceGenerator extends React.Component{
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.state.selectedCoursesSummer.map(element => 
+                                    {this.state.selectedCoursesSummer.map(element =>
                                         <tr>
                                             <td>{element.semester} {element.year}</td>
                                             <td>{element.course}</td>
@@ -232,19 +203,19 @@ class pdfSequenceGenerator extends React.Component{
 
                                     <tr>
                                         <td>
-                                            <select id="select-remove-fall"><option>Select A Class...</option>{this.state.selectedCoursesFall.map(element => 
+                                            <select id="select-remove-fall"><option>Select A Class...</option>{this.state.selectedCoursesFall.map(element =>
                                                 <option value={element.course}>{element.course}</option>
                                             )}</select>
                                         </td>
 
                                         <td>
-                                            <select id="select-remove-winter"><option>Select A Class...</option>{this.state.selectedCoursesWinter.map(element => 
+                                            <select id="select-remove-winter"><option>Select A Class...</option>{this.state.selectedCoursesWinter.map(element =>
                                                 <option value={element.course}>{element.course}</option>
                                             )}</select>
                                         </td>
 
                                         <td>
-                                            <select id="select-remove-summer"><option>Select A Class...</option>{this.state.selectedCoursesSummer.map(element => 
+                                            <select id="select-remove-summer"><option>Select A Class...</option>{this.state.selectedCoursesSummer.map(element =>
                                                 <option value={element.course}>{element.course}</option>
                                             )}</select>
                                         </td>
@@ -252,7 +223,7 @@ class pdfSequenceGenerator extends React.Component{
                                 </Table>
 
         let totalNumberOfClasses = this.state.selectedCoursesFall.length + this.state.selectedCoursesSummer.length + this.state.selectedCoursesWinter.length;
-        
+
         let yeetus = [];
         for(let i=0;i<6;i++){ /*Basically choose a year from current year up to 8 years later. Don't touch this*/
             yeetus[i] = (new Date()).getFullYear() + i;
@@ -291,15 +262,6 @@ class pdfSequenceGenerator extends React.Component{
                     </div>
                 </div>
 
-
-
-
-
-
-
-
-
-
                 <Modal show={this.state.showAdd} onHide={() => {
                     this.setState({showAdd: !this.state.showAdd})
                 }}>
@@ -319,14 +281,6 @@ class pdfSequenceGenerator extends React.Component{
                     </Modal.Body>
                 </Modal>
 
-
-
-
-
-
-
-
-
                 <Modal show={this.state.showRemove} onHide={() => {
                     this.setState({showRemove: !this.state.showRemove})
                 }}>
@@ -335,24 +289,15 @@ class pdfSequenceGenerator extends React.Component{
                     </Modal.Header>
                     <Modal.Body style={{textAlign: "center"}}>
                         <p>Select A Course You'd Like To Remove </p> <br />
-                        
-                            {totalNumberOfClasses === 0 
-                                ? <p>No Classes Have Been Added Yet</p> 
+
+                            {totalNumberOfClasses === 0
+                                ? <p>No Classes Have Been Added Yet</p>
                                 : removeOptions}
-                        
+
                         <p id="removeStatus" style={{color: "red"}}></p>
                         <Button type="submit" text="Remove Course" onClick={this.removeClass}/>
                     </Modal.Body>
                 </Modal>
-
-
-
-
-
-
-
-
-
 
                 <Modal show={this.state.selectYear}>
                     <Modal.Header>
