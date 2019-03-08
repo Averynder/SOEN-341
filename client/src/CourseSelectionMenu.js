@@ -20,6 +20,7 @@ class CourseSelectionMenu extends React.Component{
     this.closeRubiat = this.closeRubiat.bind(this);
     this.colourRubiatC = this.colourRubiatC.bind(this);
     this.colourRubiatO = this.colourRubiatO.bind(this);
+    this.changeColorChangerValue = this.changeColorChangerValue.bind(this);
 
     var year;
     var semester;
@@ -41,7 +42,6 @@ class CourseSelectionMenu extends React.Component{
       year: year,
       weekdays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
       classes: data.sequence,
-      bgColor: 'red',
 
       displayColorPicker1: false,
       displayColorPicker2: false,
@@ -58,6 +58,8 @@ class CourseSelectionMenu extends React.Component{
       color5: 'orange',
       color6: 'blue',
       color7: 'black',
+
+      colorChanger: 'color',
     };
   }
 
@@ -105,9 +107,9 @@ class CourseSelectionMenu extends React.Component{
     document.getElementById('id')
   }
 
-  changeColor(color){
+  changeColorChangerValue() {
     this.setState({
-      bgColor : color
+      colorChanger: document.getElementById('colorChanger').value
     })
   }
 
@@ -137,9 +139,9 @@ class CourseSelectionMenu extends React.Component{
   
   handleClick7 = () => {
 		this.setState({ displayColorPicker7: !this.state.displayColorPicker7 })
-    };
+  };
     
-    handleCloseColor1 = () => {
+  handleCloseColor1 = () => {
 		this.setState({ displayColorPicker1: false,})
   };
   
@@ -166,6 +168,32 @@ class CourseSelectionMenu extends React.Component{
   handleCloseColor7 = () => {
 		this.setState({ displayColorPicker7: false })
 	};
+
+  handleChangeComplete = (color) => {
+    switch(this.state.colorChanger) {
+      case 'color1':
+      this.setState({ color1: color.hex });
+      break;
+      case 'color2':
+      this.setState({ color2: color.hex });
+      break;
+      case 'color3':
+      this.setState({ color3: color.hex });
+      break;
+      case 'color4':
+      this.setState({ color4: color.hex });
+      break;
+      case 'color5':
+      this.setState({ color5: color.hex });
+      break;
+      case 'color6':
+      this.setState({ color6: color.hex });
+      break;
+      case 'color7':
+      this.setState({ color7: color.hex });
+      break;
+    }
+  }
 
 	handleChangeComplete1 = (color) => {
     this.setState({ color1: color.hex });
@@ -287,6 +315,7 @@ class CourseSelectionMenu extends React.Component{
             <Button variant="primary" text="Save Changes" />
           </Modal.Footer>
         </Modal>
+        
         <Modal show={this.state.show1} onHide={this.handleClose1}>
           <Modal.Header closeButton>
             <Modal.Title>Remove A Course</Modal.Title>
@@ -308,20 +337,21 @@ class CourseSelectionMenu extends React.Component{
           <Modal.Header closeButton>
             <Modal.Title>Course Colour Selection</Modal.Title>
           </Modal.Header>
-          <Modal.Body style={{textAlign: "center", backgroundColor: this.state.bgColor}}>
+          <Modal.Body style={{textAlign: "center"}}>
               <p>Select A Course and Color </p> <br />
               <Form inline style={{textAlign: "center"}}>
                 <div className="container" style={{width: "40%"}}>
-                  <FormControl type="text" placeholder="Search" className=" mr-sm-2" style={{width: "100%", textAlign: "center"}}/>
-                  <FormControl type="color" id="colorChosen" onChange={(evt) => this.changeColor(evt.target.value)} placeholder="Search" className=" mr-sm-2" style={{width: "100%", textAlign: "center"}}/>
+                <select id="colorChanger" onChange={this.changeColorChangerValue}>
+                            <option value="Color1">Course1</option>
+                            <option value="Color2">Course2</option>
+                            <option value="Color3">Course3</option>
+                </select>
                 </div>
-                <Button type="submit" text="Remove Course"/>
+                <Button text="Color Selection" onClick={this.colourRubiatO}/>
               </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={this.closeRubiat} text="Close" />
-            <Button variant="primary" text="Save Changes" />
-            <Button text="Color Selection" onClick={this.colourRubiatO}/>
+            <Button variant="primary" onClick={this.closeRubiat} text="Close"/>
           </Modal.Footer>
         </Modal>
 
