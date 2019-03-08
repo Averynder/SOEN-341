@@ -36,6 +36,7 @@ class CourseSelectionMenu extends React.Component{
       year: year,
       weekdays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
       classes: data.sequence,
+      bgColor: 'red',
     };
   }
 
@@ -69,6 +70,12 @@ class CourseSelectionMenu extends React.Component{
 
   addClass(days_array){
     document.getElementById('id')
+  }
+
+  changeColor(color){
+    this.setState({
+      bgColor : color
+    })
   }
 
   render(){
@@ -166,12 +173,12 @@ class CourseSelectionMenu extends React.Component{
           <Modal.Header closeButton>
             <Modal.Title>Rubiat's Color Thing goes in here</Modal.Title>
           </Modal.Header>
-          <Modal.Body style={{textAlign: "center"}}>
+          <Modal.Body style={{textAlign: "center", backgroundColor: this.state.bgColor}}>
               <p>Select A Course and Color </p> <br />
               <Form inline style={{textAlign: "center"}}>
                 <div className="container" style={{width: "40%"}}>
                   <FormControl type="text" placeholder="Search" className=" mr-sm-2" style={{width: "100%", textAlign: "center"}}/>
-                  <FormControl type="color" placeholder="Search" className=" mr-sm-2" style={{width: "100%", textAlign: "center"}}/>
+                  <FormControl type="color" id="colorChosen" onChange={(evt) => this.changeColor(evt.target.value)} placeholder="Search" className=" mr-sm-2" style={{width: "100%", textAlign: "center"}}/>
                 </div>
                 <Button type="submit" text="Remove Course"/>
               </Form>
