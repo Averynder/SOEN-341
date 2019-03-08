@@ -112,7 +112,7 @@ class CourseSelectionMenu extends React.Component{
   }
 
   handleClick1 = () => {
-		this.setState({ displayColorPicker1: !this.state.displayColorPicker1 })
+		this.setState({ displayColorPicker1: this.state.displayColorPicker1 })
   };
   
   handleClick2 = () => {
@@ -140,7 +140,7 @@ class CourseSelectionMenu extends React.Component{
     };
     
     handleCloseColor1 = () => {
-		this.setState({ displayColorPicker1: false })
+		this.setState({ displayColorPicker1: false,})
   };
   
   handleCloseColor2 = () => {
@@ -328,22 +328,15 @@ class CourseSelectionMenu extends React.Component{
             <Modal.Title>Color Selector</Modal.Title>
           </Modal.Header>
           <Modal.Body style={{textAlign: "center"}}>
-            <p>Select A Course and Color </p> <br />
+            <p>Select a Course and a Color </p>
             <Form inline style={{textAlign: "center"}}>
               <div className="container" style={{width: "40%"}}>
-                <FormControl type="text" placeholder="Search" className=" mr-sm-2" style={{width: "100%", textAlign: "center"}}/>
-                <button onClick={ this.handleClick1 }>Pick Color</button>
-            { this.state.displayColorPicker1 ? <div style={ styles.popover }>
-              <div style={ styles.cover } onClick={ this.handleCloseColor1 }/>
-              <CirclePicker onChangeComplete={ this.handleChangeComplete1 }/>
-            </div> : null }/>
+                <CirclePicker style = {styles.cover} onChangeComplete={ this.handleChangeComplete1 } onClick={ this.handleCloseColor1 }/>
               </div>
-              <Button type="submit" text="Remove Course"/>
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={this.colourRubiatC} text="Close" />
-            <Button variant="primary" text="Save Changes" />
+            <Button variant="primary" onClick={this.colourRubiatC} text="Close" />
           </Modal.Footer>
         </Modal>
 
