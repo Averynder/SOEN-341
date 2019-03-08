@@ -199,7 +199,9 @@ class CourseSelectionMenu extends React.Component{
     const styles = reactCSS({
       'default': {
         popover: {
-          position: 'absolute',
+          position: 'fixed',
+          top: '23%',
+          left: '38%',
           zIndex: '2',
         },
         cover: {
@@ -328,11 +330,13 @@ class CourseSelectionMenu extends React.Component{
             <Modal.Title>Color Selector</Modal.Title>
           </Modal.Header>
           <Modal.Body style={{textAlign: "center"}}>
-            <p>Select a Course and a Color </p>
+            <p style={{margin: "0px 0px 25% 0px"}}>Select a Color for Course (replace with course name)</p>
             <Form inline style={{textAlign: "center"}}>
               <div className="container" style={{width: "40%"}}>
-                <CirclePicker style = {styles.cover} onChangeComplete={ this.handleChangeComplete1 } onClick={ this.handleCloseColor1 }/>
-              </div>
+                <div style= {styles.popover}>
+                <CirclePicker style={{margin: "0px 0px 0px 0px"}} onChangeComplete={ this.handleChangeComplete1 } onClick={ this.handleCloseColor1 }/>
+                </div>
+                </div>
             </Form>
           </Modal.Body>
           <Modal.Footer>
