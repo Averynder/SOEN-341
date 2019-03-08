@@ -13,10 +13,12 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var cookiesRouter = require('./routes/cookiesV');
+var MyDoublyLinkedList = require('./routes/MyDoublyLinkedList');
 var https = require('https');
 var rompt =require('prompt');
 var fs = require('fs');
 var bodyParser = require('body-parser');
+var Course = require('./routes/Course');
 
 var app = express();
 
@@ -207,6 +209,9 @@ app.set('view engine', 'pug');
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/MyDoublyLinkedList',MyDoublyLinkedList);
+app.use('/Course',Course);
+
 //app.use('/login', loginRouter);
 
 var fileUploaded = {};

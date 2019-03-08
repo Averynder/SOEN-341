@@ -1,4 +1,6 @@
-import React, {Component} from "react"
+var express = require('express');
+var router = express.Router();
+var app = express();
 
 // Functioning Linked List Class
 
@@ -19,10 +21,9 @@ import React, {Component} from "react"
 
 
 
-class MyDoublyLinkedList extends Component {
+class MyDoublyLinkedList {
 
-    constructor(props) {
-        super(props);
+    constructor() {
         if (this.head === undefined)
             this.head = null;
         if (this.tail === undefined)
@@ -36,7 +37,7 @@ class MyDoublyLinkedList extends Component {
      * @return
      * @return {number}
      */
-    size = function () {
+    getSize() {
         return this.size;
     };
     /**
@@ -44,14 +45,14 @@ class MyDoublyLinkedList extends Component {
      * @return
      * @return {boolean}
      */
-    isEmpty = function () {
+    isEmpty() {
         return this.size === 0;
     };
     /**
      * adds element at the starting of the linked list
      * @param {*} element
      */
-    addFirst = function (element) {
+    addFirst(element) {
         var tmp = new MyDoublyLinkedList.Node(this, element, this.head, null);
         if (this.head != null) {
             this.head.prev = tmp;
@@ -67,7 +68,7 @@ class MyDoublyLinkedList extends Component {
      * adds element at the end of the linked list
      * @param {*} element
      */
-    addLast = function (element) {
+    addLast(element) {
         var tmp = new MyDoublyLinkedList.Node(this, element, null, this.tail);
         if (this.tail != null) {
             this.tail.next = tmp;
@@ -85,7 +86,7 @@ class MyDoublyLinkedList extends Component {
      * @return
      * @return {*}
      */
-    removeFirst = function () {
+    removeFirst() {
         var tmp = this.head;
         this.head = this.head.next;
         this.head.prev = null;
@@ -98,7 +99,7 @@ class MyDoublyLinkedList extends Component {
      * @return
      * @return {*}
      */
-    removeLast = function () {
+    removeLast() {
         var tmp = this.tail;
         this.tail = this.tail.prev;
         this.tail.next = null;
@@ -106,7 +107,6 @@ class MyDoublyLinkedList extends Component {
         console.info("deleted: " + tmp.element);
         return tmp.element;
     };
-    return;
 };
 
 
@@ -142,20 +142,20 @@ MyDoublyLinkedList["class"] = "MyDoublyLinkedList";
 
 
 
-    var dll = new MyDoublyLinkedList();
-        dll.addFirst(10);
-        dll.addFirst(34);
-        dll.addLast(56);
-        dll.addLast(364);
-        dll.removeFirst();
-        dll.removeLast();
+var dll = new MyDoublyLinkedList();
+dll.addFirst(10);
+dll.addFirst(34);
+dll.addLast(56);
+dll.addLast(364);
+dll.removeFirst();
+dll.removeLast();
 
-        console.log('LOL69');
-        console.log(dll.size);
+console.log('LOL69');
+console.log(dll.getSize());
 
-        dll.addFirst(100);
-        console.log(dll.size);
-        console.log("hey");
+dll.addFirst(100);
+console.log(dll.getSize());
+console.log("hey");
 
 
-export default MyDoublyLinkedList;
+module.exports = router;
