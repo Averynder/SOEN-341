@@ -14,7 +14,6 @@ var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var cookiesRouter = require('./routes/cookiesV');
 var https = require('https');
-var https2 = require('follow-redirects').https;
 
 var rompt =require('prompt');
 var fs = require('fs');
@@ -200,14 +199,6 @@ app.get('/concordia', function(req, res) {
 });
 
 app.get('/concordia/:netname/:password', function (req, res, next) {
-  https2.get('https://my.concordia.ca/psp/upprpr9/?&cmd=login&errorCode=106&languageCd=ENG', function (response) {
-    console.log(response.responseUrl);
-    response.on('data', function (chunk) {
-      console.log(chunk);
-    });
-  }).on('error', function (err) {
-    console.log(err);
-  });
 });
 
 app.use(express.static(__dirname + '/public'));
