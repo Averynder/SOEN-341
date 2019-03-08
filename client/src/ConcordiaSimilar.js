@@ -51,7 +51,7 @@ class ConcordiaSimilar extends React.Component {
 
   remove = () => {
     let coursecode = document.getElementById('add-class').value;
-    let array = this.state.selectedCourses.map(data => coursecode !== data.course);
+    let array = this.state.selectedCourses.filter(data => coursecode !== data.course);
     this.setState({
       selectedCourses: array
     })
@@ -89,9 +89,7 @@ class ConcordiaSimilar extends React.Component {
         bordered
         hover
         variant="dark"
-      >
-        <thead />
-        <tbody>{x}</tbody>
+      >{x}
       </Table>
     );
 
