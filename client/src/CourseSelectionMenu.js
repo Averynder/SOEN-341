@@ -16,6 +16,8 @@ class CourseSelectionMenu extends React.Component{
     this.handleClose1 = this.handleClose1.bind(this);
     this.openRubiat = this.openRubiat.bind(this);
     this.closeRubiat = this.closeRubiat.bind(this);
+    this.colourRubiatC = this.colourRubiatC.bind(this);
+    this.colourRubiatO = this.colourRubiatO.bind(this);
 
     var year;
     var semester;
@@ -32,6 +34,7 @@ class CourseSelectionMenu extends React.Component{
       show: false,
       show1: false,
       rubiat: false,
+      colorS: false,
       semester: semester,
       year: year,
       weekdays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
@@ -65,6 +68,18 @@ class CourseSelectionMenu extends React.Component{
   closeRubiat(){
     this.setState({
       rubiat: false
+    })
+  }
+
+  colourRubiatO(){
+    this.setState({
+      colorS: true
+    })
+  }
+
+  colourRubiatC(){
+    this.setState({
+      colorS: false
     })
   }
 
@@ -171,7 +186,7 @@ class CourseSelectionMenu extends React.Component{
 
         <Modal show={this.state.rubiat} onHide={this.closeRubiat}>
           <Modal.Header closeButton>
-            <Modal.Title>Rubiat's Color Thing goes in here</Modal.Title>
+            <Modal.Title>Course Colour Selection</Modal.Title>
           </Modal.Header>
           <Modal.Body style={{textAlign: "center", backgroundColor: this.state.bgColor}}>
               <p>Select A Course and Color </p> <br />
@@ -186,8 +201,30 @@ class CourseSelectionMenu extends React.Component{
           <Modal.Footer>
             <Button variant="secondary" onClick={this.closeRubiat} text="Close" />
             <Button variant="primary" text="Save Changes" />
+            <Button text="Color Selection" onClick={this.colourRubiatO}/>
           </Modal.Footer>
         </Modal>
+
+        <Modal show={this.state.colorS} onHide={this.colourRubiatC}>
+          <Modal.Header closeButton>
+            <Modal.Title>Color Selector</Modal.Title>
+          </Modal.Header>
+          <Modal.Body style={{textAlign: "center"}}>
+            <p>Select A Course and Color </p> <br />
+            <Form inline style={{textAlign: "center"}}>
+              <div className="container" style={{width: "40%"}}>
+                <FormControl type="text" placeholder="Search" className=" mr-sm-2" style={{width: "100%", textAlign: "center"}}/>
+                <FormControl type="color" placeholder="Search" className=" mr-sm-2" style={{width: "100%", textAlign: "center"}}/>
+              </div>
+              <Button type="submit" text="Remove Course"/>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.colourRubiatC} text="Close" />
+            <Button variant="primary" text="Save Changes" />
+          </Modal.Footer>
+        </Modal>
+
       </div>
     )
   }
