@@ -43,14 +43,6 @@ class CourseSelectionMenu extends React.Component{
       weekdays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
       classes: data.sequence,
 
-      displayColorPicker1: false,
-      displayColorPicker2: false,
-      displayColorPicker3: false,
-      displayColorPicker4: false,
-      displayColorPicker5: false,
-      displayColorPicker6: false,
-      displayColorPicker7: false,
-
       color1: 'red',
       color2: 'pink',
       color3: 'green',
@@ -59,7 +51,7 @@ class CourseSelectionMenu extends React.Component{
       color6: 'blue',
       color7: 'black',
 
-      colorChanger: 'color',
+      colorChanger: 'color', // have to change this so the circlepicker changes a default color
     };
   }
 
@@ -107,67 +99,11 @@ class CourseSelectionMenu extends React.Component{
     document.getElementById('id')
   }
 
-  changeColorChangerValue() {
+  changeColorChangerValue(e) {
     this.setState({
-      colorChanger: document.getElementById('colorChanger').value
+      colorChanger: e.target.value
     })
   }
-
-  handleClick1 = () => {
-		this.setState({ displayColorPicker1: this.state.displayColorPicker1 })
-  };
-  
-  handleClick2 = () => {
-		this.setState({ displayColorPicker2: !this.state.displayColorPicker2 })
-  };
-  
-  handleClick3 = () => {
-		this.setState({ displayColorPicker3: !this.state.displayColorPicker3 })
-  };
-  
-  handleClick4 = () => {
-		this.setState({ displayColorPicker4: !this.state.displayColorPicker4 })
-  };
-  
-  handleClick5 = () => {
-		this.setState({ displayColorPicker5: !this.state.displayColorPicker5 })
-  };
-  
-  handleClick6 = () => {
-		this.setState({ displayColorPicker6: !this.state.displayColorPicker6 })
-  };
-  
-  handleClick7 = () => {
-		this.setState({ displayColorPicker7: !this.state.displayColorPicker7 })
-  };
-    
-  handleCloseColor1 = () => {
-		this.setState({ displayColorPicker1: false,})
-  };
-  
-  handleCloseColor2 = () => {
-		this.setState({ displayColorPicker2: false })
-  };
-  
-  handleCloseColor3 = () => {
-		this.setState({ displayColorPicker3: false })
-  };
-  
-  handleCloseColor4 = () => {
-		this.setState({ displayColorPicker4: false })
-  };
-  
-  handleCloseColor5 = () => {
-		this.setState({ displayColorPicker5: false })
-  };
-  
-  handleCloseColor6 = () => {
-		this.setState({ displayColorPicker6: false })
-  };
-  
-  handleCloseColor7 = () => {
-		this.setState({ displayColorPicker7: false })
-	};
 
   handleChangeComplete = (color) => {
     switch(this.state.colorChanger) {
@@ -194,34 +130,6 @@ class CourseSelectionMenu extends React.Component{
       break;
     }
   }
-
-	handleChangeComplete1 = (color) => {
-    this.setState({ color1: color.hex });
-  };
-
-  handleChangeComplete2 = (color) => {
-    this.setState({ color2: color.hex });
-  };
-
-  handleChangeComplete3 = (color) => {
-    this.setState({ color3: color.hex });
-  };
-
-  handleChangeComplete4 = (color) => {
-    this.setState({ color4: color.hex });
-  };
-
-  handleChangeComplete5 = (color) => {
-    this.setState({ color5: color.hex });
-  };
-
-  handleChangeComplete6 = (color) => {
-    this.setState({ color6: color.hex });
-  };
-
-  handleChangeComplete7 = (color) => {
-    this.setState({ color7: color.hex });
-  };
 
   render(){
     const styles = reactCSS({
@@ -342,9 +250,9 @@ class CourseSelectionMenu extends React.Component{
               <Form inline style={{textAlign: "center"}}>
                 <div className="container" style={{width: "40%"}}>
                 <select id="colorChanger" onChange={this.changeColorChangerValue}>
-                            <option value="Color1">Course1</option>
-                            <option value="Color2">Course2</option>
-                            <option value="Color3">Course3</option>
+                            <option value="color1">Course1</option>
+                            <option value="color2">Course2</option>
+                            <option value="color3">Course3</option>
                 </select>
                 </div>
                 <Button text="Color Selection" onClick={this.colourRubiatO}/>
@@ -356,20 +264,20 @@ class CourseSelectionMenu extends React.Component{
         </Modal>
 
         <Modal show={this.state.colorS} onHide={this.colourRubiatC}>
-          <Modal.Header closeButton>
+          <Modal.Header closeButton style={{backgroundColor: this.state.color1}}>
             <Modal.Title>Color Selector</Modal.Title>
           </Modal.Header>
-          <Modal.Body style={{textAlign: "center"}}>
+          <Modal.Body style={{textAlign: "center", backgroundColor: this.state.color2}}>
             <p style={{margin: "0px 0px 25% 0px"}}>Select a Color for Course (replace with course name)</p>
             <Form inline style={{textAlign: "center"}}>
               <div className="container" style={{width: "40%"}}>
                 <div style= {styles.popover}>
-                <CirclePicker style={{margin: "0px 0px 0px 0px"}} onChangeComplete={ this.handleChangeComplete1 } onClick={ this.handleCloseColor1 }/>
+                <CirclePicker style={{margin: "0px 0px 0px 0px"}} onChangeComplete={ this.handleChangeComplete }/>
                 </div>
                 </div>
             </Form>
           </Modal.Body>
-          <Modal.Footer>
+          <Modal.Footer style={{backgroundColor: this.state.color3}}>
             <Button variant="primary" onClick={this.colourRubiatC} text="Close" />
           </Modal.Footer>
         </Modal>
