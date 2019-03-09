@@ -11,10 +11,10 @@ table {
       height:50px;
   }
 
-  .thCourse {
+  .thCourse1, .thCourse2, .thCourse3 {
       width: 175px;
   }
 
-  .thCredit {
+  .thCredit, .thCredit2, .thCredit3 {
       width: 50px;
   }
