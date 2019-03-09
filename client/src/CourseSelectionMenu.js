@@ -43,6 +43,8 @@ class CourseSelectionMenu extends React.Component{
       weekdays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
       classes: data.sequence,
 
+      colors: ["red", "pink", "green", "yellow", "orange", "blue", "black"],
+      
       color1: 'red',
       color2: 'pink',
       color3: 'green',
@@ -51,7 +53,7 @@ class CourseSelectionMenu extends React.Component{
       color6: 'blue',
       color7: 'black',
 
-      colorChanger: 'color', // have to change this so the circlepicker changes a default color
+      colorChanger: 'color1', // have to change this so the circlepicker changes a default color
     };
   }
 
