@@ -14,13 +14,11 @@ var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var cookiesRouter = require('./routes/cookiesV');
 var https = require('https');
-
 var rompt =require('prompt');
 var fs = require('fs');
 var bodyParser = require('body-parser');
-
 var app = express();
-
+require('./selenium')(app);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
@@ -198,8 +196,6 @@ app.get('/concordia', function(req, res) {
 
 });
 
-app.get('/concordia/:netname/:password', function (req, res, next) {
-});
 
 app.use(express.static(__dirname + '/public'));
 app.use('/public', express.static(__dirname + '/public'));
