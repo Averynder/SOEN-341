@@ -81,6 +81,29 @@ class MyDoublyLinkedList {
         console.info("adding: " + element);
     };
 
+    remove(given) {
+        var temporary = this.head;
+        while(temporary != null) {
+            if(temporary.element === given) {
+                if(temporary === this.head && temporary === this.tail) {
+                    this.head = null;
+                    this.tail = null;
+                } else if(temporary === this.head) {
+                    this.head = this.head.next;
+                    this.head.prev = null;
+                } else if(temporary === this.tail) {
+                    this.tail = this.tail.prev;
+                    this.tail.next = null;
+                } else {
+                    temporary.prev.next = temporary.next;
+                    temporary.next.prev = temporary.prev;
+                }
+                this.size--;
+            }
+            temporary = temporary.next;
+        }
+    };
+
     /**
      * this method removes element from the start of the linked list
      * @return
@@ -142,20 +165,35 @@ MyDoublyLinkedList["class"] = "MyDoublyLinkedList";
 
 
 
-var dll = new MyDoublyLinkedList();
-dll.addFirst(10);
-dll.addFirst(34);
-dll.addLast(56);
-dll.addLast(364);
-dll.removeFirst();
-dll.removeLast();
+var testMe = new MyDoublyLinkedList();
+testMe.addFirst(10);
+testMe.addFirst(34);
+testMe.addLast(56);
+testMe.addLast(364);
+testMe.removeFirst();
+testMe.removeLast();
 
 console.log('LOL69');
-console.log(dll.getSize());
+console.log(testMe.size);
 
-dll.addFirst(100);
-console.log(dll.getSize());
+testMe.addFirst(100);
+console.log(testMe.size);
 console.log("hey");
+
+
+console.log(testMe.size);
+
+testMe.addLast(9999);
+console.log(testMe.size);
+
+
+console.log(testMe.head);
+console.log("after delete");
+testMe.remove(100);
+console.log(testMe.size);
+console.log(testMe.head);
+
+
 
 
 module.exports = router;

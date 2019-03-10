@@ -80,18 +80,46 @@ class MyDoublyLinkedList extends Component {
         console.info("adding: " + element);
     };
 
+
+    /**
+     * Removes a given element from anywhere within the list
+     * @param given element that user is searching for, in order to delete
+     */
+    remove = function(given) {
+        var temporary = this.head;
+        while(temporary != null) {
+            if(temporary.element === given) {
+                if(temporary === this.head && temporary === this.tail) {
+                    this.head = null;
+                    this.tail = null;
+                } else if(temporary === this.head) {
+                    this.head = this.head.next;
+                    this.head.prev = null;
+                } else if(temporary === this.tail) {
+                    this.tail = this.tail.prev;
+                    this.tail.next = null;
+                } else {
+                    temporary.prev.next = temporary.next;
+                    temporary.next.prev = temporary.prev;
+                }
+                this.size--;
+            }
+            temporary = temporary.next;
+        }
+    };
+
     /**
      * this method removes element from the start of the linked list
      * @return
      * @return {*}
      */
     removeFirst = function () {
-        var tmp = this.head;
+        var temporary = this.head;
         this.head = this.head.next;
         this.head.prev = null;
         this.size--;
-        console.info("deleted: " + tmp.element);
-        return tmp.element;
+        console.info("deleted: " + temporary.element);
+        return temporary.element;
     };
     /**
      * this method removes element from the end of the linked list
@@ -142,20 +170,39 @@ MyDoublyLinkedList["class"] = "MyDoublyLinkedList";
 
 
 
-    var dll = new MyDoublyLinkedList();
-        dll.addFirst(10);
-        dll.addFirst(34);
-        dll.addLast(56);
-        dll.addLast(364);
-        dll.removeFirst();
-        dll.removeLast();
+    var testMe = new MyDoublyLinkedList();
+        testMe.addFirst(10);
+        testMe.addFirst(34);
+        testMe.addLast(56);
+        testMe.addLast(364);
+        testMe.removeFirst();
+        testMe.removeLast();
 
         console.log('LOL69');
-        console.log(dll.size);
+        console.log(testMe.size);
 
-        dll.addFirst(100);
-        console.log(dll.size);
+        testMe.addFirst(100);
+        console.log(testMe.size);
         console.log("hey");
+
+
+        console.log(testMe.size);
+
+        testMe.addLast(9999);
+        console.log(testMe.size);
+
+
+        console.log(testMe.head);
+        console.log("after delete");
+        testMe.remove(100);
+        console.log(testMe.size);
+        console.log(testMe.head);
+
+
+
+
+
+
 
 
 export default MyDoublyLinkedList;
