@@ -19,6 +19,13 @@ import BinaryTree from "./BinaryTree";
 import MyDoublyLinkedList from "./MyDoublyLinkedList";
 import Course from "./Course";
 
+<<<<<<< HEAD
+    import ConcordiaSimilar from "./ConcordiaSimilar";
+=======
+import MyDoublyLinkedList from "./MyDoublyLinkedList";
+import Course from "./Course";
+
+>>>>>>> master
 
 class Router extends React.Component{
   render(){
