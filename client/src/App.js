@@ -8,7 +8,6 @@ import Button from "./components/Button";
 import { Link } from "react-router-dom";
 import "./App.css";
 import LinkBox from "./LinkBox";
-/*import axios from 'axios';*/
 
 class App extends React.Component {
   constructor() {
@@ -26,12 +25,37 @@ class App extends React.Component {
     this.toggleStudent = this.toggleStudent.bind(this);
     this.toggleTeacher = this.toggleTeacher.bind(this);
   }
+  componentDidMount() {
+    fetch("/users")
+      .then(res => res.json())
+      .then(users =>
+        this.setState({ users }, () => console.log("We got the JSON " + users))
+      )
+      .then(() => {
+        document.getElementById(
+          "currentTime"
+        ).innerHTML = this.state.users.substring(
+          10,
+          this.state.users.search(/"},/)
+        );
+      });
+  }
 
-  // componentDidMount() {
-  // 	fetch('/users')
-  // 	.then(res => res.json())
-  //    	 	.then(users => this.setState({ users }));
-  // 	}
+  getTime = () => {
+    fetch("/users")
+      .then(res => res.json())
+      .then(users =>
+        this.setState({ users }, () => console.log("We got the JSON " + users))
+      )
+      .then(() => {
+        document.getElementById(
+          "currentTime"
+        ).innerHTML = this.state.users.substring(
+          10,
+          this.state.users.search(/"},/)
+        );
+      });
+  };
 
   toggleStudent() {
     this.setState({
@@ -46,18 +70,12 @@ class App extends React.Component {
   }
 
   render() {
-    /*
-		axios.get('/users')
-		.then(res => {
-			var clock =res.data;
-			this.setState({clock});
-			})
-		.then(setInterval(() => {document.getElementById('currentTime').innerHTML = this.state.clock},1000))
-		*/
     return (
       <div className="bckgrnd container">
         <Navbar />
-        <Greetings />
+        <Greetings>
+          <Button text="Refresh Time" onClick={this.getTime} />
+        </Greetings>
         <ButtonContainer>
           <Button text="I Am A Student" onClick={this.toggleStudent} />
           <Button text="I Am A Professor" onClick={this.toggleTeacher} />
