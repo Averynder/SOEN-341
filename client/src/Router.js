@@ -17,6 +17,7 @@ import Formalize from "./Formalize";
 import pdfSequenceGenerator from "./pdfSequenceGenerator";
 import BinaryTree from "./BinaryTree";
 import MyDoublyLinkedList from "./MyDoublyLinkedList";
+import Stack from "./Stack";
 import Course from "./Course";
 import ConcordiaSimilar from "./ConcordiaSimilar";
 
@@ -27,36 +28,22 @@ class Router extends React.Component {
         <div>
           <Route exact path="/" component={App} />
           <Route path="/select-semester" component={SelectSemester} />
-          <Route
-            path="/course-selection-menu"
-            component={CourseSelectionMenu}
-          />
+          <Route path="/course-selection-menu" component={CourseSelectionMenu}/>
           <Route path="/build-seq-or-sem" component={BuildSeqOrSem} />
           <Route path="/seq-based-confirmation" component={BasedOnSeq} />
           <Route path="/andre's-App" component={AndreLink} />
           <Route path="/rubiat-seq-table" component={RubiatSeqLink} />
           <Route path="/binary_tree" component={BinaryTree} />
-          <Route
-            path="/pull-previous-courses"
-            component={PullPreviousCourses}
-          />
-          <Route
-            path="/previous-courses-taken"
-            component={PreviousCoursesTaken}
-          />
-          <Route
-            path="/obtain-uploaded-sequence"
-            component={ObtainUploadedSequence}
-          />
+          <Route path="/pull-previous-courses" component={PullPreviousCourses}/>
+          <Route path="/previous-courses-taken" component={PreviousCoursesTaken}/>
+          <Route path="/obtain-uploaded-sequence" component={ObtainUploadedSequence}/>
           <Route path="/finalize-export-sem" component={FinalizeExportSem} />
           <Route path="/finalize-export-seq" component={FinalizeExportSeq} />
           <Route path="/draft-sequence-menu" component={DraftSequenceMenu} />
           <Route path="/formalize" component={Formalize} />
-          <Route
-            path="/pdfSequenceGenerator"
-            component={pdfSequenceGenerator}
-          />
+          <Route path="/pdfSequenceGenerator" component={pdfSequenceGenerator}/>
           <Route path="/MyDoublyLinkedList" component={MyDoublyLinkedList} />
+          <Route path="/Stack" component={Stack} />
           <Route path="/Course" component={Course} />
           <Route path="/concordia-similar" component={ConcordiaSimilar} />
         </div>
