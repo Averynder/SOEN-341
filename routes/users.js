@@ -3,6 +3,7 @@ var mysql = require("mysql2");
 var app = express();
 var fs = require("fs");
 
+
 var connection = mysql.createConnection({
   connectionLimit: 20,
   host: "127.0.0.1",
@@ -236,10 +237,14 @@ if (true) {
 
       // connection.query("INSERT INTO `course`(subject,courseTitle,credits) VALUES("+subject+", "+courseTitle+", "+credits+")", function(error, results, fields) {
 		// 		if(error) throw error;
+
       console.log(
         "Succesfully inserted: Title: "+ courseTitle+" subject: "+subject+ " catalog:  " + catalog + " credits: " + credits + " prereqs: " +
           prereqs + " coreqs: " + coreqs
       );
+
+
+
     }
     else
     {

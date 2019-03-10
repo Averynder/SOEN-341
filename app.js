@@ -43,6 +43,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
+
 var sequelize = require('./sequelize'); // get running instance of Sequelize
 require('./passport')(passport, sequelize); // importing passport.js with as a parameter the imported passport library from above
 
@@ -362,4 +363,9 @@ databaseRefresh = ()=>{
 	// then add new entries
 	console.log("Finished Updating");
 }
+
+
+
+
+
 module.exports = app;
