@@ -122,7 +122,7 @@ class DraftSequenceMenu extends React.Component {
             <hr color="#7E1530" />
             <hr color="#7E1530" />
             <hr color="#7E1530" />
-            <Button text="Add A Class" onClick={this.handleShow} />
+            {/* <Button text="Add A Class" onClick={this.handleShow} /> */}
             <Button text="Remove A Class" onClick={this.handleShow1} />
             <Link to="/finalize-export-seq">
               <Button text="Finalize" />
