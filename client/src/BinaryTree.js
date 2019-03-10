@@ -4,18 +4,24 @@ import LoginForm from "./components/LoginForm";
 import reactCSS from 'reactcss'
 import { SketchPicker } from 'react-color'
 
-class BinaryTree extends Component {
-	constructor(props) {
+class BinaryTree extends Component
+{
+	constructor(props)
+	{
 		super(props);
-		this.state = {
+
+		this.state =
+		{
 			displayColorPicker: false,
-			color: {
-			r: '241',
+			color:
+			{
+				r: '241',
 				g: '112',
 				b: '19',
 				a: '1',
-		},
-	};}
+			},
+		};
+	}
 
 	handleClick = () => {
 		this.setState({ displayColorPicker: !this.state.displayColorPicker })

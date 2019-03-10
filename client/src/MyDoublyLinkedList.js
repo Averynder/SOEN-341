@@ -198,11 +198,4 @@ MyDoublyLinkedList["class"] = "MyDoublyLinkedList";
         console.log(testMe.size);
         console.log(testMe.head);
 
-
-
-
-
-
-
-
 export default MyDoublyLinkedList;
