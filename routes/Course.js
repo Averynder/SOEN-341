@@ -24,4 +24,4 @@ class Course {
 
 }
 
-module.exports = router;
+module.exports = Course;

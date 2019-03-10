@@ -13,12 +13,13 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var cookiesRouter = require('./routes/cookiesV');
-var MyDoublyLinkedList = require('./routes/MyDoublyLinkedList');
 var https = require('https');
 var rompt =require('prompt');
 var fs = require('fs');
 var bodyParser = require('body-parser');
-var Course = require('./routes/Course');
+const Course = require('./routes/Course');
+const MyDoublyLinkedList = require('./routes/MyDoublyLinkedList');
+
 
 var app = express();
 
@@ -364,8 +365,23 @@ databaseRefresh = ()=>{
 	console.log("Finished Updating");
 }
 
-
-
+// Tests to try two classes
+// var tryme = new Course("lol","lol","lol","lol","lol","lol");
+// tryme.catalog = "nahh";
+// console.log("new catalog value:");
+// console.log(tryme.catalog);
+//
+//
+// var trythis = new MyDoublyLinkedList();
+// trythis.addLast(10);
+// trythis.addLast(11);
+// trythis.addLast(12);
+// trythis.addLast(13);
+// console.log("LL size before delete:");
+// console.log(trythis.size);
+// trythis.remove(12);
+// console.log("LL size after delete:");
+// console.log(trythis.size);
 
 
 module.exports = app;

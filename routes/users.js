@@ -2,6 +2,8 @@ var express = require("express");
 var mysql = require("mysql2");
 var app = express();
 var fs = require("fs");
+const Course = require('./Course');
+const MyDoublyLinkedList = require('./MyDoublyLinkedList');
 
 
 var connection = mysql.createConnection({
@@ -232,7 +234,13 @@ if (true) {
       prereqs = prereqs.replace (/  /g, " ");
 
 
-      // var stringArray = prereqs.split(/(\s+)/);
+      // var tryme = new Course("lol","lol","lol","lol","lol","lol");
+      // tryme.catalog = "nahh";
+      // console.log("look at THISS");
+      // console.log(tryme.catalog);
+
+      // var prereqsArray = null;
+      //     prereqsArray = prereqs.split(/(\s+)/);
 
 
       // connection.query("INSERT INTO `course`(subject,courseTitle,credits) VALUES("+subject+", "+courseTitle+", "+credits+")", function(error, results, fields) {
@@ -242,8 +250,6 @@ if (true) {
         "Succesfully inserted: Title: "+ courseTitle+" subject: "+subject+ " catalog:  " + catalog + " credits: " + credits + " prereqs: " +
           prereqs + " coreqs: " + coreqs
       );
-
-
 
     }
     else

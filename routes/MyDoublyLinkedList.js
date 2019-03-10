@@ -200,4 +200,4 @@ console.log(testMe.head);
 
 
 
-module.exports = router;
+module.exports = MyDoublyLinkedList;
