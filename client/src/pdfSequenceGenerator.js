@@ -1,5 +1,5 @@
 import React from "react";
-// import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar";
 import * as data from "./data/courses.json";
 import * as jsPDF from "jspdf";
 import { Table, Modal } from "react-bootstrap";
@@ -403,4 +403,4 @@ class pdfSequenceGenerator extends React.Component {
   }
 }
 
-export default PdfSequenceGenerator;
+export default pdfSequenceGenerator;
