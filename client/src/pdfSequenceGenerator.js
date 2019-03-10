@@ -6,7 +6,7 @@ import { Table, Modal } from "react-bootstrap";
 import Button from "./components/Button";
 import * as html2canvas from "html2canvas";
 
-class pdfSequenceGenerator extends React.Component {
+class PdfSequenceGenerator extends React.Component {
   constructor() {
     super();
 
@@ -287,7 +287,6 @@ class pdfSequenceGenerator extends React.Component {
 
     return (
       <div>
-        <Navbar />
         <div className="container">
           <div className="jumbotron j-greetings">
             <h2 className="display-4">
@@ -403,4 +402,4 @@ class pdfSequenceGenerator extends React.Component {
   }
 }
 
-export default pdfSequenceGenerator;
+export default PdfSequenceGenerator;

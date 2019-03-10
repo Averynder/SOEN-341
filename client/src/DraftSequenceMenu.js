@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar";
 import Button from "./components/Button";
 import { Link } from "react-router-dom";
 import { Modal, Form, FormControl } from "react-bootstrap";
-import PdfSequenceGenerator from "./PdfSequenceGenerator";
+import PdfSequenceGenerator from "./pdfSequenceGenerator";
 
 class DraftSequenceMenu extends React.Component {
   constructor() {
