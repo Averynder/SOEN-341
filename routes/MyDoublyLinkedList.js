@@ -81,6 +81,10 @@ class MyDoublyLinkedList {
         console.info("adding: " + element);
     };
 
+    /**
+     * Removes a given element from anywhere within the list
+     * @param given element that user is searching for, in order to delete
+     */
     remove(given) {
         var temporary = this.head;
         while(temporary != null) {
