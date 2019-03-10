@@ -227,7 +227,7 @@ if (true) {
 
       prereqs = prereqs.replace (/;/g, "");
       prereqs = prereqs.replace (/,/g, "");
-      prereqs = prereqs.replace (/ or/g, "");
+      prereqs = prereqs.replace (/ or /g, "<==>");
       prereqs = prereqs.replace (/  /g, " ");
 
 
