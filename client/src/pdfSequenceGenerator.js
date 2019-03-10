@@ -1,12 +1,12 @@
 import React from "react";
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
 import * as data from "./data/courses.json";
 import * as jsPDF from "jspdf";
 import { Table, Modal } from "react-bootstrap";
 import Button from "./components/Button";
 import * as html2canvas from "html2canvas";
 
-class pdfSequenceGenerator extends React.Component {
+class PdfSequenceGenerator extends React.Component {
   constructor() {
     super();
 
@@ -79,32 +79,26 @@ class pdfSequenceGenerator extends React.Component {
 
     return (
       <div>
-        <Navbar />
-        <div className="container">
-          <div className="jumbotron j-greetings">
-            <h2 className="display-4">Sequence To PDF</h2>
-            <hr color="#7e1530" />
-            <p className="lead">
-              Click Add Course and try out COMP248, COMP232, SOEN228 or ENGR213
-              to test it out.
-              <br />
-              These 4 classes are only available because this is a test. The
-              real json file with all the classes can easily be substituted
-              later.
-            </p>
+        <h2 className="display-4">Sequence To PDF</h2>
+        <hr color="#7e1530" />
+        <p className="lead">
+          Click Add Course and try out COMP248, COMP232, SOEN228 or ENGR213 to
+          test it out.
+          <br />
+          These 4 classes are only available because this is a test. The real
+          json file with all the classes can easily be substituted later.
+        </p>
 
-            <div className="mt4" id="divToPrint">
-              {table}
-            </div>
-            <Button
-              text="Add Course"
-              onClick={() => {
-                this.setState({ show: !this.state.show });
-              }}
-            />
-            <Button id="mb5" text="PDF" onClick={this.convertToPDF} />
-          </div>
+        <div className="mt4" id="divToPrint">
+          {table}
         </div>
+        <Button
+          text="Add Course"
+          onClick={() => {
+            this.setState({ show: !this.state.show });
+          }}
+        />
+        <Button id="mb5" text="PDF" onClick={this.convertToPDF} />
 
         <Modal
           show={this.state.show}
@@ -136,4 +130,4 @@ class pdfSequenceGenerator extends React.Component {
   }
 }
 
-export default pdfSequenceGenerator;
+export default PdfSequenceGenerator;

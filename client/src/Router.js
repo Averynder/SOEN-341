@@ -14,7 +14,7 @@ import FinalizeExportSem from "./FinalizeExportSem";
 import FinalizeExportSeq from "./FinalizeExportSeq";
 import DraftSequenceMenu from "./DraftSequenceMenu";
 import Formalize from "./Formalize";
-import pdfSequenceGenerator from "./pdfSequenceGenerator";
+import PdfSequenceGenerator from "./PdfSequenceGenerator";
 import BinaryTree from "./BinaryTree";
 import ConcordiaSimilar from "./ConcordiaSimilar";
 
@@ -52,7 +52,7 @@ class Router extends React.Component {
           <Route path="/formalize" component={Formalize} />
           <Route
             path="/pdfSequenceGenerator"
-            component={pdfSequenceGenerator}
+            component={PdfSequenceGenerator}
           />
           <Route path="/concordia-similar" component={ConcordiaSimilar} />
         </div>
