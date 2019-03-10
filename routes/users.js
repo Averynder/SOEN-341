@@ -184,6 +184,7 @@ if (true) {
       }
 
 
+
       var coreqs = "";
       if (prereqs.search(/(previously or concurrently)/) > -1)
       {
@@ -223,6 +224,15 @@ if (true) {
           );
         }
       }
+
+      prereqs = prereqs.replace (/;/g, "");
+      prereqs = prereqs.replace (/,/g, "");
+      prereqs = prereqs.replace (/ or/g, "");
+      prereqs = prereqs.replace (/  /g, " ");
+
+
+      // var stringArray = prereqs.split(/(\s+)/);
+
 
       // connection.query("INSERT INTO `course`(subject,courseTitle,credits) VALUES("+subject+", "+courseTitle+", "+credits+")", function(error, results, fields) {
 		// 		if(error) throw error;
