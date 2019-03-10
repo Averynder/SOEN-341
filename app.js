@@ -13,10 +13,12 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var cookiesRouter = require('./routes/cookiesV');
+var MyDoublyLinkedList = require('./routes/MyDoublyLinkedList');
 var https = require('https');
 var rompt =require('prompt');
 var fs = require('fs');
 var bodyParser = require('body-parser');
+var Course = require('./routes/Course');
 
 var app = express();
 
@@ -102,6 +104,8 @@ app.get('/api', function(req, res){
 });
 
 app.get('/concordia', function(req, res) {
+	if (fs.existsSync('routes/SOENschedule.txt') && fs.existsSync('routes/SOENcatalog.txt')&&fs.existsSync('routes/COMPschedule.txt')&&fs.existsSync('routes/COMPcatalog.txt'))
+	{console.log("All files present");}else{
 	https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/description/filter/000106', (response) => {
 		response.on('data', (d) => {
 			process.stdout.write(d);
@@ -123,74 +127,86 @@ app.get('/concordia', function(req, res) {
 
 	// SOEN COURSES
 	if (result.choice == "SOEN")
-	{
-
-		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/schedule/filter/*/SOEN/*', (response) => {
-		response.on('data', (d) => {
-			fs.writeFile('routes/SOENschedule.txt', d, (err) => {
-				if (err) throw err;
-				console.log('Schedule written!');
-			});
-		});
-		}).on('error', (e) => {
-			console.log(e);
-			});
-
-		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/catalog/filter/SOEN/*/*', (response) => {
-		response.on('data', (d) => {
-			process.stdout.write(d);
-			fs.writeFile('routes/SOENcatalog.txt', d, (err) => {
-				if (err) throw err;
-				console.log('Catalog written!');
-				fs.readFile('routes/SOENcatalog.txt', 'utf-8', function(err, data){
+	{	if (fs.existsSync('routes/SOENschedule.txt') && fs.existsSync('routes/SOENcatalog.txt'))
+		{	console.log("Data already retrieved");
+			}else{
+				https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/schedule/filter/*/SOEN/*', (response) => {
+				response.on('data', (d) => {
+					// START here
+					fs.writeFileSync('routes/SOENschedule.txt', d, (err) => {
 					if (err) throw err;
-					var fix = data.replace(/},/gim, '},\n');
-					fs.writeFile('routes/SOENcatalog.txt', fix, 'utf-8', function (err) {
-					if (err) throw err;
-					console.log('Catalog is ordered');
+					console.log('Schedule written!');
 					});
 				});
-			});
-		});
-		}).on('error', (e) => {
-			console.log(e);
-			});
-	res.end();
-	}
-	// COMP COURSES
-	if (result.choice == "COMP"){
-		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/schedule/filter/*/COMP/*' , (response) => {
-		response.on('data', (d) => {
-			fs.writeFile('routes/COMPschedule.txt', d, (err) => {
-				if (err) throw err;
-				console.log('Schedule written!');
-			});
-		});
-		}).on('error', (e) => {
-			console.log(e);
-			});
-		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/catalog/filter/COMP/*/*', (response) => {
-		response.on('data', (d) => {
-			process.stdout.write(d);
-			fs.writeFile('routes/COMPcatalog.txt', d, (err) => {
-				if (err) throw err;
-				console.log('\nCatalog written!\n');
-			});
-			fs.readFile('routes/COMPcatalog.txt', 'utf-8', function(err, data){
-			if (err) throw err;
-				var fix = data.replace(/},/gim, '},\n');
-				fs.writeFile('routes/COMPcatalog.txt', fix, 'utf-8', function (err) {
-				if (err) throw err;
-					console.log('Catalog is ordered');
+				}).on('error', (e) => {
+				console.log(e);
 				});
-			});
-		});
-		}).on('error', (e) => {
-			console.log(e);
-			});
-	res.end();
+
+				https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/catalog/filter/SOEN/*/*', (response) => {
+				response.on('data', (d) => {
+					process.stdout.write(d);
+					fs.writeFileSync('routes/SOENcatalog.txt', d, (err) => {
+					if (err) throw err;
+					console.log('Catalog written!');
+						fs.readFileSync('routes/SOENcatalog.txt', 'utf-8', function(err, data){
+						if (err) throw err;
+						var fix = data.replace(/},/gim, '},\n');
+							fs.writeFileSync('routes/SOENcatalog.txt', fix, 'utf-8', function (err) {
+							if (err) throw err;
+							console.log('Catalog is ordered');
+							});
+						});
+					});
+				});
+				}).on('error', (e) => {
+				console.log(e);
+				});
+				res.end();
+			}
+	}
+	
+	// COMP COURSES
+	if (result.choice == "COMP")
+	{	if (fs.existsSync('routes/COMPschedule.txt')&&fs.existsSync('routes/COMPcatalog.txt')){
+		console.log("Data already retrieved");
+			}else{	
+				https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/schedule/filter/*/COMP/*', (response) => {
+				response.on('data', (d) => {
+					// START here
+					fs.writeFileSync('routes/COMPschedule.txt', d, (err) => {
+					if (err) throw err;
+					console.log('Schedule written!');
+					});
+				});
+				}).on('error', (e) => {
+				console.log(e);
+				});
+
+				https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/catalog/filter/COMP/*/*', (response) => {
+				response.on('data', (d) => {
+					process.stdout.write(d);
+					fs.writeFileSync('routes/COMPcatalog.txt', d, (err) => {
+					if (err) throw err;
+					console.log('Catalog written!');
+						fs.readFileSync('routes/COMPcatalog.txt', 'utf-8', function(err, data){
+						if (err) throw err;
+						var fix = data.replace(/},/gim, '},\n');
+							fs.writeFileSync('routes/COMPcatalog.txt', fix, 'utf-8', function (err) {
+							if (err) throw err;
+							console.log('Catalog is ordered');
+							});
+						});
+					});
+				});
+				}).on('error', (e) => {
+				console.log(e);
+				});
+				res.end();
+			}
+		
 	}
 	})
+	}
 });
 
 app.use(express.static(__dirname + '/public'));
@@ -203,6 +219,9 @@ app.set('view engine', 'pug');
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/MyDoublyLinkedList',MyDoublyLinkedList);
+app.use('/Course',Course);
+
 //app.use('/login', loginRouter);
 
 var fileUploaded = {};
@@ -232,5 +251,115 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+// Server time, intially local time
+var time = new Date().toLocaleString("en", {
+  month: "long",
+  day: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+  hour12: false
+});
+// Reinitialization of time to keep it updated
+setInterval(() => {
+  time = new Date().toLocaleString("en", {
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: false
+  });
+}, 1000);
 
+//Time for Update
+var updateTime = new Date("March 12, 8:00").toLocaleDateString("en", {
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: false
+  });
+ var FirstRun ={
+		properties:{
+			run:{
+				message:"Do you want to refresh(YES/NO)"
+			}
+		}
+	};
+	rompt.start()
+	rompt.get(FirstRun, function (err, result){		
+if(time == updateTime || result.run == "YES"){
+	databaseRefresh();
+}else{
+	console.log("Current time is "+time+", next mandatory update is "+updateTime);
+};
+	});
+setInterval(()=>{ if(time == updateTime){databaseRefresh();}}, 60000);
+	
+databaseRefresh = ()=>{
+	// Need to add means of opening localhost3001/concordia
+	console.log("Updating")
+	app.get('/concordia', function(req, res) {
+		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/schedule/filter/*/SOEN/*', (response) => {
+			response.on('data', (d) => {
+				fs.writeFileSync('routes/SOENschedule.txt', d, (err) => {
+					if (err) throw err;
+					console.log('SOEN Schedule updated!');
+				});
+			});
+		}).on('error', (e) => {
+				console.log(e);
+				});
+		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/catalog/filter/SOEN/*/*', (response) => {
+			response.on('data', (d) => {
+				fs.writeFileSync('routes/SOENcatalog.txt', d, (err) => {
+					if (err) throw err;
+					console.log('SOEN Catalog updated!');
+					fs.readFileSync('routes/SOENcatalog.txt', 'utf-8', function(err, data){
+						if (err) throw err;
+						var fix = data.replace(/},/gim, '},\n');
+							fs.writeFileSync('routes/SOENcatalog.txt', fix, 'utf-8', function (err) {
+							if (err) throw err;
+							console.log('SOEN Catalog is ordered');
+							});
+					});
+				});
+			});
+		}).on('error', (e) => {
+			console.log(e);
+			});
+			
+		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/schedule/filter/*/COMP/*', (response) => {
+			response.on('data', (d) => {
+				fs.writeFileSync('routes/COMPschedule.txt', d, (err) => {
+					if (err) throw err;
+					console.log('COMP Schedule updated!');
+					});
+			});
+		}).on('error', (e) => {
+				console.log(e);
+				});
+		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/catalog/filter/COMP/*/*', (response) => {
+			response.on('data', (d) => {
+				fs.writeFileSync('routes/COMPcatalog.txt', d, (err) => {
+					if (err) throw err;
+					console.log('COMP Catalog updated!');
+						fs.readFileSync('routes/COMPcatalog.txt', 'utf-8', function(err, data){
+							if (err) throw err;
+							var fix = data.replace(/},/gim, '},\n');
+							fs.writeFileSync('routes/COMPcatalog.txt', fix, 'utf-8', function (err) {
+								if (err) throw err;
+								console.log('COMP Catalog is ordered');
+							});
+						});
+				});
+			});
+		}).on('error', (e) => {
+			console.log(e);
+			});
+	res.end();
+	});
+	// then re-initialize the database variables with regex and then remove old entries
+	// then add new entries
+	console.log("Finished Updating");
+}
 module.exports = app;
