@@ -53,6 +53,23 @@ class MyDoublyLinkedList {
      * @param {*} element
      */
     addFirst(element) {
+
+        if (this.size > 0) {
+
+            // for (var i = 0; i < this.size; i++) {
+
+            let current = this.head;
+            while (current !== null) {
+
+                if (JSON.stringify(current.element) === JSON.stringify(element)) {
+                    console.log("Duplicate element found! Will not be added.");
+                    return
+                }
+                current = current.next;
+            }
+            // }
+        }
+
         var tmp = new MyDoublyLinkedList.Node(this, element, this.head, null);
         if (this.head != null) {
             this.head.prev = tmp;
@@ -69,6 +86,23 @@ class MyDoublyLinkedList {
      * @param {*} element
      */
     addLast(element) {
+
+        if (this.size > 0) {
+
+            // for (var i = 0; i < this.size; i++) {
+
+            let current = this.head;
+            while (current !== null) {
+
+                if (JSON.stringify(current.element) === JSON.stringify(element)) {
+                    console.log("Duplicate element found! Will not be added.");
+                    return
+                }
+                current = current.next;
+            }
+            // }
+        }
+
         var tmp = new MyDoublyLinkedList.Node(this, element, null, this.tail);
         if (this.tail != null) {
             this.tail.next = tmp;
@@ -247,63 +281,71 @@ MyDoublyLinkedList["class"] = "MyDoublyLinkedList";
 // Test code
 
 var testMe = new MyDoublyLinkedList();
-testMe.addFirst(10);
-testMe.addFirst(34);
-testMe.addLast(56);
-testMe.addLast(364);
-testMe.removeFirst();
-testMe.removeLast();
 
-console.log('LOL69');
-console.log(testMe.size);
+testMe.addFirst(56);
+testMe.addFirst(364);
+console.log("current size of linked-list: " + testMe.size);
+testMe.addFirst(56);
+testMe.addFirst(133);
+console.log("current size of linked-list: " + testMe.size);
 
-testMe.addFirst(100);
-console.log(testMe.size);
-console.log("hey");
-
-console.log(testMe.size);
-
-testMe.addLast(9999);
-console.log(testMe.size);
-
-console.log(testMe.head);
-console.log("after delete");
-testMe.remove(100);
-console.log(testMe.size);
-console.log(testMe.head);
-
-testMe.removeFirst();
-console.log(testMe.tail);
-
-testMe.removeFirst();
-console.log(testMe.tail);
-console.log(testMe.size);
-testMe.removeFirst();
-
-console.log("milestone");
-console.log(testMe.size);
-console.log(testMe.tail);
-console.log(testMe.head);
-
-testMe.addFirst(1111);
-testMe.addFirst(2222);
-
-console.log("milestone2");
-console.log(testMe.tail);
-console.log(testMe.head);
-console.log(testMe.size);
-
-console.log("removing the last two elements in the list");
-testMe.remove(1111);
-console.log(testMe.size);
-console.log(testMe.tail);
-console.log(testMe.head);
-console.log("removing the last element in the list");
-testMe.removeLast();
-console.log(testMe.size);
-console.log(testMe.tail);
-console.log(testMe.head);
-testMe.removeLast();
+// testMe.addFirst(10);
+// testMe.addFirst(34);
+// testMe.addLast(56);
+// testMe.addLast(364);
+// testMe.removeFirst();
+// testMe.removeLast();
+//
+// console.log('LOL69');
+// console.log(testMe.size);
+//
+// testMe.addFirst(100);
+// console.log(testMe.size);
+// console.log("hey");
+//
+// console.log(testMe.size);
+//
+// testMe.addLast(9999);
+// console.log(testMe.size);
+//
+// console.log(testMe.head);
+// console.log("after delete");
+// testMe.remove(100);
+// console.log(testMe.size);
+// console.log(testMe.head);
+//
+// testMe.removeFirst();
+// console.log(testMe.tail);
+//
+// testMe.removeFirst();
+// console.log(testMe.tail);
+// console.log(testMe.size);
+// testMe.removeFirst();
+//
+// console.log("milestone");
+// console.log(testMe.size);
+// console.log(testMe.tail);
+// console.log(testMe.head);
+//
+// testMe.addFirst(1111);
+// testMe.addFirst(2222);
+//
+// console.log("milestone2");
+// console.log(testMe.tail);
+// console.log(testMe.head);
+// console.log(testMe.size);
+//
+// console.log("removing the last two elements in the list");
+// testMe.remove(1111);
+// console.log(testMe.size);
+// console.log(testMe.tail);
+// console.log(testMe.head);
+// console.log("removing the last element in the list");
+// testMe.removeLast();
+// console.log(testMe.size);
+// console.log(testMe.tail);
+// console.log(testMe.head);
+// testMe.removeLast();
 
 
 

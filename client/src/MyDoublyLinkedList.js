@@ -1,4 +1,5 @@
 import React, {Component} from "react"
+import Course from "./Course";
 
 // Functioning Linked List Class
 
@@ -52,6 +53,23 @@ class MyDoublyLinkedList extends Component {
      * @param {*} element
      */
     addFirst = function (element) {
+
+        if (this.size > 0) {
+
+            // for (var i = 0; i < this.size; i++) {
+
+                let current = this.head;
+                while (current !== null) {
+
+                    if (JSON.stringify(current.element) === JSON.stringify(element)) {
+                        console.log("Duplicate element found! Will not be added.");
+                        return
+                    }
+                    current = current.next;
+                }
+            // }
+        }
+
         var tmp = new MyDoublyLinkedList.Node(this, element, this.head, null);
         if (this.head != null) {
             this.head.prev = tmp;
@@ -68,6 +86,23 @@ class MyDoublyLinkedList extends Component {
      * @param {*} element
      */
     addLast = function (element) {
+
+        if (this.size > 0) {
+
+            // for (var i = 0; i < this.size; i++) {
+
+            let current = this.head;
+            while (current !== null) {
+
+                if (JSON.stringify(current.element) === JSON.stringify(element)) {
+                    console.log("Duplicate element found! Will not be added.");
+                    return
+                }
+                current = current.next;
+            }
+            // }
+        }
+
         var tmp = new MyDoublyLinkedList.Node(this, element, null, this.tail);
         if (this.tail != null) {
             this.tail.next = tmp;
@@ -78,6 +113,24 @@ class MyDoublyLinkedList extends Component {
         }
         this.size++;
         console.info("adding: " + element);
+
+        // node current = head;
+        // node prev = null;
+        // while (current != null)
+        // {
+        //     int curval = current.val;
+        //
+        //     // If current value is seen before
+        //     if (hs.contains(curval)) {
+        //         prev.next = current.next;
+        //     } else {
+        //         hs.add(curval);
+        //         prev = current;
+        //     }
+        //     current = current.next;
+        // }
+
+
     };
 
 
@@ -247,64 +300,84 @@ MyDoublyLinkedList["class"] = "MyDoublyLinkedList";
 // Test code
 
     var testMe = new MyDoublyLinkedList();
-        testMe.addFirst(10);
-        testMe.addFirst(34);
+
+
+
+
         testMe.addLast(56);
         testMe.addLast(364);
-        testMe.removeFirst();
-        testMe.removeLast();
-
-        console.log('LOL69');
-        console.log(testMe.size);
-
-        testMe.addFirst(100);
-        console.log(testMe.size);
-        console.log("hey");
-
-        console.log(testMe.size);
-
-        testMe.addLast(9999);
-        console.log(testMe.size);
-
-        console.log(testMe.head);
-        console.log("after delete");
-        testMe.remove(100);
-        console.log(testMe.size);
-        console.log(testMe.head);
-
-        testMe.removeFirst();
-        console.log(testMe.tail);
-
-        testMe.removeFirst();
-        console.log(testMe.tail);
-        console.log(testMe.size);
-        testMe.removeFirst();
-
-        console.log("milestone");
-        console.log(testMe.size);
-        console.log(testMe.tail);
-        console.log(testMe.head);
-
-        testMe.addFirst(1111);
-        testMe.addFirst(2222);
-
-        console.log("milestone2");
-        console.log(testMe.tail);
-        console.log(testMe.head);
-        console.log(testMe.size);
-
-        console.log("removing the last element in the list");
-        testMe.remove(1111);
-        console.log(testMe.size);
-        console.log(testMe.tail);
-        console.log(testMe.head);
-        testMe.remove(2222);
-        console.log(testMe.size);
-        console.log(testMe.tail);
-        console.log(testMe.head);
+console.log("current size of linked-list: " + testMe.size);
+testMe.addLast(56);
+testMe.addLast(133);
+console.log("current size of linked-list: " + testMe.size);
 
 
 
+
+//         testMe.removeFirst();
+//         testMe.removeLast();
+//
+//         console.log('LOL69');
+//         console.log(testMe.size);
+//
+//         testMe.addFirst(100);
+//         console.log(testMe.size);
+//         console.log("hey");
+//
+//         console.log(testMe.size);
+//
+//         testMe.addLast(9999);
+//         console.log(testMe.size);
+//
+//         console.log(testMe.head);
+//         console.log("after delete");
+//         testMe.remove(100);
+//         console.log(testMe.size);
+//         console.log(testMe.head);
+//
+//         testMe.removeFirst();
+//         console.log(testMe.tail);
+//
+//         testMe.removeFirst();
+//         console.log(testMe.tail);
+//         console.log(testMe.size);
+//         testMe.removeFirst();
+//
+//         console.log("milestone");
+//         console.log(testMe.size);
+//         console.log(testMe.tail);
+//         console.log(testMe.head);
+//
+//         testMe.addFirst(1111);
+//         testMe.addFirst(2222);
+//
+//         console.log("milestone2");
+//         console.log(testMe.tail);
+//         console.log(testMe.head);
+//         console.log(testMe.size);
+//
+//         console.log("removing the last element in the list");
+//         // testMe.remove(1111);
+//         console.log(testMe.size);
+//         console.log(testMe.tail);
+//         console.log(testMe.head);
+//         // testMe.remove(2222);
+//         console.log(testMe.size);
+//         console.log(testMe.tail);
+//         console.log(testMe.head);
+//
+//
+// console.log("same?");
+
+// var Course11 = new Course("lol","lol","lol","lol","lol","lol");
+// var Course22 = new Course("lol","lol","lol","lol","lol","lol");
+// var Course33 = new Course("lol","lol","lol","lol","lol","no");
+//
+//
+// var eq = JSON.stringify(Course11) === JSON.stringify(Course22);
+// console.log(eq);
+
+// console.log(testMe.get(1));
 
 
 

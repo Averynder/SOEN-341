@@ -22,6 +22,30 @@ class Course {
 
     }
 
+
+    samesame(cc) {
+
+//         if (cc == null) {
+//             return false;
+// }
+        if ((this.courseTitle == cc.courseTitle) &&
+            (this.subject == cc.subject) &&
+            (this.catalog == cc.catalog) &&
+            (this.credits == cc.credits) &&
+            (this.prereqs == cc.prereqs) &&
+            (this.coreqs == cc.coreqs)
+        ) return true;
 }
+
+}
+
+// console.log("same?");
+
+// var Course11 = new Course("lol","lol","lol","lol","lol","lol");
+// var Course22 = new Course("lol","lol","lol","lol","lol","lol");
+//
+// console.log(Course11.equals(Course22));
+
+
 
 module.exports = Course;
