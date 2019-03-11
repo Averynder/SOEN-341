@@ -33,7 +33,7 @@ class Router extends React.Component {
           <Route path="/seq-based-confirmation" component={BasedOnSeq} />
           <Route path="/andre's-App" component={AndreLink} />
           <Route path="/rubiat-seq-table" component={RubiatSeqLink} />
-          <Route path="/binary_tree" component={BinaryTree} />
+          <Route path="/BinaryTree" component={BinaryTree} />
           <Route path="/pull-previous-courses" component={PullPreviousCourses}/>
           <Route path="/previous-courses-taken" component={PreviousCoursesTaken}/>
           <Route path="/obtain-uploaded-sequence" component={ObtainUploadedSequence}/>

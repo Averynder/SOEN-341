@@ -35,11 +35,17 @@ class Stack extends Component
 	return;
 };
 
+/*
 var testMe = new Stack();
 testMe.push(4);
 testMe.push(7);
 testMe.push(8);
 testMe.push(44);
 console.log(testMe.pop());
-
+console.log(testMe.top());
+testMe.pop();
+testMe.pop();
+console.log("Top");
+console.log(testMe.top());
+*/
 export default Stack;

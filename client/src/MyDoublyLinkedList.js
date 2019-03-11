@@ -1,24 +1,5 @@
 import React, {Component} from "react"
 
-// Functioning Linked List Class
-
-// class MyDoublyLinkedList extends Component{
-
-// class MyDoublyLinkedList {
-
-// }
-//
-// export default MyDoublyLinkedList;
-//
-// const list = new MyDoublyLinkedList('first');
-// list.addToHead('second');
-//
-// console.log(new MyDoublyLinkedList('Hello!'));
-//
-// console.log(list);
-
-
-
 class MyDoublyLinkedList extends Component {
 
     constructor(props) {
@@ -31,26 +12,17 @@ class MyDoublyLinkedList extends Component {
             this.size = 0;
         this.size = 0;
     }
-    /**
-     * returns the size of the linked list
-     * @return
-     * @return {number}
-     */
-    size = function () {
+
+    size = function ()
+    {
         return this.size;
     };
-    /**
-     * return whether the list is empty or not
-     * @return
-     * @return {boolean}
-     */
-    isEmpty = function () {
+
+    isEmpty = function ()
+    {
         return this.size === 0;
     };
-    /**
-     * adds element at the starting of the linked list
-     * @param {*} element
-     */
+
     addFirst = function (element) {
         var tmp = new MyDoublyLinkedList.Node(this, element, this.head, null);
         if (this.head != null) {
@@ -63,10 +35,7 @@ class MyDoublyLinkedList extends Component {
         this.size++;
         console.info("adding: " + element);
     };
-    /**
-     * adds element at the end of the linked list
-     * @param {*} element
-     */
+
     addLast = function (element) {
         var tmp = new MyDoublyLinkedList.Node(this, element, null, this.tail);
         if (this.tail != null) {
@@ -215,14 +184,6 @@ class MyDoublyLinkedList extends Component {
 
 MyDoublyLinkedList["class"] = "MyDoublyLinkedList";
 (function (MyDoublyLinkedList) {
-    /**
-     * this class keeps track of each element information
-     * @author java2novice
-     * @param {*} element
-     * @param {MyDoublyLinkedList.Node} next
-     * @param {MyDoublyLinkedList.Node} prev
-     * @class
-     */
     var Node = (function () {
         function Node(parent, element, next, prev) {
             this.parent = parent;
@@ -245,7 +206,7 @@ MyDoublyLinkedList["class"] = "MyDoublyLinkedList";
 
 
 // Test code
-
+/*
     var testMe = new MyDoublyLinkedList();
         testMe.addFirst(10);
         testMe.addFirst(34);
@@ -302,12 +263,6 @@ MyDoublyLinkedList["class"] = "MyDoublyLinkedList";
         console.log(testMe.size);
         console.log(testMe.tail);
         console.log(testMe.head);
-
-
-
-
-
-
-
+*/
 
 export default MyDoublyLinkedList;

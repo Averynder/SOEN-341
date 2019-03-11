@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Button from "./components/Button";
 import { Link } from "react-router-dom";
+import BinaryTree from "./BinaryTree";
 
 class LinkBox extends Component {
   // constructor() {
@@ -20,7 +21,7 @@ class LinkBox extends Component {
             <Link to="/pdfSequenceGenerator">
               <Button text="Table of seq." />
             </Link>
-            <Link to="/binary_tree">
+            <Link to="/BinaryTree">
               <Button text="Binary Tree" onClick="#" />
             </Link>
             <Link to="/concordia-similar">
