@@ -86,6 +86,11 @@ class MyDoublyLinkedList {
      * @param given element that user is searching for, in order to delete
      */
     remove(given) {
+
+        if (this.size === 0) {
+            console.log("This list is empty!")
+        }
+
         var temporary = this.head;
         while(temporary != null) {
             if(temporary.element === given) {
@@ -103,6 +108,8 @@ class MyDoublyLinkedList {
                     temporary.next.prev = temporary.prev;
                 }
                 this.size--;
+                console.log("deleted: " + temporary.element);
+                return temporary.element;
             }
             temporary = temporary.next;
         }
@@ -114,12 +121,45 @@ class MyDoublyLinkedList {
      * @return {*}
      */
     removeFirst() {
-        var tmp = this.head;
-        this.head = this.head.next;
-        this.head.prev = null;
-        this.size--;
-        console.info("deleted: " + tmp.element);
-        return tmp.element;
+
+        if (this.size === 1) {
+            this.size--;
+
+            var start = this.head;
+            var prev = null;
+            if(start == null){
+                return;
+            }
+            if (start.next == null){
+                this.tail = null;
+                this.head = null;
+
+                console.log("deleted: " + start.element);
+                return;
+            }
+            while (start.next != null) {
+                prev = start;
+                start = start.next;
+            }
+            prev.next = null;
+
+            console.log("deleted: " + start.element);
+            return start.element;
+
+        }
+
+        else if (this.size > 1) {
+            var tmp = this.head;
+            this.head = this.head.next;
+            this.head.prev = null;
+            this.size--;
+            console.info("deleted: " + tmp.element);
+            return tmp.element;
+        }
+
+        else if (this.size === 0) {
+            console.log("This list is empty!")
+        }
     };
     /**
      * this method removes element from the end of the linked list
@@ -127,12 +167,48 @@ class MyDoublyLinkedList {
      * @return {*}
      */
     removeLast() {
-        var tmp = this.tail;
-        this.tail = this.tail.prev;
-        this.tail.next = null;
-        this.size--;
-        console.info("deleted: " + tmp.element);
-        return tmp.element;
+
+        if (this.size === 1) {
+            this.size--;
+
+            var start = this.head;
+            var prev = null;
+            if(start == null){
+                return;
+            }
+            if (start.next == null){
+                this.tail = null;
+                this.head = null;
+
+                console.log("deleted: " + start.element);
+                return;
+            }
+            while (start.next != null) {
+                prev = start;
+                start = start.next;
+            }
+            prev.next = null;
+
+            console.log("deleted: " + start.element);
+            return start.element;
+
+        }
+
+
+
+        else if (this.size > 1) {
+
+            var tmp = this.tail;
+            this.tail = this.tail.prev;
+            this.tail.next = null;
+            this.size--;
+            console.info("deleted: " + tmp.element);
+            return tmp.element;
+        }
+
+        else if (this.size === 0) {
+            console.log("This list is empty!")
+        }
     };
 };
 
@@ -168,6 +244,7 @@ MyDoublyLinkedList["class"] = "MyDoublyLinkedList";
 
 
 
+// Test code
 
 var testMe = new MyDoublyLinkedList();
 testMe.addFirst(10);
@@ -184,18 +261,50 @@ testMe.addFirst(100);
 console.log(testMe.size);
 console.log("hey");
 
-
 console.log(testMe.size);
 
 testMe.addLast(9999);
 console.log(testMe.size);
-
 
 console.log(testMe.head);
 console.log("after delete");
 testMe.remove(100);
 console.log(testMe.size);
 console.log(testMe.head);
+
+testMe.removeFirst();
+console.log(testMe.tail);
+
+testMe.removeFirst();
+console.log(testMe.tail);
+console.log(testMe.size);
+testMe.removeFirst();
+
+console.log("milestone");
+console.log(testMe.size);
+console.log(testMe.tail);
+console.log(testMe.head);
+
+testMe.addFirst(1111);
+testMe.addFirst(2222);
+
+console.log("milestone2");
+console.log(testMe.tail);
+console.log(testMe.head);
+console.log(testMe.size);
+
+console.log("removing the last two elements in the list");
+testMe.remove(1111);
+console.log(testMe.size);
+console.log(testMe.tail);
+console.log(testMe.head);
+console.log("removing the last element in the list");
+testMe.removeLast();
+console.log(testMe.size);
+console.log(testMe.tail);
+console.log(testMe.head);
+testMe.removeLast();
+
 
 
 
