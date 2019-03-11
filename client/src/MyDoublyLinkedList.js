@@ -377,7 +377,6 @@ console.log("current size of linked-list: " + testMe.size);
 // var eq = JSON.stringify(Course11) === JSON.stringify(Course22);
 // console.log(eq);
 
-// console.log(testMe.get(1));
 
 
 
