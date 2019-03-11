@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var app = express();
 
+
 class Course {
     //
     // courseTitle;
@@ -11,7 +12,6 @@ class Course {
     // prereqs;
     // coreqs;
 
-
     constructor(courseTitle, subject, catalog, credits, prereqs, coreqs) {
         this.courseTitle = courseTitle;
         this.subject = subject;
@@ -19,8 +19,8 @@ class Course {
         this.credits = credits;
         this.prereqs = prereqs;
         this.coreqs = coreqs;
-
     }
+
 
 
 //     samesame(cc) {
