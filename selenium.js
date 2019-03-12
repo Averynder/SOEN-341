@@ -3,23 +3,18 @@ var chrome = require('selenium-webdriver/firefox');
 
 module.exports = (app) => {
   app.get('/concordia/:netname/:password', function (req, res, next) {
-    let driver = new Builder()
-      .forBrowser('firefox')
+    let driver = new Builder().forBrowser('firefox')
       //.setChromeOptions(new chrome.Options().headless()) // invisible chrome
-      .setChromeOptions()
-      .build();
+      .setChromeOptions().build();
+    let element = driver.findElement(By.id("btnGrade"));
+    let executor = driver;
+    executor.executeScript("arguments[0].click();", element);
       try {
         //driver.get('https://my.concordia.ca/')
         driver.get('https://my.concordia.ca/psp/upprpr9/?cmd=login&device=mobile')
           .then(_ => driver.findElement(By.name('userid')).sendKeys(req.params.netname))
           .then(_ => driver.findElement(By.name('pwd')).sendKeys(req.params.password, Key.RETURN))
           .then(_ => driver.wait(until.elementLocated(By.xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/tr/td[1]/ul/li[1]/table/tbody/tr[2]/td/div/nav/div[1]/ul/li[2]/div')), 4000))
-          .then(_ => driver.wait(until.elementLocated(By.id('btnGrade')), 4000))
-          //.then(_ => driver.findElement(By.xpath('//*[@id="CU_MY_STUD_CENTRE"]/div')).click()) // click on the arrow to show MyStudentCentre
-          //.then(_ => driver.wait(until.elementLocated(By.xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/tr/td[1]/ul/li[1]/table/tbody/tr[2]/td/div/nav/div[1]/ul/li[2]/ul/li[1]/a')), 4000)) // wait until content shows up
-          //.then(_ => driver.findElement(By.xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/tr/td[1]/ul/li[1]/table/tbody/tr[2]/td/div/nav/div[1]/ul/li[2]/ul/li[1]/a')).click()) // click on MyStudent Centre
-          //.then(_ => driver.wait(until.elementLocated(By.xpath('//*[@id="DERIVED_SSS_SCL_DESCR254A"]')), 8000)) // body of MyStudent Centre
-          //.then(_ => driver.findElement(By.xpath('//*[@id="DERIVED_SSS_SCL_TITLE1$78$"]')).getText()) // Netname
           .then(_ => driver.quit(), e => driver.quit().then(() => { throw e; }));
       } catch (err) {
         console.log(err);
@@ -27,4 +22,10 @@ module.exports = (app) => {
         res.end();
       }
   });
+}
+
+function sleep(seconds)
+{
+  var e = new Date().getTime() + (seconds * 1000);
+  while (new Date().getTime() <= e) {}
 }
