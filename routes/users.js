@@ -7,13 +7,16 @@ const MyDoublyLinkedList = require('./MyDoublyLinkedList');
 var count;
 // var mysql = require('mysql');
 var courseList = new MyDoublyLinkedList();
+oldValue = courseList.size;
 var insertDone = false;
-var oldValue = 0;
+var oldValue;
 var thisDick = new Course();
 if (count == undefined)
   count = 1;
 else
   count = 0;
+
+var goAhead = false;
 
 var connection = mysql.createConnection({
   connectionLimit: 20,
@@ -64,7 +67,7 @@ connection.connect();
       });
 
 
-var sqlrr = "CREATE TABLE `course` (courseTitle VARCHAR(30), subject VARCHAR(30), classNumber VARCHAR(30), credits VARCHAR(30), prerequisites VARCHAR(30), corequisites VARCHAR(30))";
+var sqlrr = "CREATE TABLE `course` (courseTitle VARCHAR(100), subject VARCHAR(30), classNumber VARCHAR(100), credits VARCHAR(100), prerequisites VARCHAR(100), corequisites VARCHAR(100))";
 connection.query(sqlrr, function (err, result) {
   // if (err) throw err;
   console.log("Table created");
@@ -126,7 +129,7 @@ setInterval(() => {
 
 // Database entries
 
-
+// SOEN Entries
 if (true) {
 
   var rl = require("readline").createInterface({
@@ -263,7 +266,6 @@ if (true) {
       }
 
 
-
       var coreqs = "";
       if (prereqs.search(/(previously or concurrently)/) > -1)
       {
@@ -309,7 +311,6 @@ if (true) {
       prereqs = prereqs.replace (/ or /g, "<==>");
       prereqs = prereqs.replace (/  /g, " ");
 
-
       var courseToAdd = new Course(courseTitle.toString(),subject.toString(),catalog.toString(),credits.toString(),prereqs.toString(),coreqs.toString());
 
       courseList.addLast(courseToAdd);
@@ -321,20 +322,6 @@ if (true) {
             prereqs + " coreqs: " + coreqs
         );
 
-
-            // connection.connect(function(err) {
-            //   if (err) throw err;
-            //   console.log("Connected!");
-            //   var sql = "INSERT INTO `soen341`.`course`(courseTitle,subject,catalog,credits,prereqs,coreqs) VALUES("+courseTitle.toString()+","+subject.toString()+","+catalog.toString()+","+credits.toString()+","+prereqs.toString()+","+coreqs.toString()+")";
-            //   connection.query(sql, function (err, result) {
-                // if (err) throw err;
-                // console.log("1 record inserted");
-            //   });
-            // });
-
-        // connection.query('INSERT INTO `soen341`.`course` (courseTitle,subject,classNumber,credits,prerequisites,corequisites) VALUES ('+courseTitle+','+subject+','+catalog+','+credits+','+prereqs+','+coreqs+')');
-
-
         connection.query(`INSERT INTO course (courseTitle,subject,classNumber,credits,prerequisites,corequisites) VALUES ('${courseTitle}','${subject}','${catalog}','${credits}','${prereqs}','${coreqs}');`, function (err, result, fields) {
           // if (err) throw err;
         });
@@ -343,26 +330,6 @@ if (true) {
 
         oldValue = courseList.size;
       }
-
-
-
-      // tryme.catalog = "nahh";
-      // console.log("look at THISS");
-      // console.log(tryme.catalog);
-
-      // var prereqsArray = null;
-      //     prereqsArray = prereqs.split(/(\s+)/);
-
-
-      // connection.query("INSERT INTO `course`(subject,courseTitle,credits) VALUES("+subject+", "+courseTitle+", "+credits+")", function(error, results, fields) {
-      // 		if(error) throw error;
-      //
-      // console.log(
-      //   "Succesfully inserted: Title: "+courseTitle+" subject: "+subject+ " catalog:  " + catalog + " credits: " + credits + " prereqs: " +
-      //     prereqs + " coreqs: " + coreqs
-      // );
-
-
 
     }
     else
@@ -373,69 +340,237 @@ if (true) {
     console.log("courseList size");
     console.log(courseList.size);
 
-
-
-    // while (true)
-    // {
-    //   if (!(oldValue == courseList.size))
-    //   {
-    //
-    //     connection.connect(function(err) {
-    //       if (err) throw err;
-    //       console.log("Connected!");
-    //       var sqlr = ("INSERT INTO `soen341`.`course`(courseTitle,subject,catalog,credits,prereqs,coreqs) VALUES("+courseTitle.toString()+","+subject.toString()+","+catalog.toString()+","+credits.toString()+","+prereqs.toString()+","+coreqs.toString()+")");
-    //       connection.query(sqlr, function (err, result) {
-    //         // if (err) throw err;
-    //         console.log("1 record inserted");
-    //       });
-    //     });
-    //
-    //     // var sqlr = ("INSERT INTO `soen341`.`course`(courseTitle,subject,catalog,credits,prereqs,coreqs) VALUES("+courseTitle.toString()+","+subject.toString()+","+catalog.toString()+","+credits.toString()+","+prereqs.toString()+","+coreqs.toString()+")");
-    //     connection.query("INSERT INTO `soen341`.`course`(courseTitle,subject,catalog,credits,prereqs,coreqs) VALUES("+courseTitle.toString()+","+subject.toString()+","+catalog.toString()+","+credits.toString()+","+prereqs.toString()+","+coreqs.toString()+")", function(error, results, fields) {
-    //       // if (error) throw error;
-    //       console.log("The solution is: ", results);
-    //     });
-    //
-    //
-    //     console.log(
-    //         "Succesfully inserted: Title: "+courseTitle+" subject: "+subject+ " catalog:  " + catalog + " credits: " + credits + " prereqs: " +
-    //         prereqs + " coreqs: " + coreqs);
-    //     oldValue = courseList.size;
-    //     console.log("old value "+oldValue);
-    //     break; // quit loop
-    //   }
-    //   oldValue = courseList.size;
-    //   break;
-    //
-    // }
+  });
+}
 
 
 
-    // connection.query("SELECT*FROM `soen341`.`course`;", function(error, results, fields) {
-    //   if (error) throw error;
-    //   console.log("The course is: ", results);
-    // });
 
 
-    //
-    // connection.query(`INSERT INTO course (courseTitle,subject,classNumber,credits,prerequisites,corequisites) VALUES ('nuts','nuts','nuts','nuts','nuts','nuts');`, function (err, result, fields) {
-    //   // if (err) throw err;
-    // });
 
+// For COMP entries
+if (true) {
+
+  var rl = require("readline").createInterface({
+    input: require("fs").createReadStream("routes/COMPcatalog.txt")
+  });
+
+
+
+  rl.on("line", function(line) {
+    var a = 10;
+    var b = 14;
+    var c = 27;
+    var d = 30;
+    if (line.search(/("career":"UGRD")/) >= 0)
+    {
+      var subject =
+          line.substring(
+              line.search(/(subject)/) + 10,
+              line.search(/(","catalog)/)
+          );
+      var catalog =
+          line.substring(
+              line.search(/(catalog)/) + 10,
+              line.search(/(","career)/)
+          );
+      var a = 11;
+      var b = 15;
+      var c = 28;
+      var d = 31;
+      var courseTitle = line.substring(
+          line.search(/(title)/) + 8,
+          line.search(/(","subject")/)
+      );
+      var credits = line.substring(
+          line.search(/(Unit)/) + 7,
+          line.search(/(Unit)/) + 11
+      );
+
+      var prereqs = "";
+
+      // Prereqs
+      if (line.search(/(Corequisite|Co-requisite)/) > -1)
+      {
+        var bool1 = line.search(/(Prerequisite)/) > -1;
+        var bool2 = line.search(/(PREREQ)/) > -1;
+        if (bool1)
+        {
+          if (line.search(/(Prerequisite)/) + 13 > line.search(/(Course Corequisite|Corequisite|Co-requisite|Never Taken)/))
+          {
+            line = line.substring(line.search(/(Prerequisite)/));
+            prereqs = line.substring
+            (
+                line.search(/(Prerequisite)/) + 13,
+                line.search(/(Course Corequisite|Course Co-requisite|Corequisite|Co-requisite)/)
+            );
+          }
+          else
+          {
+            line = line.substring(line.search(/(Prerequisite)/));
+            prereqs = line.substring
+            (
+                line.search(/(Prerequisite)/) + 13,
+                line.search(/(Course Corequisite|Course Co-requisite|Corequisite|Co-requisite|Never Taken)/)
+            );
+          }
+        }
+        else if (bool2)
+        {
+          if (line.search(/(PREREQ)/) + 7 > line.search(/(Course Corequisite|Corequisite|Co-requisite|Never Taken)/))
+          {
+            line = line.substring(line.search(/(PREREQ)/));
+            prereqs = line.substring
+            (
+                line.search(/(PREREQ)/) + 7,
+                line.search(/(Course Corequisite|Course Co-requisite|Corequisite|Co-requisite)/)
+            );
+          }
+          else
+          {
+            line = line.substring(line.search(/(PREREQ)/));
+            prereqs = line.substring
+            (
+                line.search(/(PREREQ)/) + 7,
+                line.search(/(Course Corequisite|Course Co-requisite|Corequisite|Co-requisite|Never Taken)/)
+            );
+          }
+        }
+      }
+      else
+      {
+        var bool1 = line.search(/(Prerequisite)/) > -1;
+        var bool2 = line.search(/(PREREQ)/) > -1;
+        if (bool1)
+        {
+          if (line.search(/(Never Taken|","crosslisted")/) > line.search(/(Prerequisite)/) + 13)
+          {
+            line = line.substring(line.search(/(Prerequisite)/));
+            prereqs = line.substring
+            (
+                line.search(/(Prerequisite)/) + 13,
+                line.search(/(Never Taken|","crosslisted")/)
+            );
+          }
+          else
+          {
+            line = line.substring(line.search(/(Prerequisite)/));
+            prereqs = line.substring
+            (
+                line.search(/(Prerequisite)/) + 13,
+                line.search(/(","crosslisted")/)
+            );
+          }
+        }
+        else if (bool2)
+        {
+          if (line.search(/(Never Taken|","crosslisted")/) > line.search(/(PREREQ)/) + 7)
+          {
+            line = line.substring(line.search(/(PREREQ)/));
+            prereqs = line.substring
+            (
+                line.search(/(PREREQ)/) + 7,
+                line.search(/(Never Taken|","crosslisted")/)
+            );
+          }
+          else
+          {
+            line = line.substring(line.search(/(PREREQ)/));
+            prereqs = line.substring
+            (
+                line.search(/(PREREQ)/) + 7,
+                line.search(/(","crosslisted")/)
+            );
+          }
+        }
+      }
+
+      var coreqs = "";
+      if (prereqs.search(/(previously or concurrently)/) > -1)
+      {
+        coreqs += prereqs.substring
+        (
+            prereqs.search(/(;)/) + 2,
+            prereqs.search(/(previously or concurrently)/)
+        );
+        prereqs = prereqs.substring
+        (
+            prereqs.charAt(0),
+            prereqs.search(/(;)/)
+        );
+      }
+
+      if (line.search(/(Corequisite|Co-requisite)/) > -1)
+      {
+        var bool1 = line.search(/(Corequisite)/) > -1;
+        var bool2 = line.search(/(Co-requisite)/) > -1;
+        if (bool1)
+        {
+          line = line.substring(line.search(/(Corequisite)/));
+          coreqs += line.substring
+          (
+              line.search(/(Corequisite)/) + 13,
+              line.search(/(;|","crosslisted")/)
+          );
+
+        }
+        else if (bool2)
+        {
+          line = line.substring(line.search(/(Co-requisite)/));
+          coreqs += line.substring
+          (
+              line.search(/(Co-requisite)/) + 13,
+              line.search(/(;|","crosslisted")/)
+          );
+        }
+      }
+
+      prereqs = prereqs.replace (/;/g, "");
+      prereqs = prereqs.replace (/,/g, "");
+      prereqs = prereqs.replace (/ or /g, "<==>");
+      prereqs = prereqs.replace (/or /g, "<==>");
+      prereqs = prereqs.replace (/  /g, " ");
+      prereqs = prereqs.replace (/ Course prerequisite: /g, " ");
+
+
+
+      // Course co-reqs are sandwiched in the middle so im using this to avoid that issue
+      if (subject.toString().includes('COMP') && catalog.toString().includes('228')) {
+        prereqs = 'COMP248';
+        coreqs = 'MATH204 MATH203';
+      }
+
+      var courseToAdd = new Course(courseTitle.toString(),subject.toString(),catalog.toString(),credits.toString(),prereqs.toString(),coreqs.toString());
+
+      courseList.addLast(courseToAdd);
+
+      while ((courseList.size > oldValue)) {
+
+        connection.query(`INSERT INTO course (courseTitle,subject,classNumber,credits,prerequisites,corequisites) VALUES ('${courseToAdd.courseTitle.toString()}','${courseToAdd.subject.toString()}','${courseToAdd.catalog.toString()}','${courseToAdd.credits.toString()}','${courseToAdd.prereqs.toString()}','${courseToAdd.coreqs.toString()}');`, function (err, result, fields) {
+          if (err) throw err;
+        });
+        console.log(
+            "Succesfully inserted: Title: "+courseToAdd.courseTitle+" subject: "+courseToAdd.subject+ " catalog: " + courseToAdd.catalog + " credits: " + courseToAdd.credits + " prereqs: " +
+            courseToAdd.prereqs + " coreqs: " + courseToAdd.coreqs
+        );
+        oldValue++;
+      }
+
+
+    }
+    else
+    {
+      console.log("GRAD course");
+    }
+
+    console.log("courseList size");
+    console.log(courseList.size);
 
 
   });
 
-  // insertDone = true;
-
 }
-//
-// if (insertDone) {
-//
-//   console.log("courseList sizeee");
-//   console.log(courseList.size);
-//
-// }
+
 
 
 /* GET users listing. */
