@@ -49,6 +49,14 @@ a software package to automate readjustments to the Departmental sequences and o
 7.    Copy Paste the procedures script (Until line 14) and hit Apply
 8.    Go to http://localhost:3001/concordia and enter into terminal
 
+### Setting up Selenium for NodeJS
+1.    Run npm install -g selenium-webdriver
+2.    Set up ChromeDriver or Firefox's Gecko on your path: https://www.youtube.com/watch?v=dz59GsdvUF8
+3.    Start the back end server
+4.    Type in http://localhost:3001/concordia/yourusername/yourpass
+5.    Replace yourusername and yourpass with whatever you use to enter concordia
+6.    Visit the site and watch Google Chrome Login for you
+
 Go to http://localhost:3000 and check to see if everything works
 * ExpressJs exclusively on port 3001
 * React with ExpressJs  on port 3000
