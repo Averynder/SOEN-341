@@ -22,6 +22,18 @@ class Course extends Component {
         this.coreqs = coreqs;
 
     }
+
+    clone () {
+        var cc = new Course(null,null,null,null,null,null);
+        cc.courseTitle = this.courseTitle;
+        cc.subject = this.subject;
+        cc.catalog = this.catalog;
+        cc.credits = this.credits;
+        cc.prereqs = this.prereqs;
+        cc.coreqs = this.coreqs;
+        return cc;
+    }
+
 }
 
 // var test = new MyDoublyLinkedList();

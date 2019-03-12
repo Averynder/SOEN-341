@@ -4,7 +4,16 @@ var app = express();
 var fs = require("fs");
 const Course = require('./Course');
 const MyDoublyLinkedList = require('./MyDoublyLinkedList');
-
+var count;
+// var mysql = require('mysql');
+var courseList = new MyDoublyLinkedList();
+var insertDone = false;
+var oldValue = 0;
+var thisDick = new Course();
+if (count == undefined)
+  count = 1;
+else
+  count = 0;
 
 var connection = mysql.createConnection({
   connectionLimit: 20,
@@ -15,10 +24,76 @@ var connection = mysql.createConnection({
 });
 
 connection.connect();
-connection.query("SELECT*FROM `teacher`;", function(error, results, fields) {
-  if (error) throw error;
-  console.log("The solution is: ", results);
+// connection.query("SELECT*FROM `teacher`;", function(error, results, fields) {
+//   if (error) throw error;
+//   console.log("The solution is: ", results);
+// });
+
+// connection.query("SELECT table_name FROM information_schema.tables WHERE table_schema = 'soen341' AND table_name = 'course';");
+
+
+
+  //
+  // var checkExist = connection.query("SELECT EXISTS( SELECT * FROM information_schema.tables WHERE table_schema = 'soen341' AND table_name = 'course');", function (error, results, fields) {
+  //   if (checkExist != null) {
+  //     // no table
+  //     console.log("checkexists: " + checkExist);
+  //     console.log("no table");
+  //     return;
+  //   } else
+  //     {
+  //     // there is a table
+  //       console.log("checkexists: " + checkExist);
+  //       var dck = "DROP TABLE course";
+  //       connection.query(dck, function (err, result) {
+  //         if (err) throw err;
+  //         console.log("Table deleted");
+  //       });        return
+  //
+  //   }
+  //   console.log("The course is: ", results);
+  // });
+
+
+
+
+      var dck = "DROP TABLE course";
+      connection.query(dck, function (err, result) {
+        // if (err) throw err;
+        console.log("Table deleted");
+      });
+
+
+var sqlrr = "CREATE TABLE `course` (courseTitle VARCHAR(30), subject VARCHAR(30), classNumber VARCHAR(30), credits VARCHAR(30), prerequisites VARCHAR(30), corequisites VARCHAR(30))";
+connection.query(sqlrr, function (err, result) {
+  // if (err) throw err;
+  console.log("Table created");
 });
+
+
+
+
+
+
+
+// console.log('watchmynuts'+checkExist.toString());
+
+// if (checkExist != null) {
+//
+//   connection.query("DROP TABLE `course`");
+//
+// }
+
+
+
+
+
+
+// connection.query("CREATE TABLE `soen341`.`course` (courseTitle,subject,classNumber,credits,prerequisites,corequisites) VALUES ('${courseTitle}','${subject}','${catalog}','${credits}','${prereqs}','${coreqs}');`, function (err, result, fields) {
+//   // if (err) throw err;
+// });
+
+
 /*
 connection.query('CALL ValidateEngineer();', function(error, results, fields) {
     if(error) throw error;
@@ -53,6 +128,7 @@ setInterval(() => {
 
 
 if (true) {
+
   var rl = require("readline").createInterface({
     input: require("fs").createReadStream("routes/SOENcatalog.txt")
   });
@@ -234,7 +310,42 @@ if (true) {
       prereqs = prereqs.replace (/  /g, " ");
 
 
-      // var tryme = new Course("lol","lol","lol","lol","lol","lol");
+      var courseToAdd = new Course(courseTitle.toString(),subject.toString(),catalog.toString(),credits.toString(),prereqs.toString(),coreqs.toString());
+
+      courseList.addLast(courseToAdd);
+
+      if (!(oldValue == courseList.size)) {
+
+        console.log(
+            "Succesfully inserted: Title: "+courseTitle+" subject: "+subject+ " catalog:  " + catalog + " credits: " + credits + " prereqs: " +
+            prereqs + " coreqs: " + coreqs
+        );
+
+
+            // connection.connect(function(err) {
+            //   if (err) throw err;
+            //   console.log("Connected!");
+            //   var sql = "INSERT INTO `soen341`.`course`(courseTitle,subject,catalog,credits,prereqs,coreqs) VALUES("+courseTitle.toString()+","+subject.toString()+","+catalog.toString()+","+credits.toString()+","+prereqs.toString()+","+coreqs.toString()+")";
+            //   connection.query(sql, function (err, result) {
+                // if (err) throw err;
+                // console.log("1 record inserted");
+            //   });
+            // });
+
+        // connection.query('INSERT INTO `soen341`.`course` (courseTitle,subject,classNumber,credits,prerequisites,corequisites) VALUES ('+courseTitle+','+subject+','+catalog+','+credits+','+prereqs+','+coreqs+')');
+
+
+        connection.query(`INSERT INTO course (courseTitle,subject,classNumber,credits,prerequisites,corequisites) VALUES ('${courseTitle}','${subject}','${catalog}','${credits}','${prereqs}','${coreqs}');`, function (err, result, fields) {
+          // if (err) throw err;
+        });
+
+
+
+        oldValue = courseList.size;
+      }
+
+
+
       // tryme.catalog = "nahh";
       // console.log("look at THISS");
       // console.log(tryme.catalog);
@@ -244,20 +355,88 @@ if (true) {
 
 
       // connection.query("INSERT INTO `course`(subject,courseTitle,credits) VALUES("+subject+", "+courseTitle+", "+credits+")", function(error, results, fields) {
-		// 		if(error) throw error;
+      // 		if(error) throw error;
+      //
+      // console.log(
+      //   "Succesfully inserted: Title: "+courseTitle+" subject: "+subject+ " catalog:  " + catalog + " credits: " + credits + " prereqs: " +
+      //     prereqs + " coreqs: " + coreqs
+      // );
 
-      console.log(
-        "Succesfully inserted: Title: "+ courseTitle+" subject: "+subject+ " catalog:  " + catalog + " credits: " + credits + " prereqs: " +
-          prereqs + " coreqs: " + coreqs
-      );
+
 
     }
     else
     {
       console.log("Victor was right");
     }
+
+    console.log("courseList size");
+    console.log(courseList.size);
+
+
+
+    // while (true)
+    // {
+    //   if (!(oldValue == courseList.size))
+    //   {
+    //
+    //     connection.connect(function(err) {
+    //       if (err) throw err;
+    //       console.log("Connected!");
+    //       var sqlr = ("INSERT INTO `soen341`.`course`(courseTitle,subject,catalog,credits,prereqs,coreqs) VALUES("+courseTitle.toString()+","+subject.toString()+","+catalog.toString()+","+credits.toString()+","+prereqs.toString()+","+coreqs.toString()+")");
+    //       connection.query(sqlr, function (err, result) {
+    //         // if (err) throw err;
+    //         console.log("1 record inserted");
+    //       });
+    //     });
+    //
+    //     // var sqlr = ("INSERT INTO `soen341`.`course`(courseTitle,subject,catalog,credits,prereqs,coreqs) VALUES("+courseTitle.toString()+","+subject.toString()+","+catalog.toString()+","+credits.toString()+","+prereqs.toString()+","+coreqs.toString()+")");
+    //     connection.query("INSERT INTO `soen341`.`course`(courseTitle,subject,catalog,credits,prereqs,coreqs) VALUES("+courseTitle.toString()+","+subject.toString()+","+catalog.toString()+","+credits.toString()+","+prereqs.toString()+","+coreqs.toString()+")", function(error, results, fields) {
+    //       // if (error) throw error;
+    //       console.log("The solution is: ", results);
+    //     });
+    //
+    //
+    //     console.log(
+    //         "Succesfully inserted: Title: "+courseTitle+" subject: "+subject+ " catalog:  " + catalog + " credits: " + credits + " prereqs: " +
+    //         prereqs + " coreqs: " + coreqs);
+    //     oldValue = courseList.size;
+    //     console.log("old value "+oldValue);
+    //     break; // quit loop
+    //   }
+    //   oldValue = courseList.size;
+    //   break;
+    //
+    // }
+
+
+
+    // connection.query("SELECT*FROM `soen341`.`course`;", function(error, results, fields) {
+    //   if (error) throw error;
+    //   console.log("The course is: ", results);
+    // });
+
+
+    //
+    // connection.query(`INSERT INTO course (courseTitle,subject,classNumber,credits,prerequisites,corequisites) VALUES ('nuts','nuts','nuts','nuts','nuts','nuts');`, function (err, result, fields) {
+    //   // if (err) throw err;
+    // });
+
+
+
   });
+
+  // insertDone = true;
+
 }
+//
+// if (insertDone) {
+//
+//   console.log("courseList sizeee");
+//   console.log(courseList.size);
+//
+// }
+
 
 /* GET users listing. */
 app.get("/", function(req, res, next) {
