@@ -1,7 +1,6 @@
 var { Builder, By, Key, until } = require('selenium-webdriver');
 var chrome = require('selenium-webdriver/chrome');
 
-
 module.exports = (app) => {
   app.get('/concordia/:netname/:password', function (req, res, next) {
     let driver = new Builder()

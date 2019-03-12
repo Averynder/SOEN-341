@@ -19,8 +19,8 @@ var fs = require('fs');
 var bodyParser = require('body-parser');
 const Course = require('./routes/Course');
 const MyDoublyLinkedList = require('./routes/MyDoublyLinkedList');
-require('./selenium')(app);
 var app = express();
+require('./selenium')(app);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
