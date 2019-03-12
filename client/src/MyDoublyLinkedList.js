@@ -32,6 +32,29 @@ class MyDoublyLinkedList extends Component {
             this.size = 0;
         this.size = 0;
     }
+
+    cloneMe() {
+
+        var newLL = new MyDoublyLinkedList();
+        var current = this.head;
+
+        // for (var i = 0; i < current.size; i++) {
+        //
+        //     newLL.addLast(current.element);
+        //     current = current.next;
+        //     newLL.size++;
+        //
+        // }
+
+        while (current != null) {
+            newLL.addLast(current.element);
+            current = current.next;
+        }
+
+        return newLL;
+
+    }
+
     /**
      * returns the size of the linked list
      * @return
@@ -299,17 +322,17 @@ MyDoublyLinkedList["class"] = "MyDoublyLinkedList";
 
 // Test code
 
-    var testMe = new MyDoublyLinkedList();
-
-
-
-
-        testMe.addLast(56);
-        testMe.addLast(364);
-console.log("current size of linked-list: " + testMe.size);
-testMe.addLast(56);
-testMe.addLast(133);
-console.log("current size of linked-list: " + testMe.size);
+//     var testMe = new MyDoublyLinkedList();
+//
+//
+//
+//
+//         testMe.addLast(56);
+//         testMe.addLast(364);
+// console.log("current size of linked-list: " + testMe.size);
+// testMe.addLast(56);
+// testMe.addLast(133);
+// console.log("current size of linked-list: " + testMe.size);
 
 
 

@@ -32,6 +32,29 @@ class MyDoublyLinkedList {
             this.size = 0;
         this.size = 0;
     }
+
+    cloneMe() {
+
+        var newLL = new MyDoublyLinkedList();
+        var current = this.head;
+
+        // for (var i = 0; i < current.size; i++) {
+        //
+        //     newLL.addLast(current.element);
+        //     current = current.next;
+        //     newLL.size++;
+        //
+        // }
+
+        while (current != null) {
+            newLL.addLast(current.element);
+            current = current.next;
+        }
+
+        return newLL;
+
+    }
+
     /**
      * returns the size of the linked list
      * @return
@@ -280,14 +303,27 @@ MyDoublyLinkedList["class"] = "MyDoublyLinkedList";
 
 // Test code
 
-var testMe = new MyDoublyLinkedList();
+// var testMe = new MyDoublyLinkedList();
+//
+// testMe.addLast(1);
+// testMe.addLast(2);
+// testMe.addLast(3);
+//
+// var testMe2 = testMe.cloneMe();
+// console.log("current size of linked-list: " + testMe.size);
+//
+//
+// console.log("current size of 2nd linked-list: " + testMe2.size);
+//
+// testMe2.removeLast();
+//
+// console.log("current size of linked-list: " + testMe.size);
+//
+//
+// console.log("current size of 2nd linked-list: " + testMe2.size);
 
-testMe.addFirst(56);
-testMe.addFirst(364);
-console.log("current size of linked-list: " + testMe.size);
-testMe.addFirst(56);
-testMe.addFirst(133);
-console.log("current size of linked-list: " + testMe.size);
+
+
 
 // testMe.addFirst(10);
 // testMe.addFirst(34);
