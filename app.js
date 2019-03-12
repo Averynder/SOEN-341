@@ -135,7 +135,7 @@ app.get('/concordia', function(req, res) {
 					console.log('Catalog written!');
 					fs.readFile('routes/SOENcatalog.txt', 'utf-8', function(err, data){
 					if (err) throw err;
-						var fix = data.replace(/},/gim, '},\n');
+						var fix = data.replace(/},{/gim, '},\n{');
 								fs.writeFile('routes/SOENcatalog.txt', fix, 'utf-8', function (err) {
 									if (err) throw err;
 										console.log('Catalog is ordered');
@@ -154,7 +154,7 @@ app.get('/concordia', function(req, res) {
 					console.log('Schedule written!');
 					fs.readFile('routes/SOENschedule.txt', 'utf-8', function(err, data){
 					if (err) throw err;
-						var fix = data.replace(/},/gim, '},\n');
+						var fix = data.replace(/},{/gim, '},\n{');
 							fs.writeFile('routes/SOENschedule.txt', fix, 'utf-8', function (err) {
 								if (err) throw err;
 									console.log('Schedule is ordered');
@@ -179,7 +179,7 @@ app.get('/concordia', function(req, res) {
 					console.log('Catalog written!');
 					fs.readFile('routes/COMPcatalog.txt', 'utf-8', function(err, data){
 					if (err) throw err;
-						var fix = data.replace(/},/gim, '},\n');
+						var fix = data.replace(/},{/gim, '},\n{');
 								fs.writeFile('routes/COMPcatalog.txt', fix, 'utf-8', function (err) {
 									if (err) throw err;
 										console.log('Catalog is ordered');
@@ -197,7 +197,7 @@ app.get('/concordia', function(req, res) {
 					console.log('Schedule written!');	
 					fs.readFile('routes/COMPschedule.txt', 'utf-8', function(err, data){
 					if (err) throw err;
-						var fix = data.replace(/},/gim, '},\n');
+						var fix = data.replace(/},{/gim, '},\n{');
 							fs.writeFile('routes/COMPschedule.txt', fix, 'utf-8', function (err) {
 								if (err) throw err;
 									console.log('Schedule is ordered');
