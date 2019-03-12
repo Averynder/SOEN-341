@@ -20,7 +20,6 @@ class CourseSelectionMenu extends React.Component {
     this.closeRubiat = this.closeRubiat.bind(this);
     this.colourRubiatC = this.colourRubiatC.bind(this);
     this.colourRubiatO = this.colourRubiatO.bind(this);
-    this.changeColorChangerValue = this.changeColorChangerValue.bind(this);
 
     var year;
     var semester;
@@ -63,8 +62,6 @@ class CourseSelectionMenu extends React.Component {
       color5: "orange",
       color6: "blue",
       color7: "black",
-
-      colorChanger: "color1", // have to change this so the circlepicker changes a default color
 
       addedClasses: [],
       
@@ -154,12 +151,6 @@ class CourseSelectionMenu extends React.Component {
     document.getElementById("id");
   }
 
-  changeColorChangerValue(e) {
-    this.setState({
-      colorChanger: e.target.value
-    });
-  }
-
   handleChangeComplete = color => {
     
     let courseNameInput = document.getElementById("colorChanger").value; //Get user input
@@ -179,35 +170,6 @@ class CourseSelectionMenu extends React.Component {
       ) {
         document.getElementById("Monday-" + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
       }
-    }
-
-
-  };
-
-
-  handleChangeComplete1 = color => {
-    switch (this.state.colorChanger) {
-      case "color1":
-        this.setState({ color1: color.hex });
-        break;
-      case "color2":
-        this.setState({ color2: color.hex });
-        break;
-      case "color3":
-        this.setState({ color3: color.hex });
-        break;
-      case "color4":
-        this.setState({ color4: color.hex });
-        break;
-      case "color5":
-        this.setState({ color5: color.hex });
-        break;
-      case "color6":
-        this.setState({ color6: color.hex });
-        break;
-      case "color7":
-        this.setState({ color7: color.hex });
-        break;
     }
 
 
@@ -364,10 +326,7 @@ class CourseSelectionMenu extends React.Component {
             <p>Select A Course and Color </p> <br />
             <Form inline style={{ textAlign: "center" }}>
               <div className="container" style={{ width: "40%" }}>
-                <select
-                  id="colorChanger"
-                  onChange={this.changeColorChangerValue}
-                >
+                <select id="colorChanger">
                   {myAddedClasses}
                 </select>
               </div>
