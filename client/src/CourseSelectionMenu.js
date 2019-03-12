@@ -64,7 +64,10 @@ class CourseSelectionMenu extends React.Component {
       color6: "blue",
       color7: "black",
 
-      colorChanger: "color1" // have to change this so the circlepicker changes a default color
+      colorChanger: "color1", // have to change this so the circlepicker changes a default color
+
+      addedClasses: [],
+      
     };
   }
 
@@ -84,12 +87,14 @@ class CourseSelectionMenu extends React.Component {
       return;
     }
 
+    this.state.addedClasses.push(chosenClass);
+
     for (let i = 0; i < 61; i++) {
       if (
         this.timeToNum(chosenClass.startTime) <= i &&
         this.timeToNum(chosenClass.endTime) >= i
       ) {
-        document.getElementById("Monday-" + i).style.backgroundColor = "red"; // (you can choose to select the return of a function)
+        document.getElementById("Monday-" + i).style.backgroundColor = this.state.color1; // (you can choose to select the return of a function)
       }
     }
 
@@ -156,6 +161,31 @@ class CourseSelectionMenu extends React.Component {
   }
 
   handleChangeComplete = color => {
+    
+    let courseNameInput = document.getElementById("colorChanger").value; //Get user input
+    let chosenClass;
+
+    for (let i = 0; i < this.state.classes.length; i++) {
+      if (courseNameInput === this.state.classes[i].course) {
+        chosenClass = this.state.classes[i];
+        break;
+      }
+    }
+
+    for (let i = 0; i < 61; i++) {
+      if (
+        this.timeToNum(chosenClass.startTime) <= i &&
+        this.timeToNum(chosenClass.endTime) >= i
+      ) {
+        document.getElementById("Monday-" + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
+      }
+    }
+
+
+  };
+
+
+  handleChangeComplete1 = color => {
     switch (this.state.colorChanger) {
       case "color1":
         this.setState({ color1: color.hex });
@@ -179,6 +209,8 @@ class CourseSelectionMenu extends React.Component {
         this.setState({ color7: color.hex });
         break;
     }
+
+
   };
 
   render() {
@@ -199,6 +231,10 @@ class CourseSelectionMenu extends React.Component {
         }
       }
     });
+
+    let myAddedClasses = this.state.addedClasses.map(theClass => (
+      <option value={theClass.course}>{theClass.course}</option>
+    ));
 
     return (
       <div className="container">
@@ -332,9 +368,7 @@ class CourseSelectionMenu extends React.Component {
                   id="colorChanger"
                   onChange={this.changeColorChangerValue}
                 >
-                  <option value="color1">Course1</option>
-                  <option value="color2">Course2</option>
-                  <option value="color3">Course3</option>
+                  {myAddedClasses}
                 </select>
               </div>
               <Button text="Color Selection" onClick={this.colourRubiatO} />
@@ -364,6 +398,7 @@ class CourseSelectionMenu extends React.Component {
                   <CirclePicker
                     style={{ margin: "0px 0px 0px 0px" }}
                     onChangeComplete={this.handleChangeComplete}
+    
                   />
                 </div>
               </div>

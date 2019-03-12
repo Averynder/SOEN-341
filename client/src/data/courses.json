@@ -14,7 +14,9 @@
       "name": "Discrete Mathematics",
       "credit": 3,
       "semester": "Fall",
-      "year": 2019
+      "year": 2019,
+      "startTime": "21:00",
+      "endTime": "22:30"
     },
     {
       "course": "SOEN228",
