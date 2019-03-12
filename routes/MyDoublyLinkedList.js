@@ -1,5 +1,6 @@
-import React, {Component} from "react"
-import Course from "./Course";
+var express = require('express');
+var router = express.Router();
+var app = express();
 
 // Functioning Linked List Class
 
@@ -20,10 +21,9 @@ import Course from "./Course";
 
 
 
-class MyDoublyLinkedList extends Component {
+class MyDoublyLinkedList {
 
-    constructor(props) {
-        super(props);
+    constructor() {
         if (this.head === undefined)
             this.head = null;
         if (this.tail === undefined)
@@ -60,7 +60,7 @@ class MyDoublyLinkedList extends Component {
      * @return
      * @return {number}
      */
-    size = function () {
+    getSize() {
         return this.size;
     };
     /**
@@ -68,28 +68,28 @@ class MyDoublyLinkedList extends Component {
      * @return
      * @return {boolean}
      */
-    isEmpty = function () {
+    isEmpty() {
         return this.size === 0;
     };
     /**
      * adds element at the starting of the linked list
      * @param {*} element
      */
-    addFirst = function (element) {
+    addFirst(element) {
 
         if (this.size > 0) {
 
             // for (var i = 0; i < this.size; i++) {
 
-                let current = this.head;
-                while (current !== null) {
+            let current = this.head;
+            while (current !== null) {
 
-                    if (JSON.stringify(current.element) === JSON.stringify(element)) {
-                        console.log("Duplicate element found! Will not be added.");
-                        return
-                    }
-                    current = current.next;
+                if (JSON.stringify(current.element) === JSON.stringify(element)) {
+                    console.log("Duplicate element found! Will not be added.");
+                    return
                 }
+                current = current.next;
+            }
             // }
         }
 
@@ -108,7 +108,7 @@ class MyDoublyLinkedList extends Component {
      * adds element at the end of the linked list
      * @param {*} element
      */
-    addLast = function (element) {
+    addLast(element) {
 
         if (this.size > 0) {
 
@@ -136,32 +136,13 @@ class MyDoublyLinkedList extends Component {
         }
         this.size++;
         console.info("adding: " + element);
-
-        // node current = head;
-        // node prev = null;
-        // while (current != null)
-        // {
-        //     int curval = current.val;
-        //
-        //     // If current value is seen before
-        //     if (hs.contains(curval)) {
-        //         prev.next = current.next;
-        //     } else {
-        //         hs.add(curval);
-        //         prev = current;
-        //     }
-        //     current = current.next;
-        // }
-
-
     };
-
 
     /**
      * Removes a given element from anywhere within the list
      * @param given element that user is searching for, in order to delete
      */
-    remove = function(given) {
+    remove(given) {
 
         if (this.size === 0) {
             console.log("This list is empty!")
@@ -225,12 +206,12 @@ class MyDoublyLinkedList extends Component {
         }
 
         else if (this.size > 1) {
-        var tmp = this.head;
-        this.head = this.head.next;
-        this.head.prev = null;
-        this.size--;
-        console.info("deleted: " + tmp.element);
-        return tmp.element;
+            var tmp = this.head;
+            this.head = this.head.next;
+            this.head.prev = null;
+            this.size--;
+            console.info("deleted: " + tmp.element);
+            return tmp.element;
         }
 
         else if (this.size === 0) {
@@ -322,87 +303,88 @@ MyDoublyLinkedList["class"] = "MyDoublyLinkedList";
 
 // Test code
 
-//     var testMe = new MyDoublyLinkedList();
+// var testMe = new MyDoublyLinkedList();
 //
+// testMe.addLast(1);
+// testMe.addLast(2);
+// testMe.addLast(3);
 //
-//
-//
-//         testMe.addLast(56);
-//         testMe.addLast(364);
+// var testMe2 = testMe.cloneMe();
 // console.log("current size of linked-list: " + testMe.size);
+//
+//
+// console.log("current size of 2nd linked-list: " + testMe2.size);
+//
+// testMe2.removeLast();
+//
+// console.log("current size of linked-list: " + testMe.size);
+//
+//
+// console.log("current size of 2nd linked-list: " + testMe2.size);
+
+
+
+
+// testMe.addFirst(10);
+// testMe.addFirst(34);
 // testMe.addLast(56);
-// testMe.addLast(133);
-// console.log("current size of linked-list: " + testMe.size);
-
-
-
-
-//         testMe.removeFirst();
-//         testMe.removeLast();
+// testMe.addLast(364);
+// testMe.removeFirst();
+// testMe.removeLast();
 //
-//         console.log('LOL69');
-//         console.log(testMe.size);
+// console.log('LOL69');
+// console.log(testMe.size);
 //
-//         testMe.addFirst(100);
-//         console.log(testMe.size);
-//         console.log("hey");
+// testMe.addFirst(100);
+// console.log(testMe.size);
+// console.log("hey");
 //
-//         console.log(testMe.size);
+// console.log(testMe.size);
 //
-//         testMe.addLast(9999);
-//         console.log(testMe.size);
+// testMe.addLast(9999);
+// console.log(testMe.size);
 //
-//         console.log(testMe.head);
-//         console.log("after delete");
-//         testMe.remove(100);
-//         console.log(testMe.size);
-//         console.log(testMe.head);
+// console.log(testMe.head);
+// console.log("after delete");
+// testMe.remove(100);
+// console.log(testMe.size);
+// console.log(testMe.head);
 //
-//         testMe.removeFirst();
-//         console.log(testMe.tail);
+// testMe.removeFirst();
+// console.log(testMe.tail);
 //
-//         testMe.removeFirst();
-//         console.log(testMe.tail);
-//         console.log(testMe.size);
-//         testMe.removeFirst();
+// testMe.removeFirst();
+// console.log(testMe.tail);
+// console.log(testMe.size);
+// testMe.removeFirst();
 //
-//         console.log("milestone");
-//         console.log(testMe.size);
-//         console.log(testMe.tail);
-//         console.log(testMe.head);
+// console.log("milestone");
+// console.log(testMe.size);
+// console.log(testMe.tail);
+// console.log(testMe.head);
 //
-//         testMe.addFirst(1111);
-//         testMe.addFirst(2222);
+// testMe.addFirst(1111);
+// testMe.addFirst(2222);
 //
-//         console.log("milestone2");
-//         console.log(testMe.tail);
-//         console.log(testMe.head);
-//         console.log(testMe.size);
+// console.log("milestone2");
+// console.log(testMe.tail);
+// console.log(testMe.head);
+// console.log(testMe.size);
 //
-//         console.log("removing the last element in the list");
-//         // testMe.remove(1111);
-//         console.log(testMe.size);
-//         console.log(testMe.tail);
-//         console.log(testMe.head);
-//         // testMe.remove(2222);
-//         console.log(testMe.size);
-//         console.log(testMe.tail);
-//         console.log(testMe.head);
-//
-//
-// console.log("same?");
-
-// var Course11 = new Course("lol","lol","lol","lol","lol","lol");
-// var Course22 = new Course("lol","lol","lol","lol","lol","lol");
-// var Course33 = new Course("lol","lol","lol","lol","lol","no");
-//
-//
-// var eq = JSON.stringify(Course11) === JSON.stringify(Course22);
-// console.log(eq);
+// console.log("removing the last two elements in the list");
+// testMe.remove(1111);
+// console.log(testMe.size);
+// console.log(testMe.tail);
+// console.log(testMe.head);
+// console.log("removing the last element in the list");
+// testMe.removeLast();
+// console.log(testMe.size);
+// console.log(testMe.tail);
+// console.log(testMe.head);
+// testMe.removeLast();
 
 
 
 
 
-
-export default MyDoublyLinkedList;
+module.exports = MyDoublyLinkedList;

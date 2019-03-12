@@ -125,17 +125,17 @@ CREATE TABLE  `soen341`.`tutorial` (
 -- Table `soen341`.`course`
 -- -----------------------------------------------------
 CREATE TABLE `soen341`.`course` (
-  `classNumber` int(11) PRIMARY KEY,
-  `subject` varchar(4) DEFAULT NULL,
-  `courseTitle` varchar(200) DEFAULT NULL,
-  `description` text NULL DEFAULT NULL,
-  `waitlist` int(11) DEFAULT NULL,
-  `capacity` int(11) DEFAULT NULL,
-  `sessions` int(11) DEFAULT NULL,
-  `term` varchar(10) DEFAULT NULL,
-  `credits` int(11) DEFAULT NULL,
-  `prerequisites` text NULL DEFAULT NULL,
-  `corequisites` text NULL DEFAULT NULL);
+  `classNumber` varchar(30) PRIMARY KEY,
+  `subject` varchar(30) DEFAULT NULL,
+  `courseTitle` varchar(30) DEFAULT NULL,
+  `description` varchar(30) NULL DEFAULT NULL,
+  `waitlist` varchar(30) DEFAULT NULL,
+  `capacity` varchar(30) DEFAULT NULL,
+  `sessions` varchar(30) DEFAULT NULL,
+  `term` varchar(30) DEFAULT NULL,
+  `credits` varchar(30) DEFAULT NULL,
+  `prerequisites` varchar(30) DEFAULT NULL,
+  `corequisites` varchar(30) DEFAULT NULL);
 
 
 -- -----------------------------------------------------
