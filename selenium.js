@@ -6,16 +6,62 @@ module.exports = (app) => {
     let driver = new Builder().forBrowser('firefox')
       //.setChromeOptions(new chrome.Options().headless()) // invisible chrome
       .setChromeOptions().build();
-    let element = driver.findElement(By.id("btnGrade"));
-    let executor = driver;
-    executor.executeScript("arguments[0].click();", element);
       try {
-        //driver.get('https://my.concordia.ca/')
-        driver.get('https://my.concordia.ca/psp/upprpr9/?cmd=login&device=mobile')
-          .then(_ => driver.findElement(By.name('userid')).sendKeys(req.params.netname))
-          .then(_ => driver.findElement(By.name('pwd')).sendKeys(req.params.password, Key.RETURN))
-          .then(_ => driver.wait(until.elementLocated(By.xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/tr/td[1]/ul/li[1]/table/tbody/tr[2]/td/div/nav/div[1]/ul/li[2]/div')), 4000))
-          .then(_ => driver.quit(), e => driver.quit().then(() => { throw e; }));
+        let getDriver = new Promise(function(resolve, reject)
+        {
+          resolve(driver.get('https://my.concordia.ca/psp/upprpr9/?cmd=login&device=mobile')
+              .then(_ => driver.findElement(By.name('userid')).sendKeys(req.params.netname))
+              .then(_ => driver.findElement(By.name('pwd')).sendKeys(req.params.password, Key.RETURN)))
+        });
+        getDriver.then(function(whateverwasresolved)
+        {
+          console.log("Got Inside1!");
+          let getNetName = new Promise(function(resolve,reject)
+          {
+            resolve(sleep(20));
+            //resolve(driver.wait(until.elementLocated(By.id('btnGrade')), 20000))
+          });
+          getNetName.then(function(whateverisreturnedfromnetname)
+          {
+            console.log("Got Inside2!");
+            let getNetName2 = new Promise(function(resolve,reject)
+            {
+              resolve(driver.findElement(By.id('btnGrade')).click())
+            });
+            getNetName2.then(function(whateverisreturnedfromnetname)
+            {
+              console.log("Got Inside3!");
+              //
+              let getNetName3 = new Promise(function(resolve,reject)
+              {
+                resolve(sleep(20))
+              });
+              getNetName3.then(function(whateverisreturnedfromnetname)
+              {
+                console.log("Got Inside4!");
+                //
+                let getNetName4 = new Promise(function(resolve,reject)
+                {
+                  resolve(driver.findElement(By.id('btnAllGrades')).click())
+                });
+                getNetName4.then(function(whateverisreturnedfromnetname)
+                {
+                  console.log("Scrape Time!");
+
+                  driver.findElements(By.className("course mainsec")).then(function(elems){
+                    elems.forEach(function (elem) {
+                      elem.getText().then(function(textValue){
+                        console.log(textValue); // Insert / Do Stuff From this point
+                      });
+                    });
+                  });
+                });
+                //
+              });
+              //
+            });
+          });
+        });
       } catch (err) {
         console.log(err);
       } finally {
