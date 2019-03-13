@@ -23,6 +23,11 @@ class pdfSequenceGenerator extends React.Component{
         }
     }
 
+  onDragEnd = result => {
+    //TODO
+  }
+
+
     // FUNCTIONS() HERE *********************************************************
     convertToPDF = () => {
         const input = document.getElementById('divToPrint');
@@ -131,26 +136,37 @@ class pdfSequenceGenerator extends React.Component{
 
     // RENDER() HERE *********************************************************
     render(){
-        let falltable = <Table id="pdfTable" striped bordered hover variant="dark">
-                                <thead>
-                                    <tr>
-                                    <th>Semester</th>
-                                    <th>Course</th>
-                                    <th>Class Name</th>
-                                    <th>Credit</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.state.selectedCoursesFall.map(element =>
-                                        <tr>
-                                            <td>{element.semester} {element.year}</td>
-                                            <td>{element.course}</td>
-                                            <td>{element.name}</td>
-                                            <td>{element.credit}</td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </Table>;
+        /*let falltable = {(provided, snapshot) => (
+                              <Table id="pdfTable" striped bordered hover variant="dark">
+                                  <thead>
+                                      <tr>
+                                      <th>Semester</th>
+                                      <th>Course</th>
+                                      <th>Class Name</th>
+                                      <th>Credit</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody ref={provided.innerRef} >
+                                      {this.state.selectedCoursesFall.map(element =>
+                                          <Draggable key={element.course} draggableId={element.name}>
+                                            {(provided, snapshot) => (
+                                              <tr
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                              >
+                                                  <td>{element.semester} {element.year}</td>
+                                                  <td>{element.course}</td>
+                                                  <td>{element.name}</td>
+                                                  <td>{element.credit}</td>
+                                              </tr>
+                                            )}
+                                          </Draggable>
+                                      )}
+                                  </tbody>
+                              </Table>
+                            )};
+                            */
 
             let wintertable = <Table id="pdfTable" striped bordered hover variant="dark">
                                 <thead>
@@ -244,7 +260,41 @@ class pdfSequenceGenerator extends React.Component{
 
                         <div className="mt4" id="divToPrint">
                             Fall
-                            {falltable}
+                                <DragDropContext onDragEnd={this.onDragEnd}>
+                                  <Table id="pdfTable" striped bordered hover variant="dark">
+                                    <thead>
+                                      <tr>
+                                      <th>Semester</th>
+                                      <th>Course</th>
+                                      <th>Class Name</th>
+                                      <th>Credit</th>
+                                      </tr>
+                                    </thead>
+                                    <Droppable droppableId="fall">
+                                      {(provided, snapshot) => (
+                                        <tbody ref={provided.innerRef} >
+                                          {this.state.selectedCoursesFall.map(element =>
+                                            <Draggable key={element.course} draggableId={element.name}>
+                                              {(provided, snapshot) => (
+                                                <tr
+                                                  ref={provided.innerRef}
+                                                  {...provided.draggableProps}
+                                                  {...provided.dragHandleProps}
+                                                >
+                                                  <td>{element.semester} {element.year}</td>
+                                                  <td>{element.course}</td>
+                                                  <td>{element.name}</td>
+                                                  <td>{element.credit}</td>
+                                                </tr>
+                                              )}
+                                            </Draggable>
+                                          )}
+                                        {provided.placeholder}
+                                        </tbody>
+                                      )}
+                                    </Droppable>
+                                  </Table>
+                                </DragDropContext>
                             <br />
                             Winter
                             {wintertable}
