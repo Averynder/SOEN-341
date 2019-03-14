@@ -170,7 +170,7 @@ class CourseSelectionMenu extends React.Component {
         this.timeToNum(chosenClass.startTime) <= i &&
         this.timeToNum(chosenClass.endTime) >= i
       ) {
-        document.getElementById("Monday-" + i).style.backgroundColor = this.state.color1; // (you can choose to select the return of a function)
+        document.getElementById("Monday-" + i).style.backgroundColor = this.state.colors[this.state.addedClasses.length - 1]; // (you can choose to select the return of a function)
       }
     }
 
@@ -212,6 +212,15 @@ class CourseSelectionMenu extends React.Component {
     this.setState({
       selectedCourses: array
     });
+
+    for (let i = 0; i < 61; i++) {
+      if (
+        this.timeToNum(addedClass.startTime) <= i &&
+        this.timeToNum(addedClass.endTime) >= i
+      ) {
+        document.getElementById("Monday-" + i).style.backgroundColor = this.state.colors[this.state.selectedCourses.length - 1]; // (you can choose to select the return of a function)
+      }
+    }
   };
 
   remove = () => {
@@ -243,7 +252,7 @@ class CourseSelectionMenu extends React.Component {
       }
     });
 
-    let myAddedClasses = this.state.addedClasses.map(theClass => (
+    let myAddedClasses = this.state.selectedCourses.map(theClass => (
       <option value={theClass.course}>{theClass.course}</option>
     ));
 
