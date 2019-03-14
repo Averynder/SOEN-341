@@ -97,7 +97,8 @@ CREATE TABLE `soen341`.`lecture` (
   `subject` varchar(100) DEFAULT NULL,
   `instructorName` varchar(100) DEFAULT NULL,
   `days` varchar(100) DEFAULT NULL,
-  `times` varchar(100) DEFAULT NULL,
+  `startTime` varchar(100) DEFAULT NULL,
+  `endTime` varchar(100) DEFAULT NULL,
   `location` varchar(100) DEFAULT NULL);
 
 
@@ -110,7 +111,8 @@ CREATE TABLE  `soen341`.`laboratory` (
   `subject` varchar(100) DEFAULT NULL,
   `instructorName` varchar(100) DEFAULT NULL,
   `days` varchar(100) DEFAULT NULL,
-  `times` varchar(100) DEFAULT NULL,
+  `startTime` varchar(100) DEFAULT NULL,
+  `endTime` varchar(100) DEFAULT NULL,
   `location` varchar(100) DEFAULT NULL);
 
 
@@ -118,13 +120,14 @@ CREATE TABLE  `soen341`.`laboratory` (
 -- Table `soen341`.`tutorial`
 -- -----------------------------------------------------
 CREATE TABLE  `soen341`.`tutorial` (
-  `tutorialSectionNumber` varchar(7) PRIMARY KEY,
+  `tutorialSectionNumber` varchar(100) PRIMARY KEY,
   `classNumber` varchar(100) DEFAULT NULL,
   `subject` varchar(100) DEFAULT NULL,
-  `instructorName` varchar(50) DEFAULT NULL,
-  `days` date NULL DEFAULT NULL,
-  `times` time NULL DEFAULT NULL,
-  `location` varchar(10) DEFAULT NULL);
+  `instructorName` varchar(100) DEFAULT NULL,
+  `days` varchar(100) DEFAULT NULL,
+  `startTime` varchar(100) DEFAULT NULL,
+  `endTime` varchar(100) DEFAULT NULL,
+  `location` varchar(100) DEFAULT NULL);
 
 
 -- -----------------------------------------------------

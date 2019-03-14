@@ -7,10 +7,24 @@ const MyDoublyLinkedList = require('./MyDoublyLinkedList');
 var count;
 // var mysql = require('mysql');
 var courseList = new MyDoublyLinkedList();
-var sequenceList = new MyDoublyLinkedList();
+var lectureSequenceList = new MyDoublyLinkedList();
+var labSequenceList = new MyDoublyLinkedList();
+var tutSequenceList = new MyDoublyLinkedList();
 
 var oldValue;
 oldValue = courseList.size;
+
+var lectureOldValue;
+lectureOldValue = lectureSequenceList.size;
+
+var labOldValue;
+labOldValue = labSequenceList.size;
+
+var tutOldValue;
+tutOldValue = tutSequenceList.size;
+
+
+
 
 
 var goAhead = false;
@@ -63,51 +77,17 @@ connection.query(dck, function (err, result) {
   console.log("Table deleted");
 });
 
-
-var sqlrr = "CREATE TABLE `course` (courseTitle VARCHAR(100), subject VARCHAR(100), classNumber VARCHAR(100), credits VARCHAR(100), prerequisites VARCHAR(100), corequisites VARCHAR(100))";
-connection.query(sqlrr, function (err, result) {
-  // if (err) throw err;
-  console.log("Table created");
-});
-
-
-
-
-
-
 var dck2 = "DROP TABLE lecture";
 connection.query(dck2, function (err, result) {
   // if (err) throw err;
   console.log("Table deleted");
 });
 
-
-var sqlrr2 = "CREATE TABLE `lecture` (subject VARCHAR(100), classNumber VARCHAR(100), lectureSectionNumber VARCHAR(100), instructorName VARCHAR(100), location VARCHAR(100), days VARCHAR(100), times VARCHAR(100))";
-connection.query(sqlrr2, function (err, result) {
-  // if (err) throw err;
-  console.log("Table created");
-});
-
-
-
-
-
 var dck3 = "DROP TABLE laboratory";
 connection.query(dck3, function (err, result) {
   // if (err) throw err;
   console.log("Table deleted");
 });
-
-
-var sqlrr3 = "CREATE TABLE `laboratory` (subject VARCHAR(100), classNumber VARCHAR(100), labSectionNumber VARCHAR(100), instructorName VARCHAR(100), location VARCHAR(100), days VARCHAR(100), times VARCHAR(100))";
-connection.query(sqlrr3, function (err, result) {
-  // if (err) throw err;
-  console.log("Table created");
-});
-
-
-
-
 
 var dck4 = "DROP TABLE tutorial";
 connection.query(dck4, function (err, result) {
@@ -116,16 +96,29 @@ connection.query(dck4, function (err, result) {
 });
 
 
-var sqlrr4 = "CREATE TABLE `tutorial` (subject VARCHAR(100), classNumber VARCHAR(100), tutorialSectionNumber VARCHAR(100), instructorName VARCHAR(100), location VARCHAR(100), days VARCHAR(100), times VARCHAR(100))";
-connection.query(sqlrr4, function (err, result) {
+var sqlrr = "CREATE TABLE `course` (courseTitle VARCHAR(100), subject VARCHAR(100), classNumber VARCHAR(100), credits VARCHAR(100), prerequisites VARCHAR(100), corequisites VARCHAR(100))";
+connection.query(sqlrr, function (err, result) {
   // if (err) throw err;
   console.log("Table created");
 });
 
+var sqlrr2 = "CREATE TABLE `lecture` (subject VARCHAR(100), classNumber VARCHAR(100), lectureSectionNumber VARCHAR(100), location VARCHAR(100), days VARCHAR(100), startTime VARCHAR(100), endTime VARCHAR(100), instructorName VARCHAR(100))";
+connection.query(sqlrr2, function (err, result) {
+  // if (err) throw err;
+  console.log("Table created");
+});
 
+var sqlrr3 = "CREATE TABLE `laboratory` (subject VARCHAR(100), classNumber VARCHAR(100), labSectionNumber VARCHAR(100), location VARCHAR(100), days VARCHAR(100), startTime VARCHAR(100), endTime VARCHAR(100), instructorName VARCHAR(100))";
+connection.query(sqlrr3, function (err, result) {
+  // if (err) throw err;
+  console.log("Table created");
+});
 
-
-
+var sqlrr4 = "CREATE TABLE `tutorial` (subject VARCHAR(100), classNumber VARCHAR(100), tutorialSectionNumber VARCHAR(100), location VARCHAR(100), days VARCHAR(100), startTime VARCHAR(1000), endTime VARCHAR(100), instructorName VARCHAR(100))";
+connection.query(sqlrr4, function (err, result) {
+  // if (err) throw err;
+  console.log("Table created");
+});
 
 
 // console.log('watchmynuts'+checkExist.toString());
@@ -374,9 +367,6 @@ if (true) {
         connection.query(`INSERT INTO course (courseTitle,subject,classNumber,credits,prerequisites,corequisites) VALUES ('${courseTitle}','${subject}','${catalog}','${credits}','${prereqs}','${coreqs}');`, function (err, result, fields) {
           // if (err) throw err;
         });
-
-
-
         oldValue = courseList.size;
       }
 
@@ -627,7 +617,7 @@ if (true) {
 
 
 
-// schedule
+// SOEN schedule
 
 if (true) {
     var rl = require("readline").createInterface({
@@ -641,25 +631,39 @@ if (true) {
       var c = 27;
       var d = 30;
 
-        if (line.search(/("componentDescription":"Lecture")/) >= 0)
-        { 	var days="";
-            if(line.search(/("modays":"Y")/)>= 0){
-                days += "Monday, "};
-            if(line.search(/("tuesdays":"Y")/)>= 0){
-                days += "Tuesday, "};
-            if(line.search(/("wednesdays":"Y")/)>= 0){
-                days += "Wednesday, "};
-            if(line.search(/("thursdays":"Y")/)>= 0){
-                days += "Thursday, "};
-            if(line.search(/("fridays":"Y")/)>= 0){
-                days += "Friday, "};
-            if(line.search(/("saturdays":"Y")/)>= 0){
-                days += "Saturday, "};
-            if(line.search(/("sundays":"Y")/)>= 0){
-                days += "Sunday"};
-            var lectureSectionNumber = line.substring(line.search(/("section":)/)+10,line.search(/(,"componentCode")/));
-            var instructorName = null;
-            var classLocation = line.substring(line.search(/("roomCode":)/)+11,line.search(/(,"buildingCode)/));
+        if (line.search(/("componentDescription":"Lecture")/) >= 0) {
+          var days = "";
+          if (line.search(/("modays":"Y")/) >= 0) {
+            days += "Monday, "
+          }
+          ;
+          if (line.search(/("tuesdays":"Y")/) >= 0) {
+            days += "Tuesday, "
+          }
+          ;
+          if (line.search(/("wednesdays":"Y")/) >= 0) {
+            days += "Wednesday, "
+          }
+          ;
+          if (line.search(/("thursdays":"Y")/) >= 0) {
+            days += "Thursday, "
+          }
+          ;
+          if (line.search(/("fridays":"Y")/) >= 0) {
+            days += "Friday, "
+          }
+          ;
+          if (line.search(/("saturdays":"Y")/) >= 0) {
+            days += "Saturday, "
+          }
+          ;
+          if (line.search(/("sundays":"Y")/) >= 0) {
+            days += "Sunday"
+          }
+          ;
+          var lectureSectionNumber = line.substring(line.search(/("section":)/) + 10, line.search(/(,"componentCode")/));
+          var instructorName = null;
+          var classLocation = line.substring(line.search(/("roomCode":)/) + 11, line.search(/(,"buildingCode)/));
           var subject =
               line.substring(
                   line.search(/(subject)/) + a,
@@ -668,10 +672,24 @@ if (true) {
           var catalog =
               line.substring(
                   line.search(/(subject)/) + c,
-                  line.search(/(subject)/) + d
+                  line.search(/(","section)/)
               );
+          var startTime =
+              line.substring(
+                  line.search(/(classStartTime":")/) + 17,
+                  line.search(/(","classEndTime)/)
+              );
+          var endTime =
+              line.substring(
+                  line.search(/(classEndTime":")/) + 15,
+                  line.search(/(","modays)/)
+              );
+          // console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+lectureSectionNumber+ "from " +startTime+ " to " +endTime);
 
-          console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber);
+          // // adding to database
+          connection.query(`INSERT INTO lecture (subject,classNumber,lectureSectionNumber,location,days,startTime,endTime) VALUES ('${subject}','${catalog}','${lectureSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}');`, function (err, result, fields) {
+            if (err) throw err;
+          });
 
         }
         else if (line.search(/("componentDescription":"Tutorial")/) >= 0)
@@ -701,12 +719,28 @@ if (true) {
           var catalog =
               line.substring(
                   line.search(/(subject)/) + c,
-                  line.search(/(subject)/) + d
+                  line.search(/(","section)/)
               );
 
-          console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber);
+          var startTime =
+              line.substring(
+                  line.search(/(classStartTime":")/) + 17,
+                  line.search(/(","classEndTime)/)
+              );
+          var endTime =
+              line.substring(
+                  line.search(/(classEndTime":")/) + 15,
+                  line.search(/(","modays)/)
+              );
 
+          console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+tutorialSectionNumber+ "from " +startTime+ " to " +endTime);
+
+          // // adding to database
+          connection.query(`INSERT INTO tutorial (subject,classNumber,tutorialSectionNumber,location,days,startTime,endTime) VALUES ('${subject}','${catalog}','${tutorialSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}');`, function (err, result, fields) {
+            if (err) throw err;
+          });
         }
+
         else if (line.search(/("componentDescription":"Laboratory")/) >= 0)
         { 	var days ="";
             if(line.search(/("modays":"Y")/)>= 0){
@@ -734,11 +768,26 @@ if (true) {
           var catalog =
               line.substring(
                   line.search(/(subject)/) + c,
-                  line.search(/(subject)/) + d
+                  line.search(/(","section)/)
               );
 
-            console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber);
+          var startTime =
+              line.substring(
+                  line.search(/(classStartTime":")/) + 17,
+                  line.search(/(","classEndTime)/)
+              );
+          var endTime =
+              line.substring(
+                  line.search(/(classEndTime":")/) + 15,
+                  line.search(/(","modays)/)
+              );
 
+          console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber+ "from " +startTime+ " to " +endTime);
+
+          // // adding to database
+          connection.query(`INSERT INTO laboratory (subject,classNumber,labSectionNumber,location,days,startTime,endTime) VALUES ('${subject}','${catalog}','${labSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}');`, function (err, result, fields) {
+            if (err) throw err;
+          });
         }
         else
         {
@@ -749,6 +798,185 @@ if (true) {
 
 
 
+
+// COMP Schedule
+
+if (true) {
+  var rl = require("readline").createInterface({
+    input: require("fs").createReadStream("routes/COMPschedule.txt")
+  });
+
+  rl.on("line", function(line) {
+
+    var a = 10;
+    var b = 14;
+    var c = 27;
+    var d = 30;
+
+    if (line.search(/("componentDescription":"Lecture")/) >= 0) {
+      var days = "";
+      if (line.search(/("modays":"Y")/) >= 0) {
+        days += "Monday, "
+      }
+      ;
+      if (line.search(/("tuesdays":"Y")/) >= 0) {
+        days += "Tuesday, "
+      }
+      ;
+      if (line.search(/("wednesdays":"Y")/) >= 0) {
+        days += "Wednesday, "
+      }
+      ;
+      if (line.search(/("thursdays":"Y")/) >= 0) {
+        days += "Thursday, "
+      }
+      ;
+      if (line.search(/("fridays":"Y")/) >= 0) {
+        days += "Friday, "
+      }
+      ;
+      if (line.search(/("saturdays":"Y")/) >= 0) {
+        days += "Saturday, "
+      }
+      ;
+      if (line.search(/("sundays":"Y")/) >= 0) {
+        days += "Sunday"
+      }
+      ;
+      var lectureSectionNumber = line.substring(line.search(/("section":)/) + 10, line.search(/(,"componentCode")/));
+      var instructorName = null;
+      var classLocation = line.substring(line.search(/("roomCode":)/) + 11, line.search(/(,"buildingCode)/));
+      var subject =
+          line.substring(
+              line.search(/(subject)/) + a,
+              line.search(/(subject)/) + b
+          );
+      var catalog =
+          line.substring(
+              line.search(/(subject)/) + c,
+              line.search(/(","section)/)
+          );
+      var startTime =
+          line.substring(
+              line.search(/(classStartTime":")/) + 17,
+              line.search(/(","classEndTime)/)
+          );
+      var endTime =
+          line.substring(
+              line.search(/(classEndTime":")/) + 15,
+              line.search(/(","modays)/)
+          );
+      // console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+lectureSectionNumber+ "from " +startTime+ " to " +endTime);
+
+      // // adding to database
+      connection.query(`INSERT INTO lecture (subject,classNumber,lectureSectionNumber,location,days,startTime,endTime) VALUES ('${subject}','${catalog}','${lectureSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}');`, function (err, result, fields) {
+        if (err) throw err;
+      });
+
+    }
+    else if (line.search(/("componentDescription":"Tutorial")/) >= 0)
+    { 	var days="";
+      if(line.search(/("modays":"Y")/)>= 0){
+        days += "Monday, "};
+      if(line.search(/("tuesdays":"Y")/)>= 0){
+        days += "Tuesday, "};
+      if(line.search(/("wednesdays":"Y")/)>= 0){
+        days += "Wednesday, "};
+      if(line.search(/("thursdays":"Y")/)>= 0){
+        days += "Thursday, "};
+      if(line.search(/("fridays":"Y")/)>= 0){
+        days += "Friday, "};
+      if(line.search(/("saturdays":"Y")/)>= 0){
+        days += "Saturday, "};
+      if(line.search(/("sundays":"Y")/)>= 0){
+        days += "Sunday"};
+      var tutorialSectionNumber = line.substring(line.search(/("section":)/)+10,line.search(/(,"componentCode")/));
+      var instructorName = null;
+      var classLocation =line.substring(line.search(/("roomCode":)/)+11,line.search(/(,"buildingCode)/));
+      var subject =
+          line.substring(
+              line.search(/(subject)/) + a,
+              line.search(/(subject)/) + b
+          );
+      var catalog =
+          line.substring(
+              line.search(/(subject)/) + c,
+              line.search(/(","section)/)
+          );
+
+      var startTime =
+          line.substring(
+              line.search(/(classStartTime":")/) + 17,
+              line.search(/(","classEndTime)/)
+          );
+      var endTime =
+          line.substring(
+              line.search(/(classEndTime":")/) + 15,
+              line.search(/(","modays)/)
+          );
+
+      console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+tutorialSectionNumber+ "from " +startTime+ " to " +endTime);
+
+      // // adding to database
+      connection.query(`INSERT INTO tutorial (subject,classNumber,tutorialSectionNumber,location,days,startTime,endTime) VALUES ('${subject}','${catalog}','${tutorialSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}');`, function (err, result, fields) {
+        if (err) throw err;
+      });
+    }
+
+    else if (line.search(/("componentDescription":"Laboratory")/) >= 0)
+    { 	var days ="";
+      if(line.search(/("modays":"Y")/)>= 0){
+        days += "Monday, "};
+      if(line.search(/("tuesdays":"Y")/)>= 0){
+        days += "Tuesday, "};
+      if(line.search(/("wednesdays":"Y")/)>= 0){
+        days += "Wednesday, "};
+      if(line.search(/("thursdays":"Y")/)>= 0){
+        days += "Thursday, "};
+      if(line.search(/("fridays":"Y")/)>= 0){
+        days += "Friday, "};
+      if(line.search(/("saturdays":"Y")/)>= 0){
+        days += "Saturday, "};
+      if(line.search(/("sundays":"Y")/)>= 0){
+        days += "Sunday"};
+      var labSectionNumber = line.substring(line.search(/("section":)/)+10,line.search(/(,"componentCode")/));
+      var instructorName = null;
+      var classLocation =line.substring(line.search(/("roomCode":)/)+11,line.search(/(,"buildingCode)/));
+      var subject =
+          line.substring(
+              line.search(/(subject)/) + a,
+              line.search(/(subject)/) + b
+          );
+      var catalog =
+          line.substring(
+              line.search(/(subject)/) + c,
+              line.search(/(","section)/)
+          );
+
+      var startTime =
+          line.substring(
+              line.search(/(classStartTime":")/) + 17,
+              line.search(/(","classEndTime)/)
+          );
+      var endTime =
+          line.substring(
+              line.search(/(classEndTime":")/) + 15,
+              line.search(/(","modays)/)
+          );
+
+      console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber+ "from " +startTime+ " to " +endTime);
+
+      // // adding to database
+      connection.query(`INSERT INTO laboratory (subject,classNumber,labSectionNumber,location,days,startTime,endTime) VALUES ('${subject}','${catalog}','${labSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}');`, function (err, result, fields) {
+        if (err) throw err;
+      });
+    }
+    else
+    {
+      console.log("Empty Line");
+    }
+  });
+}
 
 
 
