@@ -85,7 +85,7 @@ class MyDoublyLinkedList {
             while (current !== null) {
 
                 if (JSON.stringify(current.element) === JSON.stringify(element)) {
-                    console.log("Duplicate element found! Will not be added.");
+                    //console.log("Duplicate element found! Will not be added.");
                     return
                 }
                 current = current.next;
@@ -102,7 +102,7 @@ class MyDoublyLinkedList {
             this.tail = tmp;
         }
         this.size++;
-        console.info("adding: " + element);
+        //console.info("adding: " + element);
     };
     /**
      * adds element at the end of the linked list
@@ -118,7 +118,7 @@ class MyDoublyLinkedList {
             while (current !== null) {
 
                 if (JSON.stringify(current.element) === JSON.stringify(element)) {
-                    console.log("Duplicate element found! Will not be added.");
+                    //console.log("Duplicate element found! Will not be added.");
                     return
                 }
                 current = current.next;
@@ -135,7 +135,7 @@ class MyDoublyLinkedList {
             this.head = tmp;
         }
         this.size++;
-        console.info("adding: " + element);
+        //console.info("adding: " + element);
     };
 
     /**
@@ -145,7 +145,7 @@ class MyDoublyLinkedList {
     remove(given) {
 
         if (this.size === 0) {
-            console.log("This list is empty!")
+            //console.log("This list is empty!")
         }
 
         var temporary = this.head;
@@ -165,7 +165,7 @@ class MyDoublyLinkedList {
                     temporary.next.prev = temporary.prev;
                 }
                 this.size--;
-                console.log("deleted: " + temporary.element);
+                //console.log("deleted: " + temporary.element);
                 return temporary.element;
             }
             temporary = temporary.next;
@@ -191,7 +191,7 @@ class MyDoublyLinkedList {
                 this.tail = null;
                 this.head = null;
 
-                console.log("deleted: " + start.element);
+                //console.log("deleted: " + start.element);
                 return;
             }
             while (start.next != null) {
@@ -200,7 +200,7 @@ class MyDoublyLinkedList {
             }
             prev.next = null;
 
-            console.log("deleted: " + start.element);
+            //console.log("deleted: " + start.element);
             return start.element;
 
         }
@@ -210,12 +210,12 @@ class MyDoublyLinkedList {
             this.head = this.head.next;
             this.head.prev = null;
             this.size--;
-            console.info("deleted: " + tmp.element);
+            //console.info("deleted: " + tmp.element);
             return tmp.element;
         }
 
         else if (this.size === 0) {
-            console.log("This list is empty!")
+            //console.log("This list is empty!")
         }
     };
     /**
@@ -237,7 +237,7 @@ class MyDoublyLinkedList {
                 this.tail = null;
                 this.head = null;
 
-                console.log("deleted: " + start.element);
+                //console.log("deleted: " + start.element);
                 return;
             }
             while (start.next != null) {
@@ -246,7 +246,7 @@ class MyDoublyLinkedList {
             }
             prev.next = null;
 
-            console.log("deleted: " + start.element);
+            //console.log("deleted: " + start.element);
             return start.element;
 
         }
@@ -259,14 +259,15 @@ class MyDoublyLinkedList {
             this.tail = this.tail.prev;
             this.tail.next = null;
             this.size--;
-            console.info("deleted: " + tmp.element);
+            //console.info("deleted: " + tmp.element);
             return tmp.element;
         }
 
         else if (this.size === 0) {
-            console.log("This list is empty!")
+            //console.log("This list is empty!")
         }
     };
+
 };
 
 
@@ -382,9 +383,6 @@ MyDoublyLinkedList["class"] = "MyDoublyLinkedList";
 // console.log(testMe.tail);
 // console.log(testMe.head);
 // testMe.removeLast();
-
-
-
 
 
 module.exports = MyDoublyLinkedList;

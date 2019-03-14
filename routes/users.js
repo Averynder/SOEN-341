@@ -316,10 +316,11 @@ if (true) {
 
       if (!(oldValue == courseList.size)) {
 
+        /*
         console.log(
             "Succesfully inserted: Title: "+courseTitle+" subject: "+subject+ " catalog:  " + catalog + " credits: " + credits + " prereqs: " +
             prereqs + " coreqs: " + coreqs
-        );
+        );*/
 
 
             // connection.connect(function(err) {
@@ -367,11 +368,11 @@ if (true) {
     }
     else
     {
-      console.log("Victor was right");
+      //console.log("Victor was right");
     }
 
-    console.log("courseList size");
-    console.log(courseList.size);
+    //console.log("courseList size");
+    //console.log(courseList.size);
 
 
 

@@ -19,6 +19,8 @@ var fs = require('fs');
 var bodyParser = require('body-parser');
 const Course = require('./routes/Course');
 const MyDoublyLinkedList = require('./routes/MyDoublyLinkedList');
+const Stack = require('./routes/Stack');
+const SpanningTree = require('./routes/SpanningTree');
 var app = express();
 require('./selenium')(app);
 
@@ -223,6 +225,8 @@ app.set('view engine', 'pug');
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/MyDoublyLinkedList',MyDoublyLinkedList);
+app.use('/Stack',Stack);
+app.use('/SpanningTree',SpanningTree);
 app.use('/Course',Course);
 
 //app.use('/login', loginRouter);
