@@ -53,7 +53,7 @@ class CourseSelectionMenu extends React.Component {
       ],
       classes: data.sequence,
 
-      colors: ["red", "pink", "green", "yellow", "orange", "blue", "black"],
+      colors: [["red", 0], ["pink", 0], ["green", 0], ["yellow", 0], ["orange", 0], ["blue", 0], ["black", 0]],
 
       color1: "red",
       color2: "pink",
@@ -125,7 +125,7 @@ class CourseSelectionMenu extends React.Component {
 
   handleChangeComplete = color => {
     
-    let courseNameInput = document.getElementById("colorChanger").value; //Get user input
+    let courseNameInput = document.getElementById("colorChanger").value; //Get user input comp248
     let chosenClass;
 
     for (let i = 0; i < this.state.classes.length; i++) {
@@ -135,49 +135,68 @@ class CourseSelectionMenu extends React.Component {
       }
     }
 
-    for (let i = 0; i < 61; i++) {
-      if (
-        this.timeToNum(chosenClass.startTime) <= i &&
-        this.timeToNum(chosenClass.endTime) >= i
-      ) {
-        document.getElementById("Monday-" + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
-      }
-    }
+    //document.getElementById(chosenClass.course).style.backgroundColor = color.hex;
 
-
-  };
-
-  onAdd = () => {
-    let input = document.getElementById("add-class").value; //Get user input
-    let chosenClass;
-
-    for (let i = 0; i < this.state.classes.length; i++) {
-      if (input === this.state.classes[i].course) {
-        chosenClass = this.state.classes[i];
+    let color1;
+    
+    for (let j = 0; j < this.state.colors.length; j++) {
+      if (this.state.colors[j][0] == color) {
+        this.state.colors[j][1] = 0;
         break;
       }
     }
 
-    if (chosenClass === undefined || chosenClass === null) {
-      document.getElementById("addStatus").innerHTML = "Invalid Input";
-      return;
-    }
-
-    this.state.addedClasses.push(chosenClass);
 
     for (let i = 0; i < 61; i++) {
       if (
         this.timeToNum(chosenClass.startTime) <= i &&
         this.timeToNum(chosenClass.endTime) >= i
       ) {
-        document.getElementById("Monday-" + i).style.backgroundColor = this.state.colors[this.state.addedClasses.length - 1]; // (you can choose to select the return of a function)
+        color1 = document.getElementById("Monday-" + i).style.backgroundColor;
+        document.getElementById("Monday-" + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
       }
     }
 
-    this.setState({
-      show: !this.state.show
-    });
+    for (let j = 0; j < this.state.colors.length; j++) {
+      if (this.state.colors[j][0] == color1) {
+        this.state.colors[j][1] = 0;
+        break;
+      }
+    }
+
   };
+
+  // onAdd = () => {
+  //   let input = document.getElementById("add-class").value; //Get user input
+  //   let chosenClass;
+
+  //   for (let i = 0; i < this.state.classes.length; i++) {
+  //     if (input === this.state.classes[i].course) {
+  //       chosenClass = this.state.classes[i];
+  //       break;
+  //     }
+  //   }
+
+  //   if (chosenClass === undefined || chosenClass === null) {
+  //     document.getElementById("addStatus").innerHTML = "Invalid Input";
+  //     return;
+  //   }
+
+  //   this.state.addedClasses.push(chosenClass);
+
+  //   for (let i = 0; i < 61; i++) {
+  //     if (
+  //       this.timeToNum(chosenClass.startTime) <= i &&
+  //       this.timeToNum(chosenClass.endTime) >= i
+  //     ) {
+  //       document.getElementById("Monday-" + i).style.backgroundColor = this.state.colors[this.state.addedClasses.length - 1]; // (you can choose to select the return of a function)
+  //     }
+  //   }
+
+  //   this.setState({
+  //     show: !this.state.show
+  //   });
+  // };
 
   addClass = () => {
     let array = this.state.selectedCourses; //Keep track of user selected classes
@@ -213,18 +232,94 @@ class CourseSelectionMenu extends React.Component {
       selectedCourses: array
     });
 
+    
+
+    let n = 1;
+    let initial = this.timeToNum(addedClass.startTime);
+    let final = this.timeToNum(addedClass.endTime);
+    let middle = (initial + final)/2;
+    let colorChosen;
+
+    for (let j = 0; j < this.state.colors.length; j++) {
+      if (this.state.colors[j][1] == 0) {
+        colorChosen = this.state.colors[j][0];
+        this.state.colors[j][1] = 1;
+        break;
+      }
+    }
+
+    if (colorChosen === null || colorChosen === undefined) {
+      return;
+    }
+
+ 
+
     for (let i = 0; i < 61; i++) {
       if (
-        this.timeToNum(addedClass.startTime) <= i &&
-        this.timeToNum(addedClass.endTime) >= i
+        initial <= i &&
+        final >= i
       ) {
-        document.getElementById("Monday-" + i).style.backgroundColor = this.state.colors[this.state.selectedCourses.length - 1]; // (you can choose to select the return of a function)
+        document.getElementById("Monday-" + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+        if (i === middle - 1) {
+          document.getElementById("Monday-" + i).innerHTML = addedClass.course;
+          n++;
+        }else if(i === middle){
+          document.getElementById("Monday-" + i).innerHTML = addedClass.startTime;
+          n++;
+        }
+        else if(i === middle + 1){
+          document.getElementById("Monday-" + i).innerHTML = "to";
+          n++;
+        }
+        else if(i === middle + 2){
+          document.getElementById("Monday-" + i).innerHTML = addedClass.endTime;
+          n++;
+        }else{
+          document.getElementById("Monday-" + i).innerHTML = "<br />";
+        }
       }
     }
   };
 
   remove = () => {
     let coursecode = document.getElementById("add-class1").value;
+    let courseToRemove;
+
+    for (let i = 0; i < this.state.selectedCourses.length; i++) {
+      if (this.state.selectedCourses[i].course === coursecode) {
+        courseToRemove = this.state.selectedCourses[i];
+        break;
+      }
+    }
+
+    if (courseToRemove === undefined || courseToRemove === null) {
+      document.getElementById("addStatus1").innerHTML = "Invalid Course / Course Not Found";
+      this.setState({show2: "visible"})
+      return;
+    }
+
+    let color;
+    
+
+    for (let i = 0; i < 61; i++) {
+      if (
+        this.timeToNum(courseToRemove.startTime) <= i &&
+        this.timeToNum(courseToRemove.endTime) >= i
+      ) {
+        color = document.getElementById("Monday-" + i).style.backgroundColor;
+        document.getElementById("Monday-" + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
+        document.getElementById("Monday-" + i).innerHTML = "<br />";
+      }
+    }
+    
+    for (let j = 0; j < this.state.colors.length; j++) {
+      if (this.state.colors[j][0] == color) {
+        this.state.colors[j][1] = 0;
+        break;
+      }
+    }
+    
+
     let array = this.state.selectedCourses.filter(
       data => coursecode !== data.course
     );
@@ -256,12 +351,17 @@ class CourseSelectionMenu extends React.Component {
       <option value={theClass.course}>{theClass.course}</option>
     ));
 
+  
+
+    let i = 0;
+
     let x = this.state.selectedCourses.map(element => (
-      <tr>
+      <tr id={element.course} /*style={{backgroundColor: this.state.colors[i++]}}*/>
+      
         <td>
           <div>
             <input type="checkbox" checked /> &nbsp;
-            <strong id={element.course}>{element.course}</strong>
+            <strong>{element.course}</strong>
             <br />
             <strong>{element.name}</strong>{" "}
             <select name="course-section">
@@ -278,7 +378,7 @@ class CourseSelectionMenu extends React.Component {
         </td>
       </tr>
     ));
-
+    
     let table = (
       <Table
         id="selected-course-table"
@@ -345,6 +445,10 @@ class CourseSelectionMenu extends React.Component {
           </h2>
           <p className="lead" />
 
+
+
+
+
           <div>
             {" "}
             {/* Schedule */}
@@ -393,8 +497,8 @@ class CourseSelectionMenu extends React.Component {
             </Table>
           </div>
 
-          <Button text="Add A Class" onClick={this.handleShow} />
-          <Button text="Remove A Class" onClick={this.handleShow1} />
+          {/* <Button text="Add A Class" onClick={this.handleShow} />
+          <Button text="Remove A Class" onClick={this.handleShow1} /> */}
           <Button text="Rubiat's Color Selection" onClick={this.openRubiat} />
           <Link to="/finalize-export-sem">
             <Button text="Finalize" />
@@ -405,7 +509,7 @@ class CourseSelectionMenu extends React.Component {
           </Link>
         </div>
 
-        <Modal show={this.state.show} onHide={this.handleClose}>
+        {/* <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Add A Course</Modal.Title>
           </Modal.Header>
@@ -425,9 +529,9 @@ class CourseSelectionMenu extends React.Component {
             />
             <Button variant="primary" text="Save Changes" />
           </Modal.Footer>
-        </Modal>
+        </Modal> */}
 
-        <Modal show={this.state.show1} onHide={this.handleClose1}>
+        {/* <Modal show={this.state.show1} onHide={this.handleClose1}>
           <Modal.Header closeButton>
             <Modal.Title>Remove A Course</Modal.Title>
           </Modal.Header>
@@ -451,7 +555,7 @@ class CourseSelectionMenu extends React.Component {
             />
             <Button variant="primary" text="Save Changes" />
           </Modal.Footer>
-        </Modal>
+      </Modal> */}
 
         <Modal show={this.state.rubiat} onHide={this.closeRubiat}>
           <Modal.Header closeButton>
