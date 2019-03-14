@@ -571,6 +571,102 @@ if (true) {
 
 
 
+
+
+
+
+// schedule
+
+if (true) {
+    var rl = require("readline").createInterface({
+        input: require("fs").createReadStream("routes/SOENschedule.txt")
+    });
+
+    rl.on("line", function(line) {
+
+        if (line.search(/("componentDescription":"Lecture")/) >= 0)
+        { 	var days="";
+            if(line.search(/("modays":"Y")/)){
+                days += "Monday, "};
+            if(line.search(/("tuesdays":"Y")/)){
+                days += "Tuesday, "};
+            if(line.search(/("wednesdays":"Y")/)){
+                days += "Wednesday, "};
+            if(line.search(/("thursdays":"Y")/)){
+                days += "Thursday, "};
+            if(line.search(/("fridays":"Y")/)){
+                days += "Friday, "};
+            if(line.search(/("saturdays":"Y")/)){
+                days += "Saturday, "};
+            if(line.search(/("sundays":"Y")/)){
+                days += "Sunday"};
+            var lectureSectionNumber = line.substring(line.search(/("section":)/)+10,line.search(/(,"componentCode")/));
+            var instructorName = null;
+            var classLocation = line.substring(line.search(/("roomCode":)/)+11,line.search(/(,"buildingCode)/));
+            console.log("Lecture added! Room: "+classLocation+" Days: "+days+" Section number: "+lectureSectionNumber);
+
+        }
+        else if (line.search(/("componentDescription":"Tutorial")/) >= 0)
+        { 	var days="";
+            if(line.search(/("modays":"Y")/)){
+                days += "Monday, "};
+            if(line.search(/("tuesdays":"Y")/)){
+                days += "Tuesday, "};
+            if(line.search(/("wednesdays":"Y")/)){
+                days += "Wednesday, "};
+            if(line.search(/("thursdays":"Y")/)){
+                days += "Thursday, "};
+            if(line.search(/("fridays":"Y")/)){
+                days += "Friday, "};
+            if(line.search(/("saturdays":"Y")/)){
+                days += "Saturday, "};
+            if(line.search(/("sundays":"Y")/)){
+                days += "Sunday"};
+            var tutorialSectionNumber = line.substring(line.search(/("section":)/)+10,line.search(/(,"componentCode")/));
+            var instructorName = null;
+            var classLocation =line.substring(line.search(/("roomCode":)/)+11,line.search(/(,"buildingCode)/));
+            console.log("Tutorial added! Room: "+classLocation+" Days: "+days+" Section number: "+tutorialSectionNumber);
+
+        }
+        else if (line.search(/("componentDescription":"Laboratory")/) >= 0)
+        { 	var days ="";
+            if(line.search(/("modays":"Y")/)){
+                days += "Monday, "};
+            if(line.search(/("tuesdays":"Y")/)){
+                days += "Tuesday, "};
+            if(line.search(/("wednesdays":"Y")/)){
+                days += "Wednesday, "};
+            if(line.search(/("thursdays":"Y")/)){
+                days += "Thursday, "};
+            if(line.search(/("fridays":"Y")/)){
+                days += "Friday, "};
+            if(line.search(/("saturdays":"Y")/)){
+                days += "Saturday, "};
+            if(line.search(/("sundays":"Y")/)){
+                days += "Sunday"};
+            var labSectionNumber = line.substring(line.search(/("section":)/)+10,line.search(/(,"componentCode")/));
+            var instructorName = null;
+            var classLocation =line.substring(line.search(/("roomCode":)/)+11,line.search(/(,"buildingCode)/));
+            console.log("Laboratory added! Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber);
+
+        }
+        else
+        {
+            console.log("Empty Line");
+        }
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
 /* GET users listing. */
 app.get("/", function(req, res, next) {
   res.json(
