@@ -643,19 +643,19 @@ if (true) {
 
         if (line.search(/("componentDescription":"Lecture")/) >= 0)
         { 	var days="";
-            if(line.search(/("modays":"Y")/)){
+            if(line.search(/("modays":"Y")/)>= 0){
                 days += "Monday, "};
-            if(line.search(/("tuesdays":"Y")/)){
+            if(line.search(/("tuesdays":"Y")/)>= 0){
                 days += "Tuesday, "};
-            if(line.search(/("wednesdays":"Y")/)){
+            if(line.search(/("wednesdays":"Y")/)>= 0){
                 days += "Wednesday, "};
-            if(line.search(/("thursdays":"Y")/)){
+            if(line.search(/("thursdays":"Y")/)>= 0){
                 days += "Thursday, "};
-            if(line.search(/("fridays":"Y")/)){
+            if(line.search(/("fridays":"Y")/)>= 0){
                 days += "Friday, "};
-            if(line.search(/("saturdays":"Y")/)){
+            if(line.search(/("saturdays":"Y")/)>= 0){
                 days += "Saturday, "};
-            if(line.search(/("sundays":"Y")/)){
+            if(line.search(/("sundays":"Y")/)>= 0){
                 days += "Sunday"};
             var lectureSectionNumber = line.substring(line.search(/("section":)/)+10,line.search(/(,"componentCode")/));
             var instructorName = null;
@@ -676,19 +676,19 @@ if (true) {
         }
         else if (line.search(/("componentDescription":"Tutorial")/) >= 0)
         { 	var days="";
-            if(line.search(/("modays":"Y")/)){
+            if(line.search(/("modays":"Y")/)>= 0){
                 days += "Monday, "};
-            if(line.search(/("tuesdays":"Y")/)){
+            if(line.search(/("tuesdays":"Y")/)>= 0){
                 days += "Tuesday, "};
-            if(line.search(/("wednesdays":"Y")/)){
+            if(line.search(/("wednesdays":"Y")/)>= 0){
                 days += "Wednesday, "};
-            if(line.search(/("thursdays":"Y")/)){
+            if(line.search(/("thursdays":"Y")/)>= 0){
                 days += "Thursday, "};
-            if(line.search(/("fridays":"Y")/)){
+            if(line.search(/("fridays":"Y")/)>= 0){
                 days += "Friday, "};
-            if(line.search(/("saturdays":"Y")/)){
+            if(line.search(/("saturdays":"Y")/)>= 0){
                 days += "Saturday, "};
-            if(line.search(/("sundays":"Y")/)){
+            if(line.search(/("sundays":"Y")/)>= 0){
                 days += "Sunday"};
             var tutorialSectionNumber = line.substring(line.search(/("section":)/)+10,line.search(/(,"componentCode")/));
             var instructorName = null;
@@ -709,19 +709,19 @@ if (true) {
         }
         else if (line.search(/("componentDescription":"Laboratory")/) >= 0)
         { 	var days ="";
-            if(line.search(/("modays":"Y")/)){
+            if(line.search(/("modays":"Y")/)>= 0){
                 days += "Monday, "};
-            if(line.search(/("tuesdays":"Y")/)){
+            if(line.search(/("tuesdays":"Y")/)>= 0){
                 days += "Tuesday, "};
-            if(line.search(/("wednesdays":"Y")/)){
+            if(line.search(/("wednesdays":"Y")/)>= 0){
                 days += "Wednesday, "};
-            if(line.search(/("thursdays":"Y")/)){
+            if(line.search(/("thursdays":"Y")/)>= 0){
                 days += "Thursday, "};
-            if(line.search(/("fridays":"Y")/)){
+            if(line.search(/("fridays":"Y")/)>= 0){
                 days += "Friday, "};
-            if(line.search(/("saturdays":"Y")/)){
+            if(line.search(/("saturdays":"Y")/)>= 0){
                 days += "Saturday, "};
-            if(line.search(/("sundays":"Y")/)){
+            if(line.search(/("sundays":"Y")/)>= 0){
                 days += "Sunday"};
             var labSectionNumber = line.substring(line.search(/("section":)/)+10,line.search(/(,"componentCode")/));
             var instructorName = null;
