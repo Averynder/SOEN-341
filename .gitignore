@@ -72,3 +72,5 @@ testing/dependencies
 
 # Mac Users
 *.DS_Store
+package-lock.json
+package-lock.json

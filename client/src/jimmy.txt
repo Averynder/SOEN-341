@@ -1,0 +1,16 @@
+this.state = {
+    weekdays: {
+        tuesday: [],
+    }
+}
+
+bob = () => {
+    for( let i = 0 ; i < mondayArr.length ; i++) {
+        if (this.state.selectedCourses[j].time.start <= i && this.state.selectedCourses[j].time.end >= i) {
+            document.getElementById("monday-" + i).style.backgroundColor = 
+            "red"; // (you can choose to select the return of a function)
+            this.setState({ show: "visible" });
+            return;
+        }
+    }
+}
