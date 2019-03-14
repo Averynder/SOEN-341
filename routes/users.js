@@ -57,15 +57,67 @@ connection.connect();
 
 
 
-      var dck = "DROP TABLE course";
-      connection.query(dck, function (err, result) {
-        // if (err) throw err;
-        console.log("Table deleted");
-      });
+var dck = "DROP TABLE course";
+connection.query(dck, function (err, result) {
+  // if (err) throw err;
+  console.log("Table deleted");
+});
 
 
-var sqlrr = "CREATE TABLE `course` (courseTitle VARCHAR(100), subject VARCHAR(30), classNumber VARCHAR(100), credits VARCHAR(100), prerequisites VARCHAR(100), corequisites VARCHAR(100))";
+var sqlrr = "CREATE TABLE `course` (courseTitle VARCHAR(100), subject VARCHAR(100), classNumber VARCHAR(100), credits VARCHAR(100), prerequisites VARCHAR(100), corequisites VARCHAR(100))";
 connection.query(sqlrr, function (err, result) {
+  // if (err) throw err;
+  console.log("Table created");
+});
+
+
+
+
+
+
+var dck2 = "DROP TABLE lecture";
+connection.query(dck2, function (err, result) {
+  // if (err) throw err;
+  console.log("Table deleted");
+});
+
+
+var sqlrr2 = "CREATE TABLE `lecture` (subject VARCHAR(100), classNumber VARCHAR(100), lectureSectionNumber VARCHAR(100), instructorName VARCHAR(100), location VARCHAR(100), days VARCHAR(100), times VARCHAR(100))";
+connection.query(sqlrr2, function (err, result) {
+  // if (err) throw err;
+  console.log("Table created");
+});
+
+
+
+
+
+var dck3 = "DROP TABLE laboratory";
+connection.query(dck3, function (err, result) {
+  // if (err) throw err;
+  console.log("Table deleted");
+});
+
+
+var sqlrr3 = "CREATE TABLE `laboratory` (subject VARCHAR(100), classNumber VARCHAR(100), labSectionNumber VARCHAR(100), instructorName VARCHAR(100), location VARCHAR(100), days VARCHAR(100), times VARCHAR(100))";
+connection.query(sqlrr3, function (err, result) {
+  // if (err) throw err;
+  console.log("Table created");
+});
+
+
+
+
+
+var dck4 = "DROP TABLE tutorial";
+connection.query(dck4, function (err, result) {
+  // if (err) throw err;
+  console.log("Table deleted");
+});
+
+
+var sqlrr4 = "CREATE TABLE `tutorial` (subject VARCHAR(100), classNumber VARCHAR(100), tutorialSectionNumber VARCHAR(100), instructorName VARCHAR(100), location VARCHAR(100), days VARCHAR(100), times VARCHAR(100))";
+connection.query(sqlrr4, function (err, result) {
   // if (err) throw err;
   console.log("Table created");
 });
@@ -584,6 +636,11 @@ if (true) {
 
     rl.on("line", function(line) {
 
+      var a = 10;
+      var b = 14;
+      var c = 27;
+      var d = 30;
+
         if (line.search(/("componentDescription":"Lecture")/) >= 0)
         { 	var days="";
             if(line.search(/("modays":"Y")/)){
@@ -603,7 +660,18 @@ if (true) {
             var lectureSectionNumber = line.substring(line.search(/("section":)/)+10,line.search(/(,"componentCode")/));
             var instructorName = null;
             var classLocation = line.substring(line.search(/("roomCode":)/)+11,line.search(/(,"buildingCode)/));
-            console.log("Lecture added! Room: "+classLocation+" Days: "+days+" Section number: "+lectureSectionNumber);
+          var subject =
+              line.substring(
+                  line.search(/(subject)/) + a,
+                  line.search(/(subject)/) + b
+              );
+          var catalog =
+              line.substring(
+                  line.search(/(subject)/) + c,
+                  line.search(/(subject)/) + d
+              );
+
+          console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber);
 
         }
         else if (line.search(/("componentDescription":"Tutorial")/) >= 0)
@@ -625,7 +693,18 @@ if (true) {
             var tutorialSectionNumber = line.substring(line.search(/("section":)/)+10,line.search(/(,"componentCode")/));
             var instructorName = null;
             var classLocation =line.substring(line.search(/("roomCode":)/)+11,line.search(/(,"buildingCode)/));
-            console.log("Tutorial added! Room: "+classLocation+" Days: "+days+" Section number: "+tutorialSectionNumber);
+          var subject =
+              line.substring(
+                  line.search(/(subject)/) + a,
+                  line.search(/(subject)/) + b
+              );
+          var catalog =
+              line.substring(
+                  line.search(/(subject)/) + c,
+                  line.search(/(subject)/) + d
+              );
+
+          console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber);
 
         }
         else if (line.search(/("componentDescription":"Laboratory")/) >= 0)
@@ -647,7 +726,18 @@ if (true) {
             var labSectionNumber = line.substring(line.search(/("section":)/)+10,line.search(/(,"componentCode")/));
             var instructorName = null;
             var classLocation =line.substring(line.search(/("roomCode":)/)+11,line.search(/(,"buildingCode)/));
-            console.log("Laboratory added! Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber);
+          var subject =
+              line.substring(
+                  line.search(/(subject)/) + a,
+                  line.search(/(subject)/) + b
+              );
+          var catalog =
+              line.substring(
+                  line.search(/(subject)/) + c,
+                  line.search(/(subject)/) + d
+              );
+
+            console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber);
 
         }
         else

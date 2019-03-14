@@ -92,22 +92,26 @@ CREATE TABLE  `soen341`.`optimizes`(
 -- Table `soen341`.`lecture`
 -- -----------------------------------------------------
 CREATE TABLE `soen341`.`lecture` (
-  `lectureSectionNumber` varchar(7) PRIMARY KEY,
-  `instructorName` varchar(50) DEFAULT NULL,
-  `days` date NULL DEFAULT NULL,
-  `times` time NULL DEFAULT NULL,
-  `location` varchar(10) DEFAULT NULL);
+  `lectureSectionNumber` varchar(100) PRIMARY KEY,
+  `classNumber` varchar(100) DEFAULT NULL,
+  `subject` varchar(100) DEFAULT NULL,
+  `instructorName` varchar(100) DEFAULT NULL,
+  `days` varchar(100) DEFAULT NULL,
+  `times` varchar(100) DEFAULT NULL,
+  `location` varchar(100) DEFAULT NULL);
 
 
 -- -----------------------------------------------------
 -- Table `soen341`.`laboratory`
 -- -----------------------------------------------------
 CREATE TABLE  `soen341`.`laboratory` (
-  `labSectionNumber` varchar(7) PRIMARY KEY,
-  `instructorName` varchar(50) DEFAULT NULL,
-  `days` date NULL DEFAULT NULL,
-  `times` time NULL DEFAULT NULL,
-  `location` varchar(10) DEFAULT NULL);
+  `labSectionNumber` varchar(100) PRIMARY KEY,
+  `classNumber` varchar(100) DEFAULT NULL,
+  `subject` varchar(100) DEFAULT NULL,
+  `instructorName` varchar(100) DEFAULT NULL,
+  `days` varchar(100) DEFAULT NULL,
+  `times` varchar(100) DEFAULT NULL,
+  `location` varchar(100) DEFAULT NULL);
 
 
 -- -----------------------------------------------------
@@ -115,6 +119,8 @@ CREATE TABLE  `soen341`.`laboratory` (
 -- -----------------------------------------------------
 CREATE TABLE  `soen341`.`tutorial` (
   `tutorialSectionNumber` varchar(7) PRIMARY KEY,
+  `classNumber` varchar(100) DEFAULT NULL,
+  `subject` varchar(100) DEFAULT NULL,
   `instructorName` varchar(50) DEFAULT NULL,
   `days` date NULL DEFAULT NULL,
   `times` time NULL DEFAULT NULL,
