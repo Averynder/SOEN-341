@@ -7,14 +7,11 @@ const MyDoublyLinkedList = require('./MyDoublyLinkedList');
 var count;
 // var mysql = require('mysql');
 var courseList = new MyDoublyLinkedList();
-oldValue = courseList.size;
-var insertDone = false;
+var sequenceList = new MyDoublyLinkedList();
+
 var oldValue;
-var thisDick = new Course();
-if (count == undefined)
-  count = 1;
-else
-  count = 0;
+oldValue = courseList.size;
+
 
 var goAhead = false;
 
@@ -528,6 +525,7 @@ if (true) {
       prereqs = prereqs.replace (/;/g, "");
       prereqs = prereqs.replace (/,/g, "");
       prereqs = prereqs.replace (/ or /g, "<==>");
+      prereqs = prereqs.replace (/and /g, "");
       prereqs = prereqs.replace (/or /g, "<==>");
       prereqs = prereqs.replace (/  /g, " ");
       prereqs = prereqs.replace (/ Course prerequisite: /g, " ");
