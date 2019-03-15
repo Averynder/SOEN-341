@@ -7,6 +7,18 @@
       "startTime": "11:00",
       "endTime": "12:30",
       "semester": "Fall",
+      "days": ["Monday", "Wednesday"],
+      "ta": [{
+        "type": "Tutorial",
+        "days": ["Friday"],
+        "startTime": "13:15",
+        "endTime": "14:45"
+      },{
+        "type": "Lab",
+        "days": ["Tuesday"],
+        "startTime": "9:15",
+        "endTime": "11:45"
+      }],
       "year": 2019
     },
     {
@@ -14,6 +26,18 @@
       "name": "Discrete Mathematics",
       "credit": 3,
       "semester": "Fall",
+      "days": ["Tuesday", "Thursday"],
+      "ta": [{
+        "type": "Tutorial",
+        "days": ["Thursday"],
+        "startTime": "10:00",
+        "endTime": "12:00"
+      },{
+        "type": "Lab",
+        "days": ["Monday"],
+        "startTime": "15:00",
+        "endTime": "16:00"
+      }],
       "year": 2019,
       "startTime": "18:00",
       "endTime": "22:30"
@@ -23,73 +47,61 @@
       "name": "System Hardware",
       "credit": 4,
       "semester": "Fall",
-      "year": 2019
+      "days": ["Monday"],
+      "ta": [{
+        "type": "Tutorial",
+        "days": ["Tuesday"],
+        "startTime": "13:00",
+        "endTime": "15:00"
+      },
+      {
+        "type": "Lab",
+        "days": ["Thursday"],
+        "startTime": "13:00",
+        "endTime": "15:00"
+      }],
+      "year": 2019,
+      "startTime": "17:45",
+      "endTime": "20:15"
     },
     {
       "course": "ENGR213",
       "name": "Ordinary Differential Equations",
       "credit": 3,
       "semester": "Fall",
-      "year": 2019
+      "days": ["Friday"],
+      "ta": [{
+        "type": "Tutorial",
+        "days": ["Friday"],
+        "startTime": "16:00",
+        "endTime": "17:30"
+      }],
+      "year": 2019,
+      "startTime": "8:45",
+      "endTime": "10:15"
     },
     {
-      "course": "COMP248",
-      "name": "Object-Oriented Programming I",
-      "credit": 3.5,
-      "startTime": "11:00",
-      "endTime": "12:30",
-      "semester": "Winter",
-      "year": 2019
-    },
-    {
-      "course": "COMP232",
-      "name": "Discrete Mathematics",
-      "credit": 3,
-      "semester": "Winter",
-      "year": 2019
-    },
-    {
-      "course": "SOEN228",
-      "name": "System Hardware",
+      "course": "COMP346",
+      "name": "Operating Systems",
       "credit": 4,
-      "semester": "Winter",
-      "year": 2019
-    },
-    {
-      "course": "ENGR213",
-      "name": "Ordinary Differential Equations",
-      "credit": 3,
-      "semester": "Winter",
-      "year": 2019
-    },
-    {
-      "course": "COMP248",
-      "name": "Object-Oriented Programming I",
-      "credit": 3.5,
-      "startTime": "11:00",
-      "endTime": "12:30",
-      "semester": "Summer",
-      "year": 2019
-    },
-    {
-      "course": "COMP232",
-      "name": "Discrete Mathematics",
-      "credit": 3,
-      "semester": "Summer",
-      "year": 2019
-    },
-    {
-      "course": "SOEN228",
-      "name": "System Hardware",
-      "credit": 4,
-      "semester": "Summer",
-      "year": 2019
-    },
-    {
-      "course": "ENGR213",
-      "name": "Ordinary Differential Equations",
-      "credit": 3,
-      "semester": "Summer",
+      "semester": "Fall",
+      "days": ["Wednesday"],
+      "ta": [
+        {
+          "type": "Tutorial",
+          "days": ["Wednesday"],
+          "startTime": "16:45",
+          "endTime": "18:45"
+        },
+        {
+          "type": "Lab",
+          "days": ["Friday"],
+          "startTime": "19:15",
+          "endTime": "21:45"
+        }
+      ],
+      "startTime": "13:30",
+      "endTime": "16:00",
       "year": 2019
     }
   ]

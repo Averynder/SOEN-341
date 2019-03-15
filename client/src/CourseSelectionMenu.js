@@ -126,7 +126,7 @@ class CourseSelectionMenu extends React.Component {
   handleChangeComplete = color => {
     
     let courseNameInput = document.getElementById("colorChanger").value; //Get user input comp248
-    let chosenClass;
+    let chosenClass; //class object
 
     for (let i = 0; i < this.state.classes.length; i++) {
       if (courseNameInput === this.state.classes[i].course) {
@@ -146,16 +146,31 @@ class CourseSelectionMenu extends React.Component {
       }
     }
 
-
+  for(let j=0; j<chosenClass.days.length; j++) //added
     for (let i = 0; i < 61; i++) {
+      let dayOfTheWeek = chosenClass.days[j] + "-";
       if (
         this.timeToNum(chosenClass.startTime) <= i &&
         this.timeToNum(chosenClass.endTime) >= i
       ) {
-        color1 = document.getElementById("Monday-" + i).style.backgroundColor;
-        document.getElementById("Monday-" + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
+        color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
+        document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
       }
     }
+
+    for(let k=0; k<chosenClass.ta.length; k++)
+      for(let j=0; j<chosenClass.ta[k].days.length; j++){
+        let dayOfTheWeek = chosenClass.ta[k].days[j] + "-";
+        for (let i = 0; i < 61; i++) {
+          if (
+            this.timeToNum(chosenClass.ta[k].startTime) <= i &&
+            this.timeToNum(chosenClass.ta[k].endTime) >= i
+          ) {
+            color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
+            document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
+          }
+        }
+      }
 
     for (let j = 0; j < this.state.colors.length; j++) {
       if (this.state.colors[j][0] == color1) {
@@ -200,7 +215,7 @@ class CourseSelectionMenu extends React.Component {
 
   addClass = () => {
     let array = this.state.selectedCourses; //Keep track of user selected classes
-    let input = document.getElementById("add-class1").value; //Get user input
+    let input = document.getElementById("add-class1").value; //Get user input (Course Code)
     let classList = this.state.courses; //Gets the whole list of courses of concordia
     let addedClass;
     let classExists = false;
@@ -251,31 +266,69 @@ class CourseSelectionMenu extends React.Component {
     if (colorChosen === null || colorChosen === undefined) {
       return;
     }
-
+  
+  for(let k=0; k<addedClass.ta.length; k++)
+    for(let j=0; j<addedClass.ta[k].days.length; j++){
+      let dayOfTheWeek = addedClass.ta[k].days[j] + "-";
+      let n = 1;
+      let initial = this.timeToNum(addedClass.ta[k].startTime);
+      let final = this.timeToNum(addedClass.ta[k].endTime);
+      let middle = (initial + final)/2;
+      for (let i = 0; i < 61; i++) {
+        if (
+          this.timeToNum(addedClass.ta[k].startTime) <= i &&
+          this.timeToNum(addedClass.ta[k].endTime) >= i
+        ) {
+          document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+          if (i === middle - 2) {
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+            n++;
+          }else if (i === middle - 1) {
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.ta[k].type;
+            n++;
+          }else if(i === middle){
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.ta[k].startTime;
+            n++;
+          }
+          else if(i === middle + 1){
+            document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+            n++;
+          }
+          else if(i === middle + 2){
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.ta[k].endTime;
+            n++;
+          }else{
+            document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+          }
+        }
+      }
+    }
  
-
-    for (let i = 0; i < 61; i++) {
-      if (
-        initial <= i &&
-        final >= i
-      ) {
-        document.getElementById("Monday-" + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
-        if (i === middle - 1) {
-          document.getElementById("Monday-" + i).innerHTML = addedClass.course;
-          n++;
-        }else if(i === middle){
-          document.getElementById("Monday-" + i).innerHTML = addedClass.startTime;
-          n++;
-        }
-        else if(i === middle + 1){
-          document.getElementById("Monday-" + i).innerHTML = "to";
-          n++;
-        }
-        else if(i === middle + 2){
-          document.getElementById("Monday-" + i).innerHTML = addedClass.endTime;
-          n++;
-        }else{
-          document.getElementById("Monday-" + i).innerHTML = "<br />";
+    for(let j=0; j<addedClass.days.length; j++){
+      for (let i = 0; i < 61; i++) {
+        if (
+          initial <= i &&
+          final >= i
+        ) {
+          let dayOfTheWeek = addedClass.days[j] + "-"; 
+          document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+          if (i === middle - 1) {
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+            n++;
+          }else if(i === middle){
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.startTime;
+            n++;
+          }
+          else if(i === middle + 1){
+            document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+            n++;
+          }
+          else if(i === middle + 2){
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.endTime;
+            n++;
+          }else{
+            document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+          }
         }
       }
     }
@@ -292,6 +345,8 @@ class CourseSelectionMenu extends React.Component {
       }
     }
 
+    
+
     if (courseToRemove === undefined || courseToRemove === null) {
       document.getElementById("addStatus1").innerHTML = "Invalid Course / Course Not Found";
       this.setState({show2: "visible"})
@@ -300,17 +355,32 @@ class CourseSelectionMenu extends React.Component {
 
     let color;
     
-
+  for(let j=0; j<courseToRemove.days.length; j++)
     for (let i = 0; i < 61; i++) {
+      let dayOfTheWeek = courseToRemove.days[j] + "-";
       if (
         this.timeToNum(courseToRemove.startTime) <= i &&
         this.timeToNum(courseToRemove.endTime) >= i
       ) {
-        color = document.getElementById("Monday-" + i).style.backgroundColor;
-        document.getElementById("Monday-" + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
-        document.getElementById("Monday-" + i).innerHTML = "<br />";
+        color = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
+        document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
+        document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
       }
     }
+
+    for(let k=0; k<courseToRemove.ta.length; k++)
+      for(let j=0; j<courseToRemove.ta[k].days.length; j++){
+        let dayOfTheWeek = courseToRemove.ta[k].days[j] + "-";
+        for (let i = 0; i < 61; i++) {
+          if (
+            this.timeToNum(courseToRemove.ta[k].startTime) <= i &&
+            this.timeToNum(courseToRemove.ta[k].endTime) >= i
+          ) {
+            document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
+            document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+          }
+        }
+      }
     
     for (let j = 0; j < this.state.colors.length; j++) {
       if (this.state.colors[j][0] == color) {
@@ -482,7 +552,7 @@ class CourseSelectionMenu extends React.Component {
                                 let myID = days + "-" + element.num;
                                 return (
                                   <div id={myID}>
-                                    {days}-{element.num}
+                                    -----------------
                                   </div>
                                 );
                               })}
