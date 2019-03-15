@@ -374,11 +374,11 @@ if (fs.existsSync('routes/SOENcatalog.txt')) {
     }
     else
     {
-      console.log("Victor was right");
+      //console.log("Victor was right");
     }
 
-    console.log("courseList size");
-    console.log(courseList.size);
+    //console.log("courseList size");
+    //console.log(courseList.size);
 
   });
 }
@@ -591,10 +591,11 @@ if (fs.existsSync('routes/COMPcatalog.txt')) {
         connection.query(`INSERT INTO course (courseTitle,subject,classNumber,credits,prerequisites,corequisites) VALUES ('${courseToAdd.courseTitle.toString()}','${courseToAdd.subject.toString()}','${courseToAdd.catalog.toString()}','${courseToAdd.credits.toString()}','${courseToAdd.prereqs.toString()}','${courseToAdd.coreqs.toString()}');`, function (err, result, fields) {
           if (err) throw err;
         });
+        /*
         console.log(
             "Succesfully inserted: Title: "+courseToAdd.courseTitle+" subject: "+courseToAdd.subject+ " catalog: " + courseToAdd.catalog + " credits: " + courseToAdd.credits + " prereqs: " +
             courseToAdd.prereqs + " coreqs: " + courseToAdd.coreqs
-        );
+        );*/
         oldValue++;
       }
 
@@ -602,7 +603,7 @@ if (fs.existsSync('routes/COMPcatalog.txt')) {
     }
     else
     {
-      console.log("GRAD course");
+      //console.log("GRAD course");
     }
 
     //console.log("courseList size");
@@ -636,7 +637,7 @@ if (fs.existsSync('routes/SOENschedule.txt')) {
       var d = 30;
 
       if (line.includes("Graduate")) {
-        console.log("Ignore graduate course")
+        //console.log("Ignore graduate course")
       }
 
       else if (line.search(/("componentDescription":"Lecture")/) >= 0) {
@@ -741,7 +742,7 @@ if (fs.existsSync('routes/SOENschedule.txt')) {
                   line.search(/(","modays)/)
               );
 
-          console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+tutorialSectionNumber+ "from " +startTime+ " to " +endTime);
+          //console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+tutorialSectionNumber+ "from " +startTime+ " to " +endTime);
 
           // // adding to database
           connection.query(`INSERT INTO tutorial (subject,classNumber,tutorialSectionNumber,location,days,startTime,endTime) VALUES ('${subject}','${catalog}','${tutorialSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}');`, function (err, result, fields) {
@@ -790,7 +791,7 @@ if (fs.existsSync('routes/SOENschedule.txt')) {
                   line.search(/(","modays)/)
               );
 
-          console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber+ "from " +startTime+ " to " +endTime);
+          //console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber+ "from " +startTime+ " to " +endTime);
 
           // // adding to database
           connection.query(`INSERT INTO laboratory (subject,classNumber,labSectionNumber,location,days,startTime,endTime) VALUES ('${subject}','${catalog}','${labSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}');`, function (err, result, fields) {
@@ -824,7 +825,7 @@ if (fs.existsSync('routes/COMPschedule.txt')) {
     var d = 30;
 
     if (line.includes("Graduate")) {
-      console.log("Ignore graduate course")
+      //console.log("Ignore graduate course")
     }
 
     else if (line.search(/("componentDescription":"Lecture")/) >= 0) {
@@ -929,7 +930,7 @@ if (fs.existsSync('routes/COMPschedule.txt')) {
               line.search(/(","modays)/)
           );
 
-      console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+tutorialSectionNumber+ "from " +startTime+ " to " +endTime);
+      //console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+tutorialSectionNumber+ "from " +startTime+ " to " +endTime);
 
       // // adding to database
       connection.query(`INSERT INTO tutorial (subject,classNumber,tutorialSectionNumber,location,days,startTime,endTime) VALUES ('${subject}','${catalog}','${tutorialSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}');`, function (err, result, fields) {
@@ -978,7 +979,7 @@ if (fs.existsSync('routes/COMPschedule.txt')) {
               line.search(/(","modays)/)
           );
 
-      console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber+ "from " +startTime+ " to " +endTime);
+      //console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber+ "from " +startTime+ " to " +endTime);
 
       // // adding to database
       connection.query(`INSERT INTO laboratory (subject,classNumber,labSectionNumber,location,days,startTime,endTime) VALUES ('${subject}','${catalog}','${labSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}');`, function (err, result, fields) {
