@@ -59,6 +59,18 @@ class PdfSequenceGenerator extends React.Component {
     return result;
   };
 
+  getRowStyle = (isDragging, draggableStyle) => ({
+    userSelect: 'none',
+    background: isDragging? 'rgb(92, 96, 101, 0.8)': '#212529',
+    display: isDragging? 'table':'',
+
+    ...draggableStyle
+  });
+
+  getTableStyle = isDraggingOver => ({
+    background: isDraggingOver? 'rgba(255, 255, 255, 0.5)': 'lightblue'
+  });
+
   onDragEnd = result => {
     const {source, destination} = result;
 
@@ -223,16 +235,17 @@ class PdfSequenceGenerator extends React.Component {
           </tr>
         </thead>
         <Droppable droppableId="selectedCoursesFall">
-          {(provided) => (
-            <tbody provided={provided} ref={provided.innerRef} >
+          {(provided, snapshot) => (
+            <tbody provided={provided} style={this.getTableStyle(snapshot.isDraggingOver)} ref={provided.innerRef} >
               {this.state.selectedCoursesFall.map((course, index) =>
                 <Draggable key={index} draggableId={"f"+index} index={index}>
-                  {(provided) => (
+                  {(provided, snapshot) => (
                     <tr
                       provided={provided}
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
+                      style={this.getRowStyle(snapshot.isDragging, provided.draggableProps.style)}
                     >
                       <td>{course.semester}</td>
                       <td>{course.course}</td>
