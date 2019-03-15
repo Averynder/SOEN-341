@@ -135,7 +135,7 @@ class CourseSelectionMenu extends React.Component {
       }
     }
 
-    //document.getElementById(chosenClass.course).style.backgroundColor = color.hex;
+    document.getElementById(chosenClass.course).style.backgroundColor = color.hex;
 
     let color1;
     
@@ -388,7 +388,14 @@ class CourseSelectionMenu extends React.Component {
         break;
       }
     }
-    
+
+    let oldColors = [];
+
+    for (let o = 0; o < this.state.selectedCourses.length; o++) { // get list of all the colors before change
+      oldColors[o] = document.getElementById(this.state.selectedCourses[o].course).style.backgroundColor;
+    }
+
+    let oldColorsFiltered = oldColors.filter(data => color !== data); // filter out the color of the course that we just removed
 
     let array = this.state.selectedCourses.filter(
       data => coursecode !== data.course
@@ -396,6 +403,11 @@ class CourseSelectionMenu extends React.Component {
     this.setState({
       selectedCourses: array, show2: "hidden"
     });
+
+    for (let p = 0; p < this.state.selectedCourses.length; p++) {// re-assign the old colors to the new table
+      document.getElementById(this.state.selectedCourses[p].course).style.backgroundColor = oldColorsFiltered[p];
+    }
+    
   };
 
   render() {
@@ -426,7 +438,7 @@ class CourseSelectionMenu extends React.Component {
     let i = 0;
 
     let x = this.state.selectedCourses.map(element => (
-      <tr id={element.course} /*style={{backgroundColor: this.state.colors[i++]}}*/>
+      <tr id={element.course} /*style={{backgroundColor: this.state.colors[i++][0]}}*/>
       
         <td>
           <div>
@@ -569,7 +581,7 @@ class CourseSelectionMenu extends React.Component {
 
           {/* <Button text="Add A Class" onClick={this.handleShow} />
           <Button text="Remove A Class" onClick={this.handleShow1} /> */}
-          <Button text="Rubiat's Color Selection" onClick={this.openRubiat} />
+          <Button text="Color Selection" onClick={this.openRubiat} />
           <Link to="/finalize-export-sem">
             <Button text="Finalize" />
           </Link>
