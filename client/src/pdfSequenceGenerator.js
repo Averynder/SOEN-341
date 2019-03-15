@@ -34,6 +34,10 @@ class PdfSequenceGenerator extends React.Component {
     });
   };
 
+  onDragEnd = result => {
+
+  }
+
   // FUNCTIONS() HERE *********************************************************
   addClass = () => {
     let fall = this.state.selectedCoursesFall; //Keep track of user selected classes for Fall
@@ -159,38 +163,44 @@ class PdfSequenceGenerator extends React.Component {
   // RENDER() HERE *********************************************************
 
   render() {
-    /*let falltable = {(provided, snapshot) => (
+    let falltable = (
+      <DragDropContext onDragEnd={() => {}}>
+          <div>
+          <div>test</div>
         <Table id="pdfTable" striped bordered hover variant="dark">
           <thead>
             <tr>
-            <th>Semester</th>
-            <th>Course</th>
-            <th>Class Name</th>
-            <th>Credit</th>
+              <th>Semester</th>
+              <th>Course</th>
+              <th>Class Name</th>
+              <th>Credit</th>
             </tr>
           </thead>
-            <tbody ref={provided.innerRef} >
-              {this.state.selectedCoursesFall.map(element =>
-                <Draggable key={element.course} draggableId={element.name}>
-                  {(provided, snapshot) => (
+          <Droppable droppableId="droppable">
+            {(provided) => (
+              <tbody provided={provided} ref={provided.innerRef} >
+                <Draggable draggableId="class" index={0}>
+                  {(provided) => (
                     <tr
+                      provided={provided}
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <td>{element.semester} {element.year}</td>
-                      <td>{element.course}</td>
-                      <td>{element.name}</td>
-                      <td>{element.credit}</td>
+                      <td>test</td>
+                      <td>test</td>
+                      <td>test</td>
+                      <td>test</td>
                     </tr>
                   )}
                 </Draggable>
-              )}
-            </tbody>
+              </tbody>
+            )}
+          </Droppable>
         </Table>
-      )};
-    */
-    let falltable = (
+          </div>
+      </DragDropContext>);
+      /*
       <Table id="pdfTable" striped bordered hover variant="dark">
         <thead>
           <tr>
@@ -214,6 +224,7 @@ class PdfSequenceGenerator extends React.Component {
         </tbody>
       </Table>
     );
+    */
 
     let wintertable = (
       <Table id="pdfTable" striped bordered hover variant="dark">
