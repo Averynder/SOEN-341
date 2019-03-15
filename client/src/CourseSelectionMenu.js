@@ -20,7 +20,6 @@ class CourseSelectionMenu extends React.Component {
     this.closeRubiat = this.closeRubiat.bind(this);
     this.colourRubiatC = this.colourRubiatC.bind(this);
     this.colourRubiatO = this.colourRubiatO.bind(this);
-    this.changeColorChangerValue = this.changeColorChangerValue.bind(this);
 
     var year;
     var semester;
@@ -54,7 +53,7 @@ class CourseSelectionMenu extends React.Component {
       ],
       classes: data.sequence,
 
-      colors: ["red", "pink", "green", "yellow", "orange", "blue", "black"],
+      colors: [["red", 0], ["pink", 0], ["green", 0], ["yellow", 0], ["orange", 0], ["blue", 0], ["black", 0]],
 
       color1: "red",
       color2: "pink",
@@ -64,39 +63,14 @@ class CourseSelectionMenu extends React.Component {
       color6: "blue",
       color7: "black",
 
-      colorChanger: "color1" // have to change this so the circlepicker changes a default color
+      addedClasses: [],
+
+      courses: data.default.sequence,
+      selectedCourses: [],
+      show2: "hidden"
+      
     };
   }
-
-  onAdd = () => {
-    let input = document.getElementById("add-class").value; //Get user input
-    let chosenClass;
-
-    for (let i = 0; i < this.state.classes.length; i++) {
-      if (input === this.state.classes[i].course) {
-        chosenClass = this.state.classes[i];
-        break;
-      }
-    }
-
-    if (chosenClass === undefined || chosenClass === null) {
-      document.getElementById("addStatus").innerHTML = "Invalid Input";
-      return;
-    }
-
-    for (let i = 0; i < 61; i++) {
-      if (
-        this.timeToNum(chosenClass.startTime) <= i &&
-        this.timeToNum(chosenClass.endTime) >= i
-      ) {
-        document.getElementById("Monday-" + i).style.backgroundColor = "red"; // (you can choose to select the return of a function)
-      }
-    }
-
-    this.setState({
-      show: !this.state.show
-    });
-  };
 
   timeToNum = time => {
     // time parameter represents start time or end time of a class
@@ -149,36 +123,279 @@ class CourseSelectionMenu extends React.Component {
     document.getElementById("id");
   }
 
-  changeColorChangerValue(e) {
-    this.setState({
-      colorChanger: e.target.value
-    });
-  }
-
   handleChangeComplete = color => {
-    switch (this.state.colorChanger) {
-      case "color1":
-        this.setState({ color1: color.hex });
+    
+    let courseNameInput = document.getElementById("colorChanger").value; //Get user input comp248
+    let chosenClass; //class object
+
+    for (let i = 0; i < this.state.classes.length; i++) {
+      if (courseNameInput === this.state.classes[i].course) {
+        chosenClass = this.state.classes[i];
         break;
-      case "color2":
-        this.setState({ color2: color.hex });
-        break;
-      case "color3":
-        this.setState({ color3: color.hex });
-        break;
-      case "color4":
-        this.setState({ color4: color.hex });
-        break;
-      case "color5":
-        this.setState({ color5: color.hex });
-        break;
-      case "color6":
-        this.setState({ color6: color.hex });
-        break;
-      case "color7":
-        this.setState({ color7: color.hex });
-        break;
+      }
     }
+
+    //document.getElementById(chosenClass.course).style.backgroundColor = color.hex;
+
+    let color1;
+    
+    for (let j = 0; j < this.state.colors.length; j++) {
+      if (this.state.colors[j][0] == color) {
+        this.state.colors[j][1] = 0;
+        break;
+      }
+    }
+
+  for(let j=0; j<chosenClass.days.length; j++) //added
+    for (let i = 0; i < 61; i++) {
+      let dayOfTheWeek = chosenClass.days[j] + "-";
+      if (
+        this.timeToNum(chosenClass.startTime) <= i &&
+        this.timeToNum(chosenClass.endTime) >= i
+      ) {
+        color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
+        document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
+      }
+    }
+
+    for(let k=0; k<chosenClass.ta.length; k++)
+      for(let j=0; j<chosenClass.ta[k].days.length; j++){
+        let dayOfTheWeek = chosenClass.ta[k].days[j] + "-";
+        for (let i = 0; i < 61; i++) {
+          if (
+            this.timeToNum(chosenClass.ta[k].startTime) <= i &&
+            this.timeToNum(chosenClass.ta[k].endTime) >= i
+          ) {
+            color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
+            document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
+          }
+        }
+      }
+
+    for (let j = 0; j < this.state.colors.length; j++) {
+      if (this.state.colors[j][0] == color1) {
+        this.state.colors[j][1] = 0;
+        break;
+      }
+    }
+
+  };
+
+  // onAdd = () => {
+  //   let input = document.getElementById("add-class").value; //Get user input
+  //   let chosenClass;
+
+  //   for (let i = 0; i < this.state.classes.length; i++) {
+  //     if (input === this.state.classes[i].course) {
+  //       chosenClass = this.state.classes[i];
+  //       break;
+  //     }
+  //   }
+
+  //   if (chosenClass === undefined || chosenClass === null) {
+  //     document.getElementById("addStatus").innerHTML = "Invalid Input";
+  //     return;
+  //   }
+
+  //   this.state.addedClasses.push(chosenClass);
+
+  //   for (let i = 0; i < 61; i++) {
+  //     if (
+  //       this.timeToNum(chosenClass.startTime) <= i &&
+  //       this.timeToNum(chosenClass.endTime) >= i
+  //     ) {
+  //       document.getElementById("Monday-" + i).style.backgroundColor = this.state.colors[this.state.addedClasses.length - 1]; // (you can choose to select the return of a function)
+  //     }
+  //   }
+
+  //   this.setState({
+  //     show: !this.state.show
+  //   });
+  // };
+
+  addClass = () => {
+    let array = this.state.selectedCourses; //Keep track of user selected classes
+    let input = document.getElementById("add-class1").value; //Get user input (Course Code)
+    let classList = this.state.courses; //Gets the whole list of courses of concordia
+    let addedClass;
+    let classExists = false;
+    for (let i = 0; i < classList.length; i++) {
+      if (classList[i].course === input) {
+        for (let j = 0; j < this.state.selectedCourses.length; j++) {
+          if (this.state.selectedCourses[j].course === input) {
+            document.getElementById("addStatus1").innerHTML =
+              "This class is already added.";
+            this.setState({ show2: "visible" });
+            return;
+          }
+        }
+        addedClass = classList[i];
+        classExists = true;
+        this.setState({ show2: "hidden" });
+        break;
+      }
+    }
+
+    if (classExists === false) {
+      document.getElementById("addStatus1").innerHTML =
+        "Invalid Class/Class Not Found";
+      this.setState({ show2: "visible" });
+      return;
+    }
+    array.push(addedClass);
+    this.setState({
+      selectedCourses: array
+    });
+
+    
+
+    let n = 1;
+    let initial = this.timeToNum(addedClass.startTime);
+    let final = this.timeToNum(addedClass.endTime);
+    let middle = (initial + final)/2;
+    let colorChosen;
+
+    for (let j = 0; j < this.state.colors.length; j++) {
+      if (this.state.colors[j][1] == 0) {
+        colorChosen = this.state.colors[j][0];
+        this.state.colors[j][1] = 1;
+        break;
+      }
+    }
+
+    if (colorChosen === null || colorChosen === undefined) {
+      return;
+    }
+  
+  for(let k=0; k<addedClass.ta.length; k++)
+    for(let j=0; j<addedClass.ta[k].days.length; j++){
+      let dayOfTheWeek = addedClass.ta[k].days[j] + "-";
+      let n = 1;
+      let initial = this.timeToNum(addedClass.ta[k].startTime);
+      let final = this.timeToNum(addedClass.ta[k].endTime);
+      let middle = (initial + final)/2;
+      for (let i = 0; i < 61; i++) {
+        if (
+          this.timeToNum(addedClass.ta[k].startTime) <= i &&
+          this.timeToNum(addedClass.ta[k].endTime) >= i
+        ) {
+          document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+          if (i === middle - 2) {
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+            n++;
+          }else if (i === middle - 1) {
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.ta[k].type;
+            n++;
+          }else if(i === middle){
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.ta[k].startTime;
+            n++;
+          }
+          else if(i === middle + 1){
+            document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+            n++;
+          }
+          else if(i === middle + 2){
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.ta[k].endTime;
+            n++;
+          }else{
+            document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+          }
+        }
+      }
+    }
+ 
+    for(let j=0; j<addedClass.days.length; j++){
+      for (let i = 0; i < 61; i++) {
+        if (
+          initial <= i &&
+          final >= i
+        ) {
+          let dayOfTheWeek = addedClass.days[j] + "-"; 
+          document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+          if (i === middle - 1) {
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+            n++;
+          }else if(i === middle){
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.startTime;
+            n++;
+          }
+          else if(i === middle + 1){
+            document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+            n++;
+          }
+          else if(i === middle + 2){
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.endTime;
+            n++;
+          }else{
+            document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+          }
+        }
+      }
+    }
+  };
+
+  remove = () => {
+    let coursecode = document.getElementById("add-class1").value;
+    let courseToRemove;
+
+    for (let i = 0; i < this.state.selectedCourses.length; i++) {
+      if (this.state.selectedCourses[i].course === coursecode) {
+        courseToRemove = this.state.selectedCourses[i];
+        break;
+      }
+    }
+
+    
+
+    if (courseToRemove === undefined || courseToRemove === null) {
+      document.getElementById("addStatus1").innerHTML = "Invalid Course / Course Not Found";
+      this.setState({show2: "visible"})
+      return;
+    }
+
+    let color;
+    
+  for(let j=0; j<courseToRemove.days.length; j++)
+    for (let i = 0; i < 61; i++) {
+      let dayOfTheWeek = courseToRemove.days[j] + "-";
+      if (
+        this.timeToNum(courseToRemove.startTime) <= i &&
+        this.timeToNum(courseToRemove.endTime) >= i
+      ) {
+        color = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
+        document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
+        document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+      }
+    }
+
+    for(let k=0; k<courseToRemove.ta.length; k++)
+      for(let j=0; j<courseToRemove.ta[k].days.length; j++){
+        let dayOfTheWeek = courseToRemove.ta[k].days[j] + "-";
+        for (let i = 0; i < 61; i++) {
+          if (
+            this.timeToNum(courseToRemove.ta[k].startTime) <= i &&
+            this.timeToNum(courseToRemove.ta[k].endTime) >= i
+          ) {
+            document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
+            document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+          }
+        }
+      }
+    
+    for (let j = 0; j < this.state.colors.length; j++) {
+      if (this.state.colors[j][0] == color) {
+        this.state.colors[j][1] = 0;
+        break;
+      }
+    }
+    
+
+    let array = this.state.selectedCourses.filter(
+      data => coursecode !== data.course
+    );
+    this.setState({
+      selectedCourses: array, show2: "hidden"
+    });
   };
 
   render() {
@@ -200,6 +417,55 @@ class CourseSelectionMenu extends React.Component {
       }
     });
 
+    let myAddedClasses = this.state.selectedCourses.map(theClass => (
+      <option value={theClass.course}>{theClass.course}</option>
+    ));
+
+  
+
+    let i = 0;
+
+    let x = this.state.selectedCourses.map(element => (
+      <tr id={element.course} /*style={{backgroundColor: this.state.colors[i++]}}*/>
+      
+        <td>
+          <div>
+            <input type="checkbox" checked /> &nbsp;
+            <strong>{element.course}</strong>
+            <br />
+            <strong>{element.name}</strong>{" "}
+            <select name="course-section">
+              <option value="section1">section 1</option>
+              <option value="section2">section 2</option>
+              <option value="section3">section 3</option>
+              <option value="section4">section 4</option>
+            </select>
+            <br />
+            <p id="requirements">
+              <strong>Requirement: </strong> related info goes here
+            </p>
+          </div>
+        </td>
+      </tr>
+    ));
+    
+    let table = (
+      <Table
+        id="selected-course-table"
+        className="rounded"
+        striped
+        bordered
+        hover
+        variant="dark"
+      >
+        {x}
+      </Table>
+    );
+
+    let allOptions = this.state.courses.map(choice => (
+      <option value={choice.course} />
+    ));
+
     return (
       <div className="container">
         <Navbar />
@@ -207,10 +473,51 @@ class CourseSelectionMenu extends React.Component {
         <div className="jumbotron j-greetings">
           <h2 className="display-4">Course Selection Menu</h2>
           <hr color="#7e1530" />
+
+          <div className="container">
+                <div className="row bg-secondary text-white rounded">
+                  <div className="col">
+                    <label for="add-class1">
+                      <h6 id="test">Select Course</h6>
+                    </label>
+                    <input
+                      type="text"
+                      list="add-class2"
+                      id="add-class1"
+                      className="btn btn-dark"
+                      placeholder="Course Number"
+                    />
+                    <datalist id="add-class2">{allOptions}</datalist>
+                  </div>
+                  <div className="col">
+                    <Button
+                      text="Select"
+                      onClick={this.addClass}
+                      style={{ float: "left" }}
+                    />
+                    <Button
+                      text="Remove"
+                      onClick={this.remove}
+                      style={{ float: "left" }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <p
+                id="addStatus1"
+                style={{ color: "red", visibility: this.state.show2 }}
+              />
+              <div className="mt-4">{table}</div>
+              <hr color="#7e1530" />
           <h2 className="display-5">
             {this.state.semester} {this.state.year} Semester
           </h2>
           <p className="lead" />
+
+
+
+
 
           <div>
             {" "}
@@ -245,7 +552,7 @@ class CourseSelectionMenu extends React.Component {
                                 let myID = days + "-" + element.num;
                                 return (
                                   <div id={myID}>
-                                    {days}-{element.num}
+                                    -----------------
                                   </div>
                                 );
                               })}
@@ -260,8 +567,8 @@ class CourseSelectionMenu extends React.Component {
             </Table>
           </div>
 
-          <Button text="Add A Class" onClick={this.handleShow} />
-          <Button text="Remove A Class" onClick={this.handleShow1} />
+          {/* <Button text="Add A Class" onClick={this.handleShow} />
+          <Button text="Remove A Class" onClick={this.handleShow1} /> */}
           <Button text="Rubiat's Color Selection" onClick={this.openRubiat} />
           <Link to="/finalize-export-sem">
             <Button text="Finalize" />
@@ -272,7 +579,7 @@ class CourseSelectionMenu extends React.Component {
           </Link>
         </div>
 
-        <Modal show={this.state.show} onHide={this.handleClose}>
+        {/* <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Add A Course</Modal.Title>
           </Modal.Header>
@@ -292,9 +599,9 @@ class CourseSelectionMenu extends React.Component {
             />
             <Button variant="primary" text="Save Changes" />
           </Modal.Footer>
-        </Modal>
+        </Modal> */}
 
-        <Modal show={this.state.show1} onHide={this.handleClose1}>
+        {/* <Modal show={this.state.show1} onHide={this.handleClose1}>
           <Modal.Header closeButton>
             <Modal.Title>Remove A Course</Modal.Title>
           </Modal.Header>
@@ -318,7 +625,7 @@ class CourseSelectionMenu extends React.Component {
             />
             <Button variant="primary" text="Save Changes" />
           </Modal.Footer>
-        </Modal>
+      </Modal> */}
 
         <Modal show={this.state.rubiat} onHide={this.closeRubiat}>
           <Modal.Header closeButton>
@@ -328,13 +635,8 @@ class CourseSelectionMenu extends React.Component {
             <p>Select A Course and Color </p> <br />
             <Form inline style={{ textAlign: "center" }}>
               <div className="container" style={{ width: "40%" }}>
-                <select
-                  id="colorChanger"
-                  onChange={this.changeColorChangerValue}
-                >
-                  <option value="color1">Course1</option>
-                  <option value="color2">Course2</option>
-                  <option value="color3">Course3</option>
+                <select id="colorChanger">
+                  {myAddedClasses}
                 </select>
               </div>
               <Button text="Color Selection" onClick={this.colourRubiatO} />
@@ -346,15 +648,10 @@ class CourseSelectionMenu extends React.Component {
         </Modal>
 
         <Modal show={this.state.colorS} onHide={this.colourRubiatC}>
-          <Modal.Header
-            closeButton
-            style={{ backgroundColor: this.state.color1 }}
-          >
+          <Modal.Header closeButton style={{ backgroundColor: "#82100d" }} >
             <Modal.Title>Color Selector</Modal.Title>
           </Modal.Header>
-          <Modal.Body
-            style={{ textAlign: "center", backgroundColor: this.state.color2 }}
-          >
+          <Modal.Body style={{ textAlign: "center" }} >
             <p style={{ margin: "0px 0px 25% 0px" }}>
               Select a Color for Course (replace with course name)
             </p>
@@ -364,12 +661,14 @@ class CourseSelectionMenu extends React.Component {
                   <CirclePicker
                     style={{ margin: "0px 0px 0px 0px" }}
                     onChangeComplete={this.handleChangeComplete}
+    
                   />
                 </div>
               </div>
             </Form>
           </Modal.Body>
-          <Modal.Footer style={{ backgroundColor: this.state.color3 }}>
+          
+          <Modal.Footer style={{ backgroundColor: "#82100d" }}>
             <Button
               variant="primary"
               onClick={this.colourRubiatC}

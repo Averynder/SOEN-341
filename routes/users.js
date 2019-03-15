@@ -359,10 +359,11 @@ if (fs.existsSync('routes/SOENcatalog.txt')) {
 
       if (!(oldValue == courseList.size)) {
 
+        /*
         console.log(
             "Succesfully inserted: Title: "+courseTitle+" subject: "+subject+ " catalog:  " + catalog + " credits: " + credits + " prereqs: " +
             prereqs + " coreqs: " + coreqs
-        );
+        );*/
 
         connection.query(`INSERT INTO course (courseTitle,subject,classNumber,credits,prerequisites,corequisites) VALUES ('${courseTitle}','${subject}','${catalog}','${credits}','${prereqs}','${coreqs}');`, function (err, result, fields) {
           // if (err) throw err;
@@ -604,8 +605,8 @@ if (fs.existsSync('routes/COMPcatalog.txt')) {
       console.log("GRAD course");
     }
 
-    console.log("courseList size");
-    console.log(courseList.size);
+    //console.log("courseList size");
+    //console.log(courseList.size);
 
 
   });
