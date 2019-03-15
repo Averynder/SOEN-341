@@ -172,8 +172,8 @@ setInterval(() => {
 // Database entries
 
 // SOEN Entries
-if (true) {
-
+if (fs.existsSync('routes/SOENcatalog.txt')) {
+  console.log('Found file');
   var rl = require("readline").createInterface({
     input: require("fs").createReadStream("routes/SOENcatalog.txt")
   });
@@ -388,7 +388,8 @@ if (true) {
 
 
 // For COMP entries
-if (true) {
+if (fs.existsSync('routes/COMPcatalog.txt')) {
+  console.log('Found file');
 
   var rl = require("readline").createInterface({
     input: require("fs").createReadStream("routes/COMPcatalog.txt")
@@ -619,8 +620,10 @@ if (true) {
 
 // SOEN schedule
 
-if (true) {
-    var rl = require("readline").createInterface({
+if (fs.existsSync('routes/SOENschedule.txt')) {
+  console.log('Found file');
+
+  var rl = require("readline").createInterface({
         input: require("fs").createReadStream("routes/SOENschedule.txt")
     });
 
@@ -801,7 +804,9 @@ if (true) {
 
 // COMP Schedule
 
-if (true) {
+if (fs.existsSync('routes/COMPschedule.txt')) {
+  console.log('Found file');
+
   var rl = require("readline").createInterface({
     input: require("fs").createReadStream("routes/COMPschedule.txt")
   });
