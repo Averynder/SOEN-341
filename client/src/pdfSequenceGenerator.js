@@ -96,7 +96,9 @@ class PdfSequenceGenerator extends React.Component {
 
       this.setState({
         [source.droppableId]: items
-      })
+      }, () => {
+        console.log(this.state);
+      });
     } else {
       const moved = this.move(
         this.state[source.droppableId],
