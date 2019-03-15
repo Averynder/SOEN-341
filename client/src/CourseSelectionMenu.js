@@ -67,7 +67,9 @@ class CourseSelectionMenu extends React.Component {
 
       courses: data.default.sequence,
       selectedCourses: [],
-      show2: "hidden"
+      show2: "hidden",
+      
+      colorOfNewClass: []
       
     };
   }
@@ -242,10 +244,6 @@ class CourseSelectionMenu extends React.Component {
       this.setState({ show2: "visible" });
       return;
     }
-    array.push(addedClass);
-    this.setState({
-      selectedCourses: array
-    });
 
     
 
@@ -332,6 +330,20 @@ class CourseSelectionMenu extends React.Component {
         }
       }
     }
+
+    let oldColors = [];
+
+    for (let o = 0; o < this.state.selectedCourses.length; o++) { // get list of all the colors in the selection menu before change
+      oldColors[o] = document.getElementById(this.state.selectedCourses[o].course).style.backgroundColor;
+    }
+
+    oldColors.push(colorChosen); // add the color of new course to the list also
+    this.setState({colorOfNewClass: oldColors}) // when rendering the selection menu it will render it with all the old colors + the newly added color
+
+    array.push(addedClass);
+    this.setState({
+      selectedCourses: array
+    });
   };
 
   remove = () => {
@@ -438,7 +450,7 @@ class CourseSelectionMenu extends React.Component {
     let i = 0;
 
     let x = this.state.selectedCourses.map(element => (
-      <tr id={element.course} /*style={{backgroundColor: this.state.colors[i++][0]}}*/>
+      <tr id={element.course} style={{backgroundColor : this.state.colorOfNewClass[i++]}}>
       
         <td>
           <div>
