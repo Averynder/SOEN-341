@@ -634,7 +634,11 @@ if (fs.existsSync('routes/SOENschedule.txt')) {
       var c = 27;
       var d = 30;
 
-        if (line.search(/("componentDescription":"Lecture")/) >= 0) {
+      if (line.includes("Graduate")) {
+        console.log("Ignore graduate course")
+      }
+
+      else if (line.search(/("componentDescription":"Lecture")/) >= 0) {
           var days = "";
           if (line.search(/("modays":"Y")/) >= 0) {
             days += "Monday, "
@@ -818,7 +822,11 @@ if (fs.existsSync('routes/COMPschedule.txt')) {
     var c = 27;
     var d = 30;
 
-    if (line.search(/("componentDescription":"Lecture")/) >= 0) {
+    if (line.includes("Graduate")) {
+      console.log("Ignore graduate course")
+    }
+
+    else if (line.search(/("componentDescription":"Lecture")/) >= 0) {
       var days = "";
       if (line.search(/("modays":"Y")/) >= 0) {
         days += "Monday, "
