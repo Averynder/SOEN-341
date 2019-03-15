@@ -42,7 +42,7 @@ class PdfSequenceGenerator extends React.Component {
     const destClone = Array.from(destination);
     const [removed] = sourceClone.splice(droppableSource.index, 1); // replace 1 element at droppableSource.index with nothing (remove it)
 
-    var inOtherSemester = destination.every(course => {
+    var inOtherSemester = destination.some(course => {
       return course.course === removed.course;
     });
 
