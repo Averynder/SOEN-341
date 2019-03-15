@@ -179,52 +179,29 @@ class PdfSequenceGenerator extends React.Component {
           <Droppable droppableId="droppable">
             {(provided) => (
               <tbody provided={provided} ref={provided.innerRef} >
-                <Draggable draggableId="class" index={0}>
-                  {(provided) => (
-                    <tr
-                      provided={provided}
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      <td>test</td>
-                      <td>test</td>
-                      <td>test</td>
-                      <td>test</td>
-                    </tr>
-                  )}
-                </Draggable>
+                {this.state.selectedCoursesFall.map((course, index) =>
+                  <Draggable draggableId="class" index={index}>
+                    {(provided) => (
+                      <tr
+                        provided={provided}
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <td>{course.semester}</td>
+                        <td>{course.course}</td>
+                        <td>{course.name}</td>
+                        <td>{course.credit}</td>
+                      </tr>
+                    )}
+                  </Draggable>
+                )}
               </tbody>
             )}
           </Droppable>
         </Table>
           </div>
       </DragDropContext>);
-      /*
-      <Table id="pdfTable" striped bordered hover variant="dark">
-        <thead>
-          <tr>
-            <th>Semester</th>
-            <th>Course</th>
-            <th>Class Name</th>
-            <th>Credit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.state.selectedCoursesFall.map(element => (
-            <tr>
-              <td>
-                {element.semester} {element.year}
-              </td>
-              <td>{element.course}</td>
-              <td>{element.name}</td>
-              <td>{element.credit}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-    );
-    */
 
     let wintertable = (
       <Table id="pdfTable" striped bordered hover variant="dark">
