@@ -19,10 +19,10 @@ var fs = require('fs');
 var bodyParser = require('body-parser');
 const Course = require('./routes/Course');
 const MyDoublyLinkedList = require('./routes/MyDoublyLinkedList');
-
-
+const Stack = require('./routes/Stack');
+const SpanningTree = require('./routes/SpanningTree');
 var app = express();
-
+require('./selenium')(app);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
@@ -125,92 +125,92 @@ app.get('/concordia', function(req, res) {
 	rompt.start()
 	rompt.get(schema, function (err, result) {
 
-	// SOEN COURSES
-	if (result.choice == "SOEN")
-	{	https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/catalog/filter/SOEN/*/*', (response) => {
-				response.on('data', (d) => {
-					process.stdout.write(d);
-					fs.writeFile('routes/SOENcatalog.txt', d, (err) => {
+		// SOEN COURSES
+		if (result.choice == "SOEN")
+		{	https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/catalog/filter/SOEN/*/*', (response) => {
+			response.on('data', (d) => {
+				process.stdout.write(d);
+				fs.writeFile('routes/SOENcatalog.txt', d, (err) => {
 					if (err) throw err;
 					console.log('Catalog written!');
 					fs.readFile('routes/SOENcatalog.txt', 'utf-8', function(err, data){
-					if (err) throw err;
+						if (err) throw err;
 						var fix = data.replace(/},{/gim, '},\n{');
-								fs.writeFile('routes/SOENcatalog.txt', fix, 'utf-8', function (err) {
-									if (err) throw err;
-										console.log('Catalog is ordered');
-								});
-					});
+						fs.writeFile('routes/SOENcatalog.txt', fix, 'utf-8', function (err) {
+							if (err) throw err;
+							console.log('Catalog is ordered');
+						});
 					});
 				});
-				}).on('error', (e) => {
-				console.log(e);				
-				});
-				
-		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/schedule/filter/*/SOEN/*', (response) => {
-			response.on('data', (d) => {
-				fs.appendFile('routes/SOENschedule.txt', d, (err) => {
-					if (err) throw err;
-					console.log('Schedule written!');
-					fs.readFile('routes/SOENschedule.txt', 'utf-8', function(err, data){
-					if (err) throw err;
-						var fix = data.replace(/},{/gim, '},\n{');
+			});
+		}).on('error', (e) => {
+			console.log(e);
+		});
+
+			https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/schedule/filter/*/SOEN/*', (response) => {
+				response.on('data', (d) => {
+					fs.appendFile('routes/SOENschedule.txt', d, (err) => {
+						if (err) throw err;
+						console.log('Schedule written!');
+						fs.readFile('routes/SOENschedule.txt', 'utf-8', function(err, data){
+							if (err) throw err;
+							var fix = data.replace(/},{/gim, '},\n{');
 							fs.writeFile('routes/SOENschedule.txt', fix, 'utf-8', function (err) {
 								if (err) throw err;
-									console.log('Schedule is ordered');
+								console.log('Schedule is ordered');
 							});
-					});	
+						});
+					});
 				});
-				});
-				}).on('error', (e) => {
-				console.log(e);				
-				});					
-				res.end();				
-	}
-	
-	// COMP COURSES
-	if (result.choice == "COMP")
-	{	
-				https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/catalog/filter/COMP/*/*', (response) => {
+			}).on('error', (e) => {
+				console.log(e);
+			});
+			res.end();
+		}
+
+		// COMP COURSES
+		if (result.choice == "COMP")
+		{
+			https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/catalog/filter/COMP/*/*', (response) => {
 				response.on('data', (d) => {
 					process.stdout.write(d);
 					fs.appendFile('routes/COMPcatalog.txt', d, (err) => {
-					if (err) throw err;
-					console.log('Catalog written!');
-					fs.readFile('routes/COMPcatalog.txt', 'utf-8', function(err, data){
-					if (err) throw err;
-						var fix = data.replace(/},{/gim, '},\n{');
-								fs.writeFile('routes/COMPcatalog.txt', fix, 'utf-8', function (err) {
-									if (err) throw err;
-										console.log('Catalog is ordered');
-								});
-					});			
+						if (err) throw err;
+						console.log('Catalog written!');
+						fs.readFile('routes/COMPcatalog.txt', 'utf-8', function(err, data){
+							if (err) throw err;
+							var fix = data.replace(/},{/gim, '},\n{');
+							fs.writeFile('routes/COMPcatalog.txt', fix, 'utf-8', function (err) {
+								if (err) throw err;
+								console.log('Catalog is ordered');
+							});
+						});
 					});
 				});
-				}).on('error', (e) => {
-				console.log(e);
-				});
-			https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/schedule/filter/*/COMP/*', (response) => {
-			response.on('data', (d) => {
-				fs.appendFile('routes/COMPschedule.txt', d, (err) => {
-					if (err) throw err;
-					console.log('Schedule written!');	
-					fs.readFile('routes/COMPschedule.txt', 'utf-8', function(err, data){
-					if (err) throw err;
-						var fix = data.replace(/},{/gim, '},\n{');
-							fs.writeFile('routes/COMPschedule.txt', fix, 'utf-8', function (err) {
-								if (err) throw err;
-									console.log('Schedule is ordered');
-							});
-					});	
-				});
-			});
 			}).on('error', (e) => {
 				console.log(e);
+			});
+			https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/schedule/filter/*/COMP/*', (response) => {
+				response.on('data', (d) => {
+					fs.appendFile('routes/COMPschedule.txt', d, (err) => {
+						if (err) throw err;
+						console.log('Schedule written!');
+						fs.readFile('routes/COMPschedule.txt', 'utf-8', function(err, data){
+							if (err) throw err;
+							var fix = data.replace(/},{/gim, '},\n{');
+							fs.writeFile('routes/COMPschedule.txt', fix, 'utf-8', function (err) {
+								if (err) throw err;
+								console.log('Schedule is ordered');
+							});
+						});
+					});
 				});
-				res.end();		
-	}
-	
+			}).on('error', (e) => {
+				console.log(e);
+			});
+			res.end();
+		}
+
 	})
 });
 
@@ -225,6 +225,8 @@ app.set('view engine', 'pug');
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/MyDoublyLinkedList',MyDoublyLinkedList);
+app.use('/Stack',Stack);
+app.use('/SpanningTree',SpanningTree);
 app.use('/Course',Course);
 
 //app.use('/login', loginRouter);

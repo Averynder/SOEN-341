@@ -3,14 +3,25 @@ import './App.css';
 import LoginForm from "./components/LoginForm";
 import Stack from "./Stack";
 import MyDoublyLinkedList from "./MyDoublyLinkedList";
+import Course from "./Course";
 
 class BinaryTree extends Component
 {
 	constructor(props)
 	{
 		super(props);
-		this.root = null;
+		var cc1 = new Course("Operating Systems","COMP","346",4,"COMP352");
+		var cc2 = new Course("Software Process'","SOEN","341",4,"COMP352","ENCS282");
+		var linkedlist = new MyDoublyLinkedList();
+		linkedlist.addLast(cc1);
+		linkedlist.addLast(cc2);
+		this.root = new BinaryTree.Node(undefined,undefined,linkedlist);
 		this.possibilities = new Stack();
+	}
+
+	toString()
+	{
+		return ("root: " + this.root);
 	}
 
 	render() {
@@ -44,12 +55,15 @@ BinaryTree["class"] = "BinaryTree";
 			if (this.branches === undefined)
 				this.branches = new MyDoublyLinkedList();
 			else
-				this.branches = branches;
+				this.branches = branches.cloneMe();
 		}
 		return Node;
 	}());
 	BinaryTree.Node = Node;
 	Node["class"] = "BinaryTree.Node";
 })(BinaryTree || (BinaryTree = {}));
+
+var test = new BinaryTree();
+console.log(test.toString());
 
 export default BinaryTree;
