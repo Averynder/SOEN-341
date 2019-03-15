@@ -50,11 +50,19 @@ class PdfSequenceGenerator extends React.Component {
       return;
     }
 
-    destClone.splice(droppableDestination.index, 0, removed); // replace 0 element at droppableDestination.index with [removed]
+    destClone.splice(droppableDestination.index, 0, removed); // remove no element at droppableDestination.index and add removed (add)
 
     let result = {};
     result[droppableSource.droppableId] = sourceClone;
     result[droppableDestination.droppableId] = destClone;
+
+    return result;
+  };
+
+  reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1); // remove 1 element at startIndex and replace with nothing
+    result.splice(endIndex, 0, removed); // remove no element at endIndex and add removed
 
     return result;
   };
@@ -74,28 +82,40 @@ class PdfSequenceGenerator extends React.Component {
   onDragEnd = result => {
     const {source, destination} = result;
 
-    // dropped outside the list or dropped in same list
-    if (!destination || source.droppableId === destination.droppableId) {
+    // dropped outside a droppable element
+    if (!destination) {
       return;
     }
 
-    const moved = this.move(
-      this.state[source.droppableId],
-      this.state[destination.droppableId],
-      source,
-      destination
-    );
+    if (source.droppableId === destination.droppableId) {
+      const items = this.reorder(
+        this.state[source.droppableId],
+        source.index,
+        destination.index
+      );
 
-    if (!moved) {
-      return;
+      this.setState({
+        [source.droppableId]: items
+      })
+    } else {
+      const moved = this.move(
+        this.state[source.droppableId],
+        this.state[destination.droppableId],
+        source,
+        destination
+      );
+
+      if (!moved) {
+        return;
+      }
+
+      //TODO: change state to mimic changes in moved
+
+      this.setState({
+        [source.droppableId]: moved[source.droppableId],
+        [destination.droppableId]: moved[destination.droppableId]
+      });
     }
-
-    //TODO: change state to mimic changes in moved
-
-    this.setState({
-      [source.droppableId]: moved[source.droppableId],
-      [destination.droppableId]: moved[destination.droppableId]
-    });
   };
 
 
