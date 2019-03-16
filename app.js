@@ -94,72 +94,52 @@ var { Builder, By, Key, until } = require('selenium-webdriver');
 var chrome = require('selenium-webdriver/firefox');
 
 app.post('/Selenium', function(req,res,next) {
-	waterfall([
-		function(callback){
-			callback(null, 'one', 'two');
-		},
-		function(arg1, arg2, callback){
-			callback(null, 'three');
-		},
-		function(arg1, callback){
-			// arg1 now equals 'three'
-			callback(null, 'done');
-		}
-	], function (err, result) {
-		console.log(result);
-	});
-
 	var stringy = null;
 	let driver = new Builder().forBrowser('firefox')
 	//.setChromeOptions(new chrome.Options().headless()) // invisible chrome
 		.setFirefoxOptions().build();
 	try {
-		let getDriver = new Promise(function(resolve, reject)
-		{
+		let getDriver = new Promise(function (resolve, reject) {
 			resolve(driver.get('https://my.concordia.ca/psp/upprpr9/?cmd=login&device=mobile')
 			//.then(_ => driver.findElement(By.name('userid')).sendKeys(req.params.netname))
 			//.then(_ => driver.findElement(By.name('pwd')).sendKeys(req.params.password, Key.RETURN)))
 				.then(_ => driver.findElement(By.name('userid')).sendKeys(req.body.netname))
 				.then(_ => driver.findElement(By.name('pwd')).sendKeys(req.body.password, Key.RETURN)))
 		});
-		getDriver.then(function(whateverwasresolved)
-		{
+		getDriver.then(function (whateverwasresolved) {
 			console.log("Got Inside1!");
-			let getNetName = new Promise(function(resolve,reject)
-			{
+			let getNetName = new Promise(function (resolve, reject) {
 				resolve(sleep(30));
 				//resolve(driver.wait(until.elementLocated(By.id('btnGrade')), 20000))
 			});
-			getNetName.then(function(whateverisreturnedfromnetname)
-			{
+			getNetName.then(function (whateverisreturnedfromnetname) {
 				console.log("Got Inside2!");
-				let getNetName2 = new Promise(function(resolve,reject)
-				{
+				let getNetName2 = new Promise(function (resolve, reject) {
 					resolve(driver.findElement(By.id('btnGrade')).click())
 				});
-				getNetName2.then(function(whateverisreturnedfromnetname)
-				{
+				getNetName2.then(function (whateverisreturnedfromnetname) {
 					console.log("Got Inside3!");
 					//
-					let getNetName3 = new Promise(function(resolve,reject)
-					{
+					let getNetName3 = new Promise(function (resolve, reject) {
 						resolve(sleep(30))
 					});
-					getNetName3.then(function(whateverisreturnedfromnetname)
-					{
+					getNetName3.then(function (whateverisreturnedfromnetname) {
 						console.log("Got Inside4!");
 						//
-						let getNetName4 = new Promise(function(resolve,reject)
-						{
+						let getNetName4 = new Promise(function (resolve, reject) {
 							resolve(driver.findElement(By.id('btnAllGrades')).click())
 						});
-						getNetName4.then(function(whateverisreturnedfromnetname)
-						{
+						getNetName4.then(function (whateverisreturnedfromnetname) {
 							console.log("Scrape Time!");
-							driver.findElements(By.className("course mainsec")).then(function(elems){
+							driver.findElements(By.className("course mainsec")).then(function (elems) {
+								var stringy = "";
 								elems.forEach(function (elem) {
-									elem.getText().then(function(textValue){
-										stringy = textValue;
+									elem.getText().then(function (textValue) {
+										stringy += textValue;
+										fs.writeFile('routes/PrevCourses.txt', stringy, 'utf-8', function (err) {
+											if (err) throw err;
+											console.log('Previous Courses are being gotten');
+										});
 										console.log(textValue); // Insert / Do Stuff From this point
 									});
 								});
@@ -179,7 +159,7 @@ app.post('/Selenium', function(req,res,next) {
 						//
 					});
 					//
-				}).catch(function(rej) {
+				}).catch(function (rej) {
 					//here when you reject the promise
 					console.log("Failed to Login");
 					driver.quit();
