@@ -19,6 +19,12 @@ var fs = require('fs');
 var bodyParser = require('body-parser');
 const Course = require('./routes/Course');
 const MyDoublyLinkedList = require('./routes/MyDoublyLinkedList');
+
+const LectureSequence = require('./routes/LectureSequence');
+const LabSequence = require('./routes/LabSequence');
+const TutorialSequence = require('./routes/TutorialSequence');
+
+
 const Stack = require('./routes/Stack');
 const SpanningTree = require('./routes/SpanningTree');
 var app = express();
@@ -225,6 +231,11 @@ app.set('view engine', 'pug');
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/MyDoublyLinkedList',MyDoublyLinkedList);
+app.use('/LectureSequence',LectureSequence);
+app.use('/LabSequence',LabSequence);
+app.use('/TutorialSequence',TutorialSequence);
+
+
 app.use('/Stack',Stack);
 app.use('/SpanningTree',SpanningTree);
 app.use('/Course',Course);

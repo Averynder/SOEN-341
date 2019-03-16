@@ -225,7 +225,7 @@ class MyDoublyLinkedList {
      */
 
     getLast() {
-        return this.tail;
+        return this.tail.element;
     }
 
     getFirst() {

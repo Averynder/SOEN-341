@@ -33,6 +33,14 @@ class MyDoublyLinkedList extends Component {
         this.size = 0;
     }
 
+    getLast() {
+        return this.tail.element;
+    }
+
+    getFirst() {
+        return this.head.element;
+    }
+
     cloneMe() {
 
         var newLL = new MyDoublyLinkedList();

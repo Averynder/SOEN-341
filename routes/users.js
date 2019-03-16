@@ -5,6 +5,11 @@ var app = express();
 var fs = require("fs");
 const Course = require('./Course');
 const MyDoublyLinkedList = require('./MyDoublyLinkedList');
+
+const LectureSequence = require('./LectureSequence');
+const LabSequence = require('./LabSequence');
+const TutorialSequence = require('./TutorialSequence');
+
 var count;
 // var mysql = require('mysql');
 var courseList = new MyDoublyLinkedList();
@@ -23,9 +28,6 @@ labOldValue = labSequenceList.size;
 
 var tutOldValue;
 tutOldValue = tutSequenceList.size;
-
-
-
 
 
 var goAhead = false;
@@ -899,9 +901,12 @@ function task11(done) {
         // console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+lectureSectionNumber+ "from " +startTime+ " to " +endTime);
 
 
-        var seqToAdd = "Lecture added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+lectureSectionNumber+ "from " +startTime+ " to " +endTime;
+        // var seqToAdd = "Lecture added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+lectureSectionNumber+ "from " +startTime+ " to " +endTime;
 
-        lectureSequenceList.addLast(seqToAdd);
+
+        var lecSequence = new LectureSequence(subject.toString(),catalog.toString(),lectureSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString());
+
+        lectureSequenceList.addLast(lecSequence);
 
         if (!(lectureOldValue == lectureSequenceList.size)) {
 
@@ -963,9 +968,11 @@ function task11(done) {
         //console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+tutorialSectionNumber+ "from " +startTime+ " to " +endTime);
 
         // // adding to database
-        var seqToAdd = "Tutorial added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+lectureSectionNumber+ "from " +startTime+ " to " +endTime;
+        // var seqToAdd = "Tutorial added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+lectureSectionNumber+ "from " +startTime+ " to " +endTime;
 
-        tutSequenceList.addLast(seqToAdd);
+        var tutSequence = new TutorialSequence(subject.toString(),catalog.toString(),tutorialSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString());
+
+        tutSequenceList.addLast(tutSequence);
 
         if (!(tutOldValue == tutSequenceList.size)) {
 
@@ -1026,9 +1033,9 @@ function task11(done) {
         //console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber+ "from " +startTime+ " to " +endTime);
 
         // // adding to database
-        var seqToAdd = "Tutorial added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber+ "from " +startTime+ " to " +endTime;
+        var labSequence = new TutorialSequence(subject.toString(),catalog.toString(),labSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString());
 
-        labSequenceList.addLast(seqToAdd);
+        labSequenceList.addLast(labSequence);
 
         if (!(labOldValue == labSequenceList.size)) {
 
@@ -1141,9 +1148,9 @@ function task12(done) {
             );
         // console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+lectureSectionNumber+ "from " +startTime+ " to " +endTime);
 
-        var seqToAdd = "Lecture added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+lectureSectionNumber+ "from " +startTime+ " to " +endTime;
+        var lecSequence = new LectureSequence(subject.toString(),catalog.toString(),lectureSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString());
 
-        lectureSequenceList.addLast(seqToAdd);
+        lectureSequenceList.addLast(lecSequence);
 
         if (!(lectureOldValue == lectureSequenceList.size)) {
 
@@ -1204,9 +1211,9 @@ function task12(done) {
         //console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+tutorialSectionNumber+ "from " +startTime+ " to " +endTime);
 
         // // adding to database
-        var seqToAdd = "Tutorial added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+lectureSectionNumber+ "from " +startTime+ " to " +endTime;
+        var tutSequence = new TutorialSequence(subject.toString(),catalog.toString(),tutorialSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString());
 
-        tutSequenceList.addLast(seqToAdd);
+        tutSequenceList.addLast(tutSequence);
 
         if (!(tutOldValue == tutSequenceList.size)) {
 
@@ -1267,9 +1274,9 @@ function task12(done) {
         //console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber+ "from " +startTime+ " to " +endTime);
 
 
-        var seqToAdd = "Tutorial added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber+ "from " +startTime+ " to " +endTime;
+        var labSequence = new TutorialSequence(subject.toString(),catalog.toString(),labSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString());
 
-        labSequenceList.addLast(seqToAdd);
+        labSequenceList.addLast(labSequence);
 
         // // adding to database
         if (!(labOldValue == labSequenceList.size)) {
@@ -1319,16 +1326,23 @@ function task13(done) {
   console.log("labSequenceList: "+labSequenceList.size);
   console.log("tutSequenceList: "+tutSequenceList.size);
 
+  // console.log(courseList.getLast().courseTitle);
+
+  // console.log(labSequenceList.removeLast());
+  // console.log(labSequenceList.getFirst().subject);
+  //
+  // var lol = lectureSequenceList.cloneMe();
+  // for (var i = 0; i < lectureSequenceList.size; i++){
+  //   var oops = lol.getLast();
+  //   lol.removeLast();
+  //   if (oops.catalog > 300){
+  //     console.log(oops.subject + oops.catalog);
+  //   }
+  // }
+
   done();
 
 }
-
-
-
-
-
-
-
 
 
 /* GET users listing. */
