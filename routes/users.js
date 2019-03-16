@@ -1353,12 +1353,47 @@ function task14(done) {
 
 
 
-  console.log("try this: "+labSequenceList.getLast().subject + labSequenceList.getLast().catalog + " Section: "+labSequenceList.getLast().labSectionNumber + " in room: " +labSequenceList.getLast().classLocation);
+// SOME EXAMPLES of Linked-list manipulation below
+
+
+  // Print out all lab sections of 200-level courses
+
+  // var current = lectureSequenceList.head;
+  // while( current !== null ) {
+  //
+  //   if (current.element.catalog < 300) {
+  //     console.log("CLASS: "+current.element.subject +" "+ current.element.catalog + " SECTION: "+ current.element.lectureSectionNumber)
+  //   }
+  //   current = current.next;
+  // }
 
 
 
+  // Print out lectures given on a friday
+
+  // var current = lectureSequenceList.head;
+  // while( current !== null ) {
+  //
+  //   // The condition is checked here
+  //   if (current.element.days.toString().includes("Friday")) {
+  //     console.log("CLASS: "+current.element.subject +" "+ current.element.catalog + " SECTION: "+ current.element.lectureSectionNumber + " On days: "+ current.element.days)
+  //   }
+  //   current = current.next;
+  // }
 
 
+
+  // Combining both conditions of above (if a class is 200-level and lecture is offered on a Friday
+
+  var current = lectureSequenceList.head;
+  while( current !== null ) {
+
+    // The condition is checked here
+    if (current.element.days.includes("Friday") && current.element.catalog < 300) {
+      console.log("CLASS: "+current.element.subject +" "+ current.element.catalog + " SECTION: "+ current.element.lectureSectionNumber + " On days: "+ current.element.days + " starttime: " + current.element.startTime + " location: " +current.element.classLocation)
+    }
+    current = current.next;
+  }
 
 
 
