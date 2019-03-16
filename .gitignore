@@ -74,5 +74,3 @@ testing/dependencies
 *.DS_Store
 package-lock.json
 package-lock.json
-routes/COMPcatalog.txt
-routes/COMPschedule.txt
