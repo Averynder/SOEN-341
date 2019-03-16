@@ -1033,7 +1033,7 @@ function task11(done) {
         //console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber+ "from " +startTime+ " to " +endTime);
 
         // // adding to database
-        var labSequence = new TutorialSequence(subject.toString(),catalog.toString(),labSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString());
+        var labSequence = new LabSequence(subject.toString(),catalog.toString(),labSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString());
 
         labSequenceList.addLast(labSequence);
 
@@ -1274,7 +1274,7 @@ function task12(done) {
         //console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber+ "from " +startTime+ " to " +endTime);
 
 
-        var labSequence = new TutorialSequence(subject.toString(),catalog.toString(),labSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString());
+        var labSequence = new LabSequence(subject.toString(),catalog.toString(),labSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString());
 
         labSequenceList.addLast(labSequence);
 
@@ -1348,6 +1348,14 @@ function task14(done) {
 
   // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   // Any future work should be done here in order to maintain the async waterfall
+
+
+
+
+
+  console.log("try this: "+labSequenceList.getLast().subject + labSequenceList.getLast().catalog + " Section: "+labSequenceList.getLast().labSectionNumber + " in room: " +labSequenceList.getLast().classLocation);
+
+
 
 
 
