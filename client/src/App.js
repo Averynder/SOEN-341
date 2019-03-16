@@ -78,8 +78,9 @@ class App extends React.Component {
         </Greetings>
         <ButtonContainer>
           <Button text="I Am A Student" onClick={this.toggleStudent} />
+          <Button text="I Am A Professor" onClick={this.toggleTeacher} />
           <Link to="/build-seq-or-sem">
-            <Button text="No Login" />
+            <Button text="I Am New To This Website" />
           </Link>
         </ButtonContainer>
 
