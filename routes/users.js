@@ -213,6 +213,8 @@ console.log("hello");
 // console.log("size is "+output.length);
 
 
+
+
 async.waterfall([task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14], function() {
   console.log('tasks done!');
 });
@@ -1385,15 +1387,35 @@ function task14(done) {
 
   // Combining both conditions of above (if a class is 200-level and lecture is offered on a Friday
 
-  var current = lectureSequenceList.head;
-  while( current !== null ) {
+  // var current = lectureSequenceList.head;
+  // while( current !== null ) {
+  //
+  //   // The condition is checked here
+  //   if (current.element.days.includes("Friday") && current.element.catalog < 300) {
+  //     console.log("CLASS: "+current.element.subject +" "+ current.element.catalog + " SECTION: "+ current.element.lectureSectionNumber + " On days: "+ current.element.days + " starttime: " + current.element.startTime + " location: " +current.element.classLocation)
+  //   }
+  //   current = current.next;
+  // }
 
-    // The condition is checked here
-    if (current.element.days.includes("Friday") && current.element.catalog < 300) {
-      console.log("CLASS: "+current.element.subject +" "+ current.element.catalog + " SECTION: "+ current.element.lectureSectionNumber + " On days: "+ current.element.days + " starttime: " + current.element.startTime + " location: " +current.element.classLocation)
-    }
-    current = current.next;
-  }
+
+
+
+  // Removing out all 200-level courses from the Course LinkedList
+
+  // var current = courseList.head;
+  //
+  // while( current !== null ) {
+  //   if (current.element.catalog < 300)
+  //   {
+  //     console.log("Removed: CLASS: "+current.element.subject +" "+ current.element.catalog + " Title: "+ current.element.courseTitle);
+  //     courseList.remove(current.element);
+  //   }
+  //   current = current.next;
+  // }
+  //
+  //
+  // console.log("Here's the updated courseList size: " + courseList.size);
+
 
 
 

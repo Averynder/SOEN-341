@@ -2,6 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var async = require('async');
 var bodyParser = require('body-parser')
 var fileUpload = require('express-fileupload')
 var cors = require('cors')
@@ -12,6 +13,17 @@ var LocalStrategy = require('passport-local').Strategy;
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
+
+// This class will run the DB script when called
+var DBcheck = require('./routes/DBcheck');
+
+
+
+
+
+
+
+
 var cookiesRouter = require('./routes/cookiesV');
 var https = require('https');
 var rompt =require('prompt');
@@ -19,6 +31,9 @@ var fs = require('fs');
 var bodyParser = require('body-parser');
 const Course = require('./routes/Course');
 const MyDoublyLinkedList = require('./routes/MyDoublyLinkedList');
+// require('users.js')();
+
+// usersRouter.runDatabase();
 
 const LectureSequence = require('./routes/LectureSequence');
 const LabSequence = require('./routes/LabSequence');
@@ -48,6 +63,8 @@ app.use(fileUpload());
 app.use(cors());
 app.use(passport.initialize());
 app.use(passport.session());
+
+// var user = new usersRouter;
 
 
 
@@ -314,6 +331,8 @@ if(time == updateTime || result.run == "YES"){
 setInterval(()=>{ if(time == updateTime){databaseRefresh();}}, 60000);
 	
 databaseRefresh = ()=>{
+
+
 	// Need to add means of opening localhost3001/concordia
 	console.log("Updating")
 	app.get('/concordia', function(req, res) {
@@ -379,7 +398,47 @@ databaseRefresh = ()=>{
 	// then re-initialize the database variables with regex and then remove old entries
 	// then add new entries
 	console.log("Finished Updating");
-}
+
+
+
+};
+
+
+
+
+
+
+// var testme = new DBcheck;
+// var courselisty = new MyDoublyLinkedList();
+//
+//
+// async.waterfall([task100,task200], function() {
+// 	console.log('tasks done!');
+// });
+//
+//
+//
+// function task100(done) {
+// 	console.log('1. Lets delete old db');
+//
+// 	testme.runDatabase();
+//
+// 	done();
+//
+// };
+//
+//
+// function task200(done) {
+// 	console.log('1. Lets delete old db');
+//
+//
+// 	console.log("test ");
+//
+// 	done();
+//
+// };
+
+
 
 // Tests to try two classes
 // var tryme = new Course("lol","lol","lol","lol","lol","lol");
