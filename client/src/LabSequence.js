@@ -1,18 +1,19 @@
-var express = require('express');
-var router = express.Router();
-var app = express();
+import React, { Component } from 'react';
 
 
-class LabSequence {
-    //
-    // courseTitle;
-    // subject;
-    // catalog;
-    // credits;
-    // prereqs;
-    // coreqs;
+class LabSequence extends Component {
+
+
+    subject;
+    catalog;
+    labSectionNumber;
+    classLocation;
+    days;
+    startTime;
+    endTime;
 
     constructor(subject, catalog, labSectionNumber, classLocation, days, startTime, endTime) {
+        super();
         this.subject = subject;
         this.catalog = catalog;
         this.labSectionNumber = labSectionNumber;
@@ -35,25 +36,8 @@ class LabSequence {
         cc.endTime = this.endTime;
         return cc;
     }
+
+
 }
 
-// console.log("same?");
-
-// var Course11 = new Course("lol","lol","lol","lol","lol","lol");
-// var Course22 = new Course("lol","lol","lol","lol","lol","lol");
-// var Course33 = Course11.clone();
-
-// console.log("Avery>Mackenzie" + Course33.courseTitle);
-
-
-// This method works for checking equality among objects (even user-defined)
-
-// var eq = JSON.stringify(Course11) === JSON.stringify(Course22);
-// console.log(eq);
-//
-// Course33 = JSON.stringify(Course22);
-
-
-
-
-module.exports = LabSequence;
+export default LabSequence

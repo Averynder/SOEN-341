@@ -17,6 +17,10 @@ import Formalize from "./Formalize";
 import pdfSequenceGenerator from "./pdfSequenceGenerator";
 import BinaryTree from "./BinaryTree";
 import MyDoublyLinkedList from "./MyDoublyLinkedList";
+import LectureSequence from "./LectureSequence";
+import LabSequence from "./LabSequence";
+import TutorialSequence from "./TutorialSequence";
+
 import Stack from "./Stack";
 import Course from "./Course";
 import ConcordiaSimilar from "./ConcordiaSimilar";
@@ -43,6 +47,10 @@ class Router extends React.Component {
           <Route path="/formalize" component={Formalize} />
           <Route path="/pdfSequenceGenerator" component={pdfSequenceGenerator}/>
           <Route path="/MyDoublyLinkedList" component={MyDoublyLinkedList} />
+          <Route path="/LectureSequence" component={LectureSequence} />
+          <Route path="/LabSequence" component={LabSequence} />
+          <Route path="/TutorialSequence" component={TutorialSequence} />
+
           <Route path="/Stack" component={Stack} />
           <Route path="/Course" component={Course} />
           <Route path="/concordia-similar" component={ConcordiaSimilar} />
