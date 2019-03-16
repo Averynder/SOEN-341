@@ -6,6 +6,8 @@
     "start": "cross-env PORT=3001 nodemon ./bin/www"
   },
   "dependencies": {
+    "async": "^2.6.2",
+    "async-waterfall": "^0.1.5",
     "axios": "^0.18.0",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.5",
