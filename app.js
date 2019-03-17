@@ -211,9 +211,10 @@ function regexPreviousCourses(stringy)
 	console.log(stringy);
 }
 
-app.get("/Logo", function(req, res) {
-	res.sendFile('./routes/Logo.png');
-
+app.get('/Selenium', function(req, res, next) {
+	if (req.user) { console.log('logged in'); }
+	if (!req.user) { console.log('logged out'); }
+	res.end();
 });
 
 // This sets a session for when the user visits a site. This session remembers the number of visits.
