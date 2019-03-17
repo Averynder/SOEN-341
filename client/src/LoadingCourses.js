@@ -11,7 +11,7 @@ class LoadingCourses extends Component {
 		super(props);
 		this.state =
 		{
-			isLoading: true,
+			isLoading: false,
 		}
 		this.toggleLoading = this.toggleLoading.bind(this);
 	}
@@ -58,7 +58,7 @@ class LoadingCourses extends Component {
 				<Navbar />
 				<div className="container">
 					<div className="jumbotron j-greetings">
-						<h2 className="display-4">Loading Courses</h2>
+						<h2 className="display-4">Select an Option</h2>
 						<hr color="#7e1530"/>
 						<div class="btn-group" role="group" aria-label="Basic example">
 							<Link to="/select-semester">
@@ -67,6 +67,7 @@ class LoadingCourses extends Component {
 							<Link to="/obtain-uploaded-sequence">
 								<Button text="Sequence"/>
 							</Link>
+							<Button text="Load Previous Courses" onClick={this.toggleLoading}/>
 						</div>
 						<LoadingScreen
 							loading={this.state.isLoading}
