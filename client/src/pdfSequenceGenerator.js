@@ -37,7 +37,7 @@ class PdfSequenceGenerator extends React.Component {
       pdf.output("/jimmyTest.pdf");
       pdf.save("jimmyTest.pdf");
       [].forEach.call(dummies, row => {
-        row.style.display = 'block';
+        row.style.display = 'contents';
       });
     });
   };
@@ -459,15 +459,15 @@ class PdfSequenceGenerator extends React.Component {
 
             <Container className="mt4" id="divToPrint">
               <Row>
-                <Col>
+                <Col md={4}>
                   Fall
                   {falltable}
                 </Col>
-                <Col>
+                <Col md={4}>
                   Winter
                   {wintertable}
                 </Col>
-                <Col>
+                <Col md={4}>
                   Summer
                   {summertable}
                 </Col>
