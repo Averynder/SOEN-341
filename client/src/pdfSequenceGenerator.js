@@ -166,8 +166,9 @@ class PdfSequenceGenerator extends React.Component {
 
     for (let i = 0; i < classList.length; i++) {
       // Finds if input class exists and stores it in addedClass
-      if (classList[i].course === input && classList[i].semester === semester) {
+      if (classList[i].course === input) {
         addedClass = classList[i];
+        addedClass.semester = semester;
         classExists = true;
         break;
       }
