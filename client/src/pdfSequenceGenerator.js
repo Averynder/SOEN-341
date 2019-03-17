@@ -30,6 +30,14 @@ class PdfSequenceGenerator extends React.Component {
     [].forEach.call(dummies, row => {
       row.style.display = 'none';
     });
+    const tableCols = document.getElementsByClassName('tableCol');
+    [].forEach.call(tableCols, tableCol => {
+      tableCol.classList.add('col-md-12');
+    });
+    const reduce = document.querySelectorAll('table, #pdfTable');
+    [].forEach.call(reduce, col => {
+      col.style.width = '70%';
+    });
     html2canvas(input).then(canvas => {
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF();
@@ -38,6 +46,12 @@ class PdfSequenceGenerator extends React.Component {
       pdf.save("jimmyTest.pdf");
       [].forEach.call(dummies, row => {
         row.style.display = 'contents';
+      });
+      [].forEach.call(tableCols, tableCol => {
+        tableCol.classList.remove('col-md-12');
+      });
+      [].forEach.call(reduce, col => {
+        col.style.width = '100%';
       });
     });
   };
@@ -459,15 +473,15 @@ class PdfSequenceGenerator extends React.Component {
 
             <Container className="mt4" id="divToPrint">
               <Row>
-                <Col md={4}>
+                <Col className='tableCol' md={4}>
                   Fall
                   {falltable}
                 </Col>
-                <Col md={4}>
+                <Col className='tableCol' md={4}>
                   Winter
                   {wintertable}
                 </Col>
-                <Col md={4}>
+                <Col className='tableCol' md={4}>
                   Summer
                   {summertable}
                 </Col>
