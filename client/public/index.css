@@ -73,5 +73,5 @@ hr {
 #pdfTable tbody:after {
   content: '';
   display: block;
-  height: 25px;
+  height: 45px;
 }
