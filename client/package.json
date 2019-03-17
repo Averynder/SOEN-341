@@ -40,5 +40,7 @@
   "devDependencies": {
     "babel-plugin-styled-components": "^1.10.0"
   },
-  "plugins": ["babel-plugin-styled-components"]
+  "plugins": [
+    "babel-plugin-styled-components"
+  ]
 }
