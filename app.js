@@ -18,7 +18,7 @@ var loginRouter = require('./routes/login');
 var DBcheck = require('./routes/DBcheck');
 
 
-
+var databaseRefresh = new DBcheck;
 
 
 
@@ -332,6 +332,8 @@ setInterval(()=>{ if(time == updateTime){databaseRefresh();}}, 60000);
 	
 databaseRefresh = ()=>{
 
+	databaseRefresh.runDatabase();
+
 
 	// Need to add means of opening localhost3001/concordia
 	console.log("Updating")
@@ -398,8 +400,6 @@ databaseRefresh = ()=>{
 	// then re-initialize the database variables with regex and then remove old entries
 	// then add new entries
 	console.log("Finished Updating");
-
-
 
 };
 
