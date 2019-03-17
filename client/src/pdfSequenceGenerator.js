@@ -2,9 +2,11 @@ import React from "react";
 import Navbar from "./components/Navbar";
 import * as data from "./data/courses.json";
 import * as jsPDF from "jspdf";
-import { Table, Modal } from "react-bootstrap";
+import { Table, Modal, Container, Row, Col } from "react-bootstrap";
 import Button from "./components/Button";
 import * as html2canvas from "html2canvas";
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+
 
 class PdfSequenceGenerator extends React.Component {
   constructor() {
@@ -24,28 +26,110 @@ class PdfSequenceGenerator extends React.Component {
 
   convertToPDF = () => {
     const input = document.getElementById("divToPrint");
+    const dummies = document.getElementsByClassName('dummyRow');
+    [].forEach.call(dummies, row => {
+      row.style.display = 'none';
+    });
     html2canvas(input).then(canvas => {
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF();
       pdf.addImage(imgData, "JPEG", 0, 0);
       pdf.output("/jimmyTest.pdf");
       pdf.save("jimmyTest.pdf");
+      [].forEach.call(dummies, row => {
+        row.style.display = 'contents';
+      });
     });
   };
+
+  /*
+   * Move a draggable from one droppable to another.
+   */
+  move = (source, destination, droppableSource, droppableDestination) => {
+    const sourceClone = Array.from(source);
+    const destClone = Array.from(destination);
+    const [removed] = sourceClone.splice(droppableSource.index, 1); // replace 1 element at droppableSource.index with nothing (remove it)
+
+    var inOtherSemester = destination.some(course => {
+      return course.course === removed.course;
+    });
+
+    if (inOtherSemester) {
+      return;
+    }
+
+    destClone.splice(droppableDestination.index, 0, removed); // remove no element at droppableDestination.index and add removed (add)
+
+    let result = {};
+    result[droppableSource.droppableId] = sourceClone;
+    result[droppableDestination.droppableId] = destClone;
+
+    return result;
+  };
+
+  reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1); // remove 1 element at startIndex and replace with nothing
+    result.splice(endIndex, 0, removed); // remove no element at endIndex and add removed
+
+    return result;
+  };
+
+  getRowStyle = (isDragging, draggableStyle) => ({
+    //background: isDragging? 'rgb(92, 96, 101, 0.8)': '#212529',
+    //display: isDragging? 'table':'block',
+
+    ...draggableStyle
+  });
+
+  getTableStyle = isDraggingOver => ({
+    //Change table properties during drag
+    //background: isDraggingOver? 'blue': 'red'
+  });
+
+  onDragEnd = result => {
+    console.log(result);
+    const {source, destination} = result;
+
+    // dropped outside a droppable element
+    if (!destination) {
+      return;
+    }
+
+    if (source.droppableId === destination.droppableId) {
+      const items = this.reorder(
+        this.state[source.droppableId],
+        source.index,
+        destination.index
+      );
+
+      this.setState({
+        [source.droppableId]: items
+      });
+    } else {
+      const moved = this.move(
+        this.state[source.droppableId],
+        this.state[destination.droppableId],
+        source,
+        destination
+      );
+
+      if (!moved) {
+        return;
+      }
+
+      this.setState({
+        [source.droppableId]: moved[source.droppableId],
+        [destination.droppableId]: moved[destination.droppableId]
+      }, () => {
+        console.log(this.state);
+        console.log(moved);
+      });
+    }
+  };
+
 
   // FUNCTIONS() HERE *********************************************************
-
-  convertToPDF = () => {
-    const input = document.getElementById("divToPrint");
-    html2canvas(input).then(canvas => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF();
-      pdf.addImage(imgData, "JPEG", 0, 0);
-      pdf.output("/jimmyTest.pdf");
-      pdf.save("jimmyTest.pdf");
-    });
-  };
-
   addClass = () => {
     let fall = this.state.selectedCoursesFall; //Keep track of user selected classes for Fall
     let winter = this.state.selectedCoursesWinter; //Keep track of user selected classes for Winter
@@ -64,6 +148,7 @@ class PdfSequenceGenerator extends React.Component {
         return;
       }
     }
+
     for (let i = 0; i < winter.length; i++) {
       //This loop prevents duplicates for winter table
       if (winter[i].course === input && winter[i].semester === semester) {
@@ -71,6 +156,7 @@ class PdfSequenceGenerator extends React.Component {
         return;
       }
     }
+
     for (let i = 0; i < summer.length; i++) {
       //This loop prevents duplicates for summer table
       if (summer[i].course === input && summer[i].semester === semester) {
@@ -81,8 +167,9 @@ class PdfSequenceGenerator extends React.Component {
 
     for (let i = 0; i < classList.length; i++) {
       // Finds if input class exists and stores it in addedClass
-      if (classList[i].course === input && classList[i].semester === semester) {
+      if (classList[i].course === input) {
         addedClass = classList[i];
+        addedClass.semester = semester;
         classExists = true;
         break;
       }
@@ -117,7 +204,16 @@ class PdfSequenceGenerator extends React.Component {
         break;
       default:
     }
-  };
+
+    let totalNumberOfClasses = this.state.selectedCoursesFall.length + this.state.selectedCoursesSummer.length + this.state.selectedCoursesWinter.length;
+
+    let yeetus = [];
+    for(let i=0;i<6;i++){ /*Basically choose a year from current year up to 8 years later. Don't touch this*/
+        yeetus[i] = (new Date()).getFullYear() + i;
+    }
+    const years = yeetus.map(jimmy => <option value={jimmy}>{jimmy}</option>)
+  }
+
 
   removeClass = () => {
     let fall = this.state.selectedCoursesFall; //Keep track of user selected classes for Fall
@@ -163,24 +259,43 @@ class PdfSequenceGenerator extends React.Component {
       <Table id="pdfTable" striped bordered hover variant="dark">
         <thead>
           <tr>
-            <th>Semester</th>
             <th>Course</th>
             <th>Class Name</th>
             <th>Credit</th>
           </tr>
         </thead>
-        <tbody>
-          {this.state.selectedCoursesFall.map(element => (
-            <tr>
-              <td>
-                {element.semester} {element.year}
-              </td>
-              <td>{element.course}</td>
-              <td>{element.name}</td>
-              <td>{element.credit}</td>
-            </tr>
-          ))}
-        </tbody>
+        <Droppable droppableId="selectedCoursesFall">
+          {(provided, snapshot) => (
+            <tbody provided={provided} style={this.getTableStyle(snapshot.isDraggingOver)} ref={provided.innerRef} >
+              {this.state.selectedCoursesFall.map((course, index) =>
+                <Draggable key={'key'+index} draggableId={"f"+index} index={index}>
+                  {(provided, snapshot) => (
+                    <tr
+                      style={this.getRowStyle(snapshot.isDragging, provided.draggableProps.style)}
+                      className={'dragCourse'}
+
+                      provided={provided}
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <td>{course.course}</td>
+                      <td>{course.name}</td>
+                      <td>{course.credit}</td>
+                    </tr>
+                  )}
+                </Draggable>
+              )}
+              <tr
+                className={'dummyRow'}
+              >
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
+              </tr>
+            </tbody>
+          )}
+        </Droppable>
       </Table>
     );
 
@@ -188,24 +303,43 @@ class PdfSequenceGenerator extends React.Component {
       <Table id="pdfTable" striped bordered hover variant="dark">
         <thead>
           <tr>
-            <th>Semester</th>
             <th>Course</th>
             <th>Class Name</th>
             <th>Credit</th>
           </tr>
         </thead>
-        <tbody>
-          {this.state.selectedCoursesWinter.map(element => (
-            <tr>
-              <td>
-                {element.semester} {element.year}
-              </td>
-              <td>{element.course}</td>
-              <td>{element.name}</td>
-              <td>{element.credit}</td>
-            </tr>
-          ))}
-        </tbody>
+        <Droppable droppableId="selectedCoursesWinter">
+          {(provided, snapshot) => (
+            <tbody provided={provided} style={this.getTableStyle(snapshot.isDraggingOver)} ref={provided.innerRef} >
+              {this.state.selectedCoursesWinter.map((course, index) =>
+                <Draggable key={'key'+index} draggableId={"w"+index} index={index}>
+                  {(provided, snapshot) => (
+                    <tr
+                      style={this.getRowStyle(snapshot.isDragging, provided.draggableProps.style)}
+                      className={'dragCourse'}
+
+                      provided={provided}
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <td>{course.course}</td>
+                      <td>{course.name}</td>
+                      <td>{course.credit}</td>
+                    </tr>
+                  )}
+                </Draggable>
+              )}
+              <tr
+                className={'dummyRow'}
+              >
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
+              </tr>
+            </tbody>
+          )}
+        </Droppable>
       </Table>
     );
 
@@ -213,24 +347,43 @@ class PdfSequenceGenerator extends React.Component {
       <Table id="pdfTable" striped bordered hover variant="dark">
         <thead>
           <tr>
-            <th>Semester</th>
             <th>Course</th>
             <th>Class Name</th>
             <th>Credit</th>
           </tr>
         </thead>
-        <tbody>
-          {this.state.selectedCoursesSummer.map(element => (
-            <tr>
-              <td>
-                {element.semester} {element.year}
-              </td>
-              <td>{element.course}</td>
-              <td>{element.name}</td>
-              <td>{element.credit}</td>
-            </tr>
-          ))}
-        </tbody>
+        <Droppable droppableId="selectedCoursesSummer">
+          {(provided, snapshot) => (
+            <tbody provided={provided} style={this.getTableStyle(snapshot.isDraggingOver)} ref={provided.innerRef} >
+              {this.state.selectedCoursesSummer.map((course, index) =>
+                <Draggable key={'key'+index} draggableId={"s"+index} index={index}>
+                  {(provided, snapshot) => (
+                    <tr
+                      style={this.getRowStyle(snapshot.isDragging, provided.draggableProps.style)}
+                      className={'dragCourse'}
+
+                      provided={provided}
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <td>{course.course}</td>
+                      <td>{course.name}</td>
+                      <td>{course.credit}</td>
+                    </tr>
+                  )}
+                </Draggable>
+              )}
+              <tr
+                className={'dummyRow'}
+              >
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
+              </tr>
+            </tbody>
+          )}
+        </Droppable>
       </Table>
     );
 
@@ -286,9 +439,9 @@ class PdfSequenceGenerator extends React.Component {
     const years = yeetus.map(jimmy => <option value={jimmy}>{jimmy}</option>);
 
     return (
-      <div>
-        <div className="container">
-          <div className="jumbotron j-greetings">
+      <div className="container">
+        <DragDropContext onDragEnd={this.onDragEnd}>
+          <div style={{ padding: '4rem 1rem' }} className="jumbotron j-greetings">
             <h2 className="display-4">
               Sequence To PDF <br /> Year{" "}
               {this.state.selectYear ? "" : this.state.sequenceYear}
@@ -304,16 +457,22 @@ class PdfSequenceGenerator extends React.Component {
               later.
             </p>
 
-            <div className="mt4" id="divToPrint">
-              Fall
-              {falltable}
-              <br />
-              Winter
-              {wintertable}
-              <br />
-              Summer
-              {summertable}
-            </div>
+            <Container className="mt4" id="divToPrint">
+              <Row>
+                <Col md={4}>
+                  Fall
+                  {falltable}
+                </Col>
+                <Col md={4}>
+                  Winter
+                  {wintertable}
+                </Col>
+                <Col md={4}>
+                  Summer
+                  {summertable}
+                </Col>
+              </Row>
+            </Container >
             <Button
               text="Add Course"
               onClick={() => {
@@ -328,7 +487,7 @@ class PdfSequenceGenerator extends React.Component {
             />
             <Button id="mb5" text="PDF" onClick={this.convertToPDF} />
           </div>
-        </div>
+        </DragDropContext>
 
         <Modal
           show={this.state.showAdd}
