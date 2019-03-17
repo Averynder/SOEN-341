@@ -73,3 +73,18 @@ hr {
 .dummyRow {
   height: 30px;
 }
+
+#pdfTable {
+  table-layout: auto;
+  border-collapse: collapse;
+}
+
+#pdfTable th:nth-child(2){
+  white-space: nowrap;
+  width: 100%;
+}
+
+#pdfTable th:last-child{
+  padding-left: 4px;
+  padding-right: 4px;
+}

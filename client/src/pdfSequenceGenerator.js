@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "./components/Navbar";
 import * as data from "./data/courses.json";
 import * as jsPDF from "jspdf";
-import { Table, Modal } from "react-bootstrap";
+import { Table, Modal, Container, Row, Col } from "react-bootstrap";
 import Button from "./components/Button";
 import * as html2canvas from "html2canvas";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
@@ -76,18 +76,19 @@ class PdfSequenceGenerator extends React.Component {
   };
 
   getRowStyle = (isDragging, draggableStyle) => ({
-    userSelect: 'none',
-    background: isDragging? 'rgb(92, 96, 101, 0.8)': '#212529',
-    display: isDragging? 'table':'',
+    //background: isDragging? 'rgb(92, 96, 101, 0.8)': '#212529',
+    //display: isDragging? 'table':'block',
 
     ...draggableStyle
   });
 
   getTableStyle = isDraggingOver => ({
     //Change table properties during drag
+    //background: isDraggingOver? 'blue': 'red'
   });
 
   onDragEnd = result => {
+    console.log(result);
     const {source, destination} = result;
 
     // dropped outside a droppable element
@@ -258,7 +259,6 @@ class PdfSequenceGenerator extends React.Component {
       <Table id="pdfTable" striped bordered hover variant="dark">
         <thead>
           <tr>
-            <th>Semester</th>
             <th>Course</th>
             <th>Class Name</th>
             <th>Credit</th>
@@ -271,13 +271,14 @@ class PdfSequenceGenerator extends React.Component {
                 <Draggable key={'key'+index} draggableId={"f"+index} index={index}>
                   {(provided, snapshot) => (
                     <tr
+                      style={this.getRowStyle(snapshot.isDragging, provided.draggableProps.style)}
+                      className={'dragCourse'}
+
                       provided={provided}
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      style={this.getRowStyle(snapshot.isDragging, provided.draggableProps.style)}
                     >
-                      <td>{course.semester}</td>
                       <td>{course.course}</td>
                       <td>{course.name}</td>
                       <td>{course.credit}</td>
@@ -288,10 +289,9 @@ class PdfSequenceGenerator extends React.Component {
               <tr
                 className={'dummyRow'}
               >
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
               </tr>
             </tbody>
           )}
@@ -303,7 +303,6 @@ class PdfSequenceGenerator extends React.Component {
       <Table id="pdfTable" striped bordered hover variant="dark">
         <thead>
           <tr>
-            <th>Semester</th>
             <th>Course</th>
             <th>Class Name</th>
             <th>Credit</th>
@@ -316,13 +315,14 @@ class PdfSequenceGenerator extends React.Component {
                 <Draggable key={'key'+index} draggableId={"w"+index} index={index}>
                   {(provided, snapshot) => (
                     <tr
+                      style={this.getRowStyle(snapshot.isDragging, provided.draggableProps.style)}
+                      className={'dragCourse'}
+
                       provided={provided}
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      style={this.getRowStyle(snapshot.isDragging, provided.draggableProps.style)}
                     >
-                      <td>{course.semester}</td>
                       <td>{course.course}</td>
                       <td>{course.name}</td>
                       <td>{course.credit}</td>
@@ -333,10 +333,9 @@ class PdfSequenceGenerator extends React.Component {
               <tr
                 className={'dummyRow'}
               >
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
               </tr>
             </tbody>
           )}
@@ -348,7 +347,6 @@ class PdfSequenceGenerator extends React.Component {
       <Table id="pdfTable" striped bordered hover variant="dark">
         <thead>
           <tr>
-            <th>Semester</th>
             <th>Course</th>
             <th>Class Name</th>
             <th>Credit</th>
@@ -361,13 +359,14 @@ class PdfSequenceGenerator extends React.Component {
                 <Draggable key={'key'+index} draggableId={"s"+index} index={index}>
                   {(provided, snapshot) => (
                     <tr
+                      style={this.getRowStyle(snapshot.isDragging, provided.draggableProps.style)}
+                      className={'dragCourse'}
+
                       provided={provided}
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      style={this.getRowStyle(snapshot.isDragging, provided.draggableProps.style)}
                     >
-                      <td>{course.semester}</td>
                       <td>{course.course}</td>
                       <td>{course.name}</td>
                       <td>{course.credit}</td>
@@ -378,10 +377,9 @@ class PdfSequenceGenerator extends React.Component {
               <tr
                 className={'dummyRow'}
               >
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
               </tr>
             </tbody>
           )}
@@ -459,16 +457,22 @@ class PdfSequenceGenerator extends React.Component {
               later.
             </p>
 
-            <div className="mt4" id="divToPrint">
-              Fall
-              {falltable}
-              <br />
-              Winter
-              {wintertable}
-              <br />
-              Summer
-              {summertable}
-            </div>
+            <Container className="mt4" id="divToPrint">
+              <Row>
+                <Col>
+                  Fall
+                  {falltable}
+                </Col>
+                <Col>
+                  Winter
+                  {wintertable}
+                </Col>
+                <Col>
+                  Summer
+                  {summertable}
+                </Col>
+              </Row>
+            </Container >
             <Button
               text="Add Course"
               onClick={() => {
