@@ -40,7 +40,15 @@ var connection = mysql.createConnection({
   database: "soen341"
 });
 
-connection.connect();
+//connection.connect();
+// Issue is not the fact of doing this retrieval, it's the actual timing of the thread
+connection.connect(function(err) {
+  if (err) throw err;
+  connection.query("SELECT * FROM `account user`", function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+  });
+});
 
 // connection.query("SELECT*FROM `teacher`;", function(error, results, fields) {
 //   if (error) throw error;
