@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import Redirect from "react-router/es/Redirect";
 
 class Modal extends Component
 {
   constructor(props)
   {
     super(props);
-    this.state = {};
+    this.state = {
+      redirectToReferrer: false,
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -26,10 +29,14 @@ class Modal extends Component
     });
     const body = await resp.text();
     console.log(body);
-    this.setState({'netname': netname, 'password': password});
+    this.setState({'netname': netname, 'password': password, redirectToReferrer: true});
   }
     render()
     {
+      const redirectToReferrer = this.state.redirectToReferrer;
+      if (redirectToReferrer === true) {
+        return <Redirect to="/LoadingCourses" />
+      }
       if(!this.props.show)
       {
         return null;

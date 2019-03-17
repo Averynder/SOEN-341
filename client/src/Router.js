@@ -20,6 +20,7 @@ import MyDoublyLinkedList from "./MyDoublyLinkedList";
 import Stack from "./Stack";
 import Course from "./Course";
 import ConcordiaSimilar from "./ConcordiaSimilar";
+import LoadingCourses from "./LoadingCourses";
 
 class Router extends React.Component {
   render() {
@@ -45,6 +46,7 @@ class Router extends React.Component {
           <Route path="/MyDoublyLinkedList" component={MyDoublyLinkedList} />
           <Route path="/Stack" component={Stack} />
           <Route path="/Course" component={Course} />
+          <Route path="/LoadingCourses" component={LoadingCourses} />
           <Route path="/concordia-similar" component={ConcordiaSimilar} />
         </div>
       </BrowserRouter>

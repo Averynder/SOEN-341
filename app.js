@@ -92,12 +92,16 @@ app.use(function (req, res, next) {
 // Handles the User Login Requests and Launches Selenium
 var { Builder, By, Key, until } = require('selenium-webdriver');
 var chrome = require('selenium-webdriver/firefox');
+const firefox = require('selenium-webdriver/firefox');
 
 app.post('/Selenium', function(req,res,next) {
-	var stringy = null;
+	const screen = {
+		width: 640,
+		height: 480
+	};
 	let driver = new Builder().forBrowser('firefox')
-	//.setChromeOptions(new chrome.Options().headless()) // invisible chrome
-		.setFirefoxOptions().build();
+		.setFirefoxOptions(new firefox.Options().headless().windowSize(screen)).build(); // invisible chrome
+		//.setFirefoxOptions().build();
 	try {
 		let getDriver = new Promise(function (resolve, reject) {
 			resolve(driver.get('https://my.concordia.ca/psp/upprpr9/?cmd=login&device=mobile')
@@ -107,30 +111,30 @@ app.post('/Selenium', function(req,res,next) {
 				.then(_ => driver.findElement(By.name('pwd')).sendKeys(req.body.password, Key.RETURN)))
 		});
 		getDriver.then(function (whateverwasresolved) {
-			console.log("Got Inside1!");
+			//console.log("Got Inside1!");
 			let getNetName = new Promise(function (resolve, reject) {
 				resolve(sleep(30));
 				//resolve(driver.wait(until.elementLocated(By.id('btnGrade')), 20000))
 			});
 			getNetName.then(function (whateverisreturnedfromnetname) {
-				console.log("Got Inside2!");
+				//console.log("Got Inside2!");
 				let getNetName2 = new Promise(function (resolve, reject) {
 					resolve(driver.findElement(By.id('btnGrade')).click())
 				});
 				getNetName2.then(function (whateverisreturnedfromnetname) {
-					console.log("Got Inside3!");
+					//console.log("Got Inside3!");
 					//
 					let getNetName3 = new Promise(function (resolve, reject) {
 						resolve(sleep(30))
 					});
 					getNetName3.then(function (whateverisreturnedfromnetname) {
-						console.log("Got Inside4!");
+						//console.log("Got Inside4!");
 						//
 						let getNetName4 = new Promise(function (resolve, reject) {
 							resolve(driver.findElement(By.id('btnAllGrades')).click())
 						});
 						getNetName4.then(function (whateverisreturnedfromnetname) {
-							console.log("Scrape Time!");
+							console.log("Writing Previous Courses!");
 							driver.findElements(By.className("course mainsec")).then(function (elems) {
 								var stringy = "";
 								elems.forEach(function (elem) {
@@ -138,9 +142,8 @@ app.post('/Selenium', function(req,res,next) {
 										stringy += textValue;
 										fs.writeFile('routes/PrevCourses.txt', stringy, 'utf-8', function (err) {
 											if (err) throw err;
-											console.log('Previous Courses are being gotten');
 										});
-										console.log(textValue); // Insert / Do Stuff From this point
+										//console.log(textValue); // Insert / Do Stuff From this point
 									});
 								});
 							});
@@ -183,6 +186,10 @@ function regexPreviousCourses(stringy)
 	console.log(stringy);
 }
 
+app.get("/Logo", function(req, res) {
+	res.sendFile('./routes/Logo.png');
+
+});
 
 // This sets a session for when the user visits a site. This session remembers the number of visits.
 app.get('/api', function(req, res){
