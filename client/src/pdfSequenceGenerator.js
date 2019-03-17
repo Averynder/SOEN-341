@@ -441,7 +441,7 @@ class PdfSequenceGenerator extends React.Component {
     return (
       <div className="container">
         <DragDropContext onDragEnd={this.onDragEnd}>
-          <div className="jumbotron j-greetings">
+          <div style={{ padding: '4rem 1rem' }} className="jumbotron j-greetings">
             <h2 className="display-4">
               Sequence To PDF <br /> Year{" "}
               {this.state.selectYear ? "" : this.state.sequenceYear}
