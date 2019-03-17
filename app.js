@@ -43,7 +43,8 @@ const TutorialSequence = require('./routes/TutorialSequence');
 const Stack = require('./routes/Stack');
 const SpanningTree = require('./routes/SpanningTree');
 var app = express();
-require('./selenium')(app);
+var waterfall = require('async-waterfall');
+//require('./selenium')(app);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
@@ -111,6 +112,108 @@ app.use(function (req, res, next) {
     console.log('cookie already exists', cookie);
   }
   next();
+});
+
+// Handles the User Login Requests and Launches Selenium
+var { Builder, By, Key, until } = require('selenium-webdriver');
+var chrome = require('selenium-webdriver/firefox');
+const firefox = require('selenium-webdriver/firefox');
+
+app.post('/Selenium', function(req,res,next) {
+	const screen = {
+		width: 640,
+		height: 480
+	};
+	let driver = new Builder().forBrowser('firefox')
+		.setFirefoxOptions(new firefox.Options().headless().windowSize(screen)).build(); // invisible chrome
+		//.setFirefoxOptions().build();
+	try {
+		let getDriver = new Promise(function (resolve, reject) {
+			resolve(driver.get('https://my.concordia.ca/psp/upprpr9/?cmd=login&device=mobile')
+			//.then(_ => driver.findElement(By.name('userid')).sendKeys(req.params.netname))
+			//.then(_ => driver.findElement(By.name('pwd')).sendKeys(req.params.password, Key.RETURN)))
+				.then(_ => driver.findElement(By.name('userid')).sendKeys(req.body.netname))
+				.then(_ => driver.findElement(By.name('pwd')).sendKeys(req.body.password, Key.RETURN)))
+		});
+		getDriver.then(function (whateverwasresolved) {
+			//console.log("Got Inside1!");
+			let getNetName = new Promise(function (resolve, reject) {
+				resolve(sleep(30));
+				//resolve(driver.wait(until.elementLocated(By.id('btnGrade')), 20000))
+			});
+			getNetName.then(function (whateverisreturnedfromnetname) {
+				//console.log("Got Inside2!");
+				let getNetName2 = new Promise(function (resolve, reject) {
+					resolve(driver.findElement(By.id('btnGrade')).click())
+				});
+				getNetName2.then(function (whateverisreturnedfromnetname) {
+					//console.log("Got Inside3!");
+					//
+					let getNetName3 = new Promise(function (resolve, reject) {
+						resolve(sleep(30))
+					});
+					getNetName3.then(function (whateverisreturnedfromnetname) {
+						//console.log("Got Inside4!");
+						//
+						let getNetName4 = new Promise(function (resolve, reject) {
+							resolve(driver.findElement(By.id('btnAllGrades')).click())
+						});
+						getNetName4.then(function (whateverisreturnedfromnetname) {
+							console.log("Writing Previous Courses!");
+							driver.findElements(By.className("course mainsec")).then(function (elems) {
+								var stringy = "";
+								elems.forEach(function (elem) {
+									elem.getText().then(function (textValue) {
+										stringy += textValue;
+										fs.writeFile('routes/PrevCourses.txt', stringy, 'utf-8', function (err) {
+											if (err) throw err;
+										});
+										//console.log(textValue); // Insert / Do Stuff From this point
+									});
+								});
+							});
+							/*
+							let getNetName5 = new Promise(function(resolve,reject)
+							{
+								resolve(sleep(20))
+							});
+							getNetName5.then(function(whateverisreturnedfromnetname)
+							{
+								console.log("terminating");
+								callback(null, stringy);
+							});
+							*/
+						});
+						//
+					});
+					//
+				}).catch(function (rej) {
+					//here when you reject the promise
+					console.log("Failed to Login");
+					driver.quit();
+				});
+			});
+		});
+	} catch (err) {
+		console.log(err);
+	} finally {
+		res.end();
+	}
+});
+
+function sleep(seconds)
+{
+	var e = new Date().getTime() + (seconds * 1000);
+	while (new Date().getTime() <= e) {}
+}
+function regexPreviousCourses(stringy)
+{
+	console.log(stringy);
+}
+
+app.get("/Logo", function(req, res) {
+	res.sendFile('./routes/Logo.png');
+
 });
 
 // This sets a session for when the user visits a site. This session remembers the number of visits.
@@ -321,7 +424,7 @@ var updateTime = new Date("March 12, 8:00").toLocaleDateString("en", {
 		}
 	};
 	rompt.start()
-	rompt.get(FirstRun, function (err, result){		
+	rompt.get(FirstRun, function (err, result){
 if(time == updateTime || result.run == "YES"){
 	databaseRefresh();
 }else{
@@ -329,7 +432,7 @@ if(time == updateTime || result.run == "YES"){
 };
 	});
 setInterval(()=>{ if(time == updateTime){databaseRefresh();}}, 60000);
-	
+
 databaseRefresh = ()=>{
 
 	databaseRefresh.runDatabase();
@@ -366,7 +469,7 @@ databaseRefresh = ()=>{
 		}).on('error', (e) => {
 			console.log(e);
 			});
-			
+
 		https.get('https://172:0c35de81ea4c5cef9ee6073c3a6752eb@opendata.concordia.ca/API/v1/course/schedule/filter/*/COMP/*', (response) => {
 			response.on('data', (d) => {
 				fs.writeFileSync('routes/COMPschedule.txt', d, (err) => {
