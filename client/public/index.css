@@ -70,8 +70,6 @@ hr {
   align-items: flex-end;
 }
 
-#pdfTable tbody:after {
-  content: '';
-  display: block;
-  height: 45px;
+.dummyRow {
+  height: 30px;
 }

@@ -284,6 +284,14 @@ class PdfSequenceGenerator extends React.Component {
                   )}
                 </Draggable>
               )}
+              <tr
+                className={'dummyRow'}
+              >
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
             </tbody>
           )}
         </Droppable>
@@ -321,6 +329,14 @@ class PdfSequenceGenerator extends React.Component {
                   )}
                 </Draggable>
               )}
+              <tr
+                className={'dummyRow'}
+              >
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
             </tbody>
           )}
         </Droppable>
@@ -358,6 +374,14 @@ class PdfSequenceGenerator extends React.Component {
                   )}
                 </Draggable>
               )}
+              <tr
+                className={'dummyRow'}
+              >
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
             </tbody>
           )}
         </Droppable>
