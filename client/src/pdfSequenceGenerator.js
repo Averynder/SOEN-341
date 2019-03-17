@@ -26,12 +26,19 @@ class PdfSequenceGenerator extends React.Component {
 
   convertToPDF = () => {
     const input = document.getElementById("divToPrint");
+    const dummies = document.getElementsByClassName('dummyRow');
+    [].forEach.call(dummies, row => {
+      row.style.display = 'none';
+    });
     html2canvas(input).then(canvas => {
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF();
       pdf.addImage(imgData, "JPEG", 0, 0);
       pdf.output("/jimmyTest.pdf");
       pdf.save("jimmyTest.pdf");
+      [].forEach.call(dummies, row => {
+        row.style.display = 'block';
+      });
     });
   };
 
