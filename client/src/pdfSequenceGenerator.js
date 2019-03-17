@@ -7,6 +7,7 @@ import Button from "./components/Button";
 import * as html2canvas from "html2canvas";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
+
 class PdfSequenceGenerator extends React.Component {
   constructor() {
     super();
@@ -76,7 +77,7 @@ class PdfSequenceGenerator extends React.Component {
   });
 
   getTableStyle = isDraggingOver => ({
-    background: isDraggingOver? 'rgba(255, 255, 255, 0.5)': 'lightblue'
+    //Change table properties during drag
   });
 
   onDragEnd = result => {
@@ -96,8 +97,6 @@ class PdfSequenceGenerator extends React.Component {
 
       this.setState({
         [source.droppableId]: items
-      }, () => {
-        console.log(this.state);
       });
     } else {
       const moved = this.move(
@@ -278,7 +277,7 @@ class PdfSequenceGenerator extends React.Component {
                   )}
                 </Draggable>
               )}
-           </tbody>
+            </tbody>
           )}
         </Droppable>
       </Table>

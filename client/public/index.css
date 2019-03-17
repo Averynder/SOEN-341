@@ -69,3 +69,9 @@ hr {
 .icon {
   align-items: flex-end;
 }
+
+#pdfTable tbody:after {
+  content: '';
+  display: block;
+  height: 25px;
+}
