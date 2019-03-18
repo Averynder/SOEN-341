@@ -27,7 +27,6 @@ class ObtainUploadedSequence extends React.Component{
   setCourses(stringy)
   {
     this.state.Courses = "" + stringy;
-    //console.log(this.state.Courses);
   }
   regEx()
   {
@@ -57,6 +56,9 @@ class ObtainUploadedSequence extends React.Component{
       this.state.Courses = this.state.Courses.substring(prereqStart + 17);
       var endQuote5 = this.state.Courses.search("\"");
       var prereqs = this.state.Courses.substring(0,endQuote5);
+      var potentialSPace = prereqs.charAt(0);
+      if (potentialSPace == ' ')
+        prereqs = prereqs.substring(1);
       while (prereqs.indexOf("<==>") > -1)
       {
         var weirdshi = prereqs.indexOf("<==>");
@@ -92,6 +94,9 @@ class ObtainUploadedSequence extends React.Component{
       this.state.Courses = this.state.Courses.substring(coreqStart + 16);
       var endQuote6 = this.state.Courses.search("\"");
       var coreqs = this.state.Courses.substring(0,endQuote6);
+      var potentialSPace2 = coreqs.charAt(0);
+      if (potentialSPace2 == ' ')
+        coreqs = coreqs.substring(1);
       while (coreqs.indexOf("<==>") > -1)
       {
         var weirdshi = coreqs.indexOf("<==>");
@@ -136,10 +141,15 @@ class ObtainUploadedSequence extends React.Component{
     fetch("/seqQuery")
         .then(res => res.json())
         .then(users =>
-            this.setState({ users }, () => this.setCourses(users))
+            this.setState({ users }, () => this.setCourses(users, true))
         )
         .then(() => { this.regEx(); })
         .then(() => { this.toggleLoading(); });
+    fetch("/semQuery")
+        .then(res => res.json())
+        .then(users1 =>
+            this.setState({ users1 }, () => this.setCourses(users1, false))
+        );
   }
 
   render(){

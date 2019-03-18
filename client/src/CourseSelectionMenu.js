@@ -51,7 +51,7 @@ class CourseSelectionMenu extends React.Component {
         "Saturday",
         "Sunday"
       ],
-      classes: data.sequence,
+      classes: JSON.parse(JSON.stringify(data.sequence)),
 
       colors: [["red", 0], ["pink", 0], ["green", 0], ["yellow", 0], ["orange", 0], ["blue", 0], ["black", 0]],
 
@@ -65,13 +65,15 @@ class CourseSelectionMenu extends React.Component {
 
       addedClasses: [],
 
-      courses: data.default.sequence,
+      courses: JSON.parse(JSON.stringify(data.default.sequence)),
       selectedCourses: [],
       show2: "hidden",
       
       colorOfNewClass: []
       
     };
+    console.log("data.sequence: " + JSON.stringify(data.sequence));
+    console.log("courses: " + JSON.stringify(data.default.sequence));
   }
 
   timeToNum = time => {

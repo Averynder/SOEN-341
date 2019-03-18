@@ -373,23 +373,42 @@ app.get("/seqQuery", function(req, res, next) {
 app.get("/semQuery", function(req, res, next) {
 	async.waterfall([
 		function(callback){
-			// do this first
-			connection.query("SELECT * FROM `course`", function (err, result, fields) {
+			connection.query("SELECT * FROM `laboratory`", function (err, result, fields) {
 				if (err) throw err;
 				callback(null, result);
 			});
 
 		},
 		function(arg1, callback){
-			// do this 2nd
-			res.json
-			(
-				JSON.stringify([
-					{
-						result2: arg1,
-					},
-				])
-			);
+			connection.query("SELECT * FROM `lecture`", function (err, result, fields) {
+				if (err) throw err;
+				callback(null, arg1, result);
+			});
+
+		},
+		function(arg1, arg2, callback){
+			async.waterfall([
+				function(callback){
+					connection.query("SELECT * FROM `tutorial`", function (err, result, fields) {
+						if (err) throw err;
+						callback(null, result);
+					});
+
+				},
+				function(arg3, callback)
+				{
+					res.json
+					(
+						JSON.stringify([
+							{
+								lectures: arg2,
+								tutorials: arg3,
+								labs: arg1,
+							},
+						])
+					);
+				},
+			]);
 		}
 	]);
 });
