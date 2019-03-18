@@ -5,7 +5,6 @@ import { Link } from "react-router-dom"
 import Upload from "./Upload"
 import LoadingScreen from 'react-loading-screen'
 import Course from "./Course";
-import MyDoublyLinkedList from "./MyDoublyLinkedList";
 
 class ObtainUploadedSequence extends React.Component{
   constructor(props)
@@ -28,17 +27,109 @@ class ObtainUploadedSequence extends React.Component{
   setCourses(stringy)
   {
     this.state.Courses = "" + stringy;
-    console.log(this.state.Courses);
+    //console.log(this.state.Courses);
   }
   regEx()
   {
-    let ll = new MyDoublyLinkedList();
-    /*
     while (this.state.Courses.length > 1)
     {
+      var titleStart = this.state.Courses.indexOf("\"courseTitle\":\"");
+      this.state.Courses = this.state.Courses.substring(titleStart + 15);
+      var endQuote1 = this.state.Courses.indexOf("\"");
+      var title = this.state.Courses.substring(0,endQuote1);
 
+      var subjectStart = this.state.Courses.indexOf("\"subject\":\"");
+      this.state.Courses = this.state.Courses.substring(subjectStart + 11);
+      var endQuote2 = this.state.Courses.indexOf("\"");
+      var subject = this.state.Courses.substring(0,endQuote2);
+
+      var numberStart = this.state.Courses.indexOf("\"classNumber\":\"");
+      this.state.Courses = this.state.Courses.substring(numberStart + 15);
+      var endQuote3 = this.state.Courses.indexOf("\"");
+      var courseNumber = this.state.Courses.substring(0,endQuote3);
+
+      var creditsStart = this.state.Courses.indexOf("\"credits\":\"");
+      this.state.Courses = this.state.Courses.substring(creditsStart + 11);
+      var endQuote4 = this.state.Courses.indexOf("\"");
+      var creditNumber = this.state.Courses.substring(0,endQuote4);
+
+      var prereqStart = this.state.Courses.search("\"prerequisites\":\"");
+      this.state.Courses = this.state.Courses.substring(prereqStart + 17);
+      var endQuote5 = this.state.Courses.search("\"");
+      var prereqs = this.state.Courses.substring(0,endQuote5);
+      while (prereqs.indexOf("<==>") > -1)
+      {
+        var weirdshi = prereqs.indexOf("<==>");
+        prereqs = prereqs.substring(0,weirdshi) +  " or " + prereqs.substring(weirdshi+4);
+      }
+      while (prereqs.search(/\d COMP/) > -1)
+      {
+        var starter = prereqs.search(/\d COMP/);
+        prereqs = prereqs.substring(0,starter+1) + " and COMP" + prereqs.substring(starter+6);
+      }
+      while (prereqs.search(/\d SOEN/) > -1)
+      {
+        var starter = prereqs.search(/\d SOEN/);
+        prereqs = prereqs.substring(0,starter+1) + " and SOEN" + prereqs.substring(starter+6);
+      }
+      while (prereqs.search(/\d MATH/) > -1)
+      {
+        var starter = prereqs.search(/\d MATH/);
+        prereqs = prereqs.substring(0,starter+1) + " and MATH" + prereqs.substring(starter+6);
+      }
+      while (prereqs.search(/\d ENGR/) > -1)
+      {
+        var starter = prereqs.search(/\d ENGR/);
+        prereqs = prereqs.substring(0,starter+1) + " and ENGR" + prereqs.substring(starter+6);
+      }
+      while (prereqs.search(/\d ENCS/) > -1)
+      {
+        var starter = prereqs.search(/\d ENCS/);
+        prereqs = prereqs.substring(0,starter+1) + " and ENCS" + prereqs.substring(starter+6);
+      }
+
+      var coreqStart = this.state.Courses.search("\"corequisites\":\"");
+      this.state.Courses = this.state.Courses.substring(coreqStart + 16);
+      var endQuote6 = this.state.Courses.search("\"");
+      var coreqs = this.state.Courses.substring(0,endQuote6);
+      while (coreqs.indexOf("<==>") > -1)
+      {
+        var weirdshi = coreqs.indexOf("<==>");
+        coreqs = coreqs.substring(0,weirdshi) +  " or " + coreqs.substring(weirdshi+4);
+      }
+      while (coreqs.search(/\d COMP/) > -1)
+      {
+        var starter = coreqs.search(/\d COMP/);
+        coreqs = coreqs.substring(0,starter+1) + " and COMP" + coreqs.substring(starter+6);
+      }
+      while (coreqs.search(/\d SOEN/) > -1)
+      {
+        var starter = coreqs.search(/\d SOEN/);
+        coreqs = coreqs.substring(0,starter+1) + " and SOEN" + coreqs.substring(starter+6);
+      }
+      while (coreqs.search(/\d MATH/) > -1)
+      {
+        var starter = coreqs.search(/\d MATH/);
+        coreqs = coreqs.substring(0,starter+1) + " and MATH" + coreqs.substring(starter+6);
+      }
+      while (prereqs.search(/\d ENGR/) > -1)
+      {
+        var starter = coreqs.search(/\d ENGR/);
+        coreqs = coreqs.substring(0,starter+1) + " and ENGR" + coreqs.substring(starter+6);
+      }
+      while (coreqs.search(/\d ENCS/) > -1)
+      {
+        var starter = coreqs.search(/\d ENCS/);
+        coreqs = coreqs.substring(0,starter+1) + " and ENCS" + coreqs.substring(starter+6);
+      }
+      if (prereqs.indexOf(",") > -1)
+        prereqs = "";
+      if (title != "")
+      {
+        var cc = new Course(title, subject, courseNumber, creditNumber, prereqs, coreqs);
+        console.log(title + " " + subject + " " + courseNumber + " " + creditNumber + " Pre: " + prereqs + " Co: " + coreqs);
+      }
     }
-    */
   }
 
   componentDidMount() {
@@ -61,7 +152,7 @@ class ObtainUploadedSequence extends React.Component{
             spinnerColor='#b30000'
             textColor='#676767'
             logoSrc='https://user-images.githubusercontent.com/36492119/52869487-bdcd5180-3113-11e9-93d4-155882376646.png'
-            text='Receiving Previously Taken Courses'
+            text='Receiving Courses'
         >
 
         </LoadingScreen>
