@@ -13,16 +13,22 @@ var LocalStrategy = require('passport-local').Strategy;
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
-
+var async = require('async');
+var mysql = require("mysql2");
 // This class will run the DB script when called
 var DBcheck = require('./routes/DBcheck');
 
 
 var databaseRefresh = new DBcheck;
 
-
-
-
+var connection = mysql.createConnection({
+	connectionLimit: 20,
+	host: "127.0.0.1",
+	user: "root",
+	password: "password",
+	database: "soen341"
+});
+connection.connect();
 
 var cookiesRouter = require('./routes/cookiesV');
 var https = require('https');
@@ -339,6 +345,53 @@ app.get('/concordia', function(req, res) {
 		}
 
 	})
+});
+
+app.get("/seqQuery", function(req, res, next) {
+	async.waterfall([
+		function(callback){
+			// do this first
+			connection.query("SELECT * FROM `course`", function (err, result, fields) {
+				if (err) throw err;
+				callback(null, result);
+			});
+
+		},
+		function(arg1, callback){
+			// do this 2nd
+			res.json
+			(
+				JSON.stringify([
+					{
+						result2: arg1,
+					},
+				])
+			);
+		}
+	]);
+});
+app.get("/semQuery", function(req, res, next) {
+	async.waterfall([
+		function(callback){
+			// do this first
+			connection.query("SELECT * FROM `course`", function (err, result, fields) {
+				if (err) throw err;
+				callback(null, result);
+			});
+
+		},
+		function(arg1, callback){
+			// do this 2nd
+			res.json
+			(
+				JSON.stringify([
+					{
+						result2: arg1,
+					},
+				])
+			);
+		}
+	]);
 });
 
 app.use(express.static(__dirname + '/public'));
