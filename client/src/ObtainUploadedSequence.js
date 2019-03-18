@@ -141,14 +141,14 @@ class ObtainUploadedSequence extends React.Component{
     fetch("/seqQuery")
         .then(res => res.json())
         .then(users =>
-            this.setState({ users }, () => this.setCourses(users, true))
+            this.setState({ users }, () => this.setCourses(users))
         )
         .then(() => { this.regEx(); })
         .then(() => { this.toggleLoading(); });
     fetch("/semQuery")
         .then(res => res.json())
         .then(users1 =>
-            this.setState({ users1 }, () => this.setCourses(users1, false))
+            this.setState({ users1 }, () => this.setCourses(users1))
         );
   }
 
