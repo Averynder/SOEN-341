@@ -7,6 +7,7 @@ import * as times from "./data/calendar.json";
 import * as data from "./data/courses.json";
 import { CirclePicker } from "react-color";
 import reactCSS from "reactcss";
+import LoadingScreen from 'react-loading-screen';
 
 class CourseSelectionMenu extends React.Component {
   constructor(props, context) {
@@ -22,6 +23,9 @@ class CourseSelectionMenu extends React.Component {
     this.colourRubiatO = this.colourRubiatO.bind(this);
     this.openUpload = this.openUpload.bind(this);
     this.closeUpload = this.closeUpload.bind(this);
+    this.toggleLoading = this.toggleLoading.bind(this);
+    this.setCourses = this.setCourses.bind(this);
+    this.regEx = this.regEx.bind(this);
 
     var year;
     var semester;
@@ -42,6 +46,10 @@ class CourseSelectionMenu extends React.Component {
       show1: false,
       rubiat: false,
       colorS: false,
+      isLoading: true,
+      lectures: null,
+      labs: null,
+      tutorials: null,
       semester: semester,
       year: year,
       weekdays: [
@@ -53,7 +61,7 @@ class CourseSelectionMenu extends React.Component {
         "Saturday",
         "Sunday"
       ],
-      classes: data.sequence,
+      classes: JSON.parse(JSON.stringify(data.sequence)),
 
       colors: [["red", 0], ["pink", 0], ["green", 0], ["yellow", 0], ["orange", 0], ["blue", 0], ["black", 0]],
 
@@ -67,17 +75,43 @@ class CourseSelectionMenu extends React.Component {
 
       addedClasses: [],
 
-      courses: data.default.sequence,
+      courses: JSON.parse(JSON.stringify(data.default.sequence)),
       selectedCourses: [],
       show2: "hidden",
-      
+
       colorOfNewClass: [],
 
       showUpload: false,
 
       selectedUploadFile: null
-      
+
     };
+    //console.log("data.sequence: " + JSON.stringify(data.sequence));
+    //console.log("courses: " + JSON.stringify(data.default.sequence));
+  }
+  componentDidMount() {
+    fetch("/semQuery")
+        .then(res => res.json())
+        .then(users2 =>
+            this.setState({ users2 }, () => this.setCourses(users2)))
+        .then(() => {this.regEx()})
+        .then(() => { this.toggleLoading(); });
+  }
+
+  setCourses(stringy)
+  {
+    stringy = "" + stringy;
+    var lecStartPosition = stringy.indexOf("\"lectures\":[");
+    var tutStartPosition = stringy.indexOf("\"tutorials\":[");
+    this.state.lectures = stringy.substring(lecStartPosition+12,tutStartPosition);
+    var labStartPosition = stringy.indexOf("\"labs\":[");
+    this.state.tutorials = stringy.substring(tutStartPosition+13,labStartPosition);
+    this.state.labs = stringy.substring(labStartPosition+8);
+  }
+
+  regEx()
+  {
+
   }
 
   timeToNum = time => {
@@ -149,8 +183,14 @@ class CourseSelectionMenu extends React.Component {
     document.getElementById("id");
   }
 
+  toggleLoading() {
+    this.setState({
+      isLoading: !this.state.isLoading
+    });
+  }
+
   handleChangeComplete = color => {
-    
+
     let courseNameInput = document.getElementById("colorChanger").value; //Get user input comp248
     let chosenClass; //class object
 
@@ -164,7 +204,7 @@ class CourseSelectionMenu extends React.Component {
     document.getElementById(chosenClass.course).style.backgroundColor = color.hex;
 
     let color1;
-    
+
     for (let j = 0; j < this.state.colors.length; j++) {
       if (this.state.colors[j][0] == color) {
         this.state.colors[j][1] = 0;
@@ -269,7 +309,7 @@ class CourseSelectionMenu extends React.Component {
       return;
     }
 
-    
+
 
     let n = 1;
     let initial = this.timeToNum(addedClass.startTime);
@@ -288,7 +328,7 @@ class CourseSelectionMenu extends React.Component {
     if (colorChosen === null || colorChosen === undefined) {
       return;
     }
-  
+
   for(let k=0; k<addedClass.ta.length; k++)
     for(let j=0; j<addedClass.ta[k].days.length; j++){
       let dayOfTheWeek = addedClass.ta[k].days[j] + "-";
@@ -325,14 +365,14 @@ class CourseSelectionMenu extends React.Component {
         }
       }
     }
- 
+
     for(let j=0; j<addedClass.days.length; j++){
       for (let i = 0; i < 61; i++) {
         if (
           initial <= i &&
           final >= i
         ) {
-          let dayOfTheWeek = addedClass.days[j] + "-"; 
+          let dayOfTheWeek = addedClass.days[j] + "-";
           document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
           if (i === middle - 1) {
             document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
@@ -381,7 +421,7 @@ class CourseSelectionMenu extends React.Component {
       }
     }
 
-    
+
 
     if (courseToRemove === undefined || courseToRemove === null) {
       document.getElementById("addStatus1").innerHTML = "Invalid Course / Course Not Found";
@@ -390,7 +430,7 @@ class CourseSelectionMenu extends React.Component {
     }
 
     let color;
-    
+
   for(let j=0; j<courseToRemove.days.length; j++)
     for (let i = 0; i < 61; i++) {
       let dayOfTheWeek = courseToRemove.days[j] + "-";
@@ -417,7 +457,7 @@ class CourseSelectionMenu extends React.Component {
           }
         }
       }
-    
+
     for (let j = 0; j < this.state.colors.length; j++) {
       if (this.state.colors[j][0] == color) {
         this.state.colors[j][1] = 0;
@@ -443,7 +483,7 @@ class CourseSelectionMenu extends React.Component {
     for (let p = 0; p < this.state.selectedCourses.length; p++) {// re-assign the old colors to the new table
       document.getElementById(this.state.selectedCourses[p].course).style.backgroundColor = oldColorsFiltered[p];
     }
-    
+
   };
 
   render() {
@@ -469,13 +509,13 @@ class CourseSelectionMenu extends React.Component {
       <option value={theClass.course}>{theClass.course}</option>
     ));
 
-  
+
 
     let i = 0;
 
     let x = this.state.selectedCourses.map(element => (
       <tr id={element.course} style={{backgroundColor : this.state.colorOfNewClass[i++]}}>
-      
+
         <td>
           <div>
             <input type="checkbox" checked /> &nbsp;
@@ -496,7 +536,7 @@ class CourseSelectionMenu extends React.Component {
         </td>
       </tr>
     ));
-    
+
     let table = (
       <Table
         id="selected-course-table"
@@ -515,10 +555,21 @@ class CourseSelectionMenu extends React.Component {
     ));
 
     return (
+
       <div className="container">
         <Navbar />
 
         <div className="jumbotron j-greetings">
+          <LoadingScreen
+              loading={this.state.isLoading}
+              bgColor='#f1f1f1'
+              spinnerColor='#b30000'
+              textColor='#676767'
+              logoSrc='https://user-images.githubusercontent.com/36492119/52869487-bdcd5180-3113-11e9-93d4-155882376646.png'
+              text='Receiving Courses'
+          >
+
+          </LoadingScreen>
           <h2 className="display-4">Course Selection Menu</h2>
           <hr color="#7e1530" />
 
@@ -714,13 +765,13 @@ class CourseSelectionMenu extends React.Component {
                   <CirclePicker
                     style={{ margin: "0px 0px 0px 0px" }}
                     onChangeComplete={this.handleChangeComplete}
-    
+
                   />
                 </div>
               </div>
             </Form>
           </Modal.Body>
-          
+
           <Modal.Footer style={{ backgroundColor: "#82100d" }}>
             <Button
               variant="primary"
