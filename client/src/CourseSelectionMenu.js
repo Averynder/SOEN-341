@@ -20,6 +20,8 @@ class CourseSelectionMenu extends React.Component {
     this.closeRubiat = this.closeRubiat.bind(this);
     this.colourRubiatC = this.colourRubiatC.bind(this);
     this.colourRubiatO = this.colourRubiatO.bind(this);
+    this.openUpload = this.openUpload.bind(this);
+    this.closeUpload = this.closeUpload.bind(this);
 
     var year;
     var semester;
@@ -69,7 +71,11 @@ class CourseSelectionMenu extends React.Component {
       selectedCourses: [],
       show2: "hidden",
       
-      colorOfNewClass: []
+      colorOfNewClass: [],
+
+      showUpload: false,
+
+      selectedUploadFile: null
       
     };
   }
@@ -119,6 +125,24 @@ class CourseSelectionMenu extends React.Component {
     this.setState({
       colorS: false
     });
+  }
+
+  openUpload() {
+    this.setState({
+      showUpload: true
+    })
+  }
+
+  closeUpload() {
+    this.setState({
+      showUpload: false
+    })
+  }
+
+  handleSelectedFile = event => {
+    this.setState({
+      selectedUploadFile: event.target.files[0]
+    })
   }
 
   addClass(days_array) {
@@ -524,6 +548,11 @@ class CourseSelectionMenu extends React.Component {
                       onClick={this.remove}
                       style={{ float: "left" }}
                     />
+                    <Button
+                      text="Add by Upload"
+                      onClick={this.openUpload}
+                      style={{ float: "left" }}
+                    />
                   </div>
                 </div>
               </div>
@@ -698,6 +727,21 @@ class CourseSelectionMenu extends React.Component {
               onClick={this.colourRubiatC}
               text="Close"
             />
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={this.state.showUpload} onHide={this.closeUpload}>
+          <Modal.Header closeButton>
+            <Modal.Title>Add Via Upload</Modal.Title>
+          </Modal.Header>
+          <Modal.Body style={{ textAlign: "center" }}>
+            <div>
+            <input type="file" name="filename" className="btn btn-dark" onChange={this.handleSelectedFile}/>
+            <button className="btn btn-dark" value="upload" onClick="">Upload</button>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={this.closeUpload} text="Close" />
           </Modal.Footer>
         </Modal>
       </div>
