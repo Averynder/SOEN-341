@@ -85,7 +85,7 @@ class CourseSelectionMenu extends React.Component {
       showUpload: false,
 
       uploadedFile: null,
-      uploadedCourses: uploadedData.default.courses
+      uploadedCourses: uploadedData.default.courses,
       
       selectedUploadFile: null
 
