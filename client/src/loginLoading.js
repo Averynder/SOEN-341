@@ -1,4 +1,4 @@
-import React, {Componet} from "react"
+import React, {Component} from "react"
 import LoadingScreen from 'react-loading-screen'
 import Button from "./components/Button"
 import { Link } from "react-router-dom"
@@ -11,14 +11,14 @@ class LoginLoading extends Component{
     this.state = {
       isLoading: false,
     }
+  }
     toggleLoading(){
       this.setState({
         isLoading: !this.state.isLoading
       });
     }
-  }
 
-  render(){
+  render() {
     return(
       <div className="container">
         <div className="message">
@@ -35,6 +35,6 @@ class LoginLoading extends Component{
           </LoadingScreen>
         </div>
       </div>
-    );
-  }
+    )
+  };
 }
