@@ -50,7 +50,7 @@ const Stack = require('./routes/Stack');
 const SpanningTree = require('./routes/SpanningTree');
 var app = express();
 var waterfall = require('async-waterfall');
-//require('./selenium')(app);
+require('./selenium')(app);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
