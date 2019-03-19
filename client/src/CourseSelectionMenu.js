@@ -7,6 +7,7 @@ import * as times from "./data/calendar.json";
 import * as data from "./data/courses.json";
 import { CirclePicker } from "react-color";
 import reactCSS from "reactcss";
+import * as uploadedData from "./data/uploadedCourses.json";
 
 class CourseSelectionMenu extends React.Component {
   constructor(props, context) {
@@ -75,7 +76,8 @@ class CourseSelectionMenu extends React.Component {
 
       showUpload: false,
 
-      selectedUploadFile: null
+      uploadedFile: null,
+      uploadedCourses: uploadedData.default.courses
       
     };
   }
@@ -141,13 +143,40 @@ class CourseSelectionMenu extends React.Component {
 
   handleSelectedFile = event => {
     this.setState({
-      selectedUploadFile: event.target.files[0]
+      uploadedFile: event.target.files[0]
     })
   }
 
-  addClass(days_array) {
-    document.getElementById("id");
+  handleUpload = () => {
+    var file = this.state.uploadedFile;
+    var reader = new FileReader();
+    reader.readAsText(file);
+    //console.log(this.state.uploadedCourses);
+
+    reader.onload = () => {
+      //console.log(reader.result);
+      var JSONified = JSON.parse(reader.result);
+      this.setState({
+        uploadedCourses: JSONified
+      });
+
+      for (let i = 0; i < this.state.uploadedCourses.length; i++) {
+        document.getElementById("add-class1").value = this.state.uploadedCourses[i].course;
+        this.addClass();
+      }
+
+      //console.log(this.state.uploadedCourses);
+    }
+
+    this.setState({
+      showUpload: false
+    })
+    
   }
+
+  /*addClass(days_array) {
+    document.getElementById("id");
+  }*/
 
   handleChangeComplete = color => {
     
@@ -737,7 +766,7 @@ class CourseSelectionMenu extends React.Component {
           <Modal.Body style={{ textAlign: "center" }}>
             <div>
             <input type="file" name="filename" className="btn btn-dark" onChange={this.handleSelectedFile}/>
-            <button className="btn btn-dark" value="upload" onClick="">Upload</button>
+            <button className="btn btn-dark" value="upload" onClick={this.handleUpload}>Upload</button>
             </div>
           </Modal.Body>
           <Modal.Footer>
