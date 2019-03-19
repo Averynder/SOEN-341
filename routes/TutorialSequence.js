@@ -12,7 +12,7 @@ class TutorialSequence {
     // prereqs;
     // coreqs;
 
-    constructor(subject, catalog, tutorialSectionNumber, classLocation, days, startTime, endTime) {
+    constructor(subject, catalog, tutorialSectionNumber, classLocation, days, startTime, endTime, semester) {
         this.subject = subject;
         this.catalog = catalog;
         this.tutorialSectionNumber = tutorialSectionNumber;
@@ -20,12 +20,14 @@ class TutorialSequence {
         this.days = days;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.semester = semester;
+
     }
 
 
 
     clone () {
-        var cc = new TutorialSequence(null,null,null,null,null,null,null);
+        var cc = new TutorialSequence(null,null,null,null,null,null,null,null);
         cc.subject = this.subject;
         cc.catalog = this.catalog;
         cc.tutorialSectionNumber = this.tutorialSectionNumber;
@@ -33,6 +35,8 @@ class TutorialSequence {
         cc.days = this.days;
         cc.startTime = this.startTime;
         cc.endTime = this.endTime;
+        cc.semester = this.semester;
+
         return cc;
     }
 }
