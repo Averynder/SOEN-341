@@ -559,7 +559,7 @@ function task9(done) {
           );*/
 
           connection.query(`INSERT INTO course (courseTitle,subject,classNumber,credits,prerequisites,corequisites) VALUES ('${courseTitle}','${subject}','${catalog}','${credits}','${prereqs}','${coreqs}');`, function (err, result, fields) {
-            // if (err) throw err;
+            if (err) throw err;
           });
           oldValue = courseList.size;
         }
@@ -947,8 +947,10 @@ function task11(done) {
           );*/
 
           // // adding to database
-          connection.query(`INSERT INTO lecture (subject,classNumber,lectureSectionNumber,location,days,startTime,endTime,semester) VALUES ('${subject}','${catalog}','${lectureSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {                // if (err) throw err;
+          connection.query(`INSERT INTO lecture (subject,classNumber,lectureSectionNumber,location,days,startTime,endTime,semester) VALUES ('${subject}','${catalog}','${lectureSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {
+            if (err) throw err;
           });
+
           lectureOldValue = lectureSequenceList.size;
         }
 
@@ -1032,7 +1034,8 @@ function task11(done) {
           );*/
 
           // // adding to database
-          connection.query(`INSERT INTO tutorial (subject,classNumber,tutorialSectionNumber,location,days,startTime,endTime,semester) VALUES ('${subject}','${catalog}','${tutorialSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {                // if (err) throw err;
+          connection.query(`INSERT INTO tutorial (subject,classNumber,tutorialSectionNumber,location,days,startTime,endTime,semester) VALUES ('${subject}','${catalog}','${tutorialSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {
+            if (err) throw err;
           });
           tutOldValue = tutSequenceList.size;
         }
@@ -1114,7 +1117,8 @@ function task11(done) {
           );*/
 
           // // adding to database
-          connection.query(`INSERT INTO laboratory (subject,classNumber,labSectionNumber,location,days,startTime,endTime,semester) VALUES ('${subject}','${catalog}','${labSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {                // if (err) throw err;
+          connection.query(`INSERT INTO laboratory (subject,classNumber,labSectionNumber,location,days,startTime,endTime,semester) VALUES ('${subject}','${catalog}','${labSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {
+            if (err) throw err;
           });
           labOldValue = labSequenceList.size;
         }
@@ -1248,7 +1252,8 @@ function task12(done) {
           );*/
 
           // // adding to database
-          connection.query(`INSERT INTO lecture (subject,classNumber,lectureSectionNumber,location,days,startTime,endTime,semester) VALUES ('${subject}','${catalog}','${lectureSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {                // if (err) throw err;
+          connection.query(`INSERT INTO lecture (subject,classNumber,lectureSectionNumber,location,days,startTime,endTime,semester) VALUES ('${subject}','${catalog}','${lectureSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {
+            if (err) throw err;
           });
           lectureOldValue = lectureSequenceList.size;
         }
@@ -1330,7 +1335,8 @@ function task12(done) {
           );*/
 
           // // adding to database
-          connection.query(`INSERT INTO tutorial (subject,classNumber,tutorialSectionNumber,location,days,startTime,endTime,semester) VALUES ('${subject}','${catalog}','${tutorialSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {                // if (err) throw err;
+          connection.query(`INSERT INTO tutorial (subject,classNumber,tutorialSectionNumber,location,days,startTime,endTime,semester) VALUES ('${subject}','${catalog}','${tutorialSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {
+            if (err) throw err;
           });
           tutOldValue = tutSequenceList.size;
         }
@@ -1413,7 +1419,8 @@ function task12(done) {
           );*/
 
           // // adding to database
-          connection.query(`INSERT INTO laboratory (subject,classNumber,labSectionNumber,location,days,startTime,endTim,semester) VALUES ('${subject}','${catalog}','${labSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {                // if (err) throw err;
+          connection.query(`INSERT INTO laboratory (subject,classNumber,labSectionNumber,location,days,startTime,endTime,semester) VALUES ('${subject}','${catalog}','${labSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {
+            if (err) throw err;
           });
           labOldValue = labSequenceList.size;
         }
