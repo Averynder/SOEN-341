@@ -7,6 +7,7 @@ import * as times from "./data/calendar.json";
 import * as data from "./data/courses.json";
 import { CirclePicker } from "react-color";
 import reactCSS from "reactcss";
+import LoadingScreen from 'react-loading-screen';
 
 class CourseSelectionMenu extends React.Component {
   constructor(props, context) {
@@ -20,6 +21,9 @@ class CourseSelectionMenu extends React.Component {
     this.closeRubiat = this.closeRubiat.bind(this);
     this.colourRubiatC = this.colourRubiatC.bind(this);
     this.colourRubiatO = this.colourRubiatO.bind(this);
+    this.toggleLoading = this.toggleLoading.bind(this);
+    this.setCourses = this.setCourses.bind(this);
+    this.regEx = this.regEx.bind(this);
 
     var year;
     var semester;
@@ -40,6 +44,10 @@ class CourseSelectionMenu extends React.Component {
       show1: false,
       rubiat: false,
       colorS: false,
+      isLoading: true,
+      lectures: null,
+      labs: null,
+      tutorials: null,
       semester: semester,
       year: year,
       weekdays: [
@@ -51,7 +59,7 @@ class CourseSelectionMenu extends React.Component {
         "Saturday",
         "Sunday"
       ],
-      classes: data.sequence,
+      classes: JSON.parse(JSON.stringify(data.sequence)),
 
       colors: [["red", 0], ["pink", 0], ["green", 0], ["yellow", 0], ["orange", 0], ["blue", 0], ["black", 0]],
 
@@ -65,13 +73,39 @@ class CourseSelectionMenu extends React.Component {
 
       addedClasses: [],
 
-      courses: data.default.sequence,
+      courses: JSON.parse(JSON.stringify(data.default.sequence)),
       selectedCourses: [],
       show2: "hidden",
       
       colorOfNewClass: []
       
     };
+    //console.log("data.sequence: " + JSON.stringify(data.sequence));
+    //console.log("courses: " + JSON.stringify(data.default.sequence));
+  }
+  componentDidMount() {
+    fetch("/semQuery")
+        .then(res => res.json())
+        .then(users2 =>
+            this.setState({ users2 }, () => this.setCourses(users2)))
+        .then(() => {this.regEx()})
+        .then(() => { this.toggleLoading(); });
+  }
+
+  setCourses(stringy)
+  {
+    stringy = "" + stringy;
+    var lecStartPosition = stringy.indexOf("\"lectures\":[");
+    var tutStartPosition = stringy.indexOf("\"tutorials\":[");
+    this.state.lectures = stringy.substring(lecStartPosition+12,tutStartPosition);
+    var labStartPosition = stringy.indexOf("\"labs\":[");
+    this.state.tutorials = stringy.substring(tutStartPosition+13,labStartPosition);
+    this.state.labs = stringy.substring(labStartPosition+8);
+  }
+
+  regEx()
+  {
+
   }
 
   timeToNum = time => {
@@ -123,6 +157,12 @@ class CourseSelectionMenu extends React.Component {
 
   addClass(days_array) {
     document.getElementById("id");
+  }
+
+  toggleLoading() {
+    this.setState({
+      isLoading: !this.state.isLoading
+    });
   }
 
   handleChangeComplete = color => {
@@ -491,10 +531,21 @@ class CourseSelectionMenu extends React.Component {
     ));
 
     return (
+
       <div className="container">
         <Navbar />
 
         <div className="jumbotron j-greetings">
+          <LoadingScreen
+              loading={this.state.isLoading}
+              bgColor='#f1f1f1'
+              spinnerColor='#b30000'
+              textColor='#676767'
+              logoSrc='https://user-images.githubusercontent.com/36492119/52869487-bdcd5180-3113-11e9-93d4-155882376646.png'
+              text='Receiving Courses'
+          >
+
+          </LoadingScreen>
           <h2 className="display-4">Course Selection Menu</h2>
           <hr color="#7e1530" />
 
