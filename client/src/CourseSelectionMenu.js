@@ -7,6 +7,7 @@ import * as times from "./data/calendar.json";
 import * as data from "./data/courses.json";
 import { CirclePicker } from "react-color";
 import reactCSS from "reactcss";
+import * as uploadedData from "./data/uploadedCourses.json";
 import LoadingScreen from 'react-loading-screen';
 
 class CourseSelectionMenu extends React.Component {
@@ -21,6 +22,8 @@ class CourseSelectionMenu extends React.Component {
     this.closeRubiat = this.closeRubiat.bind(this);
     this.colourRubiatC = this.colourRubiatC.bind(this);
     this.colourRubiatO = this.colourRubiatO.bind(this);
+    this.openUpload = this.openUpload.bind(this);
+    this.closeUpload = this.closeUpload.bind(this);
     this.toggleLoading = this.toggleLoading.bind(this);
     this.setCourses = this.setCourses.bind(this);
     this.regEx = this.regEx.bind(this);
@@ -76,9 +79,16 @@ class CourseSelectionMenu extends React.Component {
       courses: JSON.parse(JSON.stringify(data.default.sequence)),
       selectedCourses: [],
       show2: "hidden",
+
+      colorOfNewClass: [],
+
+      showUpload: false,
+
+      uploadedFile: null,
+      uploadedCourses: uploadedData.default.courses,
       
-      colorOfNewClass: []
-      
+      selectedUploadFile: null
+
     };
     //console.log("data.sequence: " + JSON.stringify(data.sequence));
     //console.log("courses: " + JSON.stringify(data.default.sequence));
@@ -155,10 +165,55 @@ class CourseSelectionMenu extends React.Component {
     });
   }
 
-  addClass(days_array) {
-    document.getElementById("id");
+  openUpload() {
+    this.setState({
+      showUpload: true
+    })
   }
 
+  closeUpload() {
+    this.setState({
+      showUpload: false
+    })
+  }
+
+  handleSelectedFile = event => {
+    this.setState({
+      uploadedFile: event.target.files[0]
+    })
+  }
+
+  handleUpload = () => {
+    var file = this.state.uploadedFile;
+    var reader = new FileReader();
+    reader.readAsText(file);
+    //console.log(this.state.uploadedCourses);
+
+    reader.onload = () => {
+      //console.log(reader.result);
+      var JSONified = JSON.parse(reader.result);
+      this.setState({
+        uploadedCourses: JSONified
+      });
+
+      for (let i = 0; i < this.state.uploadedCourses.length; i++) {
+        document.getElementById("add-class1").value = this.state.uploadedCourses[i].course;
+        this.addClass();
+      }
+
+      //console.log(this.state.uploadedCourses);
+    }
+
+    this.setState({
+      showUpload: false
+    })
+    
+  }
+
+  /*addClass(days_array) {
+    document.getElementById("id");
+  }*/
+  
   toggleLoading() {
     this.setState({
       isLoading: !this.state.isLoading
@@ -166,7 +221,7 @@ class CourseSelectionMenu extends React.Component {
   }
 
   handleChangeComplete = color => {
-    
+
     let courseNameInput = document.getElementById("colorChanger").value; //Get user input comp248
     let chosenClass; //class object
 
@@ -180,7 +235,7 @@ class CourseSelectionMenu extends React.Component {
     document.getElementById(chosenClass.course).style.backgroundColor = color.hex;
 
     let color1;
-    
+
     for (let j = 0; j < this.state.colors.length; j++) {
       if (this.state.colors[j][0] == color) {
         this.state.colors[j][1] = 0;
@@ -285,7 +340,7 @@ class CourseSelectionMenu extends React.Component {
       return;
     }
 
-    
+
 
     let n = 1;
     let initial = this.timeToNum(addedClass.startTime);
@@ -304,7 +359,7 @@ class CourseSelectionMenu extends React.Component {
     if (colorChosen === null || colorChosen === undefined) {
       return;
     }
-  
+
   for(let k=0; k<addedClass.ta.length; k++)
     for(let j=0; j<addedClass.ta[k].days.length; j++){
       let dayOfTheWeek = addedClass.ta[k].days[j] + "-";
@@ -341,14 +396,14 @@ class CourseSelectionMenu extends React.Component {
         }
       }
     }
- 
+
     for(let j=0; j<addedClass.days.length; j++){
       for (let i = 0; i < 61; i++) {
         if (
           initial <= i &&
           final >= i
         ) {
-          let dayOfTheWeek = addedClass.days[j] + "-"; 
+          let dayOfTheWeek = addedClass.days[j] + "-";
           document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
           if (i === middle - 1) {
             document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
@@ -397,7 +452,7 @@ class CourseSelectionMenu extends React.Component {
       }
     }
 
-    
+
 
     if (courseToRemove === undefined || courseToRemove === null) {
       document.getElementById("addStatus1").innerHTML = "Invalid Course / Course Not Found";
@@ -406,7 +461,7 @@ class CourseSelectionMenu extends React.Component {
     }
 
     let color;
-    
+
   for(let j=0; j<courseToRemove.days.length; j++)
     for (let i = 0; i < 61; i++) {
       let dayOfTheWeek = courseToRemove.days[j] + "-";
@@ -433,7 +488,7 @@ class CourseSelectionMenu extends React.Component {
           }
         }
       }
-    
+
     for (let j = 0; j < this.state.colors.length; j++) {
       if (this.state.colors[j][0] == color) {
         this.state.colors[j][1] = 0;
@@ -459,7 +514,7 @@ class CourseSelectionMenu extends React.Component {
     for (let p = 0; p < this.state.selectedCourses.length; p++) {// re-assign the old colors to the new table
       document.getElementById(this.state.selectedCourses[p].course).style.backgroundColor = oldColorsFiltered[p];
     }
-    
+
   };
 
   render() {
@@ -485,13 +540,13 @@ class CourseSelectionMenu extends React.Component {
       <option value={theClass.course}>{theClass.course}</option>
     ));
 
-  
+
 
     let i = 0;
 
     let x = this.state.selectedCourses.map(element => (
       <tr id={element.course} style={{backgroundColor : this.state.colorOfNewClass[i++]}}>
-      
+
         <td>
           <div>
             <input type="checkbox" checked /> &nbsp;
@@ -512,7 +567,7 @@ class CourseSelectionMenu extends React.Component {
         </td>
       </tr>
     ));
-    
+
     let table = (
       <Table
         id="selected-course-table"
@@ -573,6 +628,11 @@ class CourseSelectionMenu extends React.Component {
                     <Button
                       text="Remove"
                       onClick={this.remove}
+                      style={{ float: "left" }}
+                    />
+                    <Button
+                      text="Add by Upload"
+                      onClick={this.openUpload}
                       style={{ float: "left" }}
                     />
                   </div>
@@ -736,19 +796,34 @@ class CourseSelectionMenu extends React.Component {
                   <CirclePicker
                     style={{ margin: "0px 0px 0px 0px" }}
                     onChangeComplete={this.handleChangeComplete}
-    
+
                   />
                 </div>
               </div>
             </Form>
           </Modal.Body>
-          
+
           <Modal.Footer style={{ backgroundColor: "#82100d" }}>
             <Button
               variant="primary"
               onClick={this.colourRubiatC}
               text="Close"
             />
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={this.state.showUpload} onHide={this.closeUpload}>
+          <Modal.Header closeButton>
+            <Modal.Title>Add Via Upload</Modal.Title>
+          </Modal.Header>
+          <Modal.Body style={{ textAlign: "center" }}>
+            <div>
+            <input type="file" name="filename" className="btn btn-dark" onChange={this.handleSelectedFile}/>
+            <button className="btn btn-dark" value="upload" onClick={this.handleUpload}>Upload</button>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={this.closeUpload} text="Close" />
           </Modal.Footer>
         </Modal>
       </div>
