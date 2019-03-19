@@ -318,7 +318,7 @@ function task5(done) {
 function task6(done) {
   console.log('2. Lets create new db');
 
-  var sqlrr2 = "CREATE TABLE `lecture` (subject VARCHAR(100), classNumber VARCHAR(100), lectureSectionNumber VARCHAR(100), location VARCHAR(100), days VARCHAR(100), startTime VARCHAR(100), endTime VARCHAR(100), instructorName VARCHAR(100), semester VARCHAR(100))";
+  var sqlrr2 = "CREATE TABLE `lecture` (subject VARCHAR(100), classNumber VARCHAR(100), lectureSectionNumber VARCHAR(100), location VARCHAR(100), days VARCHAR(100), startTime VARCHAR(1000), endTime VARCHAR(1000), instructorName VARCHAR(100), semester VARCHAR(100))";
   connection.query(sqlrr2, function (err, result) {
     // if (err) throw err;
     console.log("Table created");
@@ -332,7 +332,7 @@ function task6(done) {
 function task7(done) {
   console.log('2. Lets create new db');
 
-  var sqlrr3 = "CREATE TABLE `laboratory` (subject VARCHAR(100), classNumber VARCHAR(100), labSectionNumber VARCHAR(100), location VARCHAR(100), days VARCHAR(100), startTime VARCHAR(100), endTime VARCHAR(100), instructorName VARCHAR(100), semester VARCHAR(100))";
+  var sqlrr3 = "CREATE TABLE `laboratory` (subject VARCHAR(100), classNumber VARCHAR(100), labSectionNumber VARCHAR(100), location VARCHAR(100), days VARCHAR(100), startTime VARCHAR(1000), endTime VARCHAR(1000), instructorName VARCHAR(1000), semester VARCHAR(100))";
   connection.query(sqlrr3, function (err, result) {
     // if (err) throw err;
     console.log("Table created");
@@ -347,7 +347,7 @@ function task8(done) {
   console.log('2. Lets create new db');
 
 
-  var sqlrr4 = "CREATE TABLE `tutorial` (subject VARCHAR(100), classNumber VARCHAR(100), tutorialSectionNumber VARCHAR(100), location VARCHAR(100), days VARCHAR(100), startTime VARCHAR(1000), endTime VARCHAR(100), instructorName VARCHAR(100), semester VARCHAR(100))";
+  var sqlrr4 = "CREATE TABLE `tutorial` (subject VARCHAR(100), classNumber VARCHAR(100), tutorialSectionNumber VARCHAR(100), location VARCHAR(100), days VARCHAR(100), startTime VARCHAR(1000), endTime VARCHAR(100), instructorName VARCHAR(1000), semester VARCHAR(100))";
   connection.query(sqlrr4, function (err, result) {
     // if (err) throw err;
     console.log("Table created");
