@@ -889,7 +889,8 @@ function task11(done) {
         var semester = "";
         if (line.includes('classStartDate":"07\\/01\\/2015') || line.includes('classStartDate":"09\\/01\\/2017')
             || line.includes('classStartDate":"06\\/01\\/2020') || line.includes('classStartDate":"06\\/01\\/2016')
-            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019'))
+            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019')
+        || line.includes('classStartDate":"08\\/01\\/2018'))
         {
           semester = 'Winter'
         }
@@ -975,7 +976,8 @@ function task11(done) {
         var semester = "";
         if (line.includes('classStartDate":"07\\/01\\/2015') || line.includes('classStartDate":"09\\/01\\/2017')
             || line.includes('classStartDate":"06\\/01\\/2020') || line.includes('classStartDate":"06\\/01\\/2016')
-            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019'))
+            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019')
+            || line.includes('classStartDate":"08\\/01\\/2018'))
         {
           semester = 'Winter'
         }
@@ -1060,7 +1062,8 @@ function task11(done) {
         var semester = "";
         if (line.includes('classStartDate":"07\\/01\\/2015') || line.includes('classStartDate":"09\\/01\\/2017')
             || line.includes('classStartDate":"06\\/01\\/2020') || line.includes('classStartDate":"06\\/01\\/2016')
-            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019'))
+            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019')
+            || line.includes('classStartDate":"08\\/01\\/2018'))
         {
           semester = 'Winter'
         }
@@ -1198,7 +1201,8 @@ function task12(done) {
         var semester = "";
         if (line.includes('classStartDate":"07\\/01\\/2015') || line.includes('classStartDate":"09\\/01\\/2017')
             || line.includes('classStartDate":"06\\/01\\/2020') || line.includes('classStartDate":"06\\/01\\/2016')
-            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019'))
+            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019')
+            || line.includes('classStartDate":"08\\/01\\/2018'))
         {
           semester = 'Winter'
         }
@@ -1278,7 +1282,8 @@ function task12(done) {
         var semester = "";
         if (line.includes('classStartDate":"07\\/01\\/2015') || line.includes('classStartDate":"09\\/01\\/2017')
             || line.includes('classStartDate":"06\\/01\\/2020') || line.includes('classStartDate":"06\\/01\\/2016')
-            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019'))
+            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019')
+            || line.includes('classStartDate":"08\\/01\\/2018'))
         {
           semester = 'Winter'
         }
@@ -1361,7 +1366,8 @@ function task12(done) {
         var semester = "";
         if (line.includes('classStartDate":"07\\/01\\/2015') || line.includes('classStartDate":"09\\/01\\/2017')
             || line.includes('classStartDate":"06\\/01\\/2020') || line.includes('classStartDate":"06\\/01\\/2016')
-            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019'))
+            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019')
+            || line.includes('classStartDate":"08\\/01\\/2018'))
         {
           semester = 'Winter'
         }
