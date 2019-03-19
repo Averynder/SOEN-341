@@ -318,7 +318,7 @@ function task5(done) {
 function task6(done) {
   console.log('2. Lets create new db');
 
-  var sqlrr2 = "CREATE TABLE `lecture` (subject VARCHAR(100), classNumber VARCHAR(100), lectureSectionNumber VARCHAR(100), location VARCHAR(100), days VARCHAR(100), startTime VARCHAR(100), endTime VARCHAR(100), instructorName VARCHAR(100))";
+  var sqlrr2 = "CREATE TABLE `lecture` (subject VARCHAR(100), classNumber VARCHAR(100), lectureSectionNumber VARCHAR(100), location VARCHAR(100), days VARCHAR(100), startTime VARCHAR(1000), endTime VARCHAR(1000), instructorName VARCHAR(100), semester VARCHAR(100))";
   connection.query(sqlrr2, function (err, result) {
     // if (err) throw err;
     console.log("Table created");
@@ -332,7 +332,7 @@ function task6(done) {
 function task7(done) {
   console.log('2. Lets create new db');
 
-  var sqlrr3 = "CREATE TABLE `laboratory` (subject VARCHAR(100), classNumber VARCHAR(100), labSectionNumber VARCHAR(100), location VARCHAR(100), days VARCHAR(100), startTime VARCHAR(100), endTime VARCHAR(100), instructorName VARCHAR(100))";
+  var sqlrr3 = "CREATE TABLE `laboratory` (subject VARCHAR(100), classNumber VARCHAR(100), labSectionNumber VARCHAR(100), location VARCHAR(100), days VARCHAR(100), startTime VARCHAR(1000), endTime VARCHAR(1000), instructorName VARCHAR(1000), semester VARCHAR(100))";
   connection.query(sqlrr3, function (err, result) {
     // if (err) throw err;
     console.log("Table created");
@@ -347,7 +347,7 @@ function task8(done) {
   console.log('2. Lets create new db');
 
 
-  var sqlrr4 = "CREATE TABLE `tutorial` (subject VARCHAR(100), classNumber VARCHAR(100), tutorialSectionNumber VARCHAR(100), location VARCHAR(100), days VARCHAR(100), startTime VARCHAR(1000), endTime VARCHAR(100), instructorName VARCHAR(100))";
+  var sqlrr4 = "CREATE TABLE `tutorial` (subject VARCHAR(100), classNumber VARCHAR(100), tutorialSectionNumber VARCHAR(100), location VARCHAR(100), days VARCHAR(100), startTime VARCHAR(1000), endTime VARCHAR(100), instructorName VARCHAR(1000), semester VARCHAR(100))";
   connection.query(sqlrr4, function (err, result) {
     // if (err) throw err;
     console.log("Table created");
@@ -559,7 +559,7 @@ function task9(done) {
           );*/
 
           connection.query(`INSERT INTO course (courseTitle,subject,classNumber,credits,prerequisites,corequisites) VALUES ('${courseTitle}','${subject}','${catalog}','${credits}','${prereqs}','${coreqs}');`, function (err, result, fields) {
-            // if (err) throw err;
+            if (err) throw err;
           });
           oldValue = courseList.size;
         }
@@ -885,6 +885,27 @@ function task11(done) {
           days += "Sunday"
         }
         ;
+
+        var semester = "";
+        if (line.includes('classStartDate":"07\\/01\\/2015') || line.includes('classStartDate":"09\\/01\\/2017')
+            || line.includes('classStartDate":"06\\/01\\/2020') || line.includes('classStartDate":"06\\/01\\/2016')
+            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019')
+        || line.includes('classStartDate":"08\\/01\\/2018'))
+        {
+          semester = 'Winter'
+        }
+        if (line.includes('classStartDate":"08\\/09\\/2015') || line.includes('classStartDate":"02\\/09\\/2014')
+            || line.includes('classStartDate":"03\\/09\\/2019') || line.includes('classStartDate":"06\\/09\\/2016')
+            || line.includes('classStartDate":"05\\/09\\/2017') || line.includes('classStartDate":"04\\/09\\/2018'))
+        {
+          semester = 'Fall'
+        }
+        if (line.includes('classStartDate":"07\\/05\\/2014') || line.includes('classStartDate":"02\\/05\\/2016')
+            || line.includes('classStartDate":"03\\/05\\/2017') || line.includes('classStartDate":"06\\/05\\/2019')
+            || line.includes('classStartDate":"04\\/05\\/2015'))
+        {
+          semester = 'Summer'
+        }
         var lectureSectionNumber = line.substring(line.search(/("section":)/) + 10, line.search(/(,"componentCode")/));
         var instructorName = null;
         var classLocation = line.substring(line.search(/("roomCode":)/) + 11, line.search(/(,"buildingCode)/));
@@ -914,7 +935,7 @@ function task11(done) {
         // var seqToAdd = "Lecture added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+lectureSectionNumber+ "from " +startTime+ " to " +endTime;
 
 
-        var lecSequence = new LectureSequence(subject.toString(),catalog.toString(),lectureSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString());
+        var lecSequence = new LectureSequence(subject.toString(),catalog.toString(),lectureSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString(),semester.toString());
 
         lectureSequenceList.addLast(lecSequence);
 
@@ -927,8 +948,10 @@ function task11(done) {
           );*/
 
           // // adding to database
-          connection.query(`INSERT INTO lecture (subject,classNumber,lectureSectionNumber,location,days,startTime,endTime) VALUES ('${subject}','${catalog}','${lectureSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}');`, function (err, result, fields) {                // if (err) throw err;
+          connection.query(`INSERT INTO lecture (subject,classNumber,lectureSectionNumber,location,days,startTime,endTime,semester) VALUES ('${subject}','${catalog}','${lectureSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {
+            if (err) throw err;
           });
+
           lectureOldValue = lectureSequenceList.size;
         }
 
@@ -950,6 +973,26 @@ function task11(done) {
           days += "Saturday, "};
         if(line.search(/("sundays":"Y")/)>= 0){
           days += "Sunday"};
+        var semester = "";
+        if (line.includes('classStartDate":"07\\/01\\/2015') || line.includes('classStartDate":"09\\/01\\/2017')
+            || line.includes('classStartDate":"06\\/01\\/2020') || line.includes('classStartDate":"06\\/01\\/2016')
+            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019')
+            || line.includes('classStartDate":"08\\/01\\/2018'))
+        {
+          semester = 'Winter'
+        }
+        if (line.includes('classStartDate":"08\\/09\\/2015') || line.includes('classStartDate":"02\\/09\\/2014')
+            || line.includes('classStartDate":"03\\/09\\/2019') || line.includes('classStartDate":"06\\/09\\/2016')
+            || line.includes('classStartDate":"05\\/09\\/2017') || line.includes('classStartDate":"04\\/09\\/2018'))
+        {
+          semester = 'Fall'
+        }
+        if (line.includes('classStartDate":"07\\/05\\/2014') || line.includes('classStartDate":"02\\/05\\/2016')
+            || line.includes('classStartDate":"03\\/05\\/2017') || line.includes('classStartDate":"06\\/05\\/2019')
+            || line.includes('classStartDate":"04\\/05\\/2015'))
+        {
+          semester = 'Summer'
+        }
         var tutorialSectionNumber = line.substring(line.search(/("section":)/)+10,line.search(/(,"componentCode")/));
         var instructorName = null;
         var classLocation =line.substring(line.search(/("roomCode":)/)+11,line.search(/(,"buildingCode)/));
@@ -980,7 +1023,7 @@ function task11(done) {
         // // adding to database
         // var seqToAdd = "Tutorial added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+lectureSectionNumber+ "from " +startTime+ " to " +endTime;
 
-        var tutSequence = new TutorialSequence(subject.toString(),catalog.toString(),tutorialSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString());
+        var tutSequence = new TutorialSequence(subject.toString(),catalog.toString(),tutorialSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString(),semester.toString());
 
         tutSequenceList.addLast(tutSequence);
 
@@ -993,7 +1036,8 @@ function task11(done) {
           );*/
 
           // // adding to database
-          connection.query(`INSERT INTO tutorial (subject,classNumber,tutorialSectionNumber,location,days,startTime,endTime) VALUES ('${subject}','${catalog}','${tutorialSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}');`, function (err, result, fields) {                // if (err) throw err;
+          connection.query(`INSERT INTO tutorial (subject,classNumber,tutorialSectionNumber,location,days,startTime,endTime,semester) VALUES ('${subject}','${catalog}','${tutorialSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {
+            if (err) throw err;
           });
           tutOldValue = tutSequenceList.size;
         }
@@ -1015,6 +1059,26 @@ function task11(done) {
           days += "Saturday, "};
         if(line.search(/("sundays":"Y")/)>= 0){
           days += "Sunday"};
+        var semester = "";
+        if (line.includes('classStartDate":"07\\/01\\/2015') || line.includes('classStartDate":"09\\/01\\/2017')
+            || line.includes('classStartDate":"06\\/01\\/2020') || line.includes('classStartDate":"06\\/01\\/2016')
+            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019')
+            || line.includes('classStartDate":"08\\/01\\/2018'))
+        {
+          semester = 'Winter'
+        }
+        if (line.includes('classStartDate":"08\\/09\\/2015') || line.includes('classStartDate":"02\\/09\\/2014')
+            || line.includes('classStartDate":"03\\/09\\/2019') || line.includes('classStartDate":"06\\/09\\/2016')
+            || line.includes('classStartDate":"05\\/09\\/2017') || line.includes('classStartDate":"04\\/09\\/2018'))
+        {
+          semester = 'Fall'
+        }
+        if (line.includes('classStartDate":"07\\/05\\/2014') || line.includes('classStartDate":"02\\/05\\/2016')
+            || line.includes('classStartDate":"03\\/05\\/2017') || line.includes('classStartDate":"06\\/05\\/2019')
+            || line.includes('classStartDate":"04\\/05\\/2015'))
+        {
+          semester = 'Summer'
+        }
         var labSectionNumber = line.substring(line.search(/("section":)/)+10,line.search(/(,"componentCode")/));
         var instructorName = null;
         var classLocation =line.substring(line.search(/("roomCode":)/)+11,line.search(/(,"buildingCode)/));
@@ -1043,7 +1107,7 @@ function task11(done) {
         //console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber+ "from " +startTime+ " to " +endTime);
 
         // // adding to database
-        var labSequence = new LabSequence(subject.toString(),catalog.toString(),labSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString());
+        var labSequence = new LabSequence(subject.toString(),catalog.toString(),labSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString(),semester.toString());
 
         labSequenceList.addLast(labSequence);
 
@@ -1056,7 +1120,8 @@ function task11(done) {
           );*/
 
           // // adding to database
-          connection.query(`INSERT INTO laboratory (subject,classNumber,labSectionNumber,location,days,startTime,endTime) VALUES ('${subject}','${catalog}','${labSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}');`, function (err, result, fields) {                // if (err) throw err;
+          connection.query(`INSERT INTO laboratory (subject,classNumber,labSectionNumber,location,days,startTime,endTime,semester) VALUES ('${subject}','${catalog}','${labSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {
+            if (err) throw err;
           });
           labOldValue = labSequenceList.size;
         }
@@ -1133,6 +1198,26 @@ function task12(done) {
           days += "Sunday"
         }
         ;
+        var semester = "";
+        if (line.includes('classStartDate":"07\\/01\\/2015') || line.includes('classStartDate":"09\\/01\\/2017')
+            || line.includes('classStartDate":"06\\/01\\/2020') || line.includes('classStartDate":"06\\/01\\/2016')
+            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019')
+            || line.includes('classStartDate":"08\\/01\\/2018'))
+        {
+          semester = 'Winter'
+        }
+        if (line.includes('classStartDate":"08\\/09\\/2015') || line.includes('classStartDate":"02\\/09\\/2014')
+            || line.includes('classStartDate":"03\\/09\\/2019') || line.includes('classStartDate":"06\\/09\\/2016')
+            || line.includes('classStartDate":"05\\/09\\/2017') || line.includes('classStartDate":"04\\/09\\/2018'))
+        {
+          semester = 'Fall'
+        }
+        if (line.includes('classStartDate":"07\\/05\\/2014') || line.includes('classStartDate":"02\\/05\\/2016')
+            || line.includes('classStartDate":"03\\/05\\/2017') || line.includes('classStartDate":"06\\/05\\/2019')
+            || line.includes('classStartDate":"04\\/05\\/2015'))
+        {
+          semester = 'Summer'
+        }
         var lectureSectionNumber = line.substring(line.search(/("section":)/) + 10, line.search(/(,"componentCode")/));
         var instructorName = null;
         var classLocation = line.substring(line.search(/("roomCode":)/) + 11, line.search(/(,"buildingCode)/));
@@ -1158,7 +1243,7 @@ function task12(done) {
             );
         // console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+lectureSectionNumber+ "from " +startTime+ " to " +endTime);
 
-        var lecSequence = new LectureSequence(subject.toString(),catalog.toString(),lectureSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString());
+        var lecSequence = new LectureSequence(subject.toString(),catalog.toString(),lectureSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString(),semester.toString());
 
         lectureSequenceList.addLast(lecSequence);
 
@@ -1171,7 +1256,8 @@ function task12(done) {
           );*/
 
           // // adding to database
-          connection.query(`INSERT INTO lecture (subject,classNumber,lectureSectionNumber,location,days,startTime,endTime) VALUES ('${subject}','${catalog}','${lectureSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}');`, function (err, result, fields) {                // if (err) throw err;
+          connection.query(`INSERT INTO lecture (subject,classNumber,lectureSectionNumber,location,days,startTime,endTime,semester) VALUES ('${subject}','${catalog}','${lectureSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {
+            if (err) throw err;
           });
           lectureOldValue = lectureSequenceList.size;
         }
@@ -1193,6 +1279,26 @@ function task12(done) {
           days += "Saturday, "};
         if(line.search(/("sundays":"Y")/)>= 0){
           days += "Sunday"};
+        var semester = "";
+        if (line.includes('classStartDate":"07\\/01\\/2015') || line.includes('classStartDate":"09\\/01\\/2017')
+            || line.includes('classStartDate":"06\\/01\\/2020') || line.includes('classStartDate":"06\\/01\\/2016')
+            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019')
+            || line.includes('classStartDate":"08\\/01\\/2018'))
+        {
+          semester = 'Winter'
+        }
+        if (line.includes('classStartDate":"08\\/09\\/2015') || line.includes('classStartDate":"02\\/09\\/2014')
+            || line.includes('classStartDate":"03\\/09\\/2019') || line.includes('classStartDate":"06\\/09\\/2016')
+            || line.includes('classStartDate":"05\\/09\\/2017') || line.includes('classStartDate":"04\\/09\\/2018'))
+        {
+          semester = 'Fall'
+        }
+        if (line.includes('classStartDate":"07\\/05\\/2014') || line.includes('classStartDate":"02\\/05\\/2016')
+            || line.includes('classStartDate":"03\\/05\\/2017') || line.includes('classStartDate":"06\\/05\\/2019')
+            || line.includes('classStartDate":"04\\/05\\/2015'))
+        {
+          semester = 'Summer'
+        }
         var tutorialSectionNumber = line.substring(line.search(/("section":)/)+10,line.search(/(,"componentCode")/));
         var instructorName = null;
         var classLocation =line.substring(line.search(/("roomCode":)/)+11,line.search(/(,"buildingCode)/));
@@ -1221,7 +1327,7 @@ function task12(done) {
         //console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+tutorialSectionNumber+ "from " +startTime+ " to " +endTime);
 
         // // adding to database
-        var tutSequence = new TutorialSequence(subject.toString(),catalog.toString(),tutorialSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString());
+        var tutSequence = new TutorialSequence(subject.toString(),catalog.toString(),tutorialSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString(),semester.toString());
 
         tutSequenceList.addLast(tutSequence);
 
@@ -1234,7 +1340,8 @@ function task12(done) {
           );*/
 
           // // adding to database
-          connection.query(`INSERT INTO tutorial (subject,classNumber,tutorialSectionNumber,location,days,startTime,endTime) VALUES ('${subject}','${catalog}','${tutorialSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}');`, function (err, result, fields) {                // if (err) throw err;
+          connection.query(`INSERT INTO tutorial (subject,classNumber,tutorialSectionNumber,location,days,startTime,endTime,semester) VALUES ('${subject}','${catalog}','${tutorialSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {
+            if (err) throw err;
           });
           tutOldValue = tutSequenceList.size;
         }
@@ -1256,6 +1363,26 @@ function task12(done) {
           days += "Saturday, "};
         if(line.search(/("sundays":"Y")/)>= 0){
           days += "Sunday"};
+        var semester = "";
+        if (line.includes('classStartDate":"07\\/01\\/2015') || line.includes('classStartDate":"09\\/01\\/2017')
+            || line.includes('classStartDate":"06\\/01\\/2020') || line.includes('classStartDate":"06\\/01\\/2016')
+            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019')
+            || line.includes('classStartDate":"08\\/01\\/2018'))
+        {
+          semester = 'Winter'
+        }
+        if (line.includes('classStartDate":"08\\/09\\/2015') || line.includes('classStartDate":"02\\/09\\/2014')
+            || line.includes('classStartDate":"03\\/09\\/2019') || line.includes('classStartDate":"06\\/09\\/2016')
+            || line.includes('classStartDate":"05\\/09\\/2017') || line.includes('classStartDate":"04\\/09\\/2018'))
+        {
+          semester = 'Fall'
+        }
+        if (line.includes('classStartDate":"07\\/05\\/2014') || line.includes('classStartDate":"02\\/05\\/2016')
+            || line.includes('classStartDate":"03\\/05\\/2017') || line.includes('classStartDate":"06\\/05\\/2019')
+            || line.includes('classStartDate":"04\\/05\\/2015'))
+        {
+          semester = 'Summer'
+        }
         var labSectionNumber = line.substring(line.search(/("section":)/)+10,line.search(/(,"componentCode")/));
         var instructorName = null;
         var classLocation =line.substring(line.search(/("roomCode":)/)+11,line.search(/(,"buildingCode)/));
@@ -1284,7 +1411,7 @@ function task12(done) {
         //console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber+ "from " +startTime+ " to " +endTime);
 
 
-        var labSequence = new LabSequence(subject.toString(),catalog.toString(),labSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString());
+        var labSequence = new LabSequence(subject.toString(),catalog.toString(),labSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString(),semester.toString());
 
         labSequenceList.addLast(labSequence);
 
@@ -1298,7 +1425,8 @@ function task12(done) {
           );*/
 
           // // adding to database
-          connection.query(`INSERT INTO laboratory (subject,classNumber,labSectionNumber,location,days,startTime,endTime) VALUES ('${subject}','${catalog}','${labSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}');`, function (err, result, fields) {                // if (err) throw err;
+          connection.query(`INSERT INTO laboratory (subject,classNumber,labSectionNumber,location,days,startTime,endTime,semester) VALUES ('${subject}','${catalog}','${labSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {
+            if (err) throw err;
           });
           labOldValue = labSequenceList.size;
         }
