@@ -210,6 +210,25 @@ class CourseSelectionMenu extends React.Component {
     
   }
 
+  downloadJson = () => {
+    let courseArray = this.state.selectedCourses;
+    let filename = "schedule.json";
+    let contentType = "application/json;charset=utf-8;";
+
+    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+      var blob = new Blob([decodeURIComponent(encodeURI(JSON.stringify(courseArray)))], { type: contentType });
+      navigator.msSaveOrOpenBlob(blob, filename);
+    } else {
+      var file = document.createElement('a');
+      file.download = filename;
+      file.href = 'data:' + contentType + ',' + encodeURIComponent(JSON.stringify(courseArray));
+      file.target = '_blank';
+      document.body.appendChild(file);
+      file.click();
+      document.body.removeChild(file);
+    }
+  }
+
   /*addClass(days_array) {
     document.getElementById("id");
   }*/
@@ -705,6 +724,7 @@ class CourseSelectionMenu extends React.Component {
           {/* <Button text="Add A Class" onClick={this.handleShow} />
           <Button text="Remove A Class" onClick={this.handleShow1} /> */}
           <Button text="Color Selection" onClick={this.openRubiat} />
+          <Button text="Download Schedule" onClick={this.downloadJson} />
           <Link to="/finalize-export-sem">
             <Button text="Finalize" />
           </Link>
