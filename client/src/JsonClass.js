@@ -12,7 +12,7 @@ class JsonClass extends Component {
 	tutorial;
 	lab;
 
-	constructor(course, prereqs, coreqs, name, credits, semester, lecture, tutorial, lab)
+	constructor(course, semester, prereqs, coreqs, name, credits)
 	{
 		super();
 		this.course = course;
@@ -21,10 +21,18 @@ class JsonClass extends Component {
 		this.name = name;
 		this.credits = credits;
 		this.semester = semester;
-		this.lecture = lecture;
-		this.tutorial = tutorial;
-		this.lab = lab;
+		this.lecture = [];
+		this.tutorial = [];
+		this.lab = [];
 	}
+
+	addPrereqs(prereqs) {this.prereqs = prereqs;}
+	addCoreqs(coreqs) {this.coreqs = coreqs;}
+	addName(name) {this.name = name;}
+	addCredits(credits) {this.credits = credits;}
+	addLecture(lecture) {this.lecture.push(lecture);}
+	addTutorial(tutorial) {this.tutorial.push(tutorial);}
+	addLab(lab) {this.lab.push(lab);}
 
 	clone () {
 		var cc = new JsonClass(null,null,null,null,null,null);
@@ -38,6 +46,10 @@ class JsonClass extends Component {
 		cc.tutorial = this.tutorial;
 		cc.lab = this.lab;
 		return cc;
+	}
+
+	equals(jclass) {
+		return this.course === jclass.course && this.semester === jclass.semester;
 	}
 }
 
