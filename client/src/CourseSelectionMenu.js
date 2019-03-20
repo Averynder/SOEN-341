@@ -7,7 +7,6 @@ import * as times from "./data/calendar.json";
 import * as data from "./data/courses.json";
 import { CirclePicker } from "react-color";
 import reactCSS from "reactcss";
-import * as uploadedData from "./data/uploadedCourses.json";
 import LoadingScreen from 'react-loading-screen';
 
 class CourseSelectionMenu extends React.Component {
@@ -84,10 +83,7 @@ class CourseSelectionMenu extends React.Component {
 
       showUpload: false,
 
-      uploadedFile: null,
-      uploadedCourses: uploadedData.default.courses,
-      
-      selectedUploadFile: null
+      uploadedFile: null
 
     };
     //console.log("data.sequence: " + JSON.stringify(data.sequence));
@@ -115,7 +111,64 @@ class CourseSelectionMenu extends React.Component {
 
   regEx()
   {
+    while (this.state.lectures.length > 1)
+    {
+      var subjectStart = this.state.lectures.indexOf("\"subject\":\"");
+      this.state.lectures = this.state.lectures.substring(subjectStart + 11);
+      var endQuote1 = this.state.lectures.indexOf("\"");
+      var subject = this.state.lectures.substring(0,endQuote1);
 
+      var classnumbertStart = this.state.lectures.indexOf("\"classNumber\":\"");
+      this.state.lectures = this.state.lectures.substring(classnumbertStart + 15);
+      var endQuote2 = this.state.lectures.indexOf("\"");
+      var classNumber = this.state.lectures.substring(0,endQuote2);
+
+      var lectureSectionNumber = this.state.lectures.indexOf("\"lectureSectionNumber\":\"\\\"");
+      this.state.lectures = this.state.lectures.substring(lectureSectionNumber + 26);
+      var endQuote3 = this.state.lectures.indexOf("\"");
+      var sectionNumber = this.state.lectures.substring(0,endQuote3 - 1);
+
+      var locationNumber = this.state.lectures.indexOf("\"location\":\"\\\"");
+      this.state.lectures = this.state.lectures.substring(locationNumber + 14);
+      var endQuote4 = this.state.lectures.indexOf("\"");
+      var location = this.state.lectures.substring(0,endQuote4 - 1);
+
+      var daysNumber = this.state.lectures.indexOf("\"days\":\"");
+      this.state.lectures = this.state.lectures.substring(daysNumber + 8);
+      var endQuote5 = this.state.lectures.indexOf("\"");
+      var days = this.state.lectures.substring(0,endQuote5);
+      if (days.match(/day/) != null)
+      {
+        if (days.match(/day/g).length > 1)
+        {
+          days = "\"" + days.substring(0,days.indexOf(",")) + "\"," + " \"" + days.substring(days.indexOf(",")+2, days.length-2) + "\"";
+        }
+        else
+        {
+          days = "\"" + days.substring(0,days.indexOf(",")) + "\"," + days.substring(days.indexOf(",")+1, days.length - 2) + "\"";
+          days = days.substring(0,days.length-3);
+        }
+      }
+
+      var startNumber = this.state.lectures.indexOf("\"startTime\":\"");
+      this.state.lectures = this.state.lectures.substring(startNumber + 13);
+      var endQuote6 = this.state.lectures.indexOf("\"");
+      var startTime = this.state.lectures.substring(0,endQuote6-3);
+      if (startTime.charAt(0) == " ")
+        startTime = startTime.substring(1);
+
+      var endNumber = this.state.lectures.indexOf("\"endTime\":\"");
+      this.state.lectures = this.state.lectures.substring(endNumber + 11);
+      var endQuote7 = this.state.lectures.indexOf("\"");
+      var endTime = this.state.lectures.substring(0,endQuote7-3);
+
+      var semNumber = this.state.lectures.indexOf("\"semester\":\"");
+      this.state.lectures = this.state.lectures.substring(semNumber + 12);
+      var endQuote8 = this.state.lectures.indexOf("\"");
+      var semester = this.state.lectures.substring(0,endQuote8);
+
+      console.log(subject + classNumber + " " + sectionNumber + " " + location + " " + days + " " + startTime + " " + endTime + " " + semester);
+    }
   }
 
   timeToNum = time => {
@@ -187,27 +240,41 @@ class CourseSelectionMenu extends React.Component {
     var file = this.state.uploadedFile;
     var reader = new FileReader();
     reader.readAsText(file);
-    //console.log(this.state.uploadedCourses);
 
     reader.onload = () => {
       //console.log(reader.result);
       var JSONified = JSON.parse(reader.result);
-      this.setState({
-        uploadedCourses: JSONified
-      });
 
-      for (let i = 0; i < this.state.uploadedCourses.length; i++) {
-        document.getElementById("add-class1").value = this.state.uploadedCourses[i].course;
+      for (let i = 0; i < JSONified.length; i++) {
+        document.getElementById("add-class1").value = JSONified[i].course;
         this.addClass();
       }
 
-      //console.log(this.state.uploadedCourses);
     }
 
     this.setState({
       showUpload: false
     })
     
+  }
+
+  downloadJson = () => {
+    let courseArray = this.state.selectedCourses;
+    let filename = "schedule.json";
+    let contentType = "application/json;charset=utf-8;";
+
+    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+      var blob = new Blob([decodeURIComponent(encodeURI(JSON.stringify(courseArray)))], { type: contentType });
+      navigator.msSaveOrOpenBlob(blob, filename);
+    } else {
+      var file = document.createElement('a');
+      file.download = filename;
+      file.href = 'data:' + contentType + ',' + encodeURIComponent(JSON.stringify(courseArray));
+      file.target = '_blank';
+      document.body.appendChild(file);
+      file.click();
+      document.body.removeChild(file);
+    }
   }
 
   /*addClass(days_array) {
@@ -705,6 +772,7 @@ class CourseSelectionMenu extends React.Component {
           {/* <Button text="Add A Class" onClick={this.handleShow} />
           <Button text="Remove A Class" onClick={this.handleShow1} /> */}
           <Button text="Color Selection" onClick={this.openRubiat} />
+          <Button text="Download Schedule" onClick={this.downloadJson} />
           <Link to="/finalize-export-sem">
             <Button text="Finalize" />
           </Link>
