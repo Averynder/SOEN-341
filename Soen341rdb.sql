@@ -151,7 +151,7 @@ CREATE TABLE `soen341`.`course` (
 -- Table `soen341`.`contains`
 -- -----------------------------------------------------
 CREATE TABLE  `soen341`.`contains`(
-  `classNumber` int(11) NOT NULL,
+  `classNumber` varchar(100) NOT NULL,
   `lectureSectionNumber` varchar(7) NOT NULL,
   `labSectionNumber` varchar(7) NOT NULL,
   `tutorialSectionNumber` varchar(7) NOT NULL,
@@ -222,6 +222,8 @@ CREATE TABLE  `soen341`.`users` (
 `password` varchar(50) DEFAULT NULL);
 INSERT INTO `soen341`.`users` (`username`, `password`) VALUES ('Avery', 'Singh');
 DROP TABLE soen341.`teacher`
+
+
 
 
 

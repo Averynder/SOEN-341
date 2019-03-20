@@ -53,7 +53,15 @@ class CourseSelectionMenu extends React.Component {
       ],
       classes: data.sequence,
 
-      colors: [["red", 0], ["pink", 0], ["green", 0], ["yellow", 0], ["orange", 0], ["blue", 0], ["black", 0]],
+      colors: [
+        ["red", 0],
+        ["pink", 0],
+        ["green", 0],
+        ["yellow", 0],
+        ["orange", 0],
+        ["blue", 0],
+        ["black", 0]
+      ],
 
       color1: "red",
       color2: "pink",
@@ -68,9 +76,7 @@ class CourseSelectionMenu extends React.Component {
       courses: data.default.sequence,
       selectedCourses: [],
       show2: "hidden",
-      
       colorOfNewClass: []
-      
     };
   }
 
@@ -126,7 +132,6 @@ class CourseSelectionMenu extends React.Component {
   }
 
   handleChangeComplete = color => {
-    
     let courseNameInput = document.getElementById("colorChanger").value; //Get user input comp248
     let chosenClass; //class object
 
@@ -137,10 +142,11 @@ class CourseSelectionMenu extends React.Component {
       }
     }
 
-    document.getElementById(chosenClass.course).style.backgroundColor = color.hex;
+    document.getElementById(chosenClass.course).style.backgroundColor =
+      color.hex;
 
     let color1;
-    
+
     for (let j = 0; j < this.state.colors.length; j++) {
       if (this.state.colors[j][0] == color) {
         this.state.colors[j][1] = 0;
@@ -148,28 +154,36 @@ class CourseSelectionMenu extends React.Component {
       }
     }
 
-  for(let j=0; j<chosenClass.days.length; j++) //added
-    for (let i = 0; i < 61; i++) {
-      let dayOfTheWeek = chosenClass.days[j] + "-";
-      if (
-        this.timeToNum(chosenClass.startTime) <= i &&
-        this.timeToNum(chosenClass.endTime) >= i
-      ) {
-        color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
-        document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
+    for (
+      let j = 0;
+      j < chosenClass.days.length;
+      j++ //added
+    )
+      for (let i = 0; i < 61; i++) {
+        let dayOfTheWeek = chosenClass.days[j] + "-";
+        if (
+          this.timeToNum(chosenClass.startTime) <= i &&
+          this.timeToNum(chosenClass.endTime) >= i
+        ) {
+          color1 = document.getElementById(dayOfTheWeek + i).style
+            .backgroundColor;
+          document.getElementById(dayOfTheWeek + i).style.backgroundColor =
+            color.hex; // (you can choose to select the return of a function)
+        }
       }
-    }
 
-    for(let k=0; k<chosenClass.ta.length; k++)
-      for(let j=0; j<chosenClass.ta[k].days.length; j++){
+    for (let k = 0; k < chosenClass.ta.length; k++)
+      for (let j = 0; j < chosenClass.ta[k].days.length; j++) {
         let dayOfTheWeek = chosenClass.ta[k].days[j] + "-";
         for (let i = 0; i < 61; i++) {
           if (
             this.timeToNum(chosenClass.ta[k].startTime) <= i &&
             this.timeToNum(chosenClass.ta[k].endTime) >= i
           ) {
-            color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
-            document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
+            color1 = document.getElementById(dayOfTheWeek + i).style
+              .backgroundColor;
+            document.getElementById(dayOfTheWeek + i).style.backgroundColor =
+              color.hex; // (you can choose to select the return of a function)
           }
         }
       }
@@ -180,7 +194,6 @@ class CourseSelectionMenu extends React.Component {
         break;
       }
     }
-
   };
 
   // onAdd = () => {
@@ -245,12 +258,10 @@ class CourseSelectionMenu extends React.Component {
       return;
     }
 
-    
-
     let n = 1;
     let initial = this.timeToNum(addedClass.startTime);
     let final = this.timeToNum(addedClass.endTime);
-    let middle = (initial + final)/2;
+    let middle = (initial + final) / 2;
     let colorChosen;
 
     for (let j = 0; j < this.state.colors.length; j++) {
@@ -264,67 +275,71 @@ class CourseSelectionMenu extends React.Component {
     if (colorChosen === null || colorChosen === undefined) {
       return;
     }
-  
-  for(let k=0; k<addedClass.ta.length; k++)
-    for(let j=0; j<addedClass.ta[k].days.length; j++){
-      let dayOfTheWeek = addedClass.ta[k].days[j] + "-";
-      let n = 1;
-      let initial = this.timeToNum(addedClass.ta[k].startTime);
-      let final = this.timeToNum(addedClass.ta[k].endTime);
-      let middle = (initial + final)/2;
-      for (let i = 0; i < 61; i++) {
-        if (
-          this.timeToNum(addedClass.ta[k].startTime) <= i &&
-          this.timeToNum(addedClass.ta[k].endTime) >= i
-        ) {
-          document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
-          if (i === middle - 2) {
-            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
-            n++;
-          }else if (i === middle - 1) {
-            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.ta[k].type;
-            n++;
-          }else if(i === middle){
-            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.ta[k].startTime;
-            n++;
-          }
-          else if(i === middle + 1){
-            document.getElementById(dayOfTheWeek + i).innerHTML = "to";
-            n++;
-          }
-          else if(i === middle + 2){
-            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.ta[k].endTime;
-            n++;
-          }else{
-            document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+
+    for (let k = 0; k < addedClass.ta.length; k++)
+      for (let j = 0; j < addedClass.ta[k].days.length; j++) {
+        let dayOfTheWeek = addedClass.ta[k].days[j] + "-";
+        let n = 1;
+        let initial = this.timeToNum(addedClass.ta[k].startTime);
+        let final = this.timeToNum(addedClass.ta[k].endTime);
+        let middle = (initial + final) / 2;
+        for (let i = 0; i < 61; i++) {
+          if (
+            this.timeToNum(addedClass.ta[k].startTime) <= i &&
+            this.timeToNum(addedClass.ta[k].endTime) >= i
+          ) {
+            document.getElementById(
+              dayOfTheWeek + i
+            ).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+            if (i === middle - 2) {
+              document.getElementById(dayOfTheWeek + i).innerHTML =
+                addedClass.course;
+              n++;
+            } else if (i === middle - 1) {
+              document.getElementById(dayOfTheWeek + i).innerHTML =
+                addedClass.ta[k].type;
+              n++;
+            } else if (i === middle) {
+              document.getElementById(dayOfTheWeek + i).innerHTML =
+                addedClass.ta[k].startTime;
+              n++;
+            } else if (i === middle + 1) {
+              document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+              n++;
+            } else if (i === middle + 2) {
+              document.getElementById(dayOfTheWeek + i).innerHTML =
+                addedClass.ta[k].endTime;
+              n++;
+            } else {
+              document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+            }
           }
         }
       }
-    }
- 
-    for(let j=0; j<addedClass.days.length; j++){
+
+    for (let j = 0; j < addedClass.days.length; j++) {
       for (let i = 0; i < 61; i++) {
-        if (
-          initial <= i &&
-          final >= i
-        ) {
-          let dayOfTheWeek = addedClass.days[j] + "-"; 
-          document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+        if (initial <= i && final >= i) {
+          let dayOfTheWeek = addedClass.days[j] + "-";
+          document.getElementById(
+            dayOfTheWeek + i
+          ).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
           if (i === middle - 1) {
-            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+            document.getElementById(dayOfTheWeek + i).innerHTML =
+              addedClass.course;
             n++;
-          }else if(i === middle){
-            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.startTime;
+          } else if (i === middle) {
+            document.getElementById(dayOfTheWeek + i).innerHTML =
+              addedClass.startTime;
             n++;
-          }
-          else if(i === middle + 1){
+          } else if (i === middle + 1) {
             document.getElementById(dayOfTheWeek + i).innerHTML = "to";
             n++;
-          }
-          else if(i === middle + 2){
-            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.endTime;
+          } else if (i === middle + 2) {
+            document.getElementById(dayOfTheWeek + i).innerHTML =
+              addedClass.endTime;
             n++;
-          }else{
+          } else {
             document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
           }
         }
@@ -333,12 +348,15 @@ class CourseSelectionMenu extends React.Component {
 
     let oldColors = [];
 
-    for (let o = 0; o < this.state.selectedCourses.length; o++) { // get list of all the colors in the selection menu before change
-      oldColors[o] = document.getElementById(this.state.selectedCourses[o].course).style.backgroundColor;
+    for (let o = 0; o < this.state.selectedCourses.length; o++) {
+      // get list of all the colors in the selection menu before change
+      oldColors[o] = document.getElementById(
+        this.state.selectedCourses[o].course
+      ).style.backgroundColor;
     }
 
     oldColors.push(colorChosen); // add the color of new course to the list also
-    this.setState({colorOfNewClass: oldColors}) // when rendering the selection menu it will render it with all the old colors + the newly added color
+    this.setState({ colorOfNewClass: oldColors }); // when rendering the selection menu it will render it with all the old colors + the newly added color
 
     array.push(addedClass);
     this.setState({
@@ -357,43 +375,44 @@ class CourseSelectionMenu extends React.Component {
       }
     }
 
-    
-
     if (courseToRemove === undefined || courseToRemove === null) {
-      document.getElementById("addStatus1").innerHTML = "Invalid Course / Course Not Found";
-      this.setState({show2: "visible"})
+      document.getElementById("addStatus1").innerHTML =
+        "Invalid Course / Course Not Found";
+      this.setState({ show2: "visible" });
       return;
     }
 
     let color;
-    
-  for(let j=0; j<courseToRemove.days.length; j++)
-    for (let i = 0; i < 61; i++) {
-      let dayOfTheWeek = courseToRemove.days[j] + "-";
-      if (
-        this.timeToNum(courseToRemove.startTime) <= i &&
-        this.timeToNum(courseToRemove.endTime) >= i
-      ) {
-        color = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
-        document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
-        document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
-      }
-    }
 
-    for(let k=0; k<courseToRemove.ta.length; k++)
-      for(let j=0; j<courseToRemove.ta[k].days.length; j++){
+    for (let j = 0; j < courseToRemove.days.length; j++)
+      for (let i = 0; i < 61; i++) {
+        let dayOfTheWeek = courseToRemove.days[j] + "-";
+        if (
+          this.timeToNum(courseToRemove.startTime) <= i &&
+          this.timeToNum(courseToRemove.endTime) >= i
+        ) {
+          color = document.getElementById(dayOfTheWeek + i).style
+            .backgroundColor;
+          document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
+          document.getElementById(dayOfTheWeek + i).innerHTML = "----------";
+        }
+      }
+
+    for (let k = 0; k < courseToRemove.ta.length; k++)
+      for (let j = 0; j < courseToRemove.ta[k].days.length; j++) {
         let dayOfTheWeek = courseToRemove.ta[k].days[j] + "-";
         for (let i = 0; i < 61; i++) {
           if (
             this.timeToNum(courseToRemove.ta[k].startTime) <= i &&
             this.timeToNum(courseToRemove.ta[k].endTime) >= i
           ) {
-            document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
-            document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+            document.getElementById(dayOfTheWeek + i).style.backgroundColor =
+              ""; // (you can choose to select the return of a function)
+            document.getElementById(dayOfTheWeek + i).innerHTML = "----------";
           }
         }
       }
-    
+
     for (let j = 0; j < this.state.colors.length; j++) {
       if (this.state.colors[j][0] == color) {
         this.state.colors[j][1] = 0;
@@ -403,8 +422,11 @@ class CourseSelectionMenu extends React.Component {
 
     let oldColors = [];
 
-    for (let o = 0; o < this.state.selectedCourses.length; o++) { // get list of all the colors before change
-      oldColors[o] = document.getElementById(this.state.selectedCourses[o].course).style.backgroundColor;
+    for (let o = 0; o < this.state.selectedCourses.length; o++) {
+      // get list of all the colors before change
+      oldColors[o] = document.getElementById(
+        this.state.selectedCourses[o].course
+      ).style.backgroundColor;
     }
 
     let oldColorsFiltered = oldColors.filter(data => color !== data); // filter out the color of the course that we just removed
@@ -413,13 +435,16 @@ class CourseSelectionMenu extends React.Component {
       data => coursecode !== data.course
     );
     this.setState({
-      selectedCourses: array, show2: "hidden"
+      selectedCourses: array,
+      show2: "hidden"
     });
 
-    for (let p = 0; p < this.state.selectedCourses.length; p++) {// re-assign the old colors to the new table
-      document.getElementById(this.state.selectedCourses[p].course).style.backgroundColor = oldColorsFiltered[p];
+    for (let p = 0; p < this.state.selectedCourses.length; p++) {
+      // re-assign the old colors to the new table
+      document.getElementById(
+        this.state.selectedCourses[p].course
+      ).style.backgroundColor = oldColorsFiltered[p];
     }
-    
   };
 
   render() {
@@ -445,13 +470,13 @@ class CourseSelectionMenu extends React.Component {
       <option value={theClass.course}>{theClass.course}</option>
     ));
 
-  
-
     let i = 0;
 
     let x = this.state.selectedCourses.map(element => (
-      <tr id={element.course} style={{backgroundColor : this.state.colorOfNewClass[i++]}}>
-      
+      <tr
+        id={element.course}
+        style={{ backgroundColor: this.state.colorOfNewClass[i++] }}
+      >
         <td>
           <div>
             <input type="checkbox" checked /> &nbsp;
@@ -472,7 +497,7 @@ class CourseSelectionMenu extends React.Component {
         </td>
       </tr>
     ));
-    
+
     let table = (
       <Table
         id="selected-course-table"
@@ -499,49 +524,45 @@ class CourseSelectionMenu extends React.Component {
           <hr color="#7e1530" />
 
           <div className="container">
-                <div className="row bg-secondary text-white rounded">
-                  <div className="col">
-                    <label for="add-class1">
-                      <h6 id="test">Select Course</h6>
-                    </label>
-                    <input
-                      type="text"
-                      list="add-class2"
-                      id="add-class1"
-                      className="btn btn-dark"
-                      placeholder="Course Number"
-                    />
-                    <datalist id="add-class2">{allOptions}</datalist>
-                  </div>
-                  <div className="col">
-                    <Button
-                      text="Select"
-                      onClick={this.addClass}
-                      style={{ float: "left" }}
-                    />
-                    <Button
-                      text="Remove"
-                      onClick={this.remove}
-                      style={{ float: "left" }}
-                    />
-                  </div>
-                </div>
+            <div className="row bg-secondary text-white rounded">
+              <div className="col">
+                <label for="add-class1">
+                  <h6 id="test">Select Course</h6>
+                </label>
+                <input
+                  type="text"
+                  list="add-class2"
+                  id="add-class1"
+                  className="btn btn-dark"
+                  placeholder="Course Number"
+                />
+                <datalist id="add-class2">{allOptions}</datalist>
               </div>
+              <div className="col">
+                <Button
+                  text="Select"
+                  onClick={this.addClass}
+                  style={{ float: "left" }}
+                />
+                <Button
+                  text="Remove"
+                  onClick={this.remove}
+                  style={{ float: "left" }}
+                />
+              </div>
+            </div>
+          </div>
 
-              <p
-                id="addStatus1"
-                style={{ color: "red", visibility: this.state.show2 }}
-              />
-              <div className="mt-4">{table}</div>
-              <hr color="#7e1530" />
+          <p
+            id="addStatus1"
+            style={{ color: "red", visibility: this.state.show2 }}
+          />
+          <div className="mt-4">{table}</div>
+          <hr color="#7e1530" />
           <h2 className="display-5">
             {this.state.semester} {this.state.year} Semester
           </h2>
           <p className="lead" />
-
-
-
-
 
           <div>
             {" "}
@@ -574,11 +595,7 @@ class CourseSelectionMenu extends React.Component {
                             <td>
                               {times.time.map(element => {
                                 let myID = days + "-" + element.num;
-                                return (
-                                  <div id={myID}>
-                                    -----------------
-                                  </div>
-                                );
+                                return <div id={myID}>----------</div>;
                               })}
                             </td>
                           </tr>
@@ -659,9 +676,7 @@ class CourseSelectionMenu extends React.Component {
             <p>Select A Course and Color </p> <br />
             <Form inline style={{ textAlign: "center" }}>
               <div className="container" style={{ width: "40%" }}>
-                <select id="colorChanger">
-                  {myAddedClasses}
-                </select>
+                <select id="colorChanger">{myAddedClasses}</select>
               </div>
               <Button text="Color Selection" onClick={this.colourRubiatO} />
             </Form>
@@ -672,10 +687,10 @@ class CourseSelectionMenu extends React.Component {
         </Modal>
 
         <Modal show={this.state.colorS} onHide={this.colourRubiatC}>
-          <Modal.Header closeButton style={{ backgroundColor: "#82100d" }} >
+          <Modal.Header closeButton style={{ backgroundColor: "#82100d" }}>
             <Modal.Title>Color Selector</Modal.Title>
           </Modal.Header>
-          <Modal.Body style={{ textAlign: "center" }} >
+          <Modal.Body style={{ textAlign: "center" }}>
             <p style={{ margin: "0px 0px 25% 0px" }}>
               Select a Color for Course (replace with course name)
             </p>
@@ -685,13 +700,12 @@ class CourseSelectionMenu extends React.Component {
                   <CirclePicker
                     style={{ margin: "0px 0px 0px 0px" }}
                     onChangeComplete={this.handleChangeComplete}
-    
                   />
                 </div>
               </div>
             </Form>
           </Modal.Body>
-          
+
           <Modal.Footer style={{ backgroundColor: "#82100d" }}>
             <Button
               variant="primary"
