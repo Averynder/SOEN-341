@@ -13,7 +13,6 @@ var LocalStrategy = require('passport-local').Strategy;
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
-var async = require('async');
 var mysql = require("mysql2");
 // This class will run the DB script when called
 var DBcheck = require('./routes/DBcheck');
@@ -50,7 +49,6 @@ const Stack = require('./routes/Stack');
 const SpanningTree = require('./routes/SpanningTree');
 var app = express();
 var waterfall = require('async-waterfall');
-require('./selenium')(app);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
