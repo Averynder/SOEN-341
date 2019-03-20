@@ -75,18 +75,43 @@ app.use(passport.session());
 
 var sequelize = require('./sequelize'); // get running instance of Sequelize
 require('./passport')(passport, sequelize); // importing passport.js with as a parameter the imported passport library from above
+const selenium = require('./selenium'); // importing passport.js with as a parameter the imported passport library from above
 
-app.post('/login', function(req, res, next) {
-	passport.authenticate('local', function(err, user, info) {
+app.get('/concordia/:netname/:password', function (req, res, next) {
+  try {
+    selenium.login(req.params.netname, req.params.password)
+      .then(loggedIn => {
+        console.log(loggedIn);
+        if (!loggedIn) {
+          res.status(401)
+            .end();
+        } else {
+          res.end();
+          /*
+          res.json({
+            grades: 'whatever'
+          });
+          */
+        }
+      });
+  } catch (err) {
+    console.log(err);
+  }
+
+	/*passport.authenticate('local', function(err, user, info)
 		if (err) { return next(err); }
 		if (!user) {
-			res.end('/home');
+      res.status(401);
 		} else {
+      const grades = passport.scrapeGrades();
+      res.status(200).json({
+        grades: grades
+      })
 			req.login(user, function(error) {
-				res.end('/');
 			});
 		}
 	})(req, res, next);
+  */
 });
 
 app.get('/logout', (req, res, next) => {
