@@ -7,7 +7,6 @@ import * as times from "./data/calendar.json";
 import * as data from "./data/courses.json";
 import { CirclePicker } from "react-color";
 import reactCSS from "reactcss";
-import * as uploadedData from "./data/uploadedCourses.json";
 import LoadingScreen from 'react-loading-screen';
 
 class CourseSelectionMenu extends React.Component {
@@ -84,10 +83,7 @@ class CourseSelectionMenu extends React.Component {
 
       showUpload: false,
 
-      uploadedFile: null,
-      uploadedCourses: uploadedData.default.courses,
-      
-      selectedUploadFile: null
+      uploadedFile: null
 
     };
     //console.log("data.sequence: " + JSON.stringify(data.sequence));
@@ -187,21 +183,16 @@ class CourseSelectionMenu extends React.Component {
     var file = this.state.uploadedFile;
     var reader = new FileReader();
     reader.readAsText(file);
-    //console.log(this.state.uploadedCourses);
 
     reader.onload = () => {
       //console.log(reader.result);
       var JSONified = JSON.parse(reader.result);
-      this.setState({
-        uploadedCourses: JSONified
-      });
 
-      for (let i = 0; i < this.state.uploadedCourses.length; i++) {
-        document.getElementById("add-class1").value = this.state.uploadedCourses[i].course;
+      for (let i = 0; i < JSONified.length; i++) {
+        document.getElementById("add-class1").value = JSONified[i].course;
         this.addClass();
       }
 
-      //console.log(this.state.uploadedCourses);
     }
 
     this.setState({
