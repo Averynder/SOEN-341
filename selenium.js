@@ -1,35 +1,62 @@
-var { Builder, By, Key, until } = require('selenium-webdriver');
-var firefox = require('selenium-webdriver/firefox');
+const { Builder, By, Key, until } = require('selenium-webdriver');
+const firefox = require('selenium-webdriver/firefox');
+const rp = require('request-promise');
 
-module.exports = (app) => {
-  app.get('/concordia/:netname/:password', function (req, res, next) {
-    let driver = new Builder().forBrowser('firefox')
-      //.setFirefoxOptions(new firefox.Options().headless()) // invisible firefox
-      .build();
+const driver = new Builder().forBrowser('firefox');
 
-    try {
-      driver.get('https://my.concordia.ca/psp/upprpr9/?cmd=login&device=mobile')
-        .then(_ => driver.findElement(By.name('userid')).sendKeys(req.params.netname))
-        .then(_ => driver.findElement(By.name('pwd')).sendKeys(req.params.password, Key.RETURN))
-        .then(_ => driver.wait(until.isEnabled(By.id('btnGrade')), 4000)
-          .then(btn => btn.sendKeys(Key.ENTER))
-        )
-        .then(_ => driver.wait(until.elementLocated(By.id('btnAllGrades')), 10000)
-          .then(btn => btn.click()) // done waiting, click
-        )
-        .then(_ => driver.wait(until.elementLocated(By.id('student-schedule')), 4000)
-          .then(schedule => console.log(schedule))
-        )
-        .then(_ => driver.quit(), e => driver.quit().then(() => { throw e; }));
-    } catch (err) {
-      console.log(err);
+const requestGrades = (cookie) => {
+  let options = {
+    method: 'POST',
+    url: 'https://genesis.concordia.ca/mportal2.0/services/sisservice.ashx',
+    qs: {
+      token: cookie.value,
+      method: 'get-my-student-record'
+    },
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
     }
-    /*
-    driver.findElements(By.className("course mainsec")).then(function(elems){
-    elems.forEach(function (elem) {
-    elem.getText().then(function(textValue){
-    console.log(textValue); // Insert / Do Stuff From this point
-    */
-    res.end();
+  };
+
+  return new Promise((resolve, reject) => {
+    rp(options)
+    .then(grades => resolve(grades))
+    .catch(err => console.log(err));
   });
-}
+};
+
+module.exports = {
+  login: function(netname, password) {
+    return new Promise(function(resolve, reject) {
+      driver.setFirefoxOptions(new firefox.Options().headless()) // comment this to see browser
+      browser = driver.build();
+      browser.get('https://my.concordia.ca/psp/upprpr9/?cmd=login&device=mobile')
+        .then(_ => browser.findElement(By.name('userid')).sendKeys(netname))
+        .then(_ => browser.findElement(By.name('pwd')).sendKeys(password, Key.RETURN))
+        .then(_ => browser.sleep(5000))
+        .then(_ => browser.getCurrentUrl())
+        .then(url => {
+          console.log(url);
+          if (url.includes('errorCode')) {
+            resolve(false); // relay to route that user failed to log in
+            browser.quit();
+          } else {
+            browser.manage().getCookie("concordia-mportal-auth-guid") // get auth cookie
+              .then(cookie => {
+                resolve(true); // relay to route that user logged in successfully
+                try {
+                  requestGrades(cookie)
+                    .then(grades => {
+                      console.log(grades);
+                      browser.quit();
+                    });
+                } catch (err) {
+                  console.log(err);
+                }
+              }, err => {
+                reject('Error retrieving cookie');
+              })
+          }
+        });
+    });
+  }
+};
