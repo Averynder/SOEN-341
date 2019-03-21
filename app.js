@@ -77,16 +77,15 @@ var sequelize = require('./sequelize'); // get running instance of Sequelize
 require('./passport')(passport, sequelize); // importing passport.js with as a parameter the imported passport library from above
 const selenium = require('./selenium'); // importing passport.js with as a parameter the imported passport library from above
 
-app.get('/concordia/:netname/:password', function (req, res, next) {
+app.post('/concordia', function (req, res, next) {
   try {
-    selenium.login(req.params.netname, req.params.password)
+    selenium.login(req.body.netname, req.body.password)
       .then(loggedIn => {
         console.log(loggedIn);
         if (!loggedIn) {
-          res.status(401)
-            .end();
+          res.sendStatus(422);
         } else {
-          res.end();
+          res.sendStatus(200);
           /*
           res.json({
             grades: 'whatever'
