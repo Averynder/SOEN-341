@@ -142,10 +142,7 @@ class DraftSequenceMenu extends React.Component {
             <h2 className="display-4">Sequence To PDF</h2>
             <h2>Starting at Year {theStartingYear}</h2>
             <hr color="#7e1530" />
-            <Button
-              text="Edit Default Behaviour"
-              onClick={this.handleStartingYear}
-            />
+            <Button text="Options" onClick={this.handleStartingYear} />
             <p className="lead">
               Click Add Course and try out COMP248, COMP232, SOEN228 or ENGR213
               to test it out.
