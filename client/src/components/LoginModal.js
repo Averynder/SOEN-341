@@ -53,7 +53,7 @@ class LoginModal extends Component
               <div className="modal-body" style={{textAlign: "center"}}>
                 <h4>Sign In</h4>
                 <br />
-                <span id="errorMessage" style={{color: 'blue', display: 'none' }}>Invalid user/pass</span>
+                <span id="errorMessage" style={{color: 'red', display: 'none' }}>Invalid user/pass</span>
                 <div class="md-form mb-5">
                   <h6 class="fas fa-envelope prefix grey-text">Netname:  </h6>
                   <input className="input validate" type="text" id="defaultForm-email" placeholder="n_louis" name="netname" required />
