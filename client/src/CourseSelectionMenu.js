@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Modal, Form, FormControl, Table } from "react-bootstrap";
 import * as times from "./data/calendar.json";
 import * as data from "./data/courses.json";
+import * as data1 from "./data/courses2.json";
 import { CirclePicker } from "react-color";
 import reactCSS from "reactcss";
 import LoadingScreen from 'react-loading-screen';
@@ -76,6 +77,7 @@ class CourseSelectionMenu extends React.Component {
       addedClasses: [],
 
       courses: JSON.parse(JSON.stringify(data.default.sequence)),
+      courses2: JSON.parse(JSON.stringify(data1.default.sequence)),
       selectedCourses: [],
       show2: "hidden",
 
@@ -288,38 +290,6 @@ class CourseSelectionMenu extends React.Component {
 
   };
 
-  // onAdd = () => {
-  //   let input = document.getElementById("add-class").value; //Get user input
-  //   let chosenClass;
-
-  //   for (let i = 0; i < this.state.classes.length; i++) {
-  //     if (input === this.state.classes[i].course) {
-  //       chosenClass = this.state.classes[i];
-  //       break;
-  //     }
-  //   }
-
-  //   if (chosenClass === undefined || chosenClass === null) {
-  //     document.getElementById("addStatus").innerHTML = "Invalid Input";
-  //     return;
-  //   }
-
-  //   this.state.addedClasses.push(chosenClass);
-
-  //   for (let i = 0; i < 61; i++) {
-  //     if (
-  //       this.timeToNum(chosenClass.startTime) <= i &&
-  //       this.timeToNum(chosenClass.endTime) >= i
-  //     ) {
-  //       document.getElementById("Monday-" + i).style.backgroundColor = this.state.colors[this.state.addedClasses.length - 1]; // (you can choose to select the return of a function)
-  //     }
-  //   }
-
-  //   this.setState({
-  //     show: !this.state.show
-  //   });
-  // };
-
   addClass = () => {
     let array = this.state.selectedCourses; //Keep track of user selected classes
     let input = document.getElementById("add-class1").value; //Get user input (Course Code)
@@ -370,7 +340,7 @@ class CourseSelectionMenu extends React.Component {
       return;
     }
 
-  for(let k=0; k<addedClass.ta.length; k++)
+  for(let k=0; k<addedClass.ta.length; k++) {
     for(let j=0; j<addedClass.ta[k].days.length; j++){
       let dayOfTheWeek = addedClass.ta[k].days[j] + "-";
       let n = 1;
@@ -406,6 +376,7 @@ class CourseSelectionMenu extends React.Component {
         }
       }
     }
+  }
 
     for(let j=0; j<addedClass.days.length; j++){
       for (let i = 0; i < 61; i++) {
@@ -428,6 +399,178 @@ class CourseSelectionMenu extends React.Component {
           }
           else if(i === middle + 2){
             document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.endTime;
+            n++;
+          }else{
+            document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+          }
+        }
+      }
+    }
+
+    let oldColors = [];
+
+    for (let o = 0; o < this.state.selectedCourses.length; o++) { // get list of all the colors in the selection menu before change
+      oldColors[o] = document.getElementById(this.state.selectedCourses[o].course).style.backgroundColor;
+    }
+
+    oldColors.push(colorChosen); // add the color of new course to the list also
+    this.setState({colorOfNewClass: oldColors}) // when rendering the selection menu it will render it with all the old colors + the newly added color
+
+    array.push(addedClass);
+    this.setState({
+      selectedCourses: array
+    });
+  };
+
+  addClass1 = () => {
+    let array = this.state.selectedCourses; //Keep track of user selected classes
+    let input = document.getElementById("add-class1").value; //Get user input (Course Code)
+    let classList = this.state.courses2; //Gets the whole list of courses of concordia
+    let addedClass;
+    let classExists = false;
+    for (let i = 0; i < classList.length; i++) {
+      if (classList[i].course === input) {
+        for (let j = 0; j < this.state.selectedCourses.length; j++) {
+          if (this.state.selectedCourses[j].course === input) {
+            document.getElementById("addStatus1").innerHTML =
+              "This class is already added.";
+            this.setState({ show2: "visible" });
+            return;
+          }
+        }
+        addedClass = classList[i];
+        classExists = true;
+        this.setState({ show2: "hidden" });
+        break;
+      }
+    }
+
+    if (classExists === false) {
+      document.getElementById("addStatus1").innerHTML =
+        "Invalid Class/Class Not Found";
+      this.setState({ show2: "visible" });
+      return;
+    }
+
+    let colorChosen;
+
+    for (let j = 0; j < this.state.colors.length; j++) {
+      if (this.state.colors[j][1] == 0) {
+        colorChosen = this.state.colors[j][0];
+        this.state.colors[j][1] = 1;
+        break;
+      }
+    }
+
+    if (colorChosen === null || colorChosen === undefined) {
+      return;
+    }
+
+// right now it's hardcoded to always add the first lecture section of a new class "[0]"
+// it doesn't verify if that section can actually fit in the table
+    for(let j=0; j<addedClass.lecture[0].days.length; j++){ // add lecture
+
+    let n = 1;
+    let initial = this.timeToNum(addedClass.lecture[0].startTime);
+    let final = this.timeToNum(addedClass.lecture[0].endTime);
+    let middle = (initial + final)/2;
+
+      for (let i = 0; i < 61; i++) {
+        if (
+          initial <= i &&
+          final >= i
+        ) {
+          let dayOfTheWeek = addedClass.lecture[0].days[j] + "-";
+          document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+          if (i === middle - 1) {
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+            n++;
+          }else if(i === middle){
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[0].startTime;
+            n++;
+          }
+          else if(i === middle + 1){
+            document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+            n++;
+          }
+          else if(i === middle + 2){
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[0].endTime;
+            n++;
+          }else{
+            document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+          }
+        }
+      }
+    }
+
+    for (let k = 0; k < addedClass.tutorial[0].days.length; k++) { // add tutorial
+
+      let n = 1;
+      let initial = this.timeToNum(addedClass.tutorial[0].startTime);
+      let final = this.timeToNum(addedClass.tutorial[0].endTime);
+      let middle = (initial + final)/2;
+  
+      for (let i = 0; i < 61; i++) {
+        if (
+          initial <= i &&
+          final >= i
+        ) {
+          let dayOfTheWeek = addedClass.tutorial[0].days[k] + "-";
+          document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+          if (i === middle - 2) {
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+            n++;
+          }else if (i === middle - 1) {
+            document.getElementById(dayOfTheWeek + i).innerHTML = "Tutorial";
+            n++;
+          }else if(i === middle){
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.tutorial[0].startTime;
+            n++;
+          }
+          else if(i === middle + 1){
+            document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+            n++;
+          }
+          else if(i === middle + 2){
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.tutorial[0].endTime;
+            n++;
+          }else{
+            document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+          }
+        }
+      }
+    }
+  
+    for (let l = 0; l < addedClass.tutorial[0].days.length; l++) { // add lab
+  
+      let n = 1;
+      let initial = this.timeToNum(addedClass.lab[0].startTime);
+      let final = this.timeToNum(addedClass.lab[0].endTime);
+      let middle = (initial + final)/2;
+  
+      for (let i = 0; i < 61; i++) {
+        if (
+          initial <= i &&
+          final >= i
+        ) {
+          let dayOfTheWeek = addedClass.lab[0].days[l] + "-";
+          document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+          if (i === middle - 2) {
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+            n++;
+          }else if (i === middle - 1) {
+            document.getElementById(dayOfTheWeek + i).innerHTML = "Lab";
+            n++;
+          }else if(i === middle){
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[0].startTime;
+            n++;
+          }
+          else if(i === middle + 1){
+            document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+            n++;
+          }
+          else if(i === middle + 2){
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[0].endTime;
             n++;
           }else{
             document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
@@ -568,6 +711,10 @@ class CourseSelectionMenu extends React.Component {
               <option value="section2">section 2</option>
               <option value="section3">section 3</option>
               <option value="section4">section 4</option>
+              {element.lecture.map(element1 => (
+                element1.tutorial.map(element2 => (
+                <option>{element1.section + "-" + element2.section}</option>))
+                ))}
             </select>
             <br />
             <p id="requirements">
@@ -632,7 +779,7 @@ class CourseSelectionMenu extends React.Component {
                   <div className="col">
                     <Button
                       text="Select"
-                      onClick={this.addClass}
+                      onClick={this.addClass1}
                       style={{ float: "left" }}
                     />
                     <Button
