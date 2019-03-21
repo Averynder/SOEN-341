@@ -196,6 +196,7 @@ class CourseSelectionMenu extends React.Component {
     }
   };
 
+  
   // onAdd = () => {
   //   let input = document.getElementById("add-class").value; //Get user input
   //   let chosenClass;
