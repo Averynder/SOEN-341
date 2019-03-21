@@ -12,7 +12,7 @@ class LabSequence {
     // prereqs;
     // coreqs;
 
-    constructor(subject, catalog, labSectionNumber, classLocation, days, startTime, endTime) {
+    constructor(subject, catalog, labSectionNumber, classLocation, days, startTime, endTime, semester) {
         this.subject = subject;
         this.catalog = catalog;
         this.labSectionNumber = labSectionNumber;
@@ -20,12 +20,13 @@ class LabSequence {
         this.days = days;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.semester = semester;
     }
 
 
 
     clone () {
-        var cc = new LabSequence(null,null,null,null,null,null,null);
+        var cc = new LabSequence(null,null,null,null,null,null,null,null);
         cc.subject = this.subject;
         cc.catalog = this.catalog;
         cc.labSectionNumber = this.labSectionNumber;
@@ -33,6 +34,7 @@ class LabSequence {
         cc.days = this.days;
         cc.startTime = this.startTime;
         cc.endTime = this.endTime;
+        cc.semester = this.semester;
         return cc;
     }
 }

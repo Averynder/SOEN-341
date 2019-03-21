@@ -4,14 +4,11 @@ import { Link } from "react-router-dom"
 import Navbar from "./components/Navbar"
 
 class BuildSeqOrSem extends Component {
-    // constructor() {
-    //     super()
-    //   }
 
     render() {
       return (
         <div className="container">
-          <Navbar />
+            <Navbar />
           <div className="container">
             <div className="jumbotron j-greetings">
               <h2 className="display-4">Which build option would you like?</h2>
@@ -24,13 +21,11 @@ class BuildSeqOrSem extends Component {
                   <Button text="Sequence"/>
                 </Link>
               </div>
-
             </div>
           </div>
         </div>
       )
     }
-
 }
 
 export default BuildSeqOrSem
