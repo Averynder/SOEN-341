@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Redirect from "react-router/es/Redirect";
 
-class Modal extends Component
+class LoginModal extends Component
 {
   constructor(props)
   {
@@ -73,4 +73,4 @@ class Modal extends Component
   }
 }
 
-export default Modal;
+export default LoginModal;
