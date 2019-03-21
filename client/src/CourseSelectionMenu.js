@@ -8,6 +8,7 @@ import * as data from "./data/courses.json";
 import { CirclePicker } from "react-color";
 import reactCSS from "reactcss";
 import LoadingScreen from 'react-loading-screen';
+import JsonLecture from "./JsonLecture";
 
 class CourseSelectionMenu extends React.Component {
   constructor(props, context) {
@@ -122,6 +123,7 @@ class CourseSelectionMenu extends React.Component {
       this.state.lectures = this.state.lectures.substring(classnumbertStart + 15);
       var endQuote2 = this.state.lectures.indexOf("\"");
       var classNumber = this.state.lectures.substring(0,endQuote2);
+      subject = subject+classNumber;
 
       var lectureSectionNumber = this.state.lectures.indexOf("\"lectureSectionNumber\":\"\\\"");
       this.state.lectures = this.state.lectures.substring(lectureSectionNumber + 26);
@@ -141,12 +143,18 @@ class CourseSelectionMenu extends React.Component {
       {
         if (days.match(/day/g).length > 1)
         {
-          days = "\"" + days.substring(0,days.indexOf(",")) + "\"," + " \"" + days.substring(days.indexOf(",")+2, days.length-2) + "\"";
+          days = days.substring(0,days.indexOf(",")) + "," + days.substring(days.indexOf(",")+2, days.length-2);
+          var index = days.indexOf(",");
+          var day1 = days.substring(0,index);
+          var day2 = days.substring(index+1);
+          days = [day1, day2];
         }
         else
         {
           days = "\"" + days.substring(0,days.indexOf(",")) + "\"," + days.substring(days.indexOf(",")+1, days.length - 2) + "\"";
           days = days.substring(0,days.length-3);
+          days = days.substring(1,days.length-1);
+          days = [days];
         }
       }
 
@@ -156,19 +164,24 @@ class CourseSelectionMenu extends React.Component {
       var startTime = this.state.lectures.substring(0,endQuote6-3);
       if (startTime.charAt(0) == " ")
         startTime = startTime.substring(1);
+      startTime = parseFloat(startTime).toFixed(2);
 
       var endNumber = this.state.lectures.indexOf("\"endTime\":\"");
       this.state.lectures = this.state.lectures.substring(endNumber + 11);
       var endQuote7 = this.state.lectures.indexOf("\"");
       var endTime = this.state.lectures.substring(0,endQuote7-3);
+      endTime = parseFloat(endTime).toFixed(2);
 
       var semNumber = this.state.lectures.indexOf("\"semester\":\"");
       this.state.lectures = this.state.lectures.substring(semNumber + 12);
       var endQuote8 = this.state.lectures.indexOf("\"");
       var semester = this.state.lectures.substring(0,endQuote8);
 
-      console.log(subject + classNumber + " " + sectionNumber + " " + location + " " + days + " " + startTime + " " + endTime + " " + semester);
+      var lecture = new JsonLecture(sectionNumber,days,startTime,endTime,location);
+      console.log(lecture);
+      console.log(subject + " " + sectionNumber + " " + location + " " + days + " " + startTime + " " + endTime + " " + semester);
     }
+    console.log(data.sequence);
   }
 
   timeToNum = time => {
