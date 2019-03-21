@@ -21,6 +21,7 @@
     "passport-local": "^1.0.0",
     "prompt": "^1.0.0",
     "pug": "2.0.0-beta11",
+    "react-promise": "^2.1.0",
     "readline-sync": "^1.4.9",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
