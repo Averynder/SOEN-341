@@ -36,7 +36,7 @@ class LoginModal extends Component
           btn.disabled = false;
           btn.innerHTML = "Login";
         } else {
-          window.location.href = "/LoadingCourses";
+          window.location.href = "/build-seq-or-sem";
         }
         console.log(res);
       });
