@@ -13,7 +13,6 @@ var LocalStrategy = require('passport-local').Strategy;
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
-var async = require('async');
 var mysql = require("mysql2");
 // This class will run the DB script when called
 var DBcheck = require('./routes/DBcheck');
@@ -50,7 +49,6 @@ const Stack = require('./routes/Stack');
 const SpanningTree = require('./routes/SpanningTree');
 var app = express();
 var waterfall = require('async-waterfall');
-//require('./selenium')(app);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
@@ -77,18 +75,42 @@ app.use(passport.session());
 
 var sequelize = require('./sequelize'); // get running instance of Sequelize
 require('./passport')(passport, sequelize); // importing passport.js with as a parameter the imported passport library from above
+const selenium = require('./selenium'); // importing passport.js with as a parameter the imported passport library from above
 
-app.post('/login', function(req, res, next) {
-	passport.authenticate('local', function(err, user, info) {
+app.post('/concordia', function (req, res, next) {
+  try {
+    selenium.login(req.body.netname, req.body.password)
+      .then(loggedIn => {
+        console.log(loggedIn);
+        if (!loggedIn) {
+          res.sendStatus(422);
+        } else {
+          res.sendStatus(200);
+          /*
+          res.json({
+            grades: 'whatever'
+          });
+          */
+        }
+      });
+  } catch (err) {
+    console.log(err);
+  }
+
+	/*passport.authenticate('local', function(err, user, info)
 		if (err) { return next(err); }
 		if (!user) {
-			res.end('/home');
+      res.status(401);
 		} else {
+      const grades = passport.scrapeGrades();
+      res.status(200).json({
+        grades: grades
+      })
 			req.login(user, function(error) {
-				res.end('/');
 			});
 		}
 	})(req, res, next);
+  */
 });
 
 app.get('/logout', (req, res, next) => {
