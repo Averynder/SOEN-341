@@ -11,7 +11,8 @@ class DraftSequenceMenu extends React.Component {
     super();
     this.state = {
       showYearPicker: false,
-      startingYear: new Date().getFullYear()
+      startingYear: new Date().getFullYear(),
+      numberOfYear: 5
       // year: new Date().getFullYear(),
       // semester: "Fall",
       // show: false,
@@ -63,6 +64,20 @@ class DraftSequenceMenu extends React.Component {
     const years = yeetus.map(jimmy => <option value={jimmy}>{jimmy}</option>);
 
     let theStartingYear = this.state.startingYear;
+
+    var arr = [];
+    for (let i = 0; i < this.state.numberOfYear; i++) {
+      arr[i] = parseInt(theStartingYear) + i;
+    }
+
+    let theSequence = arr.map(index => <PdfSequenceGenerator year={index} />);
+
+    // for (let i = 0; i < this.state.numberOfYear; i++) {
+    //   theSequence += (
+    //     <PdfSequenceGenerator year={parseInt(theStartingYear) + i} />
+    //   );
+    // }
+
     return (
       <div className="container">
         <Navbar />
@@ -128,7 +143,7 @@ class DraftSequenceMenu extends React.Component {
             <h2>Starting at Year {theStartingYear}</h2>
             <hr color="#7e1530" />
             <Button
-              text="Start with a different year"
+              text="Edit Default Behaviour"
               onClick={this.handleStartingYear}
             />
             <p className="lead">
@@ -140,11 +155,12 @@ class DraftSequenceMenu extends React.Component {
               real json file with all the classes can easily be substituted
               later.
             </p>
-            <PdfSequenceGenerator year={theStartingYear} />
+            {theSequence}
+            {/* <PdfSequenceGenerator year={theStartingYear} />
             <PdfSequenceGenerator year={parseInt(theStartingYear) + 1} />
             <PdfSequenceGenerator year={parseInt(theStartingYear) + 2} />
             <PdfSequenceGenerator year={parseInt(theStartingYear) + 3} />
-            <PdfSequenceGenerator year={parseInt(theStartingYear) + 4} />
+            <PdfSequenceGenerator year={parseInt(theStartingYear) + 4} /> */}
             {/* ------------------------------------------------------------------------------------------------------ */}
 
             {/* <hr color="#7E1530" />
@@ -214,18 +230,31 @@ class DraftSequenceMenu extends React.Component {
             </Modal> */}
             <Modal show={this.state.showYearPicker}>
               <Modal.Header>
-                <Modal.Title>Pick A Year</Modal.Title>
+                <Modal.Title>Configuration</Modal.Title>
               </Modal.Header>
               <Modal.Body style={{ textAlign: "center" }}>
-                <select id="select-year">{years}</select>
+                Starting year:&nbsp;<select id="select-year">{years}</select>
+                <br />
+                <br />
+                Nb of years needed:&nbsp;
+                <select id="select-nb-year">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                </select>
                 <p id="removeStatus" style={{ color: "red" }} />
                 <Button
                   type="submit"
-                  text="Select Year"
+                  text="Confirm"
                   onClick={() => {
                     let dooks = document.getElementById("select-year").value; //selected year
+                    let bob = document.getElementById("select-nb-year").value; //number of years shown
                     this.setState({
                       startingYear: dooks,
+                      numberOfYear: bob,
                       showYearPicker: false
                     });
                   }}
