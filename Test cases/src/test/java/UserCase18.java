@@ -3,7 +3,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class UserCase18 {
-	public static boolean run () {
+	public static boolean run (String user, String pass) {
 		//System.setOut(new PrintStream(new FileOutputStream(fileName)));
 		boolean success = false;
 		WebDriver Driver;
@@ -19,9 +19,8 @@ public class UserCase18 {
 		//Driver.findElement(By.xpath("//input")).sendKeys("user");
 		//Driver.findElement(By.xpath("//div[2]/input")).sendKeys("password");
 		//Driver.findElement(By.xpath("//button[@value='Submit']")).click();
-		System.out.println("ELEMENT "+ Driver.findElement(By.xpath("//h2[contains(.,'Which build option would you like?')]")).getText());
-		if (Driver.findElement(By.xpath("//h2")).getText().equals("Which build option would you like?")) {
-			System.out.println("Made it to /LoadingCourses . Login successful");
+		if (Driver.findElement(By.xpath("//button[contains(.,'Semester')]")).isDisplayed()) {
+			System.out.println("Made it to /build-seq-or-sem. Login successful");
 			success = true;
 		}
 		Driver.manage().deleteAllCookies();

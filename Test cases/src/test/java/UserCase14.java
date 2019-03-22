@@ -8,7 +8,7 @@ import java.sql.Driver;
 import java.util.concurrent.TimeUnit;
 
 public class UserCase14 {
-	public static boolean run() {
+	public static boolean run(String user, String pass) {
 
 		boolean success = false;
 		WebDriver Driver;
@@ -19,9 +19,9 @@ public class UserCase14 {
 		System.out.println("Navigated to url (logged out)");
 		Driver.findElement(By.xpath("//button[contains(.,'I am a Student')]")).click();
 		System.out.println("filling credentials with username: user, password: pass");
-		Driver.findElement(By.xpath("//input")).sendKeys("user");
-		Driver.findElement(By.xpath("//div[2]/input")).sendKeys("password");
-		Driver.findElement(By.xpath("//button[@value='Submit']")).click();
+		Driver.findElement(By.xpath("//input")).sendKeys(user);
+		Driver.findElement(By.xpath("//div[2]/input")).sendKeys(pass);
+		Driver.findElement(By.id("waiting")).click();
 		//System.out.println("ELEMENT "+ driver.findElement(By.xpath("//h2[contains(.,'Select an Option')]")).getText());
 		if (Driver.findElement(By.xpath("//button[contains(.,'Semester')]")).isDisplayed())
 			System.out.println("Made it to /build-seq-or-sem. Login successful");

@@ -11,7 +11,7 @@ import static java.lang.Thread.*;
 //import org.testng.annotations.Test;
 
 public class UserCase1 {
-	public static boolean run () {
+	public static boolean run (String user, String pass) {
 		//System.setOut(new PrintStream(new FileOutputStream(fileName)));
 		boolean success = false;
 		WebDriver Driver;
@@ -26,10 +26,10 @@ public class UserCase1 {
 		Driver.manage().deleteAllCookies();
 		System.out.println("Navigated to url (logged out)");
 		Driver.findElement(By.xpath("//button[contains(.,'I am a Student')]")).click();
-		System.out.println("filling credentials with username: user, password: pass");
-		Driver.findElement(By.xpath("//input")).sendKeys("user");
-		Driver.findElement(By.xpath("//div[2]/input")).sendKeys("password");
-		Driver.findElement(By.xpath("//button[@value='Submit']")).click();
+		System.out.println("filling credentials with username and password");
+		Driver.findElement(By.xpath("//input")).sendKeys(user);
+		Driver.findElement(By.xpath("//div[2]/input")).sendKeys(pass);
+		Driver.findElement(By.id("waiting")).click();
 		//Driver.findElement(By.xpath("//button[@value='Submit']")).click();
 //		int count = 10000;
 //		while (count>0)
