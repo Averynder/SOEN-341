@@ -41,27 +41,6 @@
 					"endTime": "17:45"
 				}]
 			}],
-      "tutorial": [{
-				"section": "NNNA",
-				"days": ["Friday"],
-				"startTime": "13:15",
-				"endTime": "14:45"
-			},{
-				"section": "NNNB",
-				"days": ["Thursday"],
-				"startTime": "16:15",
-				"endTime": "17:45"
-			},{
-				"section": "QQQA",
-				"days": ["Thursday"],
-				"startTime": "13:15",
-				"endTime": "14:45"
-			},{
-				"section": "QQQB",
-				"days": ["Wednesday"],
-				"startTime": "16:15",
-				"endTime": "17:45"
-			}],
       "lab": [{
 				"section": "A-X",
 				"days": ["Wednesday"],
@@ -86,33 +65,34 @@
 				"section": "NN",
 				"days": ["Monday", "Wednesday"],
 				"startTime": "14:00",
-				"endTime": "15:30"
+				"endTime": "15:30",
+				"tutorial": [{
+					"section": "NNNA",
+					"days": ["Friday"],
+					"startTime": "15:15",
+					"endTime": "16:45"
+				},{
+					"section": "NNNB",
+					"days": ["Thursday"],
+					"startTime": "18:15",
+					"endTime": "19:45"
+				}]
 			},{
 				"section": "QQ",
 				"days": ["Tuesday", "Thursday"],
 				"startTime": "18:00",
-				"endTime": "19:30"
-			}],
-      "tutorial": [{
-				"section": "NNNA",
-				"days": ["Friday"],
-				"startTime": "15:15",
-				"endTime": "16:45"
-			},{
-				"section": "NNNB",
-				"days": ["Thursday"],
-				"startTime": "18:15",
-				"endTime": "19:45"
-			},{
-				"section": "QQQA",
-				"days": ["Thursday"],
-				"startTime": "15:15",
-				"endTime": "16:45"
-			},{
-				"section": "QQQB",
-				"days": ["Wednesday"],
-				"startTime": "18:15",
-				"endTime": "19:45"
+				"endTime": "19:30",
+				"tutorial": [{
+					"section": "QQQA",
+					"days": ["Thursday"],
+					"startTime": "15:15",
+					"endTime": "16:45"
+				},{
+					"section": "QQQB",
+					"days": ["Wednesday"],
+					"startTime": "18:15",
+					"endTime": "19:45"
+				}]
 			}],
       "lab": [{
 				"section": "A-X",
@@ -138,33 +118,34 @@
 				  "section": "NN",
 				  "days": ["Monday", "Wednesday"],
 				  "startTime": "17:00",
-				  "endTime": "18:30"
+				  "endTime": "18:30",
+				  "tutorial": [{
+					"section": "NNNA",
+					"days": ["Friday"],
+					"startTime": "17:15",
+					"endTime": "18:45"
+				},{
+					"section": "NNNB",
+					"days": ["Thursday"],
+					"startTime": "20:15",
+					"endTime": "21:45"
+				}]
 			  },{
 				  "section": "QQ",
 				  "days": ["Tuesday", "Thursday"],
 				  "startTime": "20:00",
-				  "endTime": "21:30"
-			  }],
-		"tutorial": [{
-				  "section": "NNNA",
-				  "days": ["Friday"],
-				  "startTime": "17:15",
-				  "endTime": "18:45"
-			  },{
-				  "section": "NNNB",
-				  "days": ["Thursday"],
-				  "startTime": "20:15",
-				  "endTime": "21:45"
-			  },{
-				  "section": "QQQA",
-				  "days": ["Thursday"],
-				  "startTime": "17:15",
-				  "endTime": "18:45"
-			  },{
-				  "section": "QQQB",
-				  "days": ["Wednesday"],
-				  "startTime": "20:15",
-				  "endTime": "21:45"
+				  "endTime": "21:30",
+				  "tutorial": [{
+					"section": "QQQA",
+					"days": ["Thursday"],
+					"startTime": "17:15",
+					"endTime": "18:45"
+				},{
+					"section": "QQQB",
+					"days": ["Wednesday"],
+					"startTime": "20:15",
+					"endTime": "21:45"
+				}]
 			  }],
 		"lab": [{
 				  "section": "A-X",
@@ -190,33 +171,34 @@
 				  "section": "NN",
 				  "days": ["Monday"],
 				  "startTime": "8:00",
-				  "endTime": "10:30"
+				  "endTime": "10:30",
+				  "tutorial": [{
+					"section": "NNNA",
+					"days": ["Friday"],
+					"startTime": "17:15",
+					"endTime": "18:45"
+				},{
+					"section": "NNNB",
+					"days": ["Thursday"],
+					"startTime": "20:15",
+					"endTime": "21:45"
+				}]
 			  },{
 				  "section": "QQ",
 				  "days": ["Friday"],
 				  "startTime": "8:00",
-				  "endTime": "10:30"
-			  }],
-		"tutorial": [{
-				  "section": "NNNA",
-				  "days": ["Friday"],
-				  "startTime": "17:15",
-				  "endTime": "18:45"
-			  },{
-				  "section": "NNNB",
-				  "days": ["Thursday"],
-				  "startTime": "20:15",
-				  "endTime": "21:45"
-			  },{
-				  "section": "QQQA",
-				  "days": ["Thursday"],
-				  "startTime": "17:15",
-				  "endTime": "18:45"
-			  },{
-				  "section": "QQQB",
-				  "days": ["Wednesday"],
-				  "startTime": "20:15",
-				  "endTime": "21:45"
+				  "endTime": "10:30",
+				  "tutorial": [{
+					"section": "QQQA",
+					"days": ["Thursday"],
+					"startTime": "17:15",
+					"endTime": "18:45"
+				},{
+					"section": "QQQB",
+					"days": ["Wednesday"],
+					"startTime": "20:15",
+					"endTime": "21:45"
+				}]
 			  }],
 		"lab": [{
 				  "section": "A-X",
@@ -242,33 +224,34 @@
 				  "section": "NN",
 				  "days": ["Tuesday"],
 				  "startTime": "8:00",
-				  "endTime": "10:30"
+				  "endTime": "10:30",
+				  "tutorial": [{
+					"section": "NNNA",
+					"days": ["Tuesday"],
+					"startTime": "17:15",
+					"endTime": "18:45"
+				},{
+					"section": "NNNB",
+					"days": ["Wednesday"],
+					"startTime": "20:15",
+					"endTime": "21:45"
+				}]
 			  },{
 				  "section": "QQ",
 				  "days": ["Wednesday"],
 				  "startTime": "8:00",
-				  "endTime": "10:30"
-			  }],
-		"tutorial": [{
-				  "section": "NNNA",
-				  "days": ["Tuesday"],
-				  "startTime": "17:15",
-				  "endTime": "18:45"
-			  },{
-				  "section": "NNNB",
-				  "days": ["Wednesday"],
-				  "startTime": "20:15",
-				  "endTime": "21:45"
-			  },{
-				  "section": "QQQA",
-				  "days": ["Thursday"],
-				  "startTime": "17:15",
-				  "endTime": "18:45"
-			  },{
-				  "section": "QQQB",
-				  "days": ["Wednesday"],
-				  "startTime": "20:15",
-				  "endTime": "21:45"
+				  "endTime": "10:30",
+				  "tutorial": [{
+					"section": "QQQA",
+					"days": ["Thursday"],
+					"startTime": "17:15",
+					"endTime": "18:45"
+				},{
+					"section": "QQQB",
+					"days": ["Wednesday"],
+					"startTime": "20:15",
+					"endTime": "21:45"
+				}]
 			  }],
 		"lab": [{
 				  "section": "A-X",
