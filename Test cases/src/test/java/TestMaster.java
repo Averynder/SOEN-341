@@ -48,7 +48,7 @@ public class TestMaster
 		}
 
 		// run as many times as user specified
-		while (numberOfRuns > 0)
+		while (numberOfRuns > 0)	//TODO: Fix 1+ runs
 		{	switch (userCaseNumber){
 				case 1: if (UserCase1.run())
 				{
@@ -60,14 +60,21 @@ public class TestMaster
 					System.out.println("Test #"+numberOfRuns+" failed for UC1, please verify in the log file or messages above");
 					numberOfRuns = 0;
 				}break;
-				case 2: if (UserCase14.run()){
-					System.out.println("Test #"+numberOfRuns+" completed successfully for UC2");
+				case 14: if (UserCase14.run()){
+					System.out.println("Test #"+numberOfRuns+" completed successfully for UC14");
 					numberOfRuns--;
 
 				}else{
-					System.out.println("Test #"+numberOfRuns+" failed for UC2, please verify in the log file or messages above");
+					System.out.println("Test #"+numberOfRuns+" failed for UC14, please verify in the log file or messages above");
 					numberOfRuns = 0;
 				}break;
+				case 18: if (UserCase18.run()){
+					System.out.println("Test#"+numberOfRuns+" completed successfully for UC18");
+					numberOfRuns--;
+				}else{
+					System.out.println("Test #"+numberOfRuns+" failed for UC18, please verify in the log file or messages above");
+					numberOfRuns = 0;
+				}
 			}
 		}
 		userInput.close();

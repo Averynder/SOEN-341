@@ -35,7 +35,7 @@ class Modal extends Component
     {
       const redirectToReferrer = this.state.redirectToReferrer;
       if (redirectToReferrer === true) {
-        return <Redirect to="/LoadingCourses" />
+        return <Redirect to="/build-seq-or-sem" />
       }
       if(!this.props.show)
       {
@@ -74,4 +74,3 @@ class Modal extends Component
 }
 
 export default Modal;
-
