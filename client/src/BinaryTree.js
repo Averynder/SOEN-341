@@ -21,7 +21,7 @@ class BinaryTree extends Component
 
 	toString()
 	{
-		return ("root: " + this.root.toString2());
+		return ("root: " + this.root);
 	}
 
 	render() {

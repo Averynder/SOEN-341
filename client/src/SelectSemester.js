@@ -13,13 +13,16 @@ class SelectSemester extends React.Component {
     this.state = {
       courses: data.default.sequence,
       selectedCourses: [],
-      show: "hidden"
+      show2: "hidden"
     };
   }
-
+//////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////
   addClass = () => {
     let array = this.state.selectedCourses; //Keep track of user selected classes
-    let input = document.getElementById("add-class").value; //Get user input
+    let input = document.getElementById("add-class1").value; //Get user input
     let classList = this.state.courses; //Gets the whole list of courses of concordia
     let addedClass;
     let classExists = false;
@@ -27,22 +30,22 @@ class SelectSemester extends React.Component {
       if (classList[i].course === input) {
         for (let j = 0; j < this.state.selectedCourses.length; j++) {
           if (this.state.selectedCourses[j].course === input) {
-            document.getElementById("addStatus").innerHTML =
+            document.getElementById("addStatus1").innerHTML =
               "This class is already added.";
-            this.setState({ show: "visible" });
+            this.setState({ show2: "visible" });
             return;
           }
         }
         addedClass = classList[i];
         classExists = true;
-        this.setState({ show: "hidden" });
+        this.setState({ show2: "hidden" });
         break;
       }
     }
     if (classExists === false) {
-      document.getElementById("addStatus").innerHTML =
+      document.getElementById("addStatus1").innerHTML =
         "Invalid Class/Class Not Found";
-      this.setState({ show: "visible" });
+      this.setState({ show2: "visible" });
       return;
     }
     array.push(addedClass);
@@ -52,7 +55,7 @@ class SelectSemester extends React.Component {
   };
 
   remove = () => {
-    let coursecode = document.getElementById("add-class").value;
+    let coursecode = document.getElementById("add-class1").value;
     let array = this.state.selectedCourses.filter(
       data => coursecode !== data.course
     );
@@ -60,8 +63,16 @@ class SelectSemester extends React.Component {
       selectedCourses: array
     });
   };
+  //////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////
 
   render() {
+    //////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////
     let x = this.state.selectedCourses.map(element => (
       <tr>
         <td>
@@ -101,6 +112,11 @@ class SelectSemester extends React.Component {
     let allOptions = this.state.courses.map(choice => (
       <option value={choice.course} />
     ));
+
+    //////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////
 
     const currentYear = new Date().getFullYear();
     var yeetus = [];
@@ -153,17 +169,17 @@ class SelectSemester extends React.Component {
               <div className="container">
                 <div className="row bg-secondary text-white rounded">
                   <div className="col">
-                    <label for="add-class">
+                    <label for="add-class1">
                       <h6 id="test">Select Course</h6>
                     </label>
                     <input
                       type="text"
-                      list="add-class1"
-                      id="add-class"
+                      list="add-class2"
+                      id="add-class1"
                       className="btn btn-dark"
                       placeholder="Course Number"
                     />
-                    <datalist id="add-class1">{allOptions}</datalist>
+                    <datalist id="add-class2">{allOptions}</datalist>
                   </div>
                   <div className="col">
                     <Button
@@ -181,8 +197,8 @@ class SelectSemester extends React.Component {
               </div>
 
               <p
-                id="addStatus"
-                style={{ color: "red", visibility: this.state.show }}
+                id="addStatus1"
+                style={{ color: "red", visibility: this.state.show2 }}
               />
               <div className="mt-4">{table}</div>
 

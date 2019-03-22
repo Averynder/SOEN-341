@@ -2,7 +2,8 @@ import React from "react";
 import Navbar from "./components/Navbar";
 import Greetings from "./components/Greetings";
 import ButtonContainer from "./components/ButtonContainer";
-import Modal from "./components/Modal";
+import LoginLoading from "./components/loginLoading";
+import LoginModal from "./components/LoginModal";
 import Backdrop from "./components/Backdrop";
 import Button from "./components/Button";
 import { Link } from "react-router-dom";
@@ -77,15 +78,14 @@ class App extends React.Component {
           <Button text="Refresh Time" onClick={this.getTime} />
         </Greetings>
         <ButtonContainer>
-          <Button text="I Am A Student" onClick={this.toggleStudent} />
-          <Button text="I Am A Professor" onClick={this.toggleTeacher} />
+          <Button text="I am a Student" onClick={this.toggleStudent} />
           <Link to="/build-seq-or-sem">
-            <Button text="I Am New To This Website" />
+            <Button text="No Login" />
           </Link>
         </ButtonContainer>
 
         <Backdrop show={this.state.isOpenStudent} onClose={this.toggleStudent}>
-          <Modal
+          <LoginModal
             show={this.state.isOpenStudent}
             onClose={this.toggleStudent}
             userType="Student"
@@ -94,7 +94,7 @@ class App extends React.Component {
         </Backdrop>
 
         <Backdrop show={this.state.isOpenTeacher} onClose={this.toggleTeacher}>
-          <Modal
+          <LoginModal
             show={this.state.isOpenTeacher}
             onClose={this.toggleTeacher}
             userType="Teacher"

@@ -33,6 +33,14 @@ class MyDoublyLinkedList extends Component {
         this.size = 0;
     }
 
+    getLast() {
+        return this.tail.element;
+    }
+
+    getFirst() {
+        return this.head.element;
+    }
+
     cloneMe() {
 
         var newLL = new MyDoublyLinkedList();
@@ -81,15 +89,15 @@ class MyDoublyLinkedList extends Component {
 
             // for (var i = 0; i < this.size; i++) {
 
-                let current = this.head;
-                while (current !== null) {
+            let current = this.head;
+            while (current !== null) {
 
-                    if (JSON.stringify(current.element) === JSON.stringify(element)) {
-                        console.log("Duplicate element found! Will not be added.");
-                        return
-                    }
-                    current = current.next;
+                if (JSON.stringify(current.element) === JSON.stringify(element)) {
+                    console.log("Duplicate element found! Will not be added.");
+                    return
                 }
+                current = current.next;
+            }
             // }
         }
 
@@ -225,12 +233,12 @@ class MyDoublyLinkedList extends Component {
         }
 
         else if (this.size > 1) {
-        var tmp = this.head;
-        this.head = this.head.next;
-        this.head.prev = null;
-        this.size--;
-        console.info("deleted: " + tmp.element);
-        return tmp.element;
+            var tmp = this.head;
+            this.head = this.head.next;
+            this.head.prev = null;
+            this.size--;
+            console.info("deleted: " + tmp.element);
+            return tmp.element;
         }
 
         else if (this.size === 0) {

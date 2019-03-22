@@ -3,7 +3,7 @@ var router = express.Router();
 var app = express();
 
 
-class Course {
+class LectureSequence {
     //
     // courseTitle;
     // subject;
@@ -12,27 +12,36 @@ class Course {
     // prereqs;
     // coreqs;
 
-    constructor(courseTitle, subject, catalog, credits, prereqs, coreqs) {
-        this.courseTitle = courseTitle;
+    constructor(subject, catalog, lectureSectionNumber, classLocation, days, startTime, endTime, semester) {
         this.subject = subject;
         this.catalog = catalog;
-        this.credits = credits;
-        this.prereqs = prereqs;
-        this.coreqs = coreqs;
+        this.lectureSectionNumber = lectureSectionNumber;
+        this.classLocation = classLocation;
+        this.days = days;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.semester = semester;
+
     }
 
 
 
     clone () {
-        var cc = new Course(null,null,null,null,null,null);
-        cc.courseTitle = this.courseTitle;
+        var cc = new LectureSequence(null,null,null,null,null,null,null,null);
         cc.subject = this.subject;
         cc.catalog = this.catalog;
-        cc.credits = this.credits;
-        cc.prereqs = this.prereqs;
-        cc.coreqs = this.coreqs;
+        cc.lectureSectionNumber = this.lectureSectionNumber;
+        cc.classLocation = this.classLocation;
+        cc.days = this.days;
+        cc.startTime = this.startTime;
+        cc.endTime = this.endTime;
+        cc.semester = this.semester;
+
         return cc;
     }
+
+
+
 }
 
 // console.log("same?");
@@ -54,4 +63,4 @@ class Course {
 
 
 
-module.exports = Course;
+module.exports = LectureSequence;

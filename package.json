@@ -6,7 +6,7 @@
     "start": "cross-env PORT=3001 nodemon ./bin/www"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "async-waterfall": "^0.1.5",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
@@ -21,7 +21,10 @@
     "passport-local": "^1.0.0",
     "prompt": "^1.0.0",
     "pug": "2.0.0-beta11",
+    "react-promise": "^2.1.0",
     "readline-sync": "^1.4.9",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
     "selenium-webdriver": "^4.0.0-alpha.1",
     "sequelize": "^4.43.0",
     "sequelize-cli": "^5.4.0"

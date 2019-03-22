@@ -223,6 +223,15 @@ class MyDoublyLinkedList {
      * @return
      * @return {*}
      */
+
+    getLast() {
+        return this.tail.element;
+    }
+
+    getFirst() {
+        return this.head.element;
+    }
+
     removeLast() {
 
         if (this.size === 1) {
@@ -299,6 +308,8 @@ MyDoublyLinkedList["class"] = "MyDoublyLinkedList";
     MyDoublyLinkedList.Node = Node;
     Node["class"] = "MyDoublyLinkedList.Node";
 })(MyDoublyLinkedList || (MyDoublyLinkedList = {}));
+
+
 
 
 
