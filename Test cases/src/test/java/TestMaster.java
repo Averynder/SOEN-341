@@ -6,7 +6,7 @@ public class TestMaster {
 		Scanner userInput = new Scanner(System.in);
 		System.out.print("Please enter username: ");
 		String username = userInput.nextLine();
-		System.out.print("\nPassword: ");
+		System.out.print("\n Password: ");
 		String password = userInput.nextLine();
 		outerloop: while (true) {
 			int userCaseNumber = 0;
@@ -17,9 +17,14 @@ public class TestMaster {
 			while (!runsEntered || !userCaseEntered) {
 				try {
 					while (!userCaseEntered) {
-						System.out.print("Which user case would you like to run (-1 to exit):");
+						System.out.print("Which user case would you like to run (0 to exit):");
 						userCaseNumber = userInput.nextInt();
 						userInput.nextLine();
+						if (userCaseNumber == 0) {
+							System.out.println("Goodbye");
+							userInput.close();
+							System.exit(0);
+						}
 						if (userCaseNumber < 50 && userCaseNumber > -1)
 							userCaseEntered = true;
 						else {
@@ -45,14 +50,16 @@ public class TestMaster {
 			// run as many times as user specified
 			while (numberOfRuns > 0) {
 				switch (userCaseNumber) {
-					case 0:
-						break outerloop;
+
 					case 1:
-						if (UserCase1.run(username, password)) {
+						System.out.println("Do you want the login to succeed? [y/n]:");
+						String answer = userInput.nextLine();
+						boolean isSuccessful = (answer.equals("y"))?true:false;
+						if (UserCase1.run(username, password, isSuccessful)) {
 							System.out.println("Test #" + numberOfRuns + " completed successfully for UC1");
 							numberOfRuns--;
 						} else {
-							System.out.println("Test #" + numberOfRuns + " failed for UC1, please verify in the log file or messages above");
+							System.out.println("Test #" + numberOfRuns + " failed for UC1. Was it on purpose? Please read log.");
 							numberOfRuns = 0;
 						}
 						break;
@@ -77,6 +84,6 @@ public class TestMaster {
 				}
 			}
 		}
-			userInput.close();
+
 	}
 }

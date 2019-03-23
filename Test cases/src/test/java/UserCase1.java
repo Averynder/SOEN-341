@@ -10,37 +10,10 @@ import static java.lang.Thread.*;
 //import org.testng.annotations.BeforeMethod;
 //import org.testng.annotations.Test;
 
-public class UserCase1 {
-	public static boolean run (String user, String pass) {
+public class UserCase1 extends UC {
+	public static boolean run (String user, String pass, boolean isSuccessful) {
 		//System.setOut(new PrintStream(new FileOutputStream(fileName)));
-		boolean success = false;
-		WebDriver Driver;
-		String URL = "http://localhost:3000";
-		Driver = new FirefoxDriver();
-		Driver.manage().timeouts().implicitlyWait(100,TimeUnit.SECONDS) ;
-
-
-
-
-		Driver.get(URL);
-		Driver.manage().deleteAllCookies();
-		System.out.println("Navigated to url (logged out)");
-		Driver.findElement(By.xpath("//button[contains(.,'I am a Student')]")).click();
-		System.out.println("filling credentials with username and password");
-		Driver.findElement(By.xpath("//input")).sendKeys(user);
-		Driver.findElement(By.xpath("//div[2]/input")).sendKeys(pass);
-		Driver.findElement(By.id("waiting")).click();
-		//Driver.findElement(By.xpath("//button[@value='Submit']")).click();
-//		int count = 10000;
-//		while (count>0)
-//			count--;
-
-	//	System.out.println("ELEMENT "+ Driver.findElement(By.xpath("//h2[contains(.,'Which build option would you like?')]")).getText());
-		if (Driver.findElement(By.xpath("//button[contains(.,'Semester')]")).isDisplayed()) {
-			System.out.println("Made it to /build-seq-or-sem. Login successful");
-			success = true;
-		}
-
+		boolean success = login(user, pass, isSuccessful);
 		System.out.println("CLOSING DRIVER");
 		Driver.quit();
 		System.out.println("DRIVER CLOSED");

@@ -7,24 +7,10 @@ import org.openqa.selenium.support.ui.Select;
 import java.sql.Driver;
 import java.util.concurrent.TimeUnit;
 
-public class UserCase14 {
+public class UserCase14 extends UC{
 	public static boolean run(String user, String pass) {
 
-		boolean success = false;
-		WebDriver Driver;
-		String URL = "http://localhost:3000";
-		Driver = new FirefoxDriver();
-		Driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS) ;
-		Driver.get(URL);
-		System.out.println("Navigated to url (logged out)");
-		Driver.findElement(By.xpath("//button[contains(.,'I am a Student')]")).click();
-		System.out.println("filling credentials with username: user, password: pass");
-		Driver.findElement(By.xpath("//input")).sendKeys(user);
-		Driver.findElement(By.xpath("//div[2]/input")).sendKeys(pass);
-		Driver.findElement(By.id("waiting")).click();
-		//System.out.println("ELEMENT "+ driver.findElement(By.xpath("//h2[contains(.,'Select an Option')]")).getText());
-		if (Driver.findElement(By.xpath("//button[contains(.,'Semester')]")).isDisplayed())
-			System.out.println("Made it to /build-seq-or-sem. Login successful");
+		login(user, pass, true);
 		Driver.findElement(By.xpath("//button[contains(.,'Semester')]")).click();
 		System.out.println("Selected semester instead of sequence");
 		WebElement DropDownSemesterMenu = Driver.findElement(By.xpath("//select[@id='semester']"));
@@ -36,12 +22,16 @@ public class UserCase14 {
 		System.out.println("Selected Winter 2020");
 		Driver.findElement(By.xpath("//button[contains(.,'Continue')]")).click();
 		Driver.findElement(By.xpath("//input")).sendKeys("COMP248");
+		int count = 500;
+		while (count>0)
+			count--;
 		Driver.findElement(By.xpath("//button[@type='button']")).click();
 		Driver.findElement(By.xpath("//select")).click();
 		WebElement Section = Driver.findElement(By.name("course-section"));
 		Select sectionSelector = new Select(Section);
 		sectionSelector.selectByVisibleText("section 2");
-		success = true;
+		boolean success = true;
+		System.out.println("Added COMP248 section 2 successfully");
 		Driver.close();
 		//need to click submit button, then start adding courses to the schedule.
 		return success;
