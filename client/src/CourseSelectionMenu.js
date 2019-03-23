@@ -64,7 +64,7 @@ class CourseSelectionMenu extends React.Component {
         "Saturday",
         "Sunday"
       ],
-      classes: JSON.parse(JSON.stringify(data.sequence)),
+      //classes: JSON.parse(JSON.stringify(data.sequence)),
 
       colors: [["red", 0], ["pink", 0], ["green", 0], ["yellow", 0], ["orange", 0], ["blue", 0], ["black", 0]],
 
@@ -308,14 +308,19 @@ class CourseSelectionMenu extends React.Component {
     let courseNameInput = document.getElementById("colorChanger").value; //Get user input comp248
     let chosenClass; //class object
 
-    for (let i = 0; i < this.state.classes.length; i++) {
-      if (courseNameInput === this.state.classes[i].course) {
-        chosenClass = this.state.classes[i];
+    // instead of 'selectedCourses' it looped through 'classes' before
+    for (let i = 0; i < this.state.selectedCourses.length; i++) {
+      if (courseNameInput === this.state.selectedCourses[i][0].course) {
+        chosenClass = this.state.selectedCourses[i];
         break;
       }
     }
 
-    document.getElementById(chosenClass.course).style.backgroundColor = color.hex;
+    let lectureSection = chosenClass[1];
+    let tutorialSection = chosenClass[2];
+    let labSection = chosenClass[3];
+
+    document.getElementById(chosenClass[0].course).style.backgroundColor = color.hex;
 
     let color1;
 
@@ -326,31 +331,55 @@ class CourseSelectionMenu extends React.Component {
       }
     }
 
-  for(let j=0; j<chosenClass.days.length; j++) //added
+  for(let j=0; j<chosenClass[0].lecture[lectureSection].days.length; j++) //added
     for (let i = 0; i < 61; i++) {
-      let dayOfTheWeek = chosenClass.days[j] + "-";
+      let dayOfTheWeek = chosenClass[0].lecture[lectureSection].days[j] + "-";
       if (
-        this.timeToNum(chosenClass.startTime) <= i &&
-        this.timeToNum(chosenClass.endTime) >= i
+        this.timeToNum(chosenClass[0].lecture[lectureSection].startTime) <= i &&
+        this.timeToNum(chosenClass[0].lecture[lectureSection].endTime) >= i
       ) {
         color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
         document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
       }
     }
 
-    for(let k=0; k<chosenClass.ta.length; k++)
-      for(let j=0; j<chosenClass.ta[k].days.length; j++){
-        let dayOfTheWeek = chosenClass.ta[k].days[j] + "-";
-        for (let i = 0; i < 61; i++) {
-          if (
-            this.timeToNum(chosenClass.ta[k].startTime) <= i &&
-            this.timeToNum(chosenClass.ta[k].endTime) >= i
-          ) {
-            color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
-            document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
-          }
-        }
+    for(let j=0; j<chosenClass[0].lecture[lectureSection].tutorial[tutorialSection].days.length; j++) //added
+    for (let i = 0; i < 61; i++) {
+      let dayOfTheWeek = chosenClass[0].lecture[lectureSection].tutorial[tutorialSection].days[j] + "-";
+      if (
+        this.timeToNum(chosenClass[0].lecture[lectureSection].tutorial[tutorialSection].startTime) <= i &&
+        this.timeToNum(chosenClass[0].lecture[lectureSection].tutorial[tutorialSection].endTime) >= i
+      ) {
+        color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
+        document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
       }
+    }
+
+    for(let j=0; j<chosenClass[0].lab[labSection].days.length; j++) //added
+    for (let i = 0; i < 61; i++) {
+      let dayOfTheWeek = chosenClass[0].lab[labSection].days[j] + "-";
+      if (
+        this.timeToNum(chosenClass[0].lab[labSection].startTime) <= i &&
+        this.timeToNum(chosenClass[0].lab[labSection].endTime) >= i
+      ) {
+        color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
+        document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
+      }
+    }
+
+    // for(let k=0; k<chosenClass.ta.length; k++)
+    //   for(let j=0; j<chosenClass.ta[k].days.length; j++){
+    //     let dayOfTheWeek = chosenClass.ta[k].days[j] + "-";
+    //     for (let i = 0; i < 61; i++) {
+    //       if (
+    //         this.timeToNum(chosenClass.ta[k].startTime) <= i &&
+    //         this.timeToNum(chosenClass.ta[k].endTime) >= i
+    //       ) {
+    //         color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
+    //         document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
+    //       }
+    //     }
+    //   }
 
     for (let j = 0; j < this.state.colors.length; j++) {
       if (this.state.colors[j][0] == color1) {
