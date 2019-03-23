@@ -6,16 +6,16 @@ class JsonLecture extends Component {
 	days;
 	startTime;
 	endTime;
-	room;
+	tutorial;
 
-	constructor(section, days, startTime, endTime, room)
+	constructor(section, days, startTime, endTime)
 	{
 		super();
 		this.section = section;
 		this.days = days;
 		this.startTime = startTime;
 		this.endTime = endTime;
-		this.room = room;
+		this.tutorial = []
 	}
 
 	clone () {
@@ -28,10 +28,6 @@ class JsonLecture extends Component {
 		return cc;
 	}
 
-	hasMe(jl)
-	{
-
-	}
 }
 
 export default JsonLecture;

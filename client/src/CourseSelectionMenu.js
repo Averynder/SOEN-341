@@ -10,6 +10,7 @@ import { CirclePicker } from "react-color";
 import reactCSS from "reactcss";
 import LoadingScreen from 'react-loading-screen';
 import JsonLecture from "./JsonLecture";
+import JsonClass from "./JsonClass";
 
 class CourseSelectionMenu extends React.Component {
   constructor(props, context) {
@@ -115,6 +116,9 @@ class CourseSelectionMenu extends React.Component {
 
   regEx()
   {
+    console.log(this.state.lectures);
+    var courses31 = [];
+
     while (this.state.lectures.length > 1)
     {
       var subjectStart = this.state.lectures.indexOf("\"subject\":\"");
@@ -180,11 +184,37 @@ class CourseSelectionMenu extends React.Component {
       var endQuote8 = this.state.lectures.indexOf("\"");
       var semester = this.state.lectures.substring(0,endQuote8);
 
+      // Adding all the different Courses to an arraylist "courses"
+      var newCourse = new JsonClass(subject,semester,location);
+      var inThere = false;
+      var indexOfCourse = 0;
+      console.log(courses31.length);
+      var i;
+      for (i = 0; i < courses31.length; i++)
+      {
+        var boolean1 = courses31[i].equals2(newCourse);
+        if (boolean1 == true)
+        {
+          console.log("true: " + courses31[i].equals2(newCourse));
+          inThere = true;
+          indexOfCourse = i;
+        }
+      }
+      if (!inThere)
+      {
+        courses31.push(newCourse);
+        indexOfCourse = courses31.length-1;
+      }
+      // Adding The Lecture to the Course
       var lecture = new JsonLecture(sectionNumber,days,startTime,endTime,location);
-      console.log(lecture);
+      courses31[indexOfCourse].addLecture(lecture);
+
+      // Displaying Results
+      //console.log(lecture);
       console.log(subject + " " + sectionNumber + " " + location + " " + days + " " + startTime + " " + endTime + " " + semester);
     }
-    console.log(data.sequence);
+    console.log(courses31);
+    console.log(data1.sequence);
   }
 
   timeToNum = time => {
