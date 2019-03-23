@@ -1,3 +1,4 @@
+import java.sql.Driver;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 public class TestMaster {
@@ -23,7 +24,9 @@ public class TestMaster {
 						if (userCaseNumber == 0) {
 							System.out.println("Goodbye");
 							userInput.close();
-							System.exit(0);
+							if (UC.Driver != null)
+								UC.Driver.quit();
+							break outerloop;
 						}
 						if (userCaseNumber < 50 && userCaseNumber > -1)
 							userCaseEntered = true;
@@ -48,14 +51,19 @@ public class TestMaster {
 			}
 
 			// run as many times as user specified
+			boolean answeredQuestion= false;
+			boolean isSuccessful = false;
 			while (numberOfRuns > 0) {
 				switch (userCaseNumber) {
 
 					case 1:
-						System.out.println("Do you want the login to succeed? [y/n]:");
-						String answer = userInput.nextLine();
-						boolean isSuccessful = (answer.equals("y"))?true:false;
-						if (UserCase1.run(username, password, isSuccessful)) {
+						if(!answeredQuestion) {
+							System.out.print("Do you want the login to succeed? [y/n]: ");
+							String answer = userInput.nextLine();
+							System.out.println();
+							isSuccessful =answer.equals("y");
+							answeredQuestion = true;
+						}if (UserCase1.run(username, password, isSuccessful)) {
 							System.out.println("Test #" + numberOfRuns + " completed successfully for UC1");
 							numberOfRuns--;
 						} else {
@@ -69,20 +77,37 @@ public class TestMaster {
 							numberOfRuns--;
 
 						} else {
-							System.out.println("Test #" + numberOfRuns + " failed for UC14, please verify in the log file or messages above");
+							System.out.println("Test #" + numberOfRuns + "failed for UC14. Was it on purpose? Please read log.");
 							numberOfRuns = 0;
 						}
 						break;
 					case 18:
 						if (UserCase18.run()) {
-							System.out.println("Test#" + numberOfRuns + " completed successfully for UC18");
+							System.out.println("Test #" + numberOfRuns + " completed successfully for UC18");
 							numberOfRuns--;
 						} else {
-							System.out.println("Test #" + numberOfRuns + " failed for UC18, please verify in the log file or messages above");
+							System.out.println("Test #" + numberOfRuns + " failed for UC18. Was it on purpose? Please read log.");
 							numberOfRuns = 0;
 						}
+						break ;
+					case 22:
+						if(!answeredQuestion) {
+						System.out.print("Do you want to perform this use case while logged in? [y/n]: ");
+						String answer = userInput.nextLine();
+						System.out.println();
+						isSuccessful =answer.equals("y");
+						answeredQuestion = true;
+					}if(UserCase22.run(username, password, isSuccessful)){
+						System.out.println("Test #"+ numberOfRuns+" completed successfully for UC22");
+						numberOfRuns--;
+					}else{
+						System.out.println("Test #"+ numberOfRuns+" failed for UC1. Was it on purpose? Please read log.");
+						numberOfRuns = 0;
+					}
+
 				}
 			}
+
 		}
 
 	}

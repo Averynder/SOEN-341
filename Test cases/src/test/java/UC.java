@@ -5,14 +5,20 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import java.util.concurrent.TimeUnit;
 
 public class UC {
+	static boolean isLoggedIn = false;
 	static WebDriver Driver;
 	static final String URL = "http://localhost:3000";
-	public  static boolean login (String user, String pass, boolean isSuccessful) {
+	private static void setup(){
+//		System.setProperty("webdriver.gecko.driver","src/main/resources/drivers/geckodriver.exe");
+//		System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE,"true");
+//		System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"/dev/null");
 		String URL = "http://localhost:3000";
 		Driver = new FirefoxDriver();
 		Driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 		Driver.manage().deleteAllCookies();
-		boolean isLoggedIn = false;
+	}
+	public  static boolean login (String user, String pass, boolean isSuccessful) {
+		setup();
 		Driver.get(URL);
 		System.out.println("Navigated to url (logged out)");
 		Driver.findElement(By.xpath("//button[contains(.,'I am a Student')]")).click();
@@ -36,12 +42,12 @@ public class UC {
 			System.out.println("Failed authentication");
 		return  isLoggedIn;
 	}
-	public static boolean noLogin(){
+	public static boolean login (){
 		String URL = "http://localhost:3000";
 		Driver = new FirefoxDriver();
 		Driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 		Driver.manage().deleteAllCookies();
-		boolean isLoggedIn = false;
+
 		Driver.get(URL);
 		System.out.println("Navigated to url (logged out)");
 		Driver.findElement(By.xpath("//button[contains(.,'No Login')]")).click();
