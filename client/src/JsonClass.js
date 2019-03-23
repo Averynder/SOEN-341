@@ -8,12 +8,11 @@ class JsonClass extends Component {
 	name;
 	credit;
 	semester;
-	room;
 	lecture;
 	tutorial;
 	lab;
 
-	constructor(course, semester, room, prereqs, coreqs, name, credits)
+	constructor(course, semester, prereqs, coreqs, name, credits)
 	{
 		super();
 		this.course = course;
@@ -22,7 +21,6 @@ class JsonClass extends Component {
 		this.name = name;
 		this.credit = credits;
 		this.semester = semester;
-		this.room = room;
 		this.lecture = [];
 		this.tutorial = [];
 		this.lab = [];
@@ -52,7 +50,7 @@ class JsonClass extends Component {
 
 	equals2(jclass) {
 		var bool1 = this.course === jclass.course;
-		var bool2 = bool1 && this.semester === jclass.semester && this.room === jclass.room;
+		var bool2 = bool1 && this.semester === jclass.semester;
 		return bool2;
 	}
 

@@ -7,15 +7,17 @@ class JsonLecture extends Component {
 	startTime;
 	endTime;
 	tutorial;
+	room;
 
-	constructor(section, days, startTime, endTime)
+	constructor(section, days, startTime, endTime, room)
 	{
 		super();
 		this.section = section;
 		this.days = days;
 		this.startTime = startTime;
 		this.endTime = endTime;
-		this.tutorial = []
+		this.tutorial = [];
+		this.room = room;
 	}
 
 	clone () {
