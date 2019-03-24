@@ -1,4 +1,3 @@
-import java.sql.Driver;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 public class TestMaster {
@@ -24,8 +23,8 @@ public class TestMaster {
 						if (userCaseNumber == 0) {
 							System.out.println("Goodbye");
 							userInput.close();
-							if (UC.Driver != null)
-								UC.Driver.quit();
+							if (UC.driver != null)
+								UC.driver.quit();
 							break outerloop;
 						}
 						if (userCaseNumber < 50 && userCaseNumber > -1)
@@ -58,7 +57,7 @@ public class TestMaster {
 
 					case 1:
 						if(!answeredQuestion) {
-							System.out.print("Do you want the login to succeed? [y/n]: ");
+							System.out.print("Do you want the noLogin to succeed? [y/n]: ");
 							String answer = userInput.nextLine();
 							System.out.println();
 							isSuccessful =answer.equals("y");
