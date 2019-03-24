@@ -38,7 +38,7 @@ class PdfSequenceGenerator extends React.Component {
       col.style.width = '70%';
     });
     html2canvas(input, {
-      dpi: 9000,
+      dpi: 9000, //supposed to make it less blurry on retina
       scale: 1.2 //approximately fills the width of pdf page with the sequence table
     }).then(canvas => {
       const imgData = canvas.toDataURL("image/png");
