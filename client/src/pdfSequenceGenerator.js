@@ -37,7 +37,10 @@ class PdfSequenceGenerator extends React.Component {
     [].forEach.call(reduce, col => {
       col.style.width = '70%';
     });
-    html2canvas(input).then(canvas => {
+    html2canvas(input, {
+      dpi: 9000,
+      scale: 1.2
+    }).then(canvas => {
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF();
       pdf.addImage(imgData, "JPEG", 0, 0);
