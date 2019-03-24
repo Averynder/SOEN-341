@@ -100,7 +100,7 @@ app.post('/concordia', function (req, res, next) {
 });
 
 app.get('/grades', hasLoggedIn, (req, res, next) => {
-  res.json(req.session.info);
+  res.send(req.session.info);
 });
 
 app.get('/logout', (req, res, next) => {
