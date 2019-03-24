@@ -39,7 +39,7 @@ class PdfSequenceGenerator extends React.Component {
     });
     html2canvas(input, {
       dpi: 9000,
-      scale: 1.2
+      scale: 1.2 //approximately fills the width of pdf page with the sequence table
     }).then(canvas => {
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF();
