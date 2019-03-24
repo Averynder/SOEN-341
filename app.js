@@ -51,15 +51,15 @@ var waterfall = require('async-waterfall');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
-app.use(bodyParser.json());
 app.use(session({
-	secret: 'keyboard cat',
-	saveUninitialized: false,
-	resave: false,
-	cookie: {
-		maxAge: 1000 * 60 * 60 // 1 hour
-	}
+  secret: 'keyboard cat',
+  saveUninitialized: true,
+  resave: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60 // 1 hour
+  }
 }));
+app.use(bodyParser.json());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -75,16 +75,22 @@ app.use(cors());
 //require('./passport') // importing passport.js with as a parameter the imported passport library from above
 const selenium = require('./selenium'); // importing passport.js with as a parameter the imported passport library from above
 
+function hasLoggedIn(req, res, next) {
+  if (req.session.info) {
+    return next();
+  }
+
+  res.sendStatus(401);
+}
+
 app.post('/concordia', function (req, res, next) {
   try {
     selenium.login(req.body.netname, req.body.password)
-      .then(loggedIn => {
-        console.log(loggedIn);
-        if (!loggedIn) {
-          res.sendStatus(422);
+      .then(info => {
+        if (!info) {
+          res.sendStatus(401);
         } else {
-          req.session.grades = loggedIn;
-          console.log(req.session.grades);
+          req.session.info = JSON.parse(info);
           res.sendStatus(200);
         }
       });
@@ -93,15 +99,12 @@ app.post('/concordia', function (req, res, next) {
   }
 });
 
-app.get('/logout', (req, res, next) => {
-  req.destroy(req.sessionID);
-  next();
+app.get('/grades', hasLoggedIn, (req, res, next) => {
+  res.json(req.session.info);
 });
 
-app.get('/check', function(req, res, next) {
-	if (req.user) { console.log('logged in'); }
-	if (!req.user) { console.log('logged out'); }
-	res.end();
+app.get('/logout', (req, res, next) => {
+  req.destroy(req.sessionID);
 });
 
 // set a cookie with random number as ID
