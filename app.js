@@ -10,7 +10,6 @@ var session = require('express-session');
 var logger = require('morgan');
 //var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var mysql = require("mysql2");
@@ -96,6 +95,7 @@ app.post('/concordia', function (req, res, next) {
   } catch (err) {
     console.log(err);
   }
+});
 
 app.get('/', function(req, res, next) {
   req.session.data = {
@@ -436,7 +436,6 @@ app.use('/public', express.static(__dirname + '/public'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/MyDoublyLinkedList',MyDoublyLinkedList);
 app.use('/LectureSequence',LectureSequence);
