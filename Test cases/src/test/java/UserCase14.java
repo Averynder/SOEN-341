@@ -8,9 +8,8 @@ import java.util.List;
 import java.util.Random;
 
 /*
-This class tests UC 14: student adds course. When run, it will noLogin using the credentials you gave at the beginning
- and will attempt to add a random section of COMP248 to a random semester of a random year. Eventually it will give you
- the option to select the number and name of courses you wish to add.
+This class tests UC 14: student adds course. When run, it will login using the credentials you gave at the beginning
+ and will attempt to add a random section of COMP248 to a random semester of a random year.
  */
 public class UserCase14 extends UC{
 	public static boolean run(String user, String pass) {	//TODO: give option to choose how many courses to add.

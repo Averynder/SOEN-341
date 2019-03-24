@@ -1,7 +1,7 @@
 
 
 /*
-This class tests UC1: successful noLogin. It will log the user successfully provided the given credentials are correct.
+This class tests UC1: successful login. It will log the user successfully provided the given credentials are correct.
  */
 public class UserCase1 extends UC {
 	public static boolean run (String user, String pass, boolean isSuccessful) {

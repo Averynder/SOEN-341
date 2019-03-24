@@ -53,12 +53,13 @@ public class UserCase22 extends UC{
 		driver.findElement(By.xpath("//button[contains(.,'Color Selection')]")).click();
 		driver.findElement(By.id("colorChanger")).click();
 		System.out.print("Selecting color... ");
-		driver.findElement(By.xpath("//select[@id='colorChanger']/option")).click();	//TODO: add print statements for log
+		driver.findElement(By.xpath("//select[@id='colorChanger']/option")).click();
 		driver.findElement(By.xpath("//form/div[2]/button")).click();
 		int color = rand.nextInt(14);
-		driver.findElement(By.xpath("//span["+color+"]/div/span/div")).click();		//TODO: randomize
+		driver.findElement(By.xpath("//span["+color+"]/div/span/div")).click();
 		driver.findElement(By.xpath("//div[5]/div/div/div[3]/div/button")).click();
 		driver.findElement(By.xpath("//div[3]/div/button")).click();
+		System.out.println("Color selected, Check it out on the browser B)");
 
 
 	return true;

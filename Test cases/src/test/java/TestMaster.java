@@ -57,7 +57,7 @@ public class TestMaster {
 
 					case 1:
 						if(!answeredQuestion) {
-							System.out.print("Do you want the noLogin to succeed? [y/n]: ");
+							System.out.print("Do you wish the login to succeed? [y/n]: ");
 							String answer = userInput.nextLine();
 							System.out.println();
 							isSuccessful =answer.equals("y");

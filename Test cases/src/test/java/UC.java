@@ -53,12 +53,9 @@ public class UC {
 		driver.get(URL);
 		System.out.println("Navigated to url (logged out)");
 		driver.findElement(By.xpath("//button[contains(.,'No Login')]")).click();
-		//System.out.println("filling credentials with username: user, password: pass");
-		//driver.findElement(By.xpath("//input")).sendKeys("user");
-		//driver.findElement(By.xpath("//div[2]/input")).sendKeys("password");
-		//driver.findElement(By.xpath("//button[@value='Submit']")).click();
+
 		if (driver.findElement(By.xpath("//button[contains(.,'Semester')]")).isDisplayed()) {
-			System.out.println("Made it to /build-seq-or-sem with no noLogin successfully");
+			System.out.println("Made it to /build-seq-or-sem with no login successfully");
 			return true;
 		}else{
 			System.out.println("Could not make it to selection page with no noLogin");
