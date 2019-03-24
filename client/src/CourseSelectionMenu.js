@@ -88,7 +88,10 @@ class CourseSelectionMenu extends React.Component {
 
       showUpload: false,
 
-      uploadedFile: null
+      uploadedFile: null,
+
+      defaultValueLectureTutorial: "",
+      defaultValueLab: ""
 
     };
     //console.log("data.sequence: " + JSON.stringify(data.sequence));
@@ -461,7 +464,13 @@ class CourseSelectionMenu extends React.Component {
     
         oldColors.push(colorChosen); // add the color of new course to the list also
         this.setState({colorOfNewClass: oldColors}) // when rendering the selection menu it will render it with all the old colors + the newly added color
-    
+
+        let defaultValue1 = addedClass.lecture[lectureIndex].section + "-" + addedClass.lecture[lectureIndex].tutorial[tutorialIndex].section;
+        let defaultValue2 = addedClass.lab[labIndex].section + "";
+        this.setState({
+          defaultValueLectureTutorial: defaultValue1, defaultValueLab: defaultValue2
+        })
+
         let array1 = [];
         array1[0] = addedClass;
         array1[1] = lectureIndex; //addedClass.lecture[0].section;
@@ -1094,6 +1103,9 @@ class CourseSelectionMenu extends React.Component {
       selectedCourses: array, show2: "hidden"
     });
 
+    // this.setState({
+    //   colorOfNewClass: oldColorsFiltered
+    // })
     for (let p = 0; p < this.state.selectedCourses.length; p++) {// re-assign the old colors to the new table
       document.getElementById(this.state.selectedCourses[p][0].course).style.backgroundColor = oldColorsFiltered[p];
     }
@@ -1356,12 +1368,17 @@ class CourseSelectionMenu extends React.Component {
             <br />
             <strong>{element[0].name}</strong>{" "}
             <br />
-            <select id ={element[0].course + "section"} name="course-section" /*onChange={this.changeSection(element.course)}*/>
-              <option value="section1">section 1</option>
+            <select defaultValue={this.state.defaultValueLectureTutorial} id ={element[0].course + "section"} name="course-section" /*onChange={this.changeSection(element.course)}*/>
               {element[0].lecture.map(element1 => (
                 element1.tutorial.map(element2 => (
                 <option>{element1.section + "-" + element2.section}</option>))
                 ))}
+            </select> &nbsp;
+            
+            <select defaultValue={this.state.defaultValueLab} id={element[0].course + "labSection"}>
+              {element[0].lab.map(element1 => (
+                <option>{element1.section}</option>
+              ))}
             </select> &nbsp;
             {/*<select>
               {element[0].lecture.map(element1 => (
@@ -1372,12 +1389,7 @@ class CourseSelectionMenu extends React.Component {
             {element[0].lecture[0].tutorial.map(element1 => (
                 <option>{element1.section}</option>
               ))}
-            </select> &nbsp;*/}
-            <select id={element[0].course + "labSection"}>
-              {element[0].lab.map(element1 => (
-                <option>{element1.section}</option>
-              ))}
-            </select>
+            </select>*/}
             <Button text="Change Section" onClick={() => this.changeSection(element[0].course)} />
             <br />
             <p id="requirements">
