@@ -6,51 +6,299 @@
       "corequisites": [],
       "name": "Object-Oriented Programming I",
       "credit": 3.5,
-      "semester": "Fall",
-      "year": 2019,
+	  "semester": "Fall",
       "lecture": [{
-	"section": "NN",
-	"days": ["Monday", "Wednesday"],
-	"startTime": "11:00",
-	"endTime": "12:30"
-	},{
-	"section": "QQ",
-	"days": ["Tuesday", "Thursday"],
-	"startTime": "16:00",
-	"endTime": "17:30"
-	}],
-      "tutorial": [{
-	"section": "NA",
-	"days": ["Friday"],
-	"startTime": "13:15",
-	"endTime": "14:45"
-	},{
-	"section": "NB",
-	"days": ["Thursday"],
-	"startTime": "16:15",
-	"endTime": "17:45"
-	},{
-	"section": "QA",
-	"days": ["Thursday"],
-	"startTime": "13:15",
-	"endTime": "14:45"
-	},{
-	"section": "QB",
-	"days": ["Wednesday"],
-	"startTime": "16:15",
-	"endTime": "17:45"
-	}],
+				"section": "NN",
+				"days": ["Monday", "Wednesday"],
+				"room": "H820",
+				"startTime": "11:00",
+				"endTime": "12:30",
+				"tutorial": [{
+					"section": "NNNA",
+					"days": ["Friday"],
+					"room": "H821",
+					"startTime": "13:15",
+					"endTime": "14:45"
+				},{
+					"section": "NNNB",
+					"days": ["Thursday"],
+					"room": "H822",
+					"startTime": "16:15",
+					"endTime": "17:45"
+				}]
+			},{
+				"section": "QQ",
+				"days": ["Tuesday", "Thursday"],
+				"room": "H823",
+				"startTime": "16:00",
+				"endTime": "17:30",
+				"tutorial": [{
+					"section": "QQQA",
+					"days": ["Thursday"],
+					"room": "H824",
+					"startTime": "13:15",
+					"endTime": "14:45"
+			},{
+					"section": "QQQB",
+					"days": ["Wednesday"],
+					"room": "H825",
+					"startTime": "16:15",
+					"endTime": "17:45"
+				}]
+			}],
       "lab": [{
-	"section": "A-X",
-	"days": ["Wednesday"],
-	"startTime": "16:00",
-	"endTime": "17:00"
-	},{
-	"section": "B-X",
-	"days": ["Thursday"],
-	"startTime": "16:00",
-	"endTime": "17:00"
-	}]
-    }
+				"section": "A-X",
+				"days": ["Wednesday"],
+				"room": "H826",
+				"startTime": "16:00",
+				"endTime": "17:00"
+			},{
+				"section": "B-X",
+				"days": ["Thursday"],
+				"room": "H827",
+				"startTime": "16:00",
+				"endTime": "17:00"
+			}]
+		},
+		{
+      "course": "COMP232",
+      "prerequisites": [],
+      "corequisites": [],
+      "name": "Discrete Mathematics",
+      "credit": 3,
+	  "semester": "Fall",
+      "lecture": [{
+				"section": "NN",
+				"days": ["Monday", "Wednesday"],
+				"room": "H830",
+				"startTime": "14:00",
+				"endTime": "15:30",
+				"tutorial": [{
+					"section": "NNNA",
+					"days": ["Friday"],
+					"room": "H832",
+					"startTime": "15:15",
+					"endTime": "16:45"
+				},{
+					"section": "NNNB",
+					"days": ["Thursday"],
+					"room": "H833",
+					"startTime": "18:15",
+					"endTime": "19:45"
+				}]
+			},{
+				"section": "QQ",
+				"days": ["Tuesday", "Thursday"],
+				"room": "H834",
+				"startTime": "18:00",
+				"endTime": "19:30",
+				"tutorial": [{
+					"section": "QQQA",
+					"days": ["Thursday"],
+					"room": "H835",
+					"startTime": "15:15",
+					"endTime": "16:45"
+				},{
+					"section": "QQQB",
+					"days": ["Wednesday"],
+					"room": "H836",
+					"startTime": "18:15",
+					"endTime": "19:45"
+				}]
+			}],
+      "lab": [{
+				"section": "A-X",
+				"days": ["Wednesday"],
+				"room": "H837",
+				"startTime": "18:00",
+				"endTime": "19:00"
+			},{
+				"section": "B-X",
+				"days": ["Thursday"],
+				"room": "H838",
+				"startTime": "18:00",
+				"endTime": "19:00"
+			}]
+	},
+	{
+		"course": "SOEN228",
+		"prerequisites": [],
+		"corequisites": [],
+		"name": "System Hardware",
+		"credit": 4,
+		"semester": "Fall",
+		"lecture": [{
+				  "section": "NN",
+				  "days": ["Monday", "Wednesday"],
+				  "room": "H840",
+				  "startTime": "17:00",
+				  "endTime": "18:30",
+				  "tutorial": [{
+					"section": "NNNA",
+					"days": ["Friday"],
+					"room": "H841",
+					"startTime": "17:15",
+					"endTime": "18:45"
+				},{
+					"section": "NNNB",
+					"days": ["Thursday"],
+					"room": "H842",
+					"startTime": "20:15",
+					"endTime": "21:45"
+				}]
+			  },{
+				  "section": "QQ",
+				  "days": ["Tuesday", "Thursday"],
+				  "room": "H843",
+				  "startTime": "20:00",
+				  "endTime": "21:30",
+				  "tutorial": [{
+					"section": "QQQA",
+					"days": ["Thursday"],
+					"room": "H844",
+					"startTime": "17:15",
+					"endTime": "18:45"
+				},{
+					"section": "QQQB",
+					"days": ["Wednesday"],
+					"room": "H845",
+					"startTime": "20:15",
+					"endTime": "21:45"
+				}]
+			  }],
+		"lab": [{
+				  "section": "A-X",
+				  "days": ["Wednesday"],
+				  "room": "H846",
+				  "startTime": "20:00",
+				  "endTime": "21:00"
+			  },{
+				  "section": "B-X",
+				  "days": ["Thursday"],
+				  "room": "H847",
+				  "startTime": "20:00",
+				  "endTime": "21:00"
+			  }]
+	  },
+	  {
+		"course": "ENGR213",
+		"prerequisites": [],
+		"corequisites": [],
+		"name": "Ordinary Differential Equations",
+		"credit": 3,
+		"semester": "Fall",
+		"lecture": [{
+				  "section": "NN",
+				  "days": ["Monday"],
+				  "room": "H850",
+				  "startTime": "8:00",
+				  "endTime": "10:30",
+				  "tutorial": [{
+					"section": "NNNA",
+					"days": ["Friday"],
+					"room": "H851",
+					"startTime": "17:15",
+					"endTime": "18:45"
+				},{
+					"section": "NNNB",
+					"days": ["Thursday"],
+					"room": "H852",
+					"startTime": "20:15",
+					"endTime": "21:45"
+				}]
+			  },{
+				  "section": "QQ",
+				  "days": ["Friday"],
+				  "room": "H853",
+				  "startTime": "8:00",
+				  "endTime": "10:30",
+				  "tutorial": [{
+					"section": "QQQA",
+					"days": ["Thursday"],
+					"room": "H854",
+					"startTime": "17:15",
+					"endTime": "18:45"
+				},{
+					"section": "QQQB",
+					"days": ["Wednesday"],
+					"room": "H855",
+					"startTime": "20:15",
+					"endTime": "21:45"
+				}]
+			  }],
+		"lab": [{
+				  "section": "A-X",
+				  "days": ["Wednesday"],
+				  "room": "H856",
+				  "startTime": "20:00",
+				  "endTime": "21:00"
+			  },{
+				  "section": "B-X",
+				  "days": ["Thursday"],
+				  "room": "H857",
+				  "startTime": "20:00",
+				  "endTime": "21:00"
+			  }]
+	  },
+	  {
+		"course": "COMP346",
+		"prerequisites": [],
+		"corequisites": [],
+		"name": "Operating Systems",
+		"credit": 4,
+		"semester": "Fall",
+		"lecture": [{
+				  "section": "NN",
+				  "days": ["Tuesday"],
+				  "room": "H860",
+				  "startTime": "8:00",
+				  "endTime": "10:30",
+				  "tutorial": [{
+					"section": "NNNA",
+					"days": ["Tuesday"],
+					"room": "H861",
+					"startTime": "17:15",
+					"endTime": "18:45"
+				},{
+					"section": "NNNB",
+					"days": ["Wednesday"],
+					"room": "H862",
+					"startTime": "20:15",
+					"endTime": "21:45"
+				}]
+			  },{
+				  "section": "QQ",
+				  "days": ["Wednesday"],
+				  "room": "H863",
+				  "startTime": "8:00",
+				  "endTime": "10:30",
+				  "tutorial": [{
+					"section": "QQQA",
+					"days": ["Thursday"],
+					"room": "H864",
+					"startTime": "17:15",
+					"endTime": "18:45"
+				},{
+					"section": "QQQB",
+					"days": ["Wednesday"],
+					"room": "H865",
+					"startTime": "20:15",
+					"endTime": "21:45"
+				}]
+			  }],
+		"lab": [{
+				  "section": "A-X",
+				  "days": ["Tuesday"],
+				  "room": "H866",
+				  "startTime": "20:00",
+				  "endTime": "21:00"
+			  },{
+				  "section": "B-X",
+				  "days": ["Friday"],
+				  "room": "H867",
+				  "startTime": "20:00",
+				  "endTime": "21:00"
+			  }]
+	  }
   ]
 }

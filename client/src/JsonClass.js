@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 class JsonClass extends Component {
 
 	course;
-	prereqs;
-	coreqs;
+	prerequisites;
+	corequisites;
 	name;
-	credits;
+	credit;
 	semester;
 	lecture;
 	tutorial;
@@ -16,20 +16,20 @@ class JsonClass extends Component {
 	{
 		super();
 		this.course = course;
-		this.prereqs = prereqs;
-		this.coreqs = coreqs;
+		this.prerequisites = prereqs;
+		this.corequisites = coreqs;
 		this.name = name;
-		this.credits = credits;
+		this.credit = credits;
 		this.semester = semester;
 		this.lecture = [];
 		this.tutorial = [];
 		this.lab = [];
 	}
 
-	addPrereqs(prereqs) {this.prereqs = prereqs;}
-	addCoreqs(coreqs) {this.coreqs = coreqs;}
+	addPrereqs(prereqs) {this.prerequisites = prereqs;}
+	addCoreqs(coreqs) {this.corequisites = coreqs;}
 	addName(name) {this.name = name;}
-	addCredits(credits) {this.credits = credits;}
+	addCredits(credits) {this.credit = credits;}
 	addLecture(lecture) {this.lecture.push(lecture);}
 	addTutorial(tutorial) {this.tutorial.push(tutorial);}
 	addLab(lab) {this.lab.push(lab);}
@@ -37,10 +37,10 @@ class JsonClass extends Component {
 	clone () {
 		var cc = new JsonClass(null,null,null,null,null,null);
 		cc.course = this.course;
-		cc.prereqs = this.prereqs;
-		cc.coreqs = this.coreqs;
+		cc.prerequisites = this.prerequisites;
+		cc.corequisites = this.corequisites;
 		cc.name = this.name;
-		cc.credits = this.credits;
+		cc.credit = this.credits;
 		cc.semester = this.semester;
 		cc.lecture = this.lecture;
 		cc.tutorial = this.tutorial;
@@ -48,8 +48,15 @@ class JsonClass extends Component {
 		return cc;
 	}
 
-	equals(jclass) {
-		return this.course === jclass.course && this.semester === jclass.semester;
+	equals2(jclass) {
+		var bool1 = this.course === jclass.course;
+		var bool2 = bool1 && this.semester === jclass.semester;
+		return bool2;
+	}
+
+	toString()
+	{
+		return "course: " + this.course + " prerequisites: ";
 	}
 }
 

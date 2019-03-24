@@ -5,10 +5,12 @@ import { Link } from "react-router-dom";
 import { Modal, Form, FormControl, Table } from "react-bootstrap";
 import * as times from "./data/calendar.json";
 import * as data from "./data/courses.json";
+import * as data1 from "./data/courses2.json";
 import { CirclePicker } from "react-color";
 import reactCSS from "reactcss";
 import LoadingScreen from 'react-loading-screen';
 import JsonLecture from "./JsonLecture";
+import JsonClass from "./JsonClass";
 
 class CourseSelectionMenu extends React.Component {
   constructor(props, context) {
@@ -27,6 +29,7 @@ class CourseSelectionMenu extends React.Component {
     this.toggleLoading = this.toggleLoading.bind(this);
     this.setCourses = this.setCourses.bind(this);
     this.regEx = this.regEx.bind(this);
+    this.changeSection = this.changeSection.bind(this);
 
     var year;
     var semester;
@@ -62,7 +65,7 @@ class CourseSelectionMenu extends React.Component {
         "Saturday",
         "Sunday"
       ],
-      classes: JSON.parse(JSON.stringify(data.sequence)),
+      //classes: JSON.parse(JSON.stringify(data.sequence)),
 
       colors: [["red", 0], ["pink", 0], ["green", 0], ["yellow", 0], ["orange", 0], ["blue", 0], ["black", 0]],
 
@@ -77,6 +80,7 @@ class CourseSelectionMenu extends React.Component {
       addedClasses: [],
 
       courses: JSON.parse(JSON.stringify(data.default.sequence)),
+      courses2: JSON.parse(JSON.stringify(data1.default.sequence)),
       selectedCourses: [],
       show2: "hidden",
 
@@ -112,6 +116,11 @@ class CourseSelectionMenu extends React.Component {
 
   regEx()
   {
+    console.log(this.state.tutorials);
+    var courses31 = [];
+    var totaldatabaseEntriesLec = 0;
+
+    // Gathering Info from Lectures
     while (this.state.lectures.length > 1)
     {
       var subjectStart = this.state.lectures.indexOf("\"subject\":\"");
@@ -177,11 +186,108 @@ class CourseSelectionMenu extends React.Component {
       var endQuote8 = this.state.lectures.indexOf("\"");
       var semester = this.state.lectures.substring(0,endQuote8);
 
+      // Adding all the different Courses to an arraylist "courses"
+      var newCourse = new JsonClass(subject,semester);
+      var inThere = false;
+      var indexOfCourse = 0;
+      var i;
+      for (i = 0; i < courses31.length; i++)
+      {
+        var boolean1 = courses31[i].equals2(newCourse);
+        if (boolean1 == true)
+        {
+          inThere = true;
+          indexOfCourse = i;
+        }
+      }
+      if (!inThere)
+      {
+        courses31.push(newCourse);
+        indexOfCourse = courses31.length-1;
+      }
+      // Adding The Lecture to the Course
       var lecture = new JsonLecture(sectionNumber,days,startTime,endTime,location);
-      console.log(lecture);
-      console.log(subject + " " + sectionNumber + " " + location + " " + days + " " + startTime + " " + endTime + " " + semester);
+      courses31[indexOfCourse].addLecture(lecture);
+      totaldatabaseEntriesLec++;
     }
-    console.log(data.sequence);
+
+    // Adding Tutorial Entries
+    while(this.state.tutorials.length > 1)
+    {
+      var subjectStart = this.state.tutorials.indexOf("\"subject\":\"");
+      this.state.tutorials = this.state.tutorials.substring(subjectStart + 11);
+      var endQuote1 = this.state.tutorials.indexOf("\"");
+      var subject = this.state.tutorials.substring(0,endQuote1);
+
+      var classnumbertStart = this.state.tutorials.indexOf("\"classNumber\":\"");
+      this.state.tutorials = this.state.tutorials.substring(classnumbertStart + 15);
+      var endQuote2 = this.state.tutorials.indexOf("\"");
+      var classNumber = this.state.tutorials.substring(0,endQuote2);
+      subject = subject+classNumber;
+
+      var tutorialSectionNumber = this.state.tutorials.indexOf("\"tutorialSectionNumber\":\"\\\"");
+      this.state.tutorials = this.state.tutorials.substring(tutorialSectionNumber + 27);
+      var endQuote3 = this.state.tutorials.indexOf("\"");
+      var sectionNumber = this.state.tutorials.substring(0,endQuote3 - 1);
+      if (sectionNumber.indexOf(" ") > -1)
+      {
+        sectionNumber = sectionNumber.substring(0,sectionNumber.indexOf(" ")) + sectionNumber.substring(sectionNumber.indexOf(" ")+1);
+      }
+
+      var locationNumber = this.state.tutorials.indexOf("\"location\":\"\\\"");
+      this.state.tutorials = this.state.tutorials.substring(locationNumber + 14);
+      var endQuote4 = this.state.tutorials.indexOf("\"");
+      var location = this.state.tutorials.substring(0,endQuote4 - 1);
+
+      var daysNumber = this.state.tutorials.indexOf("\"days\":\"");
+      this.state.tutorials = this.state.tutorials.substring(daysNumber + 8);
+      var endQuote5 = this.state.tutorials.indexOf("\"");
+      var days = this.state.tutorials.substring(0,endQuote5);
+      if (days.match(/day/) != null)
+      {
+        if (days.match(/day/g).length > 1)
+        {
+          days = days.substring(0,days.indexOf(",")) + "," + days.substring(days.indexOf(",")+2, days.length-2);
+          var index = days.indexOf(",");
+          var day1 = days.substring(0,index);
+          var day2 = days.substring(index+1);
+          days = [day1, day2];
+        }
+        else
+        {
+          days = "\"" + days.substring(0,days.indexOf(",")) + "\"," + days.substring(days.indexOf(",")+1, days.length - 2) + "\"";
+          days = days.substring(0,days.length-3);
+          days = days.substring(1,days.length-1);
+          days = [days];
+        }
+      }
+
+      var startNumber = this.state.tutorials.indexOf("\"startTime\":\"");
+      this.state.tutorials = this.state.tutorials.substring(startNumber + 13);
+      var endQuote6 = this.state.tutorials.indexOf("\"");
+      var startTime = this.state.tutorials.substring(0,endQuote6-3);
+      if (startTime.charAt(0) == " ")
+        startTime = startTime.substring(1);
+      startTime = parseFloat(startTime).toFixed(2);
+
+      var endNumber = this.state.tutorials.indexOf("\"endTime\":\"");
+      this.state.tutorials = this.state.tutorials.substring(endNumber + 11);
+      var endQuote7 = this.state.tutorials.indexOf("\"");
+      var endTime = this.state.tutorials.substring(0,endQuote7-3);
+      endTime = parseFloat(endTime).toFixed(2);
+
+      var semNumber = this.state.tutorials.indexOf("\"semester\":\"");
+      this.state.tutorials = this.state.tutorials.substring(semNumber + 12);
+      var endQuote8 = this.state.tutorials.indexOf("\"");
+      var semester = this.state.tutorials.substring(0,endQuote8);
+
+      console.log(subject + " " + sectionNumber + " " + location + " " + days + " " + startTime + " " + endTime);
+    }
+    // Displaying Results
+    courses31.pop();
+    console.log("Got #" + totaldatabaseEntriesLec + " entries from database");
+    console.log(courses31);
+    console.log(data1.sequence);
   }
 
   timeToNum = time => {
@@ -259,8 +365,186 @@ class CourseSelectionMenu extends React.Component {
       var JSONified = JSON.parse(reader.result);
 
       for (let i = 0; i < JSONified.length; i++) {
-        document.getElementById("add-class1").value = JSONified[i].course;
-        this.addClass();
+        // document.getElementById("add-class1").value = JSONified[i].course;
+        // this.addClass();
+
+        let array = this.state.selectedCourses; //Keep track of user selected classes
+        let input = JSONified[i][0].course;
+        let classList = this.state.courses2; //Gets the whole list of courses of concordia
+        let addedClass;
+        let classExists = false;
+        for (let i = 0; i < classList.length; i++) {
+          if (classList[i].course === input) {
+            for (let j = 0; j < this.state.selectedCourses.length; j++) {
+              if (this.state.selectedCourses[j][0].course === input) {
+                document.getElementById("addStatus1").innerHTML =
+                  "This class is already added.";
+                this.setState({ show2: "visible" });
+                return;
+              }
+            }
+            addedClass = classList[i];
+            classExists = true;
+            this.setState({ show2: "hidden" });
+            break;
+          }
+        }
+    
+        if (classExists === false) {
+          document.getElementById("addStatus1").innerHTML =
+            "Invalid Class/Class Not Found";
+          this.setState({ show2: "visible" });
+          return;
+        }
+    
+        let colorChosen;
+    
+        for (let j = 0; j < this.state.colors.length; j++) {
+          if (this.state.colors[j][1] == 0) {
+            colorChosen = this.state.colors[j][0];
+            this.state.colors[j][1] = 1;
+            break;
+          }
+        }
+    
+        if (colorChosen === null || colorChosen === undefined) {
+          return;
+        }
+
+        let lectureIndex = JSONified[i][1];
+        let tutorialIndex = JSONified[i][2];
+        let labIndex = JSONified[i][3];
+    
+        for(let j=0; j<addedClass.lecture[lectureIndex].days.length; j++){ // add lecture
+    
+        let n = 1;
+        let initial = this.timeToNum(addedClass.lecture[lectureIndex].startTime);
+        let final = this.timeToNum(addedClass.lecture[lectureIndex].endTime);
+        let middle = (initial + final)/2;
+    
+          for (let i = 0; i < 61; i++) {
+            if (
+              initial <= i &&
+              final >= i
+            ) {
+              let dayOfTheWeek = addedClass.lecture[lectureIndex].days[j] + "-";
+              document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+              if (i === middle - 1) {
+                document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+                n++;
+              }else if(i === middle){
+                document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].startTime;
+                n++;
+              }
+              else if(i === middle + 1){
+                document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+                n++;
+              }
+              else if(i === middle + 2){
+                document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].endTime;
+                n++;
+              }else{
+                document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+              }
+            }
+          }
+        }
+    
+        for (let k = 0; k < addedClass.lecture[lectureIndex].tutorial[tutorialIndex].days.length; k++) { // add tutorial
+    
+          let n = 1;
+          let initial = this.timeToNum(addedClass.lecture[lectureIndex].tutorial[tutorialIndex].startTime);
+          let final = this.timeToNum(addedClass.lecture[lectureIndex].tutorial[tutorialIndex].endTime);
+          let middle = (initial + final)/2;
+      
+          for (let i = 0; i < 61; i++) {
+            if (
+              initial <= i &&
+              final >= i
+            ) {
+              let dayOfTheWeek = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].days[k] + "-";
+              document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+              if (i === middle - 2) {
+                document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+                n++;
+              }else if (i === middle - 1) {
+                document.getElementById(dayOfTheWeek + i).innerHTML = "Tutorial";
+                n++;
+              }else if(i === middle){
+                document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].startTime;
+                n++;
+              }
+              else if(i === middle + 1){
+                document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+                n++;
+              }
+              else if(i === middle + 2){
+                document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].endTime;
+                n++;
+              }else{
+                document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+              }
+            }
+          }
+        }
+      
+        for (let l = 0; l < addedClass.lab[labIndex].days.length; l++) { // add lab
+      
+          let n = 1;
+          let initial = this.timeToNum(addedClass.lab[labIndex].startTime);
+          let final = this.timeToNum(addedClass.lab[labIndex].endTime);
+          let middle = (initial + final)/2;
+      
+          for (let i = 0; i < 61; i++) {
+            if (
+              initial <= i &&
+              final >= i
+            ) {
+              let dayOfTheWeek = addedClass.lab[labIndex].days[l] + "-";
+              document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+              if (i === middle - 2) {
+                document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+                n++;
+              }else if (i === middle - 1) {
+                document.getElementById(dayOfTheWeek + i).innerHTML = "Lab";
+                n++;
+              }else if(i === middle){
+                document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[labIndex].startTime;
+                n++;
+              }
+              else if(i === middle + 1){
+                document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+                n++;
+              }
+              else if(i === middle + 2){
+                document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[labIndex].endTime;
+                n++;
+              }else{
+                document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+              }
+            }
+          }
+        }
+    
+        let oldColors = [];
+    
+        for (let o = 0; o < this.state.selectedCourses.length; o++) { // get list of all the colors in the selection menu before change
+          oldColors[o] = document.getElementById(this.state.selectedCourses[o][0].course).style.backgroundColor;
+        }
+    
+        oldColors.push(colorChosen); // add the color of new course to the list also
+        this.setState({colorOfNewClass: oldColors}) // when rendering the selection menu it will render it with all the old colors + the newly added color
+    
+        let array1 = [];
+        array1[0] = addedClass;
+        array1[1] = lectureIndex; //addedClass.lecture[0].section;
+        array1[2] = tutorialIndex; //addedClass.lecture[0].tutorial[0].section;
+        array1[3] = labIndex; //addedClass.lab[0].section;
+        array.push(array1);
+        this.setState({
+          selectedCourses: array
+        });
+        
       }
 
     }
@@ -305,14 +589,19 @@ class CourseSelectionMenu extends React.Component {
     let courseNameInput = document.getElementById("colorChanger").value; //Get user input comp248
     let chosenClass; //class object
 
-    for (let i = 0; i < this.state.classes.length; i++) {
-      if (courseNameInput === this.state.classes[i].course) {
-        chosenClass = this.state.classes[i];
+    // instead of 'selectedCourses' it looped through 'classes' before
+    for (let i = 0; i < this.state.selectedCourses.length; i++) {
+      if (courseNameInput === this.state.selectedCourses[i][0].course) {
+        chosenClass = this.state.selectedCourses[i];
         break;
       }
     }
 
-    document.getElementById(chosenClass.course).style.backgroundColor = color.hex;
+    let lectureSection = chosenClass[1];
+    let tutorialSection = chosenClass[2];
+    let labSection = chosenClass[3];
+
+    document.getElementById(chosenClass[0].course).style.backgroundColor = color.hex;
 
     let color1;
 
@@ -323,31 +612,55 @@ class CourseSelectionMenu extends React.Component {
       }
     }
 
-  for(let j=0; j<chosenClass.days.length; j++) //added
+  for(let j=0; j<chosenClass[0].lecture[lectureSection].days.length; j++) //added
     for (let i = 0; i < 61; i++) {
-      let dayOfTheWeek = chosenClass.days[j] + "-";
+      let dayOfTheWeek = chosenClass[0].lecture[lectureSection].days[j] + "-";
       if (
-        this.timeToNum(chosenClass.startTime) <= i &&
-        this.timeToNum(chosenClass.endTime) >= i
+        this.timeToNum(chosenClass[0].lecture[lectureSection].startTime) <= i &&
+        this.timeToNum(chosenClass[0].lecture[lectureSection].endTime) >= i
       ) {
         color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
         document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
       }
     }
 
-    for(let k=0; k<chosenClass.ta.length; k++)
-      for(let j=0; j<chosenClass.ta[k].days.length; j++){
-        let dayOfTheWeek = chosenClass.ta[k].days[j] + "-";
-        for (let i = 0; i < 61; i++) {
-          if (
-            this.timeToNum(chosenClass.ta[k].startTime) <= i &&
-            this.timeToNum(chosenClass.ta[k].endTime) >= i
-          ) {
-            color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
-            document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
-          }
-        }
+    for(let j=0; j<chosenClass[0].lecture[lectureSection].tutorial[tutorialSection].days.length; j++) //added
+    for (let i = 0; i < 61; i++) {
+      let dayOfTheWeek = chosenClass[0].lecture[lectureSection].tutorial[tutorialSection].days[j] + "-";
+      if (
+        this.timeToNum(chosenClass[0].lecture[lectureSection].tutorial[tutorialSection].startTime) <= i &&
+        this.timeToNum(chosenClass[0].lecture[lectureSection].tutorial[tutorialSection].endTime) >= i
+      ) {
+        color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
+        document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
       }
+    }
+
+    for(let j=0; j<chosenClass[0].lab[labSection].days.length; j++) //added
+    for (let i = 0; i < 61; i++) {
+      let dayOfTheWeek = chosenClass[0].lab[labSection].days[j] + "-";
+      if (
+        this.timeToNum(chosenClass[0].lab[labSection].startTime) <= i &&
+        this.timeToNum(chosenClass[0].lab[labSection].endTime) >= i
+      ) {
+        color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
+        document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
+      }
+    }
+
+    // for(let k=0; k<chosenClass.ta.length; k++)
+    //   for(let j=0; j<chosenClass.ta[k].days.length; j++){
+    //     let dayOfTheWeek = chosenClass.ta[k].days[j] + "-";
+    //     for (let i = 0; i < 61; i++) {
+    //       if (
+    //         this.timeToNum(chosenClass.ta[k].startTime) <= i &&
+    //         this.timeToNum(chosenClass.ta[k].endTime) >= i
+    //       ) {
+    //         color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
+    //         document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
+    //       }
+    //     }
+    //   }
 
     for (let j = 0; j < this.state.colors.length; j++) {
       if (this.state.colors[j][0] == color1) {
@@ -357,38 +670,6 @@ class CourseSelectionMenu extends React.Component {
     }
 
   };
-
-  // onAdd = () => {
-  //   let input = document.getElementById("add-class").value; //Get user input
-  //   let chosenClass;
-
-  //   for (let i = 0; i < this.state.classes.length; i++) {
-  //     if (input === this.state.classes[i].course) {
-  //       chosenClass = this.state.classes[i];
-  //       break;
-  //     }
-  //   }
-
-  //   if (chosenClass === undefined || chosenClass === null) {
-  //     document.getElementById("addStatus").innerHTML = "Invalid Input";
-  //     return;
-  //   }
-
-  //   this.state.addedClasses.push(chosenClass);
-
-  //   for (let i = 0; i < 61; i++) {
-  //     if (
-  //       this.timeToNum(chosenClass.startTime) <= i &&
-  //       this.timeToNum(chosenClass.endTime) >= i
-  //     ) {
-  //       document.getElementById("Monday-" + i).style.backgroundColor = this.state.colors[this.state.addedClasses.length - 1]; // (you can choose to select the return of a function)
-  //     }
-  //   }
-
-  //   this.setState({
-  //     show: !this.state.show
-  //   });
-  // };
 
   addClass = () => {
     let array = this.state.selectedCourses; //Keep track of user selected classes
@@ -440,7 +721,7 @@ class CourseSelectionMenu extends React.Component {
       return;
     }
 
-  for(let k=0; k<addedClass.ta.length; k++)
+  for(let k=0; k<addedClass.ta.length; k++) {
     for(let j=0; j<addedClass.ta[k].days.length; j++){
       let dayOfTheWeek = addedClass.ta[k].days[j] + "-";
       let n = 1;
@@ -476,6 +757,7 @@ class CourseSelectionMenu extends React.Component {
         }
       }
     }
+  }
 
     for(let j=0; j<addedClass.days.length; j++){
       for (let i = 0; i < 61; i++) {
@@ -516,6 +798,184 @@ class CourseSelectionMenu extends React.Component {
     this.setState({colorOfNewClass: oldColors}) // when rendering the selection menu it will render it with all the old colors + the newly added color
 
     array.push(addedClass);
+    this.setState({
+      selectedCourses: array
+    });
+  };
+
+  addClass1 = () => {
+    let array = this.state.selectedCourses; //Keep track of user selected classes
+    let input = document.getElementById("add-class1").value; //Get user input (Course Code)
+    let classList = this.state.courses2; //Gets the whole list of courses of concordia
+    let addedClass;
+    let classExists = false;
+    for (let i = 0; i < classList.length; i++) {
+      if (classList[i].course === input) {
+        for (let j = 0; j < this.state.selectedCourses.length; j++) {
+          if (this.state.selectedCourses[j][0].course === input) {
+            document.getElementById("addStatus1").innerHTML =
+              "This class is already added.";
+            this.setState({ show2: "visible" });
+            return;
+          }
+        }
+        addedClass = classList[i];
+        classExists = true;
+        this.setState({ show2: "hidden" });
+        break;
+      }
+    }
+
+    if (classExists === false) {
+      document.getElementById("addStatus1").innerHTML =
+        "Invalid Class/Class Not Found";
+      this.setState({ show2: "visible" });
+      return;
+    }
+
+    let colorChosen;
+
+    for (let j = 0; j < this.state.colors.length; j++) {
+      if (this.state.colors[j][1] == 0) {
+        colorChosen = this.state.colors[j][0];
+        this.state.colors[j][1] = 1;
+        break;
+      }
+    }
+
+    if (colorChosen === null || colorChosen === undefined) {
+      return;
+    }
+
+// right now it's hardcoded to always add the first lecture section of a new class "[0]"
+// it doesn't verify if that section can actually fit in the table
+
+    for(let j=0; j<addedClass.lecture[0].days.length; j++){ // add lecture
+
+    let n = 1;
+    let initial = this.timeToNum(addedClass.lecture[0].startTime);
+    let final = this.timeToNum(addedClass.lecture[0].endTime);
+    let middle = (initial + final)/2;
+
+      for (let i = 0; i < 61; i++) {
+        if (
+          initial <= i &&
+          final >= i
+        ) {
+          let dayOfTheWeek = addedClass.lecture[0].days[j] + "-";
+          document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+          if (i === middle - 1) {
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+            n++;
+          }else if(i === middle){
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[0].startTime;
+            n++;
+          }
+          else if(i === middle + 1){
+            document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+            n++;
+          }
+          else if(i === middle + 2){
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[0].endTime;
+            n++;
+          }else{
+            document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+          }
+        }
+      }
+    }
+
+    for (let k = 0; k < addedClass.lecture[0].tutorial[0].days.length; k++) { // add tutorial
+
+      let n = 1;
+      let initial = this.timeToNum(addedClass.lecture[0].tutorial[0].startTime);
+      let final = this.timeToNum(addedClass.lecture[0].tutorial[0].endTime);
+      let middle = (initial + final)/2;
+  
+      for (let i = 0; i < 61; i++) {
+        if (
+          initial <= i &&
+          final >= i
+        ) {
+          let dayOfTheWeek = addedClass.lecture[0].tutorial[0].days[k] + "-";
+          document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+          if (i === middle - 2) {
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+            n++;
+          }else if (i === middle - 1) {
+            document.getElementById(dayOfTheWeek + i).innerHTML = "Tutorial";
+            n++;
+          }else if(i === middle){
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[0].tutorial[0].startTime;
+            n++;
+          }
+          else if(i === middle + 1){
+            document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+            n++;
+          }
+          else if(i === middle + 2){
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[0].tutorial[0].endTime;
+            n++;
+          }else{
+            document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+          }
+        }
+      }
+    }
+  
+    for (let l = 0; l < addedClass.lab[0].days.length; l++) { // add lab
+  
+      let n = 1;
+      let initial = this.timeToNum(addedClass.lab[0].startTime);
+      let final = this.timeToNum(addedClass.lab[0].endTime);
+      let middle = (initial + final)/2;
+  
+      for (let i = 0; i < 61; i++) {
+        if (
+          initial <= i &&
+          final >= i
+        ) {
+          let dayOfTheWeek = addedClass.lab[0].days[l] + "-";
+          document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+          if (i === middle - 2) {
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+            n++;
+          }else if (i === middle - 1) {
+            document.getElementById(dayOfTheWeek + i).innerHTML = "Lab";
+            n++;
+          }else if(i === middle){
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[0].startTime;
+            n++;
+          }
+          else if(i === middle + 1){
+            document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+            n++;
+          }
+          else if(i === middle + 2){
+            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[0].endTime;
+            n++;
+          }else{
+            document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+          }
+        }
+      }
+    }
+
+    let oldColors = [];
+
+    for (let o = 0; o < this.state.selectedCourses.length; o++) { // get list of all the colors in the selection menu before change
+      oldColors[o] = document.getElementById(this.state.selectedCourses[o][0].course).style.backgroundColor;
+    }
+
+    oldColors.push(colorChosen); // add the color of new course to the list also
+    this.setState({colorOfNewClass: oldColors}) // when rendering the selection menu it will render it with all the old colors + the newly added color
+
+    let array1 = [];
+    array1[0] = addedClass;
+    array1[1] = 0; //addedClass.lecture[0].section;
+    array1[2] = 0; //addedClass.lecture[0].tutorial[0].section;
+    array1[3] = 0; //addedClass.lab[0].section;
+    array.push(array1);
     this.setState({
       selectedCourses: array
     });
@@ -597,6 +1057,341 @@ class CourseSelectionMenu extends React.Component {
 
   };
 
+  remove1 = () => { 
+    let coursecode = document.getElementById("add-class1").value;
+    let courseToRemove, lectureSection, tutorialSection, labSection,
+    lectureIndex, tutorialIndex, labIndex;
+
+    for (let i = 0; i < this.state.selectedCourses.length; i++) {
+      if (this.state.selectedCourses[i][0].course === coursecode) {
+        courseToRemove = this.state.selectedCourses[i][0];
+        lectureIndex = this.state.selectedCourses[i][1];
+        tutorialIndex = this.state.selectedCourses[i][2];
+        labIndex = this.state.selectedCourses[i][3];
+        break;
+      }
+    }
+
+
+
+    if (courseToRemove === undefined || courseToRemove === null) {
+      document.getElementById("addStatus1").innerHTML = "Invalid Course / Course Not Found";
+      this.setState({show2: "visible"})
+      return;
+    }
+
+    let color;
+
+    // for (let i = 0; i < courseToRemove.lecture.length; i++) {
+    //   if (courseToRemove.lecture[i].section === lectureSection) {
+    //     lectureIndex = i;
+    //   }
+    // }
+
+    // for (let i = 0; i < courseToRemove.lecture[lectureIndex].tutorial.length; i++) {
+    //   if (courseToRemove.lecture[lectureIndex].tutorial[i].section === tutorialSection) {
+    //     tutorialIndex = i;
+    //   }
+    // }
+
+    // for (let i = 0; i < courseToRemove.lab.length; i++) {
+    //   if (courseToRemove.lab[i].section === labSection) {
+    //     labIndex = i;
+    //   }
+    // }
+
+    // lectureIndex = courseArray[1];
+    // tutorialIndex = courseArray[2];
+    // labIndex = courseArray[3];
+
+  for(let j=0; j<courseToRemove.lecture[lectureIndex].days.length; j++) {
+    for (let i = 0; i < 61; i++) {
+      let dayOfTheWeek = courseToRemove.lecture[lectureIndex].days[j] + "-";
+      if (
+        this.timeToNum(courseToRemove.lecture[lectureIndex].startTime) <= i &&
+        this.timeToNum(courseToRemove.lecture[lectureIndex].endTime) >= i
+      ) {
+        color = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
+        document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
+        document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+      }
+    }
+  }
+
+    
+      for(let j=0; j<courseToRemove.lecture[lectureIndex].tutorial[tutorialIndex].days.length; j++){
+        let dayOfTheWeek = courseToRemove.lecture[lectureIndex].tutorial[tutorialIndex].days[j] + "-";
+        for (let i = 0; i < 61; i++) {
+          if (
+            this.timeToNum(courseToRemove.lecture[lectureIndex].tutorial[tutorialIndex].startTime) <= i &&
+            this.timeToNum(courseToRemove.lecture[lectureIndex].tutorial[tutorialIndex].endTime) >= i
+          ) {
+            document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
+            document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+          }
+        }
+      }
+
+      for(let j=0; j<courseToRemove.lab[labIndex].days.length; j++){
+        let dayOfTheWeek = courseToRemove.lab[labIndex].days[j] + "-";
+        for (let i = 0; i < 61; i++) {
+          if (
+            this.timeToNum(courseToRemove.lab[labIndex].startTime) <= i &&
+            this.timeToNum(courseToRemove.lab[labIndex].endTime) >= i
+          ) {
+            document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
+            document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+          }
+        }
+      }
+
+    for (let j = 0; j < this.state.colors.length; j++) {
+      if (this.state.colors[j][0] == color) {
+        this.state.colors[j][1] = 0;
+        break;
+      }
+    }
+
+    let oldColors = [];
+
+    for (let o = 0; o < this.state.selectedCourses.length; o++) { // get list of all the colors before change
+      oldColors[o] = document.getElementById(this.state.selectedCourses[o][0].course).style.backgroundColor;
+    }
+
+    let oldColorsFiltered = oldColors.filter(data => color !== data); // filter out the color of the course that we just removed
+
+    let array = this.state.selectedCourses.filter(
+      data => coursecode !== data[0].course
+    );
+    this.setState({
+      selectedCourses: array, show2: "hidden"
+    });
+
+    for (let p = 0; p < this.state.selectedCourses.length; p++) {// re-assign the old colors to the new table
+      document.getElementById(this.state.selectedCourses[p][0].course).style.backgroundColor = oldColorsFiltered[p];
+    }
+
+  };
+
+  changeSection(courseName) {
+    let regEx = document.getElementById(courseName + "section").value;
+    
+    let lectureSection = regEx.substring(0,regEx.indexOf("-"));
+    let tutorialSection = regEx.substring(regEx.indexOf("-")+1);
+
+    let labSection = document.getElementById(courseName + "labSection").value;
+
+    let lectureIndex, tutorialIndex, labIndex;
+
+    let courseToChange, colorChosen, courseArray;
+
+    for (let i = 0; i < this.state.selectedCourses.length; i++) {
+      if (this.state.selectedCourses[i][0].course === courseName) {
+        courseArray = this.state.selectedCourses[i];
+        courseToChange = this.state.selectedCourses[i][0];
+        lectureIndex = this.state.selectedCourses[i][1];
+        tutorialIndex = this.state.selectedCourses[i][2];
+        labIndex = this.state.selectedCourses[i][3];
+      }
+    }
+
+    for(let j=0; j<courseToChange.lecture[lectureIndex].days.length; j++) {
+      for (let i = 0; i < 61; i++) {
+        let dayOfTheWeek = courseToChange.lecture[lectureIndex].days[j] + "-";
+        if (
+          this.timeToNum(courseToChange.lecture[lectureIndex].startTime) <= i &&
+          this.timeToNum(courseToChange.lecture[lectureIndex].endTime) >= i
+        ) {
+          colorChosen = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
+          document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
+          document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+        }
+      }
+    }
+
+    for(let j=0; j<courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].days.length; j++){
+      let dayOfTheWeek = courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].days[j] + "-";
+      for (let i = 0; i < 61; i++) {
+        if (
+          this.timeToNum(courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].startTime) <= i &&
+          this.timeToNum(courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].endTime) >= i
+        ) {
+          document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
+          document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+        }
+      }
+    }
+
+    for(let j=0; j<courseToChange.lab[labIndex].days.length; j++){
+      let dayOfTheWeek = courseToChange.lab[labIndex].days[j] + "-";
+      for (let i = 0; i < 61; i++) {
+        if (
+          this.timeToNum(courseToChange.lab[labIndex].startTime) <= i &&
+          this.timeToNum(courseToChange.lab[labIndex].endTime) >= i
+        ) {
+          document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
+          document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+        }
+      }
+    }
+
+    // add part
+
+    for (let i = 0; i < courseToChange.lecture.length; i++) {
+      if (courseToChange.lecture[i].section === lectureSection) {
+        lectureIndex = i;
+      }
+    }
+
+    for (let i = 0; i < courseToChange.lecture[lectureIndex].tutorial.length; i++) {
+      if (courseToChange.lecture[lectureIndex].tutorial[i].section === tutorialSection) {
+        tutorialIndex = i;
+      }
+    }
+
+    for (let i = 0; i < courseToChange.lab.length; i++) {
+      if (courseToChange.lab[i].section === labSection) {
+        labIndex = i;
+      }
+    }
+
+    for(let j=0; j<courseToChange.lecture[0].days.length; j++){ // add lecture
+
+      let n = 1;
+      let initial = this.timeToNum(courseToChange.lecture[lectureIndex].startTime);
+      let final = this.timeToNum(courseToChange.lecture[lectureIndex].endTime);
+      let middle = (initial + final)/2;
+  
+        for (let i = 0; i < 61; i++) {
+          if (
+            initial <= i &&
+            final >= i
+          ) {
+            let dayOfTheWeek = courseToChange.lecture[lectureIndex].days[j] + "-";
+            document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+            if (i === middle - 1) {
+              document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.course;
+              n++;
+            }else if(i === middle){
+              document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lecture[lectureIndex].startTime;
+              n++;
+            }
+            else if(i === middle + 1){
+              document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+              n++;
+            }
+            else if(i === middle + 2){
+              document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lecture[lectureIndex].endTime;
+              n++;
+            }else{
+              document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+            }
+          }
+        }
+      }
+  
+      for (let k = 0; k < courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].days.length; k++) { // add tutorial
+  
+        let n = 1;
+        let initial = this.timeToNum(courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].startTime);
+        let final = this.timeToNum(courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].endTime);
+        let middle = (initial + final)/2;
+    
+        for (let i = 0; i < 61; i++) {
+          if (
+            initial <= i &&
+            final >= i
+          ) {
+            let dayOfTheWeek = courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].days[k] + "-";
+            document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+            if (i === middle - 2) {
+              document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.course;
+              n++;
+            }else if (i === middle - 1) {
+              document.getElementById(dayOfTheWeek + i).innerHTML = "Tutorial";
+              n++;
+            }else if(i === middle){
+              document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].startTime;
+              n++;
+            }
+            else if(i === middle + 1){
+              document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+              n++;
+            }
+            else if(i === middle + 2){
+              document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].endTime;
+              n++;
+            }else{
+              document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+            }
+          }
+        }
+      }
+    
+      for (let l = 0; l < courseToChange.lab[labIndex].days.length; l++) { // add lab
+    
+        let n = 1;
+        let initial = this.timeToNum(courseToChange.lab[labIndex].startTime);
+        let final = this.timeToNum(courseToChange.lab[labIndex].endTime);
+        let middle = (initial + final)/2;
+    
+        for (let i = 0; i < 61; i++) {
+          if (
+            initial <= i &&
+            final >= i
+          ) {
+            let dayOfTheWeek = courseToChange.lab[labIndex].days[l] + "-";
+            document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+            if (i === middle - 2) {
+              document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.course;
+              n++;
+            }else if (i === middle - 1) {
+              document.getElementById(dayOfTheWeek + i).innerHTML = "Lab";
+              n++;
+            }else if(i === middle){
+              document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lab[labIndex].startTime;
+              n++;
+            }
+            else if(i === middle + 1){
+              document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+              n++;
+            }
+            else if(i === middle + 2){
+              document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lab[labIndex].endTime;
+              n++;
+            }else{
+              document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+            }
+          }
+        }
+      }
+
+    courseArray[1] = lectureIndex; //addedClass.lecture[0].section;
+    courseArray[2] = tutorialIndex; //addedClass.lecture[0].tutorial[0].section;
+    courseArray[3] = labIndex; //addedClass.lab[0].section;
+    
+
+    // for (let i = 0; i < courseToRemove.lecture.length; i++) {
+    //   if (courseToRemove.lecture[i].section === lectureSection) {
+    //     lectureIndex = i;
+    //   }
+    // }
+
+    // for (let i = 0; i < courseToRemove.lecture[lectureIndex].tutorial.length; i++) {
+    //   if (courseToRemove.lecture[lectureIndex].tutorial[i].section === tutorialSection) {
+    //     tutorialIndex = i;
+    //   }
+    // }
+
+    // for (let i = 0; i < courseToRemove.lab.length; i++) {
+    //   if (courseToRemove.lab[i].section === labSection) {
+    //     labIndex = i;
+    //   }
+    // }
+
+    
+  }
+
   render() {
     const styles = reactCSS({
       default: {
@@ -617,7 +1412,7 @@ class CourseSelectionMenu extends React.Component {
     });
 
     let myAddedClasses = this.state.selectedCourses.map(theClass => (
-      <option value={theClass.course}>{theClass.course}</option>
+      <option value={theClass[0].course}>{theClass[0].course}</option>
     ));
 
 
@@ -625,20 +1420,38 @@ class CourseSelectionMenu extends React.Component {
     let i = 0;
 
     let x = this.state.selectedCourses.map(element => (
-      <tr id={element.course} style={{backgroundColor : this.state.colorOfNewClass[i++]}}>
+      <tr id={element[0].course} style={{backgroundColor : this.state.colorOfNewClass[i++]}}>
 
         <td>
           <div>
             <input type="checkbox" checked /> &nbsp;
-            <strong>{element.course}</strong>
+            <strong>{element[0].course}</strong>
             <br />
-            <strong>{element.name}</strong>{" "}
-            <select name="course-section">
+            <strong>{element[0].name}</strong>{" "}
+            <br />
+            <select id ={element[0].course + "section"} name="course-section" /*onChange={this.changeSection(element.course)}*/>
               <option value="section1">section 1</option>
-              <option value="section2">section 2</option>
-              <option value="section3">section 3</option>
-              <option value="section4">section 4</option>
+              {element[0].lecture.map(element1 => (
+                element1.tutorial.map(element2 => (
+                <option>{element1.section + "-" + element2.section}</option>))
+                ))}
+            </select> &nbsp;
+            {/*<select>
+              {element[0].lecture.map(element1 => (
+                <option>{element1.section}</option>
+              ))}
+            </select> &nbsp;
+            <select>
+            {element[0].lecture[0].tutorial.map(element1 => (
+                <option>{element1.section}</option>
+              ))}
+            </select> &nbsp;*/}
+            <select id={element[0].course + "labSection"}>
+              {element[0].lab.map(element1 => (
+                <option>{element1.section}</option>
+              ))}
             </select>
+            <Button text="Change Section" onClick={() => this.changeSection(element[0].course)} />
             <br />
             <p id="requirements">
               <strong>Requirement: </strong> related info goes here
@@ -702,12 +1515,12 @@ class CourseSelectionMenu extends React.Component {
                   <div className="col">
                     <Button
                       text="Select"
-                      onClick={this.addClass}
+                      onClick={this.addClass1}
                       style={{ float: "left" }}
                     />
                     <Button
                       text="Remove"
-                      onClick={this.remove}
+                      onClick={this.remove1}
                       style={{ float: "left" }}
                     />
                     <Button
