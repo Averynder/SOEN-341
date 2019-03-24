@@ -23,6 +23,7 @@ import TutorialSequence from "./TutorialSequence";
 
 import Stack from "./Stack";
 import Course from "./Course";
+import JsonTut from "./JsonTut";
 import JsonClass from "./JsonClass";
 import JsonLecture from "./JsonLecture";
 import ConcordiaSimilar from "./ConcordiaSimilar";
@@ -56,6 +57,7 @@ class Router extends React.Component {
 
           <Route path="/Stack" component={Stack} />
           <Route path="/Course" component={Course} />
+          <Route path="/JsonTut" component={JsonTut} />
           <Route path="/JsonClass" component={JsonClass} />
           <Route path="/JsonLecture" component={JsonLecture} />
           <Route path="/LoadingCourses" component={LoadingCourses} />

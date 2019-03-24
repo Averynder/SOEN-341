@@ -156,7 +156,7 @@ class SelectSemester extends React.Component {
                 </Form.Group>
               </Form>
 
-              <hr color="#7e1530" />
+              {/*<hr color="#7e1530" />
               <p className="lead">
                 Only courses available:
                 <li>COMP248</li>
@@ -200,7 +200,7 @@ class SelectSemester extends React.Component {
                 id="addStatus1"
                 style={{ color: "red", visibility: this.state.show2 }}
               />
-              <div className="mt-4">{table}</div>
+              {/*<div className="mt-4">{table}</div>*/}
 
               <Link to="course-selection-menu">
                 <Button text="Continue" />

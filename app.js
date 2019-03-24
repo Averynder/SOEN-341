@@ -299,6 +299,31 @@ app.get("/semQuery", function(req, res, next) {
 				},
 				function(arg3, callback)
 				{
+					async.waterfall([
+						function(callback){
+							// do this first
+							connection.query("SELECT * FROM `course`", function (err, result, fields) {
+								if (err) throw err;
+								callback(null, result);
+							});
+
+						},
+						function(arg4, callback){
+							// do this 2nd
+							res.json
+							(
+								JSON.stringify([
+									{
+										lectures: arg2,
+										tutorials: arg3,
+										labs: arg1,
+										result2: arg4,
+									},
+								])
+							);
+						}
+					]);
+					/*
 					res.json
 					(
 						JSON.stringify([
@@ -309,6 +334,7 @@ app.get("/semQuery", function(req, res, next) {
 							},
 						])
 					);
+					*/
 				},
 			]);
 		}

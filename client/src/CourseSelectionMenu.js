@@ -11,6 +11,8 @@ import reactCSS from "reactcss";
 import LoadingScreen from 'react-loading-screen';
 import JsonLecture from "./JsonLecture";
 import JsonClass from "./JsonClass";
+import JsonTut from "./JsonTut";
+import Course from "./Course";
 
 class CourseSelectionMenu extends React.Component {
   constructor(props, context) {
@@ -29,6 +31,7 @@ class CourseSelectionMenu extends React.Component {
     this.toggleLoading = this.toggleLoading.bind(this);
     this.setCourses = this.setCourses.bind(this);
     this.regEx = this.regEx.bind(this);
+    this.regEx2 = this.regEx2.bind(this);
     this.changeSection = this.changeSection.bind(this);
 
     var year;
@@ -54,6 +57,8 @@ class CourseSelectionMenu extends React.Component {
       lectures: null,
       labs: null,
       tutorials: null,
+      dataCourses: null,
+      Courses: null,
       semester: semester,
       year: year,
       weekdays: [
@@ -88,7 +93,10 @@ class CourseSelectionMenu extends React.Component {
 
       showUpload: false,
 
-      uploadedFile: null
+      uploadedFile: null,
+
+      defaultValueLectureTutorial: "",
+      defaultValueLab: ""
 
     };
     //console.log("data.sequence: " + JSON.stringify(data.sequence));
@@ -111,14 +119,17 @@ class CourseSelectionMenu extends React.Component {
     this.state.lectures = stringy.substring(lecStartPosition+12,tutStartPosition);
     var labStartPosition = stringy.indexOf("\"labs\":[");
     this.state.tutorials = stringy.substring(tutStartPosition+13,labStartPosition);
-    this.state.labs = stringy.substring(labStartPosition+8);
+    var sequenceStartPos = stringy.indexOf("\"result2\":[");
+    this.state.labs = stringy.substring(labStartPosition+8,sequenceStartPos);
+    this.state.Courses = stringy.substring(sequenceStartPos+11);
   }
 
   regEx()
   {
-    console.log(this.state.tutorials);
     var courses31 = [];
     var totaldatabaseEntriesLec = 0;
+    var totaldatabaseEntriesTut = 0;
+    var totaldatabaseEntriesLab = 0;
 
     // Gathering Info from Lectures
     while (this.state.lectures.length > 1)
@@ -144,6 +155,7 @@ class CourseSelectionMenu extends React.Component {
       var endQuote4 = this.state.lectures.indexOf("\"");
       var location = this.state.lectures.substring(0,endQuote4 - 1);
 
+      var daysWasOne = false;
       var daysNumber = this.state.lectures.indexOf("\"days\":\"");
       this.state.lectures = this.state.lectures.substring(daysNumber + 8);
       var endQuote5 = this.state.lectures.indexOf("\"");
@@ -164,6 +176,7 @@ class CourseSelectionMenu extends React.Component {
           days = days.substring(0,days.length-3);
           days = days.substring(1,days.length-1);
           days = [days];
+          daysWasOne = true;
         }
       }
 
@@ -180,6 +193,16 @@ class CourseSelectionMenu extends React.Component {
       var endQuote7 = this.state.lectures.indexOf("\"");
       var endTime = this.state.lectures.substring(0,endQuote7-3);
       endTime = parseFloat(endTime).toFixed(2);
+
+      if (daysWasOne)
+      {
+        if (endTime - startTime < 2.00)
+        {
+          days.push("Thursday");
+        }
+      }
+      startTime = "" + startTime.substring(0,startTime.indexOf(".")) + ":" +startTime.substring(startTime.indexOf(".")+1);
+      endTime = "" + endTime.substring(0,endTime.indexOf(".")) + ":" + endTime.substring(endTime.indexOf(".")+1);
 
       var semNumber = this.state.lectures.indexOf("\"semester\":\"");
       this.state.lectures = this.state.lectures.substring(semNumber + 12);
@@ -208,10 +231,12 @@ class CourseSelectionMenu extends React.Component {
       // Adding The Lecture to the Course
       var lecture = new JsonLecture(sectionNumber,days,startTime,endTime,location);
       courses31[indexOfCourse].addLecture(lecture);
+      //console.log(subject + " " + sectionNumber + " " + location + " " + days + " " + startTime + " " + endTime);
       totaldatabaseEntriesLec++;
     }
 
     // Adding Tutorial Entries
+
     while(this.state.tutorials.length > 1)
     {
       var subjectStart = this.state.tutorials.indexOf("\"subject\":\"");
@@ -245,15 +270,7 @@ class CourseSelectionMenu extends React.Component {
       var days = this.state.tutorials.substring(0,endQuote5);
       if (days.match(/day/) != null)
       {
-        if (days.match(/day/g).length > 1)
-        {
-          days = days.substring(0,days.indexOf(",")) + "," + days.substring(days.indexOf(",")+2, days.length-2);
-          var index = days.indexOf(",");
-          var day1 = days.substring(0,index);
-          var day2 = days.substring(index+1);
-          days = [day1, day2];
-        }
-        else
+        if (days.match(/day/g).length == 1)
         {
           days = "\"" + days.substring(0,days.indexOf(",")) + "\"," + days.substring(days.indexOf(",")+1, days.length - 2) + "\"";
           days = days.substring(0,days.length-3);
@@ -276,18 +293,287 @@ class CourseSelectionMenu extends React.Component {
       var endTime = this.state.tutorials.substring(0,endQuote7-3);
       endTime = parseFloat(endTime).toFixed(2);
 
+      startTime = "" + startTime.substring(0,startTime.indexOf(".")) + ":" +startTime.substring(startTime.indexOf(".")+1);
+      endTime = "" + endTime.substring(0,endTime.indexOf(".")) + ":" + endTime.substring(endTime.indexOf(".")+1);
+
       var semNumber = this.state.tutorials.indexOf("\"semester\":\"");
       this.state.tutorials = this.state.tutorials.substring(semNumber + 12);
       var endQuote8 = this.state.tutorials.indexOf("\"");
       var semester = this.state.tutorials.substring(0,endQuote8);
 
-      console.log(subject + " " + sectionNumber + " " + location + " " + days + " " + startTime + " " + endTime);
+      if (days.length == 0)
+        days = ["Thursday"];
+      else if (days[0] == "" || days[0] == " " || days[0] == null)
+        days = ["Thursday"];
+
+      var newCourse = new JsonClass(subject,semester);
+      var foundCourse = false;
+      var indexOfCourse = 0;
+      var i;
+      for (i = 0; i < courses31.length; i++)
+      {
+        var boolean1 = courses31[i].equals2(newCourse);
+        if (boolean1 == true)
+        {
+          foundCourse = true;
+          indexOfCourse = i;
+        }
+      }
+      if (!foundCourse)
+      {
+        courses31.push(newCourse);
+        indexOfCourse = courses31.length - 1;
+      }
+
+      // Adding The Tutorial to the Lecture in the Course --> Find Right Lecture --> Add Tut
+      var lectureExists = false;
+      var tut = new JsonTut(sectionNumber,days,startTime,endTime,location);
+      var correctCourse = courses31[indexOfCourse];
+      var lectureSection = sectionNumber.substring(0,sectionNumber.length-2);
+      for (i = 0; i < correctCourse.lecture.length; i++)
+      {
+        if (correctCourse.lecture[i].section == lectureSection)
+        {
+          lectureExists = true;
+          correctCourse.lecture[i].addTut(tut);
+        }
+      }
+      if (!lectureExists)
+      {
+        var noLec = new JsonLecture();
+        noLec.addTut(tut);
+        correctCourse.addLecture(noLec);
+      }
+      //console.log(subject + " " + sectionNumber + " " + location + " " + days + " " + startTime + " " + endTime);
+      totaldatabaseEntriesTut++;
+      //console.log(subject + " " + sectionNumber + " " + location + " " + days + " " + startTime + " " + endTime);
     }
+
+    // Gathering Info from Labs
+    while (this.state.labs.length > 1)
+    {
+      var subjectStart = this.state.labs.indexOf("\"subject\":\"");
+      this.state.labs = this.state.labs.substring(subjectStart + 11);
+      var endQuote1 = this.state.labs.indexOf("\"");
+      var subject = this.state.labs.substring(0,endQuote1);
+
+      var classnumbertStart = this.state.labs.indexOf("\"classNumber\":\"");
+      this.state.labs = this.state.labs.substring(classnumbertStart + 15);
+      var endQuote2 = this.state.labs.indexOf("\"");
+      var classNumber = this.state.labs.substring(0,endQuote2);
+      subject = subject+classNumber;
+
+      var labSectionNumber = this.state.labs.indexOf("\"labSectionNumber\":\"\\\"");
+      this.state.labs = this.state.labs.substring(labSectionNumber + 22);
+      var endQuote3 = this.state.labs.indexOf("\"");
+      var sectionNumber = this.state.labs.substring(0,endQuote3 - 1);
+
+      var locationNumber = this.state.labs.indexOf("\"location\":\"\\\"");
+      this.state.labs = this.state.labs.substring(locationNumber + 14);
+      var endQuote4 = this.state.labs.indexOf("\"");
+      var location = this.state.labs.substring(0,endQuote4 - 1);
+
+      var daysWasOne = false;
+      var daysNumber = this.state.labs.indexOf("\"days\":\"");
+      this.state.labs = this.state.labs.substring(daysNumber + 8);
+      var endQuote5 = this.state.labs.indexOf("\"");
+      var days = this.state.labs.substring(0,endQuote5);
+      if (days.match(/day/) != null)
+      {
+        if (days.match(/day/g).length > 1)
+        {
+          days = days.substring(0,days.indexOf(",")) + "," + days.substring(days.indexOf(",")+2, days.length-2);
+          var index = days.indexOf(",");
+          var day1 = days.substring(0,index);
+          var day2 = days.substring(index+1);
+          days = [day1, day2];
+        }
+        else
+        {
+          days = "\"" + days.substring(0,days.indexOf(",")) + "\"," + days.substring(days.indexOf(",")+1, days.length - 2) + "\"";
+          days = days.substring(0,days.length-3);
+          days = days.substring(1,days.length-1);
+          days = [days];
+          daysWasOne = true;
+        }
+      }
+
+      var startNumber = this.state.labs.indexOf("\"startTime\":\"");
+      this.state.labs = this.state.labs.substring(startNumber + 13);
+      var endQuote6 = this.state.labs.indexOf("\"");
+      var startTime = this.state.labs.substring(0,endQuote6-3);
+      if (startTime.charAt(0) == " ")
+        startTime = startTime.substring(1);
+      startTime = parseFloat(startTime).toFixed(2);
+
+      var endNumber = this.state.labs.indexOf("\"endTime\":\"");
+      this.state.labs = this.state.labs.substring(endNumber + 11);
+      var endQuote7 = this.state.labs.indexOf("\"");
+      var endTime = this.state.labs.substring(0,endQuote7-3);
+      endTime = parseFloat(endTime).toFixed(2);
+
+      if (days.length == 0)
+        days = ["Thursday"];
+      else if (days[0] == "" || days[0] == " " || days[0] == null)
+        days = ["Thursday"];
+      startTime = "" + startTime.substring(0,startTime.indexOf(".")) + ":" +startTime.substring(startTime.indexOf(".")+1);
+      endTime = "" + endTime.substring(0,endTime.indexOf(".")) + ":" + endTime.substring(endTime.indexOf(".")+1);
+
+      var semNumber = this.state.labs.indexOf("\"semester\":\"");
+      this.state.labs = this.state.labs.substring(semNumber + 12);
+      var endQuote8 = this.state.labs.indexOf("\"");
+      var semester = this.state.labs.substring(0,endQuote8);
+
+      // Adding all the different Courses to an arraylist "courses"
+      var newCourse = new JsonClass(subject,semester);
+      var indexOfCourse = 0;
+      var i;
+      for (i = 0; i < courses31.length; i++)
+      {
+        var boolean1 = courses31[i].equals2(newCourse);
+        if (boolean1 == true)
+        {
+          indexOfCourse = i;
+        }
+      }
+      // Adding The Lecture to the Course
+      var labby = new JsonLecture(sectionNumber,days,startTime,endTime,location);
+      courses31[indexOfCourse].addLab(labby);
+      //console.log(subject + " " + sectionNumber + " " + location + " " + days + " " + startTime + " " + endTime);
+      totaldatabaseEntriesLab++;
+    }
+
     // Displaying Results
     courses31.pop();
-    console.log("Got #" + totaldatabaseEntriesLec + " entries from database");
-    console.log(courses31);
+    console.log("Got #" + totaldatabaseEntriesLec + " Lecture entries from database");
+    console.log("Got #" + totaldatabaseEntriesTut + " Tutorial entries from database");
+    console.log("Got #" + totaldatabaseEntriesLab + " Lab entries from database");
+    this.state.dataCourses = courses31;
+    this.regEx2();
+    console.log(this.state.dataCourses);
     console.log(data1.sequence);
+    //this.state.courses2 = courses31; //CHANGE TO GET PROPER COURSES
+  }
+
+  regEx2()
+  {
+    //console.log(this.state.dataCourses);
+    //console.log(data1.sequence);
+    while (this.state.Courses.length > 1)
+    {
+      var titleStart = this.state.Courses.indexOf("\"courseTitle\":\"");
+      this.state.Courses = this.state.Courses.substring(titleStart + 15);
+      var endQuote1 = this.state.Courses.indexOf("\"");
+      var title = this.state.Courses.substring(0,endQuote1);
+
+      var subjectStart = this.state.Courses.indexOf("\"subject\":\"");
+      this.state.Courses = this.state.Courses.substring(subjectStart + 11);
+      var endQuote2 = this.state.Courses.indexOf("\"");
+      var subject = this.state.Courses.substring(0,endQuote2);
+
+      var numberStart = this.state.Courses.indexOf("\"classNumber\":\"");
+      this.state.Courses = this.state.Courses.substring(numberStart + 15);
+      var endQuote3 = this.state.Courses.indexOf("\"");
+      var courseNumber = this.state.Courses.substring(0,endQuote3);
+
+      var creditsStart = this.state.Courses.indexOf("\"credits\":\"");
+      this.state.Courses = this.state.Courses.substring(creditsStart + 11);
+      var endQuote4 = this.state.Courses.indexOf("\"");
+      var creditNumber = this.state.Courses.substring(0,endQuote4);
+
+      var prereqStart = this.state.Courses.search("\"prerequisites\":\"");
+      this.state.Courses = this.state.Courses.substring(prereqStart + 17);
+      var endQuote5 = this.state.Courses.search("\"");
+      var prereqs = this.state.Courses.substring(0,endQuote5);
+      var potentialSPace = prereqs.charAt(0);
+      if (potentialSPace == ' ')
+        prereqs = prereqs.substring(1);
+      while (prereqs.indexOf("<==>") > -1)
+      {
+        var weirdshi = prereqs.indexOf("<==>");
+        prereqs = prereqs.substring(0,weirdshi) +  " or " + prereqs.substring(weirdshi+4);
+      }
+      while (prereqs.search(/\d COMP/) > -1)
+      {
+        var starter = prereqs.search(/\d COMP/);
+        prereqs = prereqs.substring(0,starter+1) + " and COMP" + prereqs.substring(starter+6);
+      }
+      while (prereqs.search(/\d SOEN/) > -1)
+      {
+        var starter = prereqs.search(/\d SOEN/);
+        prereqs = prereqs.substring(0,starter+1) + " and SOEN" + prereqs.substring(starter+6);
+      }
+      while (prereqs.search(/\d MATH/) > -1)
+      {
+        var starter = prereqs.search(/\d MATH/);
+        prereqs = prereqs.substring(0,starter+1) + " and MATH" + prereqs.substring(starter+6);
+      }
+      while (prereqs.search(/\d ENGR/) > -1)
+      {
+        var starter = prereqs.search(/\d ENGR/);
+        prereqs = prereqs.substring(0,starter+1) + " and ENGR" + prereqs.substring(starter+6);
+      }
+      while (prereqs.search(/\d ENCS/) > -1)
+      {
+        var starter = prereqs.search(/\d ENCS/);
+        prereqs = prereqs.substring(0,starter+1) + " and ENCS" + prereqs.substring(starter+6);
+      }
+
+      var coreqStart = this.state.Courses.search("\"corequisites\":\"");
+      this.state.Courses = this.state.Courses.substring(coreqStart + 16);
+      var endQuote6 = this.state.Courses.search("\"");
+      var coreqs = this.state.Courses.substring(0,endQuote6);
+      var potentialSPace2 = coreqs.charAt(0);
+      if (potentialSPace2 == ' ')
+        coreqs = coreqs.substring(1);
+      while (coreqs.indexOf("<==>") > -1)
+      {
+        var weirdshi = coreqs.indexOf("<==>");
+        coreqs = coreqs.substring(0,weirdshi) +  " or " + coreqs.substring(weirdshi+4);
+      }
+      while (coreqs.search(/\d COMP/) > -1)
+      {
+        var starter = coreqs.search(/\d COMP/);
+        coreqs = coreqs.substring(0,starter+1) + " and COMP" + coreqs.substring(starter+6);
+      }
+      while (coreqs.search(/\d SOEN/) > -1)
+      {
+        var starter = coreqs.search(/\d SOEN/);
+        coreqs = coreqs.substring(0,starter+1) + " and SOEN" + coreqs.substring(starter+6);
+      }
+      while (coreqs.search(/\d MATH/) > -1)
+      {
+        var starter = coreqs.search(/\d MATH/);
+        coreqs = coreqs.substring(0,starter+1) + " and MATH" + coreqs.substring(starter+6);
+      }
+      while (prereqs.search(/\d ENGR/) > -1)
+      {
+        var starter = coreqs.search(/\d ENGR/);
+        coreqs = coreqs.substring(0,starter+1) + " and ENGR" + coreqs.substring(starter+6);
+      }
+      while (coreqs.search(/\d ENCS/) > -1)
+      {
+        var starter = coreqs.search(/\d ENCS/);
+        coreqs = coreqs.substring(0,starter+1) + " and ENCS" + coreqs.substring(starter+6);
+      }
+      if (prereqs.indexOf(",") > -1)
+        prereqs = "";
+      if (title != "")
+      {
+        subject = subject + courseNumber;
+        //var cc = new Course(title, subject, courseNumber, creditNumber, prereqs, coreqs);
+        var i;
+        for (i = 0; i < this.state.dataCourses.length; i++)
+        {
+          if (this.state.dataCourses[i].course == subject)
+          {
+            this.state.dataCourses[i].name = title;
+            this.state.dataCourses[i].credit = parseFloat(creditNumber);
+          }
+        }
+        //console.log(title + " " + subject + " " + creditNumber + " Pre: " + prereqs + " Co: " + coreqs);
+      }
+    }
   }
 
   timeToNum = time => {
@@ -534,7 +820,13 @@ class CourseSelectionMenu extends React.Component {
     
         oldColors.push(colorChosen); // add the color of new course to the list also
         this.setState({colorOfNewClass: oldColors}) // when rendering the selection menu it will render it with all the old colors + the newly added color
-    
+
+        let defaultValue1 = addedClass.lecture[lectureIndex].section + "-" + addedClass.lecture[lectureIndex].tutorial[tutorialIndex].section;
+        let defaultValue2 = addedClass.lab[labIndex].section + "";
+        this.setState({
+          defaultValueLectureTutorial: defaultValue1, defaultValueLab: defaultValue2
+        })
+
         let array1 = [];
         array1[0] = addedClass;
         array1[1] = lectureIndex; //addedClass.lecture[0].section;
@@ -1167,6 +1459,9 @@ class CourseSelectionMenu extends React.Component {
       selectedCourses: array, show2: "hidden"
     });
 
+    // this.setState({
+    //   colorOfNewClass: oldColorsFiltered
+    // })
     for (let p = 0; p < this.state.selectedCourses.length; p++) {// re-assign the old colors to the new table
       document.getElementById(this.state.selectedCourses[p][0].course).style.backgroundColor = oldColorsFiltered[p];
     }
@@ -1429,12 +1724,17 @@ class CourseSelectionMenu extends React.Component {
             <br />
             <strong>{element[0].name}</strong>{" "}
             <br />
-            <select id ={element[0].course + "section"} name="course-section" /*onChange={this.changeSection(element.course)}*/>
-              <option value="section1">section 1</option>
+            <select defaultValue={this.state.defaultValueLectureTutorial} id ={element[0].course + "section"} name="course-section" /*onChange={this.changeSection(element.course)}*/>
               {element[0].lecture.map(element1 => (
                 element1.tutorial.map(element2 => (
                 <option>{element1.section + "-" + element2.section}</option>))
                 ))}
+            </select> &nbsp;
+            
+            <select defaultValue={this.state.defaultValueLab} id={element[0].course + "labSection"}>
+              {element[0].lab.map(element1 => (
+                <option>{element1.section}</option>
+              ))}
             </select> &nbsp;
             {/*<select>
               {element[0].lecture.map(element1 => (
@@ -1445,12 +1745,7 @@ class CourseSelectionMenu extends React.Component {
             {element[0].lecture[0].tutorial.map(element1 => (
                 <option>{element1.section}</option>
               ))}
-            </select> &nbsp;*/}
-            <select id={element[0].course + "labSection"}>
-              {element[0].lab.map(element1 => (
-                <option>{element1.section}</option>
-              ))}
-            </select>
+            </select>*/}
             <Button text="Change Section" onClick={() => this.changeSection(element[0].course)} />
             <br />
             <p id="requirements">
