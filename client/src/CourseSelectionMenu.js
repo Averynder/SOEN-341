@@ -452,7 +452,7 @@ class CourseSelectionMenu extends React.Component {
     this.regEx2();
     console.log(this.state.dataCourses);
     console.log(data1.sequence);
-    this.state.courses2 = courses31; //CHANGE TO GET PROPER COURSES
+    //this.state.courses2 = courses31; //CHANGE TO GET PROPER COURSES
   }
 
   regEx2()
