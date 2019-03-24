@@ -147,6 +147,7 @@ class CourseSelectionMenu extends React.Component {
       var endQuote4 = this.state.lectures.indexOf("\"");
       var location = this.state.lectures.substring(0,endQuote4 - 1);
 
+      var daysWasOne = false;
       var daysNumber = this.state.lectures.indexOf("\"days\":\"");
       this.state.lectures = this.state.lectures.substring(daysNumber + 8);
       var endQuote5 = this.state.lectures.indexOf("\"");
@@ -167,6 +168,7 @@ class CourseSelectionMenu extends React.Component {
           days = days.substring(0,days.length-3);
           days = days.substring(1,days.length-1);
           days = [days];
+          daysWasOne = true;
         }
       }
 
@@ -183,6 +185,14 @@ class CourseSelectionMenu extends React.Component {
       var endQuote7 = this.state.lectures.indexOf("\"");
       var endTime = this.state.lectures.substring(0,endQuote7-3);
       endTime = parseFloat(endTime).toFixed(2);
+
+      if (daysWasOne)
+      {
+        if (endTime - startTime < 2.00)
+        {
+          days.push("Thursday");
+        }
+      }
 
       var semNumber = this.state.lectures.indexOf("\"semester\":\"");
       this.state.lectures = this.state.lectures.substring(semNumber + 12);
@@ -211,10 +221,15 @@ class CourseSelectionMenu extends React.Component {
       // Adding The Lecture to the Course
       var lecture = new JsonLecture(sectionNumber,days,startTime,endTime,location);
       courses31[indexOfCourse].addLecture(lecture);
+      console.log(subject + " " + sectionNumber + " " + location + " " + days + " " + startTime + " " + endTime);
       totaldatabaseEntriesLec++;
     }
 
     // Adding Tutorial Entries
+    console.log("================================================================================================");
+    console.log("================================================================================================");
+    console.log("================================================================================================");
+
     while(this.state.tutorials.length > 1)
     {
       var subjectStart = this.state.tutorials.indexOf("\"subject\":\"");
@@ -248,15 +263,7 @@ class CourseSelectionMenu extends React.Component {
       var days = this.state.tutorials.substring(0,endQuote5);
       if (days.match(/day/) != null)
       {
-        if (days.match(/day/g).length > 1)
-        {
-          days = days.substring(0,days.indexOf(",")) + "," + days.substring(days.indexOf(",")+2, days.length-2);
-          var index = days.indexOf(",");
-          var day1 = days.substring(0,index);
-          var day2 = days.substring(index+1);
-          days = [day1, day2];
-        }
-        else
+        if (days.match(/day/g).length == 1)
         {
           days = "\"" + days.substring(0,days.indexOf(",")) + "\"," + days.substring(days.indexOf(",")+1, days.length - 2) + "\"";
           days = days.substring(0,days.length-3);
@@ -284,6 +291,10 @@ class CourseSelectionMenu extends React.Component {
       var endQuote8 = this.state.tutorials.indexOf("\"");
       var semester = this.state.tutorials.substring(0,endQuote8);
 
+      if (days.length == 0)
+        days = ["Thursday"];
+      else if (days[0] == "" || days[0] == " " || days[0] == null)
+        days = ["Thursday"];
       console.log(subject + " " + sectionNumber + " " + location + " " + days + " " + startTime + " " + endTime);
     }
     // Displaying Results
