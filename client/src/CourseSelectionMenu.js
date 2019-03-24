@@ -119,9 +119,11 @@ class CourseSelectionMenu extends React.Component {
 
   regEx()
   {
-    console.log(this.state.lectures);
+    console.log(this.state.tutorials);
     var courses31 = [];
+    var totaldatabaseEntriesLec = 0;
 
+    // Gathering Info from Lectures
     while (this.state.lectures.length > 1)
     {
       var subjectStart = this.state.lectures.indexOf("\"subject\":\"");
@@ -188,17 +190,15 @@ class CourseSelectionMenu extends React.Component {
       var semester = this.state.lectures.substring(0,endQuote8);
 
       // Adding all the different Courses to an arraylist "courses"
-      var newCourse = new JsonClass(subject,semester,location);
+      var newCourse = new JsonClass(subject,semester);
       var inThere = false;
       var indexOfCourse = 0;
-      console.log(courses31.length);
       var i;
       for (i = 0; i < courses31.length; i++)
       {
         var boolean1 = courses31[i].equals2(newCourse);
         if (boolean1 == true)
         {
-          console.log("true: " + courses31[i].equals2(newCourse));
           inThere = true;
           indexOfCourse = i;
         }
@@ -211,11 +211,84 @@ class CourseSelectionMenu extends React.Component {
       // Adding The Lecture to the Course
       var lecture = new JsonLecture(sectionNumber,days,startTime,endTime,location);
       courses31[indexOfCourse].addLecture(lecture);
-
-      // Displaying Results
-      //console.log(lecture);
-      console.log(subject + " " + sectionNumber + " " + location + " " + days + " " + startTime + " " + endTime + " " + semester);
+      totaldatabaseEntriesLec++;
     }
+
+    // Adding Tutorial Entries
+    while(this.state.tutorials.length > 1)
+    {
+      var subjectStart = this.state.tutorials.indexOf("\"subject\":\"");
+      this.state.tutorials = this.state.tutorials.substring(subjectStart + 11);
+      var endQuote1 = this.state.tutorials.indexOf("\"");
+      var subject = this.state.tutorials.substring(0,endQuote1);
+
+      var classnumbertStart = this.state.tutorials.indexOf("\"classNumber\":\"");
+      this.state.tutorials = this.state.tutorials.substring(classnumbertStart + 15);
+      var endQuote2 = this.state.tutorials.indexOf("\"");
+      var classNumber = this.state.tutorials.substring(0,endQuote2);
+      subject = subject+classNumber;
+
+      var tutorialSectionNumber = this.state.tutorials.indexOf("\"tutorialSectionNumber\":\"\\\"");
+      this.state.tutorials = this.state.tutorials.substring(tutorialSectionNumber + 27);
+      var endQuote3 = this.state.tutorials.indexOf("\"");
+      var sectionNumber = this.state.tutorials.substring(0,endQuote3 - 1);
+      if (sectionNumber.indexOf(" ") > -1)
+      {
+        sectionNumber = sectionNumber.substring(0,sectionNumber.indexOf(" ")) + sectionNumber.substring(sectionNumber.indexOf(" ")+1);
+      }
+
+      var locationNumber = this.state.tutorials.indexOf("\"location\":\"\\\"");
+      this.state.tutorials = this.state.tutorials.substring(locationNumber + 14);
+      var endQuote4 = this.state.tutorials.indexOf("\"");
+      var location = this.state.tutorials.substring(0,endQuote4 - 1);
+
+      var daysNumber = this.state.tutorials.indexOf("\"days\":\"");
+      this.state.tutorials = this.state.tutorials.substring(daysNumber + 8);
+      var endQuote5 = this.state.tutorials.indexOf("\"");
+      var days = this.state.tutorials.substring(0,endQuote5);
+      if (days.match(/day/) != null)
+      {
+        if (days.match(/day/g).length > 1)
+        {
+          days = days.substring(0,days.indexOf(",")) + "," + days.substring(days.indexOf(",")+2, days.length-2);
+          var index = days.indexOf(",");
+          var day1 = days.substring(0,index);
+          var day2 = days.substring(index+1);
+          days = [day1, day2];
+        }
+        else
+        {
+          days = "\"" + days.substring(0,days.indexOf(",")) + "\"," + days.substring(days.indexOf(",")+1, days.length - 2) + "\"";
+          days = days.substring(0,days.length-3);
+          days = days.substring(1,days.length-1);
+          days = [days];
+        }
+      }
+
+      var startNumber = this.state.tutorials.indexOf("\"startTime\":\"");
+      this.state.tutorials = this.state.tutorials.substring(startNumber + 13);
+      var endQuote6 = this.state.tutorials.indexOf("\"");
+      var startTime = this.state.tutorials.substring(0,endQuote6-3);
+      if (startTime.charAt(0) == " ")
+        startTime = startTime.substring(1);
+      startTime = parseFloat(startTime).toFixed(2);
+
+      var endNumber = this.state.tutorials.indexOf("\"endTime\":\"");
+      this.state.tutorials = this.state.tutorials.substring(endNumber + 11);
+      var endQuote7 = this.state.tutorials.indexOf("\"");
+      var endTime = this.state.tutorials.substring(0,endQuote7-3);
+      endTime = parseFloat(endTime).toFixed(2);
+
+      var semNumber = this.state.tutorials.indexOf("\"semester\":\"");
+      this.state.tutorials = this.state.tutorials.substring(semNumber + 12);
+      var endQuote8 = this.state.tutorials.indexOf("\"");
+      var semester = this.state.tutorials.substring(0,endQuote8);
+
+      console.log(subject + " " + sectionNumber + " " + location + " " + days + " " + startTime + " " + endTime);
+    }
+    // Displaying Results
+    courses31.pop();
+    console.log("Got #" + totaldatabaseEntriesLec + " entries from database");
     console.log(courses31);
     console.log(data1.sequence);
   }
