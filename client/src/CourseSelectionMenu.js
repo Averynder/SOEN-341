@@ -12,6 +12,7 @@ import LoadingScreen from 'react-loading-screen';
 import JsonLecture from "./JsonLecture";
 import JsonClass from "./JsonClass";
 import JsonTut from "./JsonTut";
+import Course from "./Course";
 
 class CourseSelectionMenu extends React.Component {
   constructor(props, context) {
@@ -30,6 +31,7 @@ class CourseSelectionMenu extends React.Component {
     this.toggleLoading = this.toggleLoading.bind(this);
     this.setCourses = this.setCourses.bind(this);
     this.regEx = this.regEx.bind(this);
+    this.regEx2 = this.regEx2.bind(this);
     this.changeSection = this.changeSection.bind(this);
 
     var year;
@@ -55,6 +57,8 @@ class CourseSelectionMenu extends React.Component {
       lectures: null,
       labs: null,
       tutorials: null,
+      dataCourses: null,
+      Courses: null,
       semester: semester,
       year: year,
       weekdays: [
@@ -115,7 +119,9 @@ class CourseSelectionMenu extends React.Component {
     this.state.lectures = stringy.substring(lecStartPosition+12,tutStartPosition);
     var labStartPosition = stringy.indexOf("\"labs\":[");
     this.state.tutorials = stringy.substring(tutStartPosition+13,labStartPosition);
-    this.state.labs = stringy.substring(labStartPosition+8);
+    var sequenceStartPos = stringy.indexOf("\"result2\":[");
+    this.state.labs = stringy.substring(labStartPosition+8,sequenceStartPos);
+    this.state.Courses = stringy.substring(sequenceStartPos+11);
   }
 
   regEx()
@@ -442,9 +448,122 @@ class CourseSelectionMenu extends React.Component {
     console.log("Got #" + totaldatabaseEntriesLec + " Lecture entries from database");
     console.log("Got #" + totaldatabaseEntriesTut + " Tutorial entries from database");
     console.log("Got #" + totaldatabaseEntriesLab + " Lab entries from database");
-    console.log(courses31);
-    console.log(data1.sequence);
+    this.state.dataCourses = courses31;
+    this.regEx2();
+    //console.log(courses31);
+    //console.log(data1.sequence);
     //this.state.courses2 = courses31; //CHANGE TO GET PROPER COURSES
+  }
+
+  regEx2()
+  {
+    console.log(this.state.dataCourses);
+    console.log(data1.sequence);
+    while (this.state.Courses.length > 1)
+    {
+      var titleStart = this.state.Courses.indexOf("\"courseTitle\":\"");
+      this.state.Courses = this.state.Courses.substring(titleStart + 15);
+      var endQuote1 = this.state.Courses.indexOf("\"");
+      var title = this.state.Courses.substring(0,endQuote1);
+
+      var subjectStart = this.state.Courses.indexOf("\"subject\":\"");
+      this.state.Courses = this.state.Courses.substring(subjectStart + 11);
+      var endQuote2 = this.state.Courses.indexOf("\"");
+      var subject = this.state.Courses.substring(0,endQuote2);
+
+      var numberStart = this.state.Courses.indexOf("\"classNumber\":\"");
+      this.state.Courses = this.state.Courses.substring(numberStart + 15);
+      var endQuote3 = this.state.Courses.indexOf("\"");
+      var courseNumber = this.state.Courses.substring(0,endQuote3);
+
+      var creditsStart = this.state.Courses.indexOf("\"credits\":\"");
+      this.state.Courses = this.state.Courses.substring(creditsStart + 11);
+      var endQuote4 = this.state.Courses.indexOf("\"");
+      var creditNumber = this.state.Courses.substring(0,endQuote4);
+
+      var prereqStart = this.state.Courses.search("\"prerequisites\":\"");
+      this.state.Courses = this.state.Courses.substring(prereqStart + 17);
+      var endQuote5 = this.state.Courses.search("\"");
+      var prereqs = this.state.Courses.substring(0,endQuote5);
+      var potentialSPace = prereqs.charAt(0);
+      if (potentialSPace == ' ')
+        prereqs = prereqs.substring(1);
+      while (prereqs.indexOf("<==>") > -1)
+      {
+        var weirdshi = prereqs.indexOf("<==>");
+        prereqs = prereqs.substring(0,weirdshi) +  " or " + prereqs.substring(weirdshi+4);
+      }
+      while (prereqs.search(/\d COMP/) > -1)
+      {
+        var starter = prereqs.search(/\d COMP/);
+        prereqs = prereqs.substring(0,starter+1) + " and COMP" + prereqs.substring(starter+6);
+      }
+      while (prereqs.search(/\d SOEN/) > -1)
+      {
+        var starter = prereqs.search(/\d SOEN/);
+        prereqs = prereqs.substring(0,starter+1) + " and SOEN" + prereqs.substring(starter+6);
+      }
+      while (prereqs.search(/\d MATH/) > -1)
+      {
+        var starter = prereqs.search(/\d MATH/);
+        prereqs = prereqs.substring(0,starter+1) + " and MATH" + prereqs.substring(starter+6);
+      }
+      while (prereqs.search(/\d ENGR/) > -1)
+      {
+        var starter = prereqs.search(/\d ENGR/);
+        prereqs = prereqs.substring(0,starter+1) + " and ENGR" + prereqs.substring(starter+6);
+      }
+      while (prereqs.search(/\d ENCS/) > -1)
+      {
+        var starter = prereqs.search(/\d ENCS/);
+        prereqs = prereqs.substring(0,starter+1) + " and ENCS" + prereqs.substring(starter+6);
+      }
+
+      var coreqStart = this.state.Courses.search("\"corequisites\":\"");
+      this.state.Courses = this.state.Courses.substring(coreqStart + 16);
+      var endQuote6 = this.state.Courses.search("\"");
+      var coreqs = this.state.Courses.substring(0,endQuote6);
+      var potentialSPace2 = coreqs.charAt(0);
+      if (potentialSPace2 == ' ')
+        coreqs = coreqs.substring(1);
+      while (coreqs.indexOf("<==>") > -1)
+      {
+        var weirdshi = coreqs.indexOf("<==>");
+        coreqs = coreqs.substring(0,weirdshi) +  " or " + coreqs.substring(weirdshi+4);
+      }
+      while (coreqs.search(/\d COMP/) > -1)
+      {
+        var starter = coreqs.search(/\d COMP/);
+        coreqs = coreqs.substring(0,starter+1) + " and COMP" + coreqs.substring(starter+6);
+      }
+      while (coreqs.search(/\d SOEN/) > -1)
+      {
+        var starter = coreqs.search(/\d SOEN/);
+        coreqs = coreqs.substring(0,starter+1) + " and SOEN" + coreqs.substring(starter+6);
+      }
+      while (coreqs.search(/\d MATH/) > -1)
+      {
+        var starter = coreqs.search(/\d MATH/);
+        coreqs = coreqs.substring(0,starter+1) + " and MATH" + coreqs.substring(starter+6);
+      }
+      while (prereqs.search(/\d ENGR/) > -1)
+      {
+        var starter = coreqs.search(/\d ENGR/);
+        coreqs = coreqs.substring(0,starter+1) + " and ENGR" + coreqs.substring(starter+6);
+      }
+      while (coreqs.search(/\d ENCS/) > -1)
+      {
+        var starter = coreqs.search(/\d ENCS/);
+        coreqs = coreqs.substring(0,starter+1) + " and ENCS" + coreqs.substring(starter+6);
+      }
+      if (prereqs.indexOf(",") > -1)
+        prereqs = "";
+      if (title != "")
+      {
+        var cc = new Course(title, subject, courseNumber, creditNumber, prereqs, coreqs);
+        console.log(title + " " + subject + " " + courseNumber + " " + creditNumber + " Pre: " + prereqs + " Co: " + coreqs);
+      }
+    }
   }
 
   timeToNum = time => {
