@@ -8,7 +8,7 @@ var fileUpload = require('express-fileupload')
 var cors = require('cors')
 var session = require('express-session');
 var logger = require('morgan');
-var passport = require('passport');
+//var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -66,15 +66,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(fileUpload());
 app.use(cors());
-app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.initialize());
+//app.use(passport.session());
 
 // var user = new usersRouter;
 
 
 
 var sequelize = require('./sequelize'); // get running instance of Sequelize
-require('./passport')(passport, sequelize); // importing passport.js with as a parameter the imported passport library from above
+//require('./passport') // importing passport.js with as a parameter the imported passport library from above
 const selenium = require('./selenium'); // importing passport.js with as a parameter the imported passport library from above
 
 app.post('/concordia', function (req, res, next) {
@@ -97,20 +97,13 @@ app.post('/concordia', function (req, res, next) {
     console.log(err);
   }
 
-	/*passport.authenticate('local', function(err, user, info)
-		if (err) { return next(err); }
-		if (!user) {
-      res.status(401);
-		} else {
-      const grades = passport.scrapeGrades();
-      res.status(200).json({
-        grades: grades
-      })
-			req.login(user, function(error) {
-			});
-		}
-	})(req, res, next);
-  */
+app.get('/', function(req, res, next) {
+  req.session.data = {
+    test: 'test',
+    hello: 'bye',
+  };
+  console.log(req.session.data);
+  res.render('index', { title: 'Express' });
 });
 
 app.get('/logout', (req, res, next) => {
