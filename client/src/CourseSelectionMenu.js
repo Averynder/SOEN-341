@@ -201,8 +201,8 @@ class CourseSelectionMenu extends React.Component {
           days.push("Thursday");
         }
       }
-      startTime = "" + startTime;
-      endTime = "" + endTime;
+      startTime = "" + startTime.substring(0,startTime.indexOf(".")) + ":" +startTime.substring(startTime.indexOf(".")+1);
+      endTime = "" + endTime.substring(0,endTime.indexOf(".")) + ":" + endTime.substring(endTime.indexOf(".")+1);
 
       var semNumber = this.state.lectures.indexOf("\"semester\":\"");
       this.state.lectures = this.state.lectures.substring(semNumber + 12);
@@ -293,8 +293,8 @@ class CourseSelectionMenu extends React.Component {
       var endTime = this.state.tutorials.substring(0,endQuote7-3);
       endTime = parseFloat(endTime).toFixed(2);
 
-      startTime = "" + startTime;
-      endTime = "" + endTime;
+      startTime = "" + startTime.substring(0,startTime.indexOf(".")) + ":" +startTime.substring(startTime.indexOf(".")+1);
+      endTime = "" + endTime.substring(0,endTime.indexOf(".")) + ":" + endTime.substring(endTime.indexOf(".")+1);
 
       var semNumber = this.state.tutorials.indexOf("\"semester\":\"");
       this.state.tutorials = this.state.tutorials.substring(semNumber + 12);
@@ -416,8 +416,8 @@ class CourseSelectionMenu extends React.Component {
         days = ["Thursday"];
       else if (days[0] == "" || days[0] == " " || days[0] == null)
         days = ["Thursday"];
-      startTime = "" + startTime;
-      endTime = "" + endTime;
+      startTime = "" + startTime.substring(0,startTime.indexOf(".")) + ":" +startTime.substring(startTime.indexOf(".")+1);
+      endTime = "" + endTime.substring(0,endTime.indexOf(".")) + ":" + endTime.substring(endTime.indexOf(".")+1);
 
       var semNumber = this.state.labs.indexOf("\"semester\":\"");
       this.state.labs = this.state.labs.substring(semNumber + 12);
@@ -450,15 +450,15 @@ class CourseSelectionMenu extends React.Component {
     console.log("Got #" + totaldatabaseEntriesLab + " Lab entries from database");
     this.state.dataCourses = courses31;
     this.regEx2();
-    //console.log(courses31);
-    //console.log(data1.sequence);
-    //this.state.courses2 = courses31; //CHANGE TO GET PROPER COURSES
+    console.log(this.state.dataCourses);
+    console.log(data1.sequence);
+    this.state.courses2 = courses31; //CHANGE TO GET PROPER COURSES
   }
 
   regEx2()
   {
-    console.log(this.state.dataCourses);
-    console.log(data1.sequence);
+    //console.log(this.state.dataCourses);
+    //console.log(data1.sequence);
     while (this.state.Courses.length > 1)
     {
       var titleStart = this.state.Courses.indexOf("\"courseTitle\":\"");
@@ -560,8 +560,18 @@ class CourseSelectionMenu extends React.Component {
         prereqs = "";
       if (title != "")
       {
-        var cc = new Course(title, subject, courseNumber, creditNumber, prereqs, coreqs);
-        console.log(title + " " + subject + " " + courseNumber + " " + creditNumber + " Pre: " + prereqs + " Co: " + coreqs);
+        subject = subject + courseNumber;
+        //var cc = new Course(title, subject, courseNumber, creditNumber, prereqs, coreqs);
+        var i;
+        for (i = 0; i < this.state.dataCourses.length; i++)
+        {
+          if (this.state.dataCourses[i].course == subject)
+          {
+            this.state.dataCourses[i].name = title;
+            this.state.dataCourses[i].credit = parseFloat(creditNumber);
+          }
+        }
+        //console.log(title + " " + subject + " " + creditNumber + " Pre: " + prereqs + " Co: " + coreqs);
       }
     }
   }
