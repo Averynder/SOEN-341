@@ -83,12 +83,9 @@ app.post('/concordia', function (req, res, next) {
         if (!loggedIn) {
           res.sendStatus(422);
         } else {
+          req.session.grades = loggedIn;
+          console.log(req.session.grades);
           res.sendStatus(200);
-          /*
-          res.json({
-            grades: 'whatever'
-          });
-          */
         }
       });
   } catch (err) {
@@ -96,18 +93,9 @@ app.post('/concordia', function (req, res, next) {
   }
 });
 
-app.get('/', function(req, res, next) {
-  req.session.data = {
-    test: 'test',
-    hello: 'bye',
-  };
-  console.log(req.session.data);
-  res.render('index', { title: 'Express' });
-});
-
 app.get('/logout', (req, res, next) => {
-	req.logout();
-	res.end();
+  req.destroy(req.sessionID);
+  next();
 });
 
 app.get('/check', function(req, res, next) {
