@@ -1,5 +1,7 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Level;
+
 public class TestMaster {
 
 	public static void main(String[] args) {
@@ -46,6 +48,10 @@ public class TestMaster {
 				} catch (InputMismatchException ime) {
 					userInput.nextLine();
 					System.out.println("The input you submitted was not a number or outside of the range available for a programming integer");
+				}
+				catch (Exception e)
+				{
+					break outerloop;
 				}
 			}
 
