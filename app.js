@@ -103,8 +103,9 @@ app.get('/grades', hasLoggedIn, (req, res, next) => {
   res.send(req.session.info);
 });
 
-app.get('/logout', (req, res, next) => {
-  req.destroy(req.sessionID);
+app.get('/logout', hasLoggedIn, (req, res, next) => {
+  req.session.destroy(err => console.log(err));
+  res.end();
 });
 
 // set a cookie with random number as ID
