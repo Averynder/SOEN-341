@@ -478,7 +478,7 @@ class PdfSequenceGenerator extends React.Component {
 
     let yeetus = [];
     for (let i = 0; i < 6; i++) {
-      /*Basically choose a year from current year up to 8 years later. Don't touch this*/
+      /*Basically choose a year from current year up to 6 years later. Don't touch this*/
       yeetus[i] = new Date().getFullYear() + i;
     }
     const years = yeetus.map(jimmy => <option value={jimmy}>{jimmy}</option>);
