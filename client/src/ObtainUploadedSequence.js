@@ -1,5 +1,4 @@
 import React from "react"
-import Navbar from "./components/Navbar"
 import Button from "./components/Button"
 import { Link } from "react-router-dom"
 import Upload from "./Upload"
@@ -155,7 +154,6 @@ class ObtainUploadedSequence extends React.Component{
   render(){
     return(
       <div className="container">
-        <Navbar /> <br />
         <LoadingScreen
             loading={this.state.isLoading}
             bgColor='#f1f1f1'

@@ -12,7 +12,6 @@ class AndreLink extends Component {
     render() {
       return (
         <div className="container">
-          <Navbar />
           <div className="container">
             <div className="jumbotron j-greetings">
               <AndreApp />

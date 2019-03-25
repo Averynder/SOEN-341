@@ -1,6 +1,5 @@
 import React from "react"
 import Button from "react-bootstrap/Button";
-import { NavLink, BrowserRouter as Router } from "react-router-dom";
 
 class Navbar extends React.Component {
   constructor(props, context) {
@@ -9,12 +8,9 @@ class Navbar extends React.Component {
     this.state = {
       firstName: '',
     }
-    this.logout = this.logout.bind(this);
-    this.update = this.update.bind(this);
   }
 
-  update = val => {
-    console.log(val);
+  onUpdate = val => {
     this.props.onUpdate(val);
     this.setState({ firstName: val });
   }
@@ -29,10 +25,7 @@ class Navbar extends React.Component {
       })
       .then(info => {
         let val = info === 'visitor'? info: info.result.studentInfo.givenName;
-        this.update(val);
-
-        let elemFirstName = document.getElementById('firstName');
-        elemFirstName.innerHTML = val;
+        this.onUpdate(val);
       });
   }
 

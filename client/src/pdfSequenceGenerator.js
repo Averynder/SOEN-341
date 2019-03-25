@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "./components/Navbar";
 import * as data from "./data/courses.json";
 import * as jsPDF from "jspdf";
 import { Table, Modal, Container, Row, Col } from "react-bootstrap";
@@ -553,7 +552,7 @@ class PdfSequenceGenerator extends React.Component {
               onClick={() => {
                 this.setState({ showRemove: !this.state.showRemove });
               }}
-            /> 
+            />
             <Button id="mb5" text="PDF" onClick={this.convertToPDF} /> */}
           </div>
         </DragDropContext>
