@@ -13,6 +13,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
+var calendarRouter = require('./routes/calendar');
 var mysql = require("mysql2");
 // This class will run the DB script when called
 var DBcheck = require('./routes/DBcheck');
@@ -449,6 +450,7 @@ app.use('/MyDoublyLinkedList',MyDoublyLinkedList);
 app.use('/LectureSequence',LectureSequence);
 app.use('/LabSequence',LabSequence);
 app.use('/TutorialSequence',TutorialSequence);
+app.use('/calendar',calendarRouter);
 
 
 app.use('/Stack',Stack);
