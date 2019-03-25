@@ -8,8 +8,6 @@ var fileUpload = require('express-fileupload')
 var cors = require('cors')
 var session = require('express-session');
 var logger = require('morgan');
-//var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var mysql = require("mysql2");
@@ -65,15 +63,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(fileUpload());
 app.use(cors());
-//app.use(passport.initialize());
-//app.use(passport.session());
 
 // var user = new usersRouter;
 
 
 
-//require('./passport') // importing passport.js with as a parameter the imported passport library from above
-const selenium = require('./selenium'); // importing passport.js with as a parameter the imported passport library from above
+const selenium = require('./selenium');
 
 function hasLoggedIn(req, res, next) {
   if (req.session.info) {
