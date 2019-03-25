@@ -452,7 +452,7 @@ class CourseSelectionMenu extends React.Component {
     this.regEx2();
     console.log(this.state.dataCourses);
     console.log(data1.sequence);
-    this.state.courses2 = courses31; //CHANGE TO GET PROPER COURSES
+//    this.state.courses2 = courses31; //CHANGE TO GET PROPER COURSES
   }
 
   regEx2()
@@ -578,8 +578,40 @@ class CourseSelectionMenu extends React.Component {
 
   timeToNum = time => {
     // time parameter represents start time or end time of a class
+    let time1, time2;
+    let time1Minute, time2Minute;
+    let timeHour = time.substring(0, time.indexOf(":"));
+    let timeMinute = time.substring(time.indexOf(":")+1);
+
+    timeMinute = parseInt(timeMinute);
+    time1Minute = timeMinute - 5;
+    time2Minute = timeMinute + 5;
+
+    if (time1Minute == -5) {
+      time2 = timeHour + ":0" + time2Minute; // @@:05
+      timeHour = parseInt(timeHour);
+      timeHour--;
+      time1 = timeHour + ":" + "55";
+    }
+    else if (time2Minute == 60) {
+      time1 = timeHour + ":" + time1Minute; // @@:50
+      timeHour = parseInt(timeHour);
+      timeHour++;
+      time2 = timeHour + ":" + "00";
+    }
+    else if (time1Minute == 0) {
+      time1 = timeHour + ":00"; // @@:00 instead of @@:0
+      time2 = timeHour + ":" + time2Minute; // @@:10
+    }
+    else {
+      time1 = timeHour + ":" + time1Minute;
+      time2 = timeHour + ":" + time2Minute;
+    }
+
     for (let i = 0; i < 61; i++)
-      if (time === times.time[i].startTime) return times.time[i].num;
+      if ((time1 === times.time[i].startTime) || 
+          (time === times.time[i].startTime) || 
+          (time2 === times.time[i].startTime)) return times.time[i].num;
     return null;
   };
 
@@ -1151,7 +1183,7 @@ class CourseSelectionMenu extends React.Component {
 
     let n = 1;
     let initial = this.timeToNum(addedClass.lecture[0].startTime);
-    let final = this.timeToNum(addedClass.lecture[0].endTime);
+    let final = this.timeToNum(addedClass.lecture[0].endTime) - 1;
     let middle = (initial + final)/2;
 
       for (let i = 0; i < 61; i++) {
@@ -1186,7 +1218,7 @@ class CourseSelectionMenu extends React.Component {
 
       let n = 1;
       let initial = this.timeToNum(addedClass.lecture[0].tutorial[0].startTime);
-      let final = this.timeToNum(addedClass.lecture[0].tutorial[0].endTime);
+      let final = this.timeToNum(addedClass.lecture[0].tutorial[0].endTime) - 1;
       let middle = (initial + final)/2;
   
       for (let i = 0; i < 61; i++) {
@@ -1225,7 +1257,7 @@ class CourseSelectionMenu extends React.Component {
     
         let n = 1;
         let initial = this.timeToNum(addedClass.lab[0].startTime);
-        let final = this.timeToNum(addedClass.lab[0].endTime);
+        let final = this.timeToNum(addedClass.lab[0].endTime) - 1;
         let middle = (initial + final)/2;
     
         for (let i = 0; i < 61; i++) {
@@ -1408,7 +1440,7 @@ class CourseSelectionMenu extends React.Component {
       let dayOfTheWeek = courseToRemove.lecture[lectureIndex].days[j] + "-";
       if (
         this.timeToNum(courseToRemove.lecture[lectureIndex].startTime) <= i &&
-        this.timeToNum(courseToRemove.lecture[lectureIndex].endTime) >= i
+        (this.timeToNum(courseToRemove.lecture[lectureIndex].endTime)-1) >= i
       ) {
         color = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
         document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
@@ -1423,7 +1455,7 @@ class CourseSelectionMenu extends React.Component {
         for (let i = 0; i < 61; i++) {
           if (
             this.timeToNum(courseToRemove.lecture[lectureIndex].tutorial[tutorialIndex].startTime) <= i &&
-            this.timeToNum(courseToRemove.lecture[lectureIndex].tutorial[tutorialIndex].endTime) >= i
+            (this.timeToNum(courseToRemove.lecture[lectureIndex].tutorial[tutorialIndex].endTime)-1) >= i
           ) {
             document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
             document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
@@ -1437,7 +1469,7 @@ class CourseSelectionMenu extends React.Component {
           for (let i = 0; i < 61; i++) {
             if (
               this.timeToNum(courseToRemove.lab[labIndex].startTime) <= i &&
-              this.timeToNum(courseToRemove.lab[labIndex].endTime) >= i
+              (this.timeToNum(courseToRemove.lab[labIndex].endTime)-1) >= i
             ) {
               document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
               document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";

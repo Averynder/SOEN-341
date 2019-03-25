@@ -48,10 +48,10 @@
 			}],
       "lab": [{
 				"section": "F-X",
-				"days": ["Friday"],
+				"days": ["Wednesday"],
 				"room": "H826",
-				"startTime": "20:30",
-				"endTime": "21:30"
+				"startTime": "16:05",
+				"endTime": "17:30"
 			},{
 				"section": "B-X",
 				"days": ["Thursday"],
@@ -69,7 +69,7 @@
 	  "semester": "Fall",
       "lecture": [{
 				"section": "NN",
-				"days": ["Monday", "Wednesday"],
+				"days": ["Monday", "Tuesday"],
 				"room": "H830",
 				"startTime": "14:00",
 				"endTime": "15:30",
@@ -110,8 +110,8 @@
 				"section": "A-X",
 				"days": ["Wednesday"],
 				"room": "H837",
-				"startTime": "18:00",
-				"endTime": "19:00"
+				"startTime": "15:00",
+				"endTime": "16:00"
 			},{
 				"section": "B-X",
 				"days": ["Thursday"],
