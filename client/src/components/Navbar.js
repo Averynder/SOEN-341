@@ -6,7 +6,34 @@ class Navbar extends React.Component {
   constructor(props, context) {
     super(props, context);
 
+    this.state = {
+      firstName: '',
+    }
     this.logout = this.logout.bind(this);
+    this.update = this.update.bind(this);
+  }
+
+  update = val => {
+    console.log(val);
+    this.props.onUpdate(val);
+    this.setState({ firstName: val });
+  }
+
+  componentDidMount() {
+    fetch("/grades")
+      .then(body => {
+        if (body.status == 200) {
+          return body.json();
+        }
+        return 'visitor';
+      })
+      .then(info => {
+        let val = info === 'visitor'? info: info.result.studentInfo.givenName;
+        this.update(val);
+
+        let elemFirstName = document.getElementById('firstName');
+        elemFirstName.innerHTML = val;
+      });
   }
 
   logout() {
@@ -18,11 +45,7 @@ class Navbar extends React.Component {
 
   render() {
     let btn;
-      const pushStyle = {
-          position: 'absolute',
-          left: '86%',
-      };
-    if (this.props.hasLoggedIn) {
+    if (this.state.firstName && this.state.firstName !== 'visitor') {
       btn = <Button
                 id="logout"
                 variant="primary"

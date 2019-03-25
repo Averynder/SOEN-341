@@ -10,8 +10,8 @@ import "./App.css";
 import LinkBox from "./LinkBox";
 
 class App extends React.Component {
-  constructor() {
-    super();
+  constructor(props, context) {
+    super(props, context);
 
     this.state = {
       clock: []
