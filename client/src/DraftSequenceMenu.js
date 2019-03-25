@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "./components/Navbar";
 // import SequenceTable1 from "./SequenceTable";
 import Button from "./components/Button";
 import { Link } from "react-router-dom";
@@ -80,7 +79,6 @@ class DraftSequenceMenu extends React.Component {
 
     return (
       <div className="container">
-        <Navbar />
 
         <div className="container">
           <div className="jumbotron j-greetings">

@@ -2,7 +2,6 @@ import React, {Component} from "react"
 import LoadingScreen from 'react-loading-screen'
 import Button from "./components/Button"
 import { Link } from "react-router-dom"
-import Navbar from "./components/Navbar"
 import { renderToString } from 'react-dom/server'
 
 class LoadingCourses extends Component {
@@ -55,7 +54,6 @@ class LoadingCourses extends Component {
 	render() {
 		return (
 			<div className="container">
-				<Navbar />
 				<div className="container">
 					<div className="jumbotron j-greetings">
 						<h2 className="display-4">Select an Option</h2>
