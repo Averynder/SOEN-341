@@ -45,6 +45,10 @@ class Navbar extends React.Component {
 
   render() {
     let btn;
+    const pushStyle = {
+        position: 'absolute',
+        left: '86%',
+    };
     if (this.state.firstName && this.state.firstName !== 'visitor') {
       btn = <Button
                 id="logout"
