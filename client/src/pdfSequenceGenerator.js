@@ -509,15 +509,15 @@ class PdfSequenceGenerator extends React.Component {
             <Container className="mt-4" id="divToPrint">
               <Row>
                 <Col className='tableCol' md={4}>
-                  Fall
+                  <p style={{textAlign: "center"}}>Fall</p>
                   {falltable}
                 </Col>
                 <Col className='tableCol' md={4}>
-                  Winter
+                <p style={{textAlign: "center"}}>Winter</p>
                   {wintertable}
                 </Col>
                 <Col className='tableCol' md={4}>
-                  Summer
+                  <p style={{textAlign: "center"}}>Summer</p>
                   {summertable}
                 </Col>
               </Row>
