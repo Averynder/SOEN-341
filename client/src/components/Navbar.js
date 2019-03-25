@@ -38,20 +38,8 @@ class Navbar extends React.Component {
 
   render() {
     let btn;
-    const pushStyle = {
-        position: 'absolute',
-        left: '86%',
-    };
     if (this.state.firstName && this.state.firstName !== 'visitor') {
-      btn = <Button
-                id="logout"
-                variant="primary"
-                type="submit"
-                onClick={ this.logout }
-                style = {pushStyle}
-            >
-                Logout
-            </Button>;
+      btn = <Button id="logout" variant="primary" type="submit" onClick={ this.logout }>Logout</Button>;
     }
 
     return (
@@ -59,7 +47,11 @@ class Navbar extends React.Component {
         <nav style={{height: "80px"}} className="navbar navbar-expand-lg navbar-light bg-dark">
           <a className="navbar-brand" href="/"><img style={{ height: '80px', width: '140px' }} src="https://uploads-ssl.webflow.com/5abfb5060c89186efba37c26/5b9d665cd5ba8a52b1ca2d48_concordia.png" alt="Concordia's Logo"/></a>
 
-          { btn }
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav ml-auto">
+              <li>{ btn }</li>
+            </ul>
+          </div>
         </nav>
       </div>
     )
