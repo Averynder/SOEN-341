@@ -18,16 +18,22 @@ class Navbar extends React.Component {
 
   render() {
     let btn;
+      const pushStyle = {
+          position: 'absolute',
+          left: '86%',
+      };
     if (this.props.hasLoggedIn) {
       btn = <Button
                 id="logout"
                 variant="primary"
                 type="submit"
                 onClick={ this.logout }
+                style = {pushStyle}
             >
                 Logout
             </Button>;
     }
+
     return (
       <div className="container">
         <nav style={{height: "80px"}} className="navbar navbar-expand-lg navbar-light bg-dark">
