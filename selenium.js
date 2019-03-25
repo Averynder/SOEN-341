@@ -4,7 +4,7 @@ const rp = require('request-promise');
 
 const driver = new Builder().forBrowser('firefox');
 
-const requestGrades = (cookie) => {
+const getInfo = cookie => {
   let options = {
     method: 'POST',
     url: 'https://genesis.concordia.ca/mportal2.0/services/sisservice.ashx',
@@ -19,8 +19,8 @@ const requestGrades = (cookie) => {
 
   return new Promise((resolve, reject) => {
     rp(options)
-    .then(grades => resolve(grades))
-    .catch(err => console.log(err));
+      .then(grades => resolve(grades))
+      .catch(err => console.log(err));
   });
 };
 
@@ -35,18 +35,18 @@ module.exports = {
         .then(_ => browser.sleep(5000))
         .then(_ => browser.getCurrentUrl())
         .then(url => {
-          console.log(url);
-          if (url.includes('errorCode')) {
-            resolve(false); // relay to route that user failed to log in
+          if (url.includes('errorCode')) { // failed to log in
+            resolve(false);
             browser.quit();
-          } else {
-            browser.manage().getCookie("concordia-mportal-auth-guid") // get auth cookie
+          } else { // successfully logged in
+            browser
+              .manage()
+              .getCookie("concordia-mportal-auth-guid") // get auth cookie
               .then(cookie => {
-                resolve(true); // relay to route that user logged in successfully
                 try {
-                  requestGrades(cookie)
-                    .then(grades => {
-                      console.log(grades);
+                  getInfo(cookie)
+                    .then(info => {
+                      resolve(info);
                       browser.quit();
                     });
                 } catch (err) {
