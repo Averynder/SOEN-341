@@ -734,8 +734,7 @@ class CourseSelectionMenu extends React.Component {
         let labIndex = JSONified[i][3];
     
         for(let j=0; j<addedClass.lecture[lectureIndex].days.length; j++){ // add lecture
-    
-        let n = 1;
+
         let initial = this.timeToNum(addedClass.lecture[lectureIndex].startTime);
         let final = this.timeToNum(addedClass.lecture[lectureIndex].endTime) - 1;
         let middle = parseInt((initial + final)/2);
@@ -749,18 +748,14 @@ class CourseSelectionMenu extends React.Component {
               document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
               if (i === middle - 1) {
                 document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
-                n++;
               }else if(i === middle){
                 document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].startTime;
-                n++;
               }
               else if(i === middle + 1){
                 document.getElementById(dayOfTheWeek + i).innerHTML = "to";
-                n++;
               }
               else if(i === middle + 2){
                 document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].endTime;
-                n++;
               }else{
                 document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
               }
@@ -769,38 +764,53 @@ class CourseSelectionMenu extends React.Component {
         }
     
         for (let k = 0; k < addedClass.lecture[lectureIndex].tutorial[tutorialIndex].days.length; k++) { // add tutorial
-    
-          let n = 1;
+
           let initial = this.timeToNum(addedClass.lecture[lectureIndex].tutorial[tutorialIndex].startTime);
           let final = this.timeToNum(addedClass.lecture[lectureIndex].tutorial[tutorialIndex].endTime) - 1;
           let middle = parseInt((initial + final)/2);
       
-          for (let i = 0; i < 61; i++) {
-            if (
-              initial <= i &&
-              final >= i
-            ) {
-              let dayOfTheWeek = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].days[k] + "-";
-              document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
-              if (i === middle - 2) {
-                document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
-                n++;
-              }else if (i === middle - 1) {
-                document.getElementById(dayOfTheWeek + i).innerHTML = "Tutorial";
-                n++;
-              }else if(i === middle){
-                document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].startTime;
-                n++;
+          if ((final - initial) <= 3) {
+            for (let i = 0; i < 61; i++) {
+              if (
+                initial <= i &&
+                final >= i
+              ) {
+                let dayOfTheWeek = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].days[k] + "-";
+                document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+                if (i === middle - 1) {
+                  document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+                }else if (i === middle) {
+                  document.getElementById(dayOfTheWeek + i).innerHTML = "Tutorial";
+                }else if(i === middle + 1){
+                  document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].startTime + 
+                  "-" + addedClass.lecture[lectureIndex].tutorial[tutorialIndex].endTime;
+                }else{
+                  document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+                }
               }
-              else if(i === middle + 1){
-                document.getElementById(dayOfTheWeek + i).innerHTML = "to";
-                n++;
-              }
-              else if(i === middle + 2){
-                document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].endTime;
-                n++;
-              }else{
-                document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+            }
+          }
+          else {
+            for (let i = 0; i < 61; i++) {
+              if (
+                initial <= i &&
+                final >= i
+              ) {
+                let dayOfTheWeek = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].days[k] + "-";
+                document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+                if (i === middle - 2) {
+                  document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+                }else if (i === middle - 1) {
+                  document.getElementById(dayOfTheWeek + i).innerHTML = "Tutorial";
+                }else if(i === middle){
+                  document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].startTime;
+                }else if(i === middle + 1){
+                  document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+                }else if(i === middle + 2){
+                  document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].endTime;
+                }else{
+                  document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+                }
               }
             }
           }
@@ -808,13 +818,34 @@ class CourseSelectionMenu extends React.Component {
       
         if (addedClass.lab.length != 0) {
           for (let l = 0; l < addedClass.lab[labIndex].days.length; l++) { // add lab
-        
-            let n = 1;
+
             let initial = this.timeToNum(addedClass.lab[labIndex].startTime);
             let final = this.timeToNum(addedClass.lab[labIndex].endTime) - 1;
             let middle = parseInt((initial + final)/2);
         
-            for (let i = 0; i < 61; i++) {
+            if ((final - initial) <= 3) {
+              for (let i = 0; i < 61; i++) {
+                if (
+                  initial <= i &&
+                  final >= i
+                ) {
+                  let dayOfTheWeek = addedClass.lab[0].days[l] + "-";
+                  document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+                  if (i === middle - 1) {
+                    document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+                  }else if (i === middle) {
+                    document.getElementById(dayOfTheWeek + i).innerHTML = "Lab";
+                  }else if(i === middle + 1){
+                    document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[0].startTime + 
+                    "-" + addedClass.lab[0].endTime;
+                  } else {
+                    document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+                  }
+                }
+              }
+            } 
+            else {
+              for (let i = 0; i < 61; i++) {
               if (
                 initial <= i &&
                 final >= i
@@ -823,21 +854,16 @@ class CourseSelectionMenu extends React.Component {
                 document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
                 if (i === middle - 2) {
                   document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
-                  n++;
                 }else if (i === middle - 1) {
                   document.getElementById(dayOfTheWeek + i).innerHTML = "Lab";
-                  n++;
                 }else if(i === middle){
                   document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[labIndex].startTime;
-                  n++;
                 }
                 else if(i === middle + 1){
                   document.getElementById(dayOfTheWeek + i).innerHTML = "to";
-                  n++;
                 }
                 else if(i === middle + 2){
                   document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[labIndex].endTime;
-                  n++;
                 }else{
                   document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
                 }
@@ -845,6 +871,7 @@ class CourseSelectionMenu extends React.Component {
             }
           }
         }
+      }
     
         let oldColors = [];
     
@@ -1169,7 +1196,6 @@ class CourseSelectionMenu extends React.Component {
 
     for(let j=0; j<addedClass.lecture[0].days.length; j++){ // add lecture
 
-    let n = 1;
     let initial = this.timeToNum(addedClass.lecture[0].startTime);
     let final = this.timeToNum(addedClass.lecture[0].endTime) - 1;
     let middle = parseInt((initial + final)/2);
@@ -1181,20 +1207,18 @@ class CourseSelectionMenu extends React.Component {
         ) {
           let dayOfTheWeek = addedClass.lecture[0].days[j] + "-";
           document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
-          if (i === middle - 1) {
+          if (i === middle - 2) {
             document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
-            n++;
+          }else if (i === middle - 1) {
+            document.getElementById(dayOfTheWeek + i).innerHTML = "Lecture";
           }else if(i === middle){
             document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[0].startTime;
-            n++;
           }
           else if(i === middle + 1){
             document.getElementById(dayOfTheWeek + i).innerHTML = "to";
-            n++;
           }
           else if(i === middle + 2){
             document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[0].endTime;
-            n++;
           }else{
             document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
           }
@@ -1204,37 +1228,54 @@ class CourseSelectionMenu extends React.Component {
 
     for (let k = 0; k < addedClass.lecture[0].tutorial[0].days.length; k++) { // add tutorial
 
-      let n = 1;
       let initial = this.timeToNum(addedClass.lecture[0].tutorial[0].startTime);
       let final = this.timeToNum(addedClass.lecture[0].tutorial[0].endTime) - 1;
       let middle = parseInt((initial + final)/2);
   
-      for (let i = 0; i < 61; i++) {
-        if (
-          initial <= i &&
-          final >= i
-        ) {
-          let dayOfTheWeek = addedClass.lecture[0].tutorial[0].days[k] + "-";
-          document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
-          if (i === middle - 2) {
-            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
-            n++;
-          }else if (i === middle - 1) {
-            document.getElementById(dayOfTheWeek + i).innerHTML = "Tutorial";
-            n++;
-          }else if(i === middle){
-            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[0].tutorial[0].startTime;
-            n++;
+      if ((final - initial) <= 3) {
+        for (let i = 0; i < 61; i++) {
+          if (
+            initial <= i &&
+            final >= i
+          ) {
+            let dayOfTheWeek = addedClass.lecture[0].tutorial[0].days[k] + "-";
+            document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+            if (i === middle - 1) {
+              document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+            }else if (i === middle) {
+              document.getElementById(dayOfTheWeek + i).innerHTML = "Tutorial";
+            }else if(i === middle + 1){
+              document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[0].tutorial[0].startTime + 
+              "-" + addedClass.lecture[0].tutorial[0].endTime;
+            }else{
+              document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+            }
           }
-          else if(i === middle + 1){
-            document.getElementById(dayOfTheWeek + i).innerHTML = "to";
-            n++;
-          }
-          else if(i === middle + 2){
-            document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[0].tutorial[0].endTime;
-            n++;
-          }else{
-            document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+        }
+      }
+      else {
+        for (let i = 0; i < 61; i++) {
+          if (
+            initial <= i &&
+            final >= i
+          ) {
+            let dayOfTheWeek = addedClass.lecture[0].tutorial[0].days[k] + "-";
+            document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+            if (i === middle - 2) {
+              document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+            }else if (i === middle - 1) {
+              document.getElementById(dayOfTheWeek + i).innerHTML = "Tutorial";
+            }else if(i === middle){
+              document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[0].tutorial[0].startTime;
+            }
+            else if(i === middle + 1){
+              document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+            }
+            else if(i === middle + 2){
+              document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[0].tutorial[0].endTime;
+            }else{
+              document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+            }
           }
         }
       }
@@ -1243,11 +1284,32 @@ class CourseSelectionMenu extends React.Component {
     if (addedClass.lab.length != 0) {
       for (let l = 0; l < addedClass.lab[0].days.length; l++) { // add lab
     
-        let n = 1;
         let initial = this.timeToNum(addedClass.lab[0].startTime);
         let final = this.timeToNum(addedClass.lab[0].endTime) - 1;
         let middle = parseInt((initial + final)/2);
     
+      if ((final - initial) <= 3) {
+        for (let i = 0; i < 61; i++) {
+          if (
+            initial <= i &&
+            final >= i
+          ) {
+            let dayOfTheWeek = addedClass.lab[0].days[l] + "-";
+            document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+            if (i === middle - 1) {
+              document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+            }else if (i === middle) {
+              document.getElementById(dayOfTheWeek + i).innerHTML = "Lab";
+            }else if(i === middle + 1){
+              document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[0].startTime + 
+              "-" + addedClass.lab[0].endTime;
+            } else {
+              document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+            }
+          }
+        }
+      } 
+      else {
         for (let i = 0; i < 61; i++) {
           if (
             initial <= i &&
@@ -1257,21 +1319,14 @@ class CourseSelectionMenu extends React.Component {
             document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
             if (i === middle - 2) {
               document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
-              n++;
             }else if (i === middle - 1) {
               document.getElementById(dayOfTheWeek + i).innerHTML = "Lab";
-              n++;
             }else if(i === middle){
               document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[0].startTime;
-              n++;
-            }
-            else if(i === middle + 1){
+            }else if(i === middle + 1){
               document.getElementById(dayOfTheWeek + i).innerHTML = "to";
-              n++;
-            }
-            else if(i === middle + 2){
+            }else if(i === middle + 2){
               document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[0].endTime;
-              n++;
             }else{
               document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
             }
@@ -1279,6 +1334,7 @@ class CourseSelectionMenu extends React.Component {
         }
       }
     }
+  }
 
     let oldColors = [];
 
@@ -1585,7 +1641,6 @@ class CourseSelectionMenu extends React.Component {
 
     for(let j=0; j<courseToChange.lecture[lectureIndex].days.length; j++){ // add lecture
 
-      let n = 1;
       let initial = this.timeToNum(courseToChange.lecture[lectureIndex].startTime);
       let final = this.timeToNum(courseToChange.lecture[lectureIndex].endTime) - 1;
       let middle = parseInt((initial + final)/2);
@@ -1597,20 +1652,18 @@ class CourseSelectionMenu extends React.Component {
           ) {
             let dayOfTheWeek = courseToChange.lecture[lectureIndex].days[j] + "-";
             document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
-            if (i === middle - 1) {
+            if (i === middle - 2) {
               document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.course;
-              n++;
+            }else if (i === middle - 1) {
+              document.getElementById(dayOfTheWeek + i).innerHTML = "Lecture";
             }else if(i === middle){
               document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lecture[lectureIndex].startTime;
-              n++;
             }
             else if(i === middle + 1){
               document.getElementById(dayOfTheWeek + i).innerHTML = "to";
-              n++;
             }
             else if(i === middle + 2){
               document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lecture[lectureIndex].endTime;
-              n++;
             }else{
               document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
             }
@@ -1619,38 +1672,54 @@ class CourseSelectionMenu extends React.Component {
       }
   
       for (let k = 0; k < courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].days.length; k++) { // add tutorial
-  
-        let n = 1;
+
         let initial = this.timeToNum(courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].startTime);
         let final = this.timeToNum(courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].endTime) - 1;
         let middle = parseInt((initial + final)/2);
-    
-        for (let i = 0; i < 61; i++) {
-          if (
-            initial <= i &&
-            final >= i
-          ) {
-            let dayOfTheWeek = courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].days[k] + "-";
-            document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
-            if (i === middle - 2) {
-              document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.course;
-              n++;
-            }else if (i === middle - 1) {
-              document.getElementById(dayOfTheWeek + i).innerHTML = "Tutorial";
-              n++;
-            }else if(i === middle){
-              document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].startTime;
-              n++;
+        if ((final - initial) <= 3) {
+          for (let i = 0; i < 61; i++) {
+            if (
+              initial <= i &&
+              final >= i
+            ) {
+              let dayOfTheWeek = courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].days[k] + "-";
+              document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+              if (i === middle - 1) {
+                document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.course;
+              }else if (i === middle) {
+                document.getElementById(dayOfTheWeek + i).innerHTML = "Tutorial";
+              }else if(i === middle + 1){
+                document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].startTime + 
+                "-" + courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].endTime;
+              }else{
+                document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+              }
             }
-            else if(i === middle + 1){
-              document.getElementById(dayOfTheWeek + i).innerHTML = "to";
-              n++;
-            }
-            else if(i === middle + 2){
-              document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].endTime;
-              n++;
-            }else{
-              document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+          }
+        }
+        else {
+          for (let i = 0; i < 61; i++) {
+            if (
+              initial <= i &&
+              final >= i
+            ) {
+              let dayOfTheWeek = courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].days[k] + "-";
+              document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+              if (i === middle - 2) {
+                document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.course;
+              }else if (i === middle - 1) {
+                document.getElementById(dayOfTheWeek + i).innerHTML = "Tutorial";
+              }else if(i === middle){
+                document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].startTime;
+              }
+              else if(i === middle + 1){
+                document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+              }
+              else if(i === middle + 2){
+                document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].endTime;
+              }else{
+                document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+              }
             }
           }
         }
@@ -1658,38 +1727,55 @@ class CourseSelectionMenu extends React.Component {
     
       if (courseToChange.lab.length != 0) {
         for (let l = 0; l < courseToChange.lab[labIndex].days.length; l++) { // add lab
-      
-          let n = 1;
+
           let initial = this.timeToNum(courseToChange.lab[labIndex].startTime);
           let final = this.timeToNum(courseToChange.lab[labIndex].endTime) - 1;
           let middle = parseInt((initial + final)/2);
       
-          for (let i = 0; i < 61; i++) {
-            if (
-              initial <= i &&
-              final >= i
-            ) {
-              let dayOfTheWeek = courseToChange.lab[labIndex].days[l] + "-";
-              document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
-              if (i === middle - 2) {
-                document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.course;
-                n++;
-              }else if (i === middle - 1) {
-                document.getElementById(dayOfTheWeek + i).innerHTML = "Lab";
-                n++;
-              }else if(i === middle){
-                document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lab[labIndex].startTime;
-                n++;
+          if ((final - initial) <= 3) {
+            for (let i = 0; i < 61; i++) {
+              if (
+                initial <= i &&
+                final >= i
+              ) {
+                let dayOfTheWeek = courseToChange.lab[0].days[l] + "-";
+                document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+                if (i === middle - 1) {
+                  document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.course;
+                }else if (i === middle) {
+                  document.getElementById(dayOfTheWeek + i).innerHTML = "Lab";
+                }else if(i === middle + 1){
+                  document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lab[0].startTime + 
+                  "-" + courseToChange.lab[0].endTime;
+                } else {
+                  document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+                }
               }
-              else if(i === middle + 1){
-                document.getElementById(dayOfTheWeek + i).innerHTML = "to";
-                n++;
-              }
-              else if(i === middle + 2){
-                document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lab[labIndex].endTime;
-                n++;
-              }else{
-                document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+            }
+          } 
+          else {
+            for (let i = 0; i < 61; i++) {
+              if (
+                initial <= i &&
+                final >= i
+              ) {
+                let dayOfTheWeek = courseToChange.lab[labIndex].days[l] + "-";
+                document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+                if (i === middle - 2) {
+                  document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.course;
+                }else if (i === middle - 1) {
+                  document.getElementById(dayOfTheWeek + i).innerHTML = "Lab";
+                }else if(i === middle){
+                  document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lab[labIndex].startTime;
+                }
+                else if(i === middle + 1){
+                  document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+                }
+                else if(i === middle + 2){
+                  document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lab[labIndex].endTime;
+                }else{
+                  document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+                }
               }
             }
           }
