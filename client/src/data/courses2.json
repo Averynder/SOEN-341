@@ -50,8 +50,8 @@
 				"section": "F-X",
 				"days": ["Wednesday"],
 				"room": "H826",
-				"startTime": "16:05",
-				"endTime": "17:30"
+				"startTime": "16:15",
+				"endTime": "17:40"
 			},{
 				"section": "B-X",
 				"days": ["Thursday"],
@@ -110,8 +110,8 @@
 				"section": "A-X",
 				"days": ["Wednesday"],
 				"room": "H837",
-				"startTime": "15:00",
-				"endTime": "16:00"
+				"startTime": "15:10",
+				"endTime": "16:10"
 			},{
 				"section": "B-X",
 				"days": ["Thursday"],
