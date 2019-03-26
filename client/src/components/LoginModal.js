@@ -31,7 +31,7 @@ class LoginModal extends Component
       headers: {'Content-Type': 'application/json'}
     })
       .then(res => {
-        if(res.status === 422) {
+        if(res.status !== 200) {
           document.getElementById('errorMessage').style.display = 'block';
           btn.disabled = false;
           btn.innerHTML = "Login";
