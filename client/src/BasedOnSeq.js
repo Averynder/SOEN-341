@@ -11,7 +11,6 @@ class BasedOnSeq extends Component {
     render() {
       return (
         <div className="container">
-          <Navbar />
           <div className="container">
             <div className="jumbotron j-greetings">
               <h2 className="display-4">Is it based on a Sequence?</h2>

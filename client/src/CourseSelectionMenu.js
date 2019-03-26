@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "./components/Navbar";
 import Button from "./components/Button";
 import { Link } from "react-router-dom";
 import { Modal, Form, FormControl, Table } from "react-bootstrap";
@@ -707,16 +706,16 @@ class CourseSelectionMenu extends React.Component {
             break;
           }
         }
-    
+
         if (classExists === false) {
           document.getElementById("addStatus1").innerHTML =
             "Invalid Class/Class Not Found";
           this.setState({ show2: "visible" });
           return;
         }
-    
+
         let colorChosen;
-    
+
         for (let j = 0; j < this.state.colors.length; j++) {
           if (this.state.colors[j][1] == 0) {
             colorChosen = this.state.colors[j][0];
@@ -724,7 +723,7 @@ class CourseSelectionMenu extends React.Component {
             break;
           }
         }
-    
+
         if (colorChosen === null || colorChosen === undefined) {
           return;
         }
@@ -732,7 +731,7 @@ class CourseSelectionMenu extends React.Component {
         let lectureIndex = JSONified[i][1];
         let tutorialIndex = JSONified[i][2];
         let labIndex = JSONified[i][3];
-    
+
         for(let j=0; j<addedClass.lecture[lectureIndex].days.length; j++){ // add lecture
 
         let initial = this.timeToNum(addedClass.lecture[lectureIndex].startTime);
@@ -762,7 +761,7 @@ class CourseSelectionMenu extends React.Component {
             }
           }
         }
-    
+
         for (let k = 0; k < addedClass.lecture[lectureIndex].tutorial[tutorialIndex].days.length; k++) { // add tutorial
 
           let initial = this.timeToNum(addedClass.lecture[lectureIndex].tutorial[tutorialIndex].startTime);
@@ -815,7 +814,7 @@ class CourseSelectionMenu extends React.Component {
             }
           }
         }
-      
+
         if (addedClass.lab.length != 0) {
           for (let l = 0; l < addedClass.lab[labIndex].days.length; l++) { // add lab
 
@@ -874,11 +873,11 @@ class CourseSelectionMenu extends React.Component {
       }
     
         let oldColors = [];
-    
+
         for (let o = 0; o < this.state.selectedCourses.length; o++) { // get list of all the colors in the selection menu before change
           oldColors[o] = document.getElementById(this.state.selectedCourses[o][0].course).style.backgroundColor;
         }
-    
+
         oldColors.push(colorChosen); // add the color of new course to the list also
         this.setState({colorOfNewClass: oldColors}) // when rendering the selection menu it will render it with all the old colors + the newly added color
 
@@ -897,7 +896,7 @@ class CourseSelectionMenu extends React.Component {
         this.setState({
           selectedCourses: array
         });
-        
+
       }
 
     }
@@ -905,7 +904,7 @@ class CourseSelectionMenu extends React.Component {
     this.setState({
       showUpload: false
     })
-    
+
   }
 
   downloadJson = () => {
@@ -930,7 +929,7 @@ class CourseSelectionMenu extends React.Component {
   /*addClass(days_array) {
     document.getElementById("id");
   }*/
-  
+
   toggleLoading() {
     this.setState({
       isLoading: !this.state.isLoading
@@ -1280,7 +1279,7 @@ class CourseSelectionMenu extends React.Component {
         }
       }
     }
-  
+
     if (addedClass.lab.length != 0) {
       for (let l = 0; l < addedClass.lab[0].days.length; l++) { // add lab
     
@@ -1493,7 +1492,7 @@ class CourseSelectionMenu extends React.Component {
     }
   }
 
-    
+
       for(let j=0; j<courseToRemove.lecture[lectureIndex].tutorial[tutorialIndex].days.length; j++){
         let dayOfTheWeek = courseToRemove.lecture[lectureIndex].tutorial[tutorialIndex].days[j] + "-";
         for (let i = 0; i < 61; i++) {
@@ -1555,7 +1554,7 @@ class CourseSelectionMenu extends React.Component {
 
   changeSection(courseName) {
     let regEx = document.getElementById(courseName + "section").value;
-    
+
     let lectureSection = regEx.substring(0,regEx.indexOf("-"));
     let tutorialSection = regEx.substring(regEx.indexOf("-")+1);
 
@@ -1670,7 +1669,7 @@ class CourseSelectionMenu extends React.Component {
           }
         }
       }
-  
+
       for (let k = 0; k < courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].days.length; k++) { // add tutorial
 
         let initial = this.timeToNum(courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].startTime);
@@ -1785,7 +1784,7 @@ class CourseSelectionMenu extends React.Component {
     courseArray[1] = lectureIndex; //addedClass.lecture[0].section;
     courseArray[2] = tutorialIndex; //addedClass.lecture[0].tutorial[0].section;
     courseArray[3] = labIndex; //addedClass.lab[0].section;
-    
+
 
     // for (let i = 0; i < courseToRemove.lecture.length; i++) {
     //   if (courseToRemove.lecture[i].section === lectureSection) {
@@ -1805,7 +1804,7 @@ class CourseSelectionMenu extends React.Component {
     //   }
     // }
 
-    
+
   }
 
   render() {
@@ -1851,7 +1850,7 @@ class CourseSelectionMenu extends React.Component {
                 <option>{element1.section + "-" + element2.section}</option>))
                 ))}
             </select> &nbsp;
-            
+
             <select defaultValue={this.state.defaultValueLab} id={element[0].course + "labSection"}>
               {element[0].lab.map(element1 => (
                 <option>{element1.section}</option>
@@ -1897,7 +1896,6 @@ class CourseSelectionMenu extends React.Component {
     return (
 
       <div className="container">
-        <Navbar />
 
         <div className="jumbotron j-greetings">
           <LoadingScreen
