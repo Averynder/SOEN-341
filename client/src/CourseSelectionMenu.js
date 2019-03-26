@@ -737,8 +737,8 @@ class CourseSelectionMenu extends React.Component {
     
         let n = 1;
         let initial = this.timeToNum(addedClass.lecture[lectureIndex].startTime);
-        let final = this.timeToNum(addedClass.lecture[lectureIndex].endTime);
-        let middle = (initial + final)/2;
+        let final = this.timeToNum(addedClass.lecture[lectureIndex].endTime) - 1;
+        let middle = parseInt((initial + final)/2);
     
           for (let i = 0; i < 61; i++) {
             if (
@@ -772,8 +772,8 @@ class CourseSelectionMenu extends React.Component {
     
           let n = 1;
           let initial = this.timeToNum(addedClass.lecture[lectureIndex].tutorial[tutorialIndex].startTime);
-          let final = this.timeToNum(addedClass.lecture[lectureIndex].tutorial[tutorialIndex].endTime);
-          let middle = (initial + final)/2;
+          let final = this.timeToNum(addedClass.lecture[lectureIndex].tutorial[tutorialIndex].endTime) - 1;
+          let middle = parseInt((initial + final)/2);
       
           for (let i = 0; i < 61; i++) {
             if (
@@ -811,8 +811,8 @@ class CourseSelectionMenu extends React.Component {
         
             let n = 1;
             let initial = this.timeToNum(addedClass.lab[labIndex].startTime);
-            let final = this.timeToNum(addedClass.lab[labIndex].endTime);
-            let middle = (initial + final)/2;
+            let final = this.timeToNum(addedClass.lab[labIndex].endTime) - 1;
+            let middle = parseInt((initial + final)/2);
         
             for (let i = 0; i < 61; i++) {
               if (
@@ -931,65 +931,53 @@ class CourseSelectionMenu extends React.Component {
 
     let color1;
 
-    for (let j = 0; j < this.state.colors.length; j++) {
-      if (this.state.colors[j][0] == color) {
-        this.state.colors[j][1] = 0;
-        break;
-      }
-    }
+    // for (let j = 0; j < this.state.colors.length; j++) { wtf is this
+    //   if (this.state.colors[j][0] == color) {
+    //     this.state.colors[j][1] = 0;
+    //     break;
+    //   }
+    // }
 
-  for(let j=0; j<chosenClass[0].lecture[lectureSection].days.length; j++) //added
+  for(let j=0; j<chosenClass[0].lecture[lectureSection].days.length; j++) { //added
     for (let i = 0; i < 61; i++) {
       let dayOfTheWeek = chosenClass[0].lecture[lectureSection].days[j] + "-";
       if (
         this.timeToNum(chosenClass[0].lecture[lectureSection].startTime) <= i &&
-        this.timeToNum(chosenClass[0].lecture[lectureSection].endTime) >= i
+        (this.timeToNum(chosenClass[0].lecture[lectureSection].endTime) - 1) >= i
       ) {
         color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
         document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
       }
     }
+  }
 
-    for(let j=0; j<chosenClass[0].lecture[lectureSection].tutorial[tutorialSection].days.length; j++) //added
+  for(let j=0; j<chosenClass[0].lecture[lectureSection].tutorial[tutorialSection].days.length; j++) {//added
     for (let i = 0; i < 61; i++) {
       let dayOfTheWeek = chosenClass[0].lecture[lectureSection].tutorial[tutorialSection].days[j] + "-";
       if (
         this.timeToNum(chosenClass[0].lecture[lectureSection].tutorial[tutorialSection].startTime) <= i &&
-        this.timeToNum(chosenClass[0].lecture[lectureSection].tutorial[tutorialSection].endTime) >= i
+        (this.timeToNum(chosenClass[0].lecture[lectureSection].tutorial[tutorialSection].endTime) - 1) >= i
       ) {
-        color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
+        //color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
         document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
       }
     }
+  }
 
-        if (chosenClass[0].lab.length != 0) {
-          for(let j=0; j<chosenClass[0].lab[labSection].days.length; j++) { //added
+      if (chosenClass[0].lab.length != 0) {
+        for(let j=0; j<chosenClass[0].lab[labSection].days.length; j++) { //added
           for (let i = 0; i < 61; i++) {
             let dayOfTheWeek = chosenClass[0].lab[labSection].days[j] + "-";
             if (
               this.timeToNum(chosenClass[0].lab[labSection].startTime) <= i &&
-              this.timeToNum(chosenClass[0].lab[labSection].endTime) >= i
+              (this.timeToNum(chosenClass[0].lab[labSection].endTime) - 1) >= i
             ) {
-              color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
+              //color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
               document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
             }
           }
         }
       }
-
-    // for(let k=0; k<chosenClass.ta.length; k++)
-    //   for(let j=0; j<chosenClass.ta[k].days.length; j++){
-    //     let dayOfTheWeek = chosenClass.ta[k].days[j] + "-";
-    //     for (let i = 0; i < 61; i++) {
-    //       if (
-    //         this.timeToNum(chosenClass.ta[k].startTime) <= i &&
-    //         this.timeToNum(chosenClass.ta[k].endTime) >= i
-    //       ) {
-    //         color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
-    //         document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
-    //       }
-    //     }
-    //   }
 
     for (let j = 0; j < this.state.colors.length; j++) {
       if (this.state.colors[j][0] == color1) {
@@ -1184,7 +1172,7 @@ class CourseSelectionMenu extends React.Component {
     let n = 1;
     let initial = this.timeToNum(addedClass.lecture[0].startTime);
     let final = this.timeToNum(addedClass.lecture[0].endTime) - 1;
-    let middle = (initial + final)/2;
+    let middle = parseInt((initial + final)/2);
 
       for (let i = 0; i < 61; i++) {
         if (
@@ -1219,7 +1207,7 @@ class CourseSelectionMenu extends React.Component {
       let n = 1;
       let initial = this.timeToNum(addedClass.lecture[0].tutorial[0].startTime);
       let final = this.timeToNum(addedClass.lecture[0].tutorial[0].endTime) - 1;
-      let middle = (initial + final)/2;
+      let middle = parseInt((initial + final)/2);
   
       for (let i = 0; i < 61; i++) {
         if (
@@ -1258,7 +1246,7 @@ class CourseSelectionMenu extends React.Component {
         let n = 1;
         let initial = this.timeToNum(addedClass.lab[0].startTime);
         let final = this.timeToNum(addedClass.lab[0].endTime) - 1;
-        let middle = (initial + final)/2;
+        let middle = parseInt((initial + final)/2);
     
         for (let i = 0; i < 61; i++) {
           if (
@@ -1536,7 +1524,7 @@ class CourseSelectionMenu extends React.Component {
         let dayOfTheWeek = courseToChange.lecture[lectureIndex].days[j] + "-";
         if (
           this.timeToNum(courseToChange.lecture[lectureIndex].startTime) <= i &&
-          this.timeToNum(courseToChange.lecture[lectureIndex].endTime) >= i
+          (this.timeToNum(courseToChange.lecture[lectureIndex].endTime) - 1) >= i
         ) {
           colorChosen = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
           document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
@@ -1550,7 +1538,7 @@ class CourseSelectionMenu extends React.Component {
       for (let i = 0; i < 61; i++) {
         if (
           this.timeToNum(courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].startTime) <= i &&
-          this.timeToNum(courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].endTime) >= i
+          (this.timeToNum(courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].endTime) - 1) >= i
         ) {
           document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
           document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
@@ -1564,7 +1552,7 @@ class CourseSelectionMenu extends React.Component {
         for (let i = 0; i < 61; i++) {
           if (
             this.timeToNum(courseToChange.lab[labIndex].startTime) <= i &&
-            this.timeToNum(courseToChange.lab[labIndex].endTime) >= i
+            (this.timeToNum(courseToChange.lab[labIndex].endTime) - 1) >= i
           ) {
             document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
             document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
@@ -1595,12 +1583,12 @@ class CourseSelectionMenu extends React.Component {
       }
     }
 
-    for(let j=0; j<courseToChange.lecture[0].days.length; j++){ // add lecture
+    for(let j=0; j<courseToChange.lecture[lectureIndex].days.length; j++){ // add lecture
 
       let n = 1;
       let initial = this.timeToNum(courseToChange.lecture[lectureIndex].startTime);
-      let final = this.timeToNum(courseToChange.lecture[lectureIndex].endTime);
-      let middle = (initial + final)/2;
+      let final = this.timeToNum(courseToChange.lecture[lectureIndex].endTime) - 1;
+      let middle = parseInt((initial + final)/2);
   
         for (let i = 0; i < 61; i++) {
           if (
@@ -1634,8 +1622,8 @@ class CourseSelectionMenu extends React.Component {
   
         let n = 1;
         let initial = this.timeToNum(courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].startTime);
-        let final = this.timeToNum(courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].endTime);
-        let middle = (initial + final)/2;
+        let final = this.timeToNum(courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].endTime) - 1;
+        let middle = parseInt((initial + final)/2);
     
         for (let i = 0; i < 61; i++) {
           if (
@@ -1673,8 +1661,8 @@ class CourseSelectionMenu extends React.Component {
       
           let n = 1;
           let initial = this.timeToNum(courseToChange.lab[labIndex].startTime);
-          let final = this.timeToNum(courseToChange.lab[labIndex].endTime);
-          let middle = (initial + final)/2;
+          let final = this.timeToNum(courseToChange.lab[labIndex].endTime) - 1;
+          let middle = parseInt((initial + final)/2);
       
           for (let i = 0; i < 61; i++) {
             if (
