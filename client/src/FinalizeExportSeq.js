@@ -1,5 +1,4 @@
 import React from "react"
-import Navbar from "./components/Navbar"
 import Button from "./components/Button"
 import { Link } from "react-router-dom"
 
@@ -7,7 +6,6 @@ class FinalizeExportSeq extends React.Component{
   render(){
     return(
       <div className="container">
-        <Navbar /> <br />
         <div className="container">
           <div className="jumbotron j-greetings">
             <h1>This is the Finalized Format</h1>

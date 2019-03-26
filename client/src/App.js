@@ -69,16 +69,25 @@ class App extends React.Component {
     });
   }
 
+  onUpdate = val => {
+    this.setState({ firstName: val });
+  }
+
+
   render() {
     return (
       <div className="bckgrnd container">
-        <Navbar />
         <Greetings>
           <Button text="Refresh Time" onClick={this.getTime} />
         </Greetings>
         <ButtonContainer>
+<<<<<<< HEAD
           <Button name="student-button" text="I am a Student" onClick={this.toggleStudent} />
           <Link to="/build-seq-or-sem">
+=======
+          <Button text="I am a Student" onClick={this.toggleStudent} />
+          <Link firstName={this.state.firstName} to="/build-seq-or-sem">
+>>>>>>> cfb2300ad2e892c23cd1482f3fba012f91f0fa6d
             <Button text="No Login" />
           </Link>
         </ButtonContainer>

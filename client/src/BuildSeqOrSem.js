@@ -6,21 +6,14 @@ import Navbar from "./components/Navbar"
 class BuildSeqOrSem extends Component {
   constructor(props, context) {
     super(props, context);
-
-    this.state = { firstName: '' };
-  }
-
-  onUpdate = val => {
-    this.setState({ firstName: val });
   }
 
   render() {
     return (
       <div className="container">
-          <Navbar onUpdate={this.onUpdate} />
         <div className="container">
           <div className="jumbotron j-greetings">
-            <h2 className="display-4">Hi {this.state.firstName}, which build option would you like?</h2>
+            <h2 className="display-4">Hi {this.props.firstName}, which build option would you like?</h2>
             <hr color="#7e1530"/>
             <div class="btn-group" role="group" aria-label="Basic example">
               <Link to="/select-semester">
