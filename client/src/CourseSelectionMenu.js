@@ -882,7 +882,12 @@ class CourseSelectionMenu extends React.Component {
         this.setState({colorOfNewClass: oldColors}) // when rendering the selection menu it will render it with all the old colors + the newly added color
 
         let defaultValue1 = addedClass.lecture[lectureIndex].section + "-" + addedClass.lecture[lectureIndex].tutorial[tutorialIndex].section;
-        let defaultValue2 = addedClass.lab[labIndex].section + "";
+        let defaultValue2 = ""; 
+        
+        if (addedClass.lab.length != 0) {
+          defaultValue2 = addedClass.lab[labIndex].section + "";
+        }
+        
         this.setState({
           defaultValueLectureTutorial: defaultValue1, defaultValueLab: defaultValue2
         })
