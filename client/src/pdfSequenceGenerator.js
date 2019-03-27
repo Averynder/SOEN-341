@@ -527,7 +527,7 @@ class PdfSequenceGenerator extends React.Component {
               real json file with all the classes can easily be substituted
               later.
             </p> */}
-            <h3>YEAR {this.props.year}</h3>
+            <h3>YEAR {true ? (new Date()).getFullYear() : 2020}</h3>
             <Button text="Sequence Settings" onClick={() => this.setState({modify: !this.state.modify})}/>
             
             {/* Printing this part */}
