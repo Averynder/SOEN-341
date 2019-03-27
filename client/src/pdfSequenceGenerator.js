@@ -17,8 +17,8 @@ class PdfSequenceGenerator extends React.Component {
       selectedCoursesWinter: [],
       selectedCoursesSummer: [],
       showAdd: false,
-      showRemove: false
-      // selectYear: true,
+      showRemove: false,
+      modify: false,
       // sequenceYear: null
     };
   }
@@ -505,7 +505,10 @@ class PdfSequenceGenerator extends React.Component {
 
     return (
       <div className="container">
-        <DragDropContext onDragEnd={this.onDragEnd}>
+        
+
+        <DragDropContext onDragEnd={this.onDragEnd}>  
+
           <div
             style={{ padding: "4rem 1rem" }}
             className="jumbotron j-greetings"
@@ -513,7 +516,7 @@ class PdfSequenceGenerator extends React.Component {
           >
             {/* <h2 className="display-4">
               Sequence To PDF <br /> Year{" "}
-              {this.state.selectYear ? "" : this.state.sequenceYear}
+              {this.state.modify ? "" : this.state.sequenceYear}
             </h2> */}
             {/* <hr color="#7e1530" /> */}
             {/* <p className="lead">
@@ -525,24 +528,29 @@ class PdfSequenceGenerator extends React.Component {
               real json file with all the classes can easily be substituted
               later.
             </p> */}
+            <Button text="Modify" />
             <h3>YEAR {this.props.year}</h3>
 
 
             {/* Printing this part */}
-            <Container className="mt-4" id="divToPrint">
+            <Container className="mt-6" id="divToPrint">
               <Row>
+                
                 <Col className='tableCol' md={4}>
                   <p style={{textAlign: "center"}}>Fall</p>
                   {falltable}
                 </Col>
+                
                 <Col className='tableCol' md={4}>
                   <p style={{textAlign: "center"}}>Winter</p>
                   {wintertable}
                 </Col>
+
                 <Col className='tableCol' md={4}>
                   <p style={{textAlign: "center"}}>Summer</p>
                   {summertable}
                 </Col>
+
               </Row>
             </Container>
             {/* End of print part */}
@@ -635,7 +643,7 @@ class PdfSequenceGenerator extends React.Component {
           </Modal.Body>
         </Modal>
 
-        {/* <Modal show={this.state.selectYear}>
+        <Modal show={this.state.modify}>
           <Modal.Header>
             <Modal.Title>Pick A Year</Modal.Title>
           </Modal.Header>
@@ -649,12 +657,12 @@ class PdfSequenceGenerator extends React.Component {
                 let dooks = document.getElementById("select-year").value; //selected year
                 this.setState({
                   sequenceYear: dooks,
-                  selectYear: false
+                  modify: false
                 });
               }}
             />
           </Modal.Body>
-        </Modal> */}
+        </Modal>
       </div>
     );
   }
