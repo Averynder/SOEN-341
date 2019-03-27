@@ -19,7 +19,6 @@ class PdfSequenceGenerator extends React.Component {
       showAdd: false,
       showRemove: false,
       modify: false,
-      // sequenceYear: null
     };
   }
 
@@ -647,13 +646,10 @@ class PdfSequenceGenerator extends React.Component {
           onHide={() => this.setState({modify: !this.state.modify})}
         >
           <Modal.Header>
-            <Modal.Title>Choose Semesters For The Year</Modal.Title>
+            <Modal.Title>Sequence Settings</Modal.Title>
           </Modal.Header>
           <Modal.Body style={{ textAlign: "center" }}>
             <p id="removeStatus" style={{ color: "red" }} />
-            Fall <input type="checkbox" id="fallCheck" name="Fall" value={false} /><br />
-            Winter <input type="checkbox" id="winterCheck" name="Winter" value={false} /><br />
-            Summer <input type="checkbox" id="summerCheck" name="Summer" value={false} /><br />
           </Modal.Body>
         </Modal>
       </div>
