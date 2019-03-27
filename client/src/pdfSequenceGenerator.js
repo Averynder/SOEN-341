@@ -528,10 +528,9 @@ class PdfSequenceGenerator extends React.Component {
               real json file with all the classes can easily be substituted
               later.
             </p> */}
-            <Button text="Modify" />
             <h3>YEAR {this.props.year}</h3>
-
-
+            <Button text="Modify" onClick={() => this.setState({modify: !this.state.modify})}/>
+            
             {/* Printing this part */}
             <Container className="mt-6" id="divToPrint">
               <Row>
@@ -643,24 +642,18 @@ class PdfSequenceGenerator extends React.Component {
           </Modal.Body>
         </Modal>
 
-        <Modal show={this.state.modify}>
+        <Modal 
+          show={this.state.modify}
+          onHide={() => this.setState({modify: !this.state.modify})}
+        >
           <Modal.Header>
-            <Modal.Title>Pick A Year</Modal.Title>
+            <Modal.Title>Choose Semesters For The Year</Modal.Title>
           </Modal.Header>
           <Modal.Body style={{ textAlign: "center" }}>
-            <select id="select-year">{years}</select>
             <p id="removeStatus" style={{ color: "red" }} />
-            <Button
-              type="submit"
-              text="Select Year"
-              onClick={() => {
-                let dooks = document.getElementById("select-year").value; //selected year
-                this.setState({
-                  sequenceYear: dooks,
-                  modify: false
-                });
-              }}
-            />
+            Fall <input type="checkbox" id="fallCheck" name="Fall" value={false} /><br />
+            Winter <input type="checkbox" id="winterCheck" name="Winter" value={false} /><br />
+            Summer <input type="checkbox" id="summerCheck" name="Summer" value={false} /><br />
           </Modal.Body>
         </Modal>
       </div>
