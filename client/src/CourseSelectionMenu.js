@@ -95,20 +95,14 @@ class CourseSelectionMenu extends React.Component {
       uploadedFile: null,
 
       defaultValueLectureTutorial: "",
-      defaultValueLab: ""
+      defaultValueLab: "",
+
+      showSelection: true,
+      showSchedule: false
 
     };
     //console.log("data.sequence: " + JSON.stringify(data.sequence));
     //console.log("courses: " + JSON.stringify(data.default.sequence));
-  }
-
-  handleSemesterChange = () => {
-
-    this.setState({
-      year: document.getElementById("semester-year").value,
-      semester: document.getElementById("semester").value
-    })
-
   }
 
   componentDidMount() {
@@ -625,6 +619,22 @@ class CourseSelectionMenu extends React.Component {
           (time2 === times.time[i].startTime)) return times.time[i].num;
     return null;
   };
+
+  handleSemesterChange = () => {
+
+    this.setState({
+      year: document.getElementById("semester-year").value,
+      semester: document.getElementById("semester").value
+    })
+
+  }
+
+  handleDisplay = () => {
+    this.setState({
+      showSelection: !this.state.showSelection,
+      showSchedule: !this.state.showSchedule
+    })
+  }
 
   handleClose() {
     this.setState({ show: false });
@@ -2009,14 +2019,26 @@ class CourseSelectionMenu extends React.Component {
                     />
                   </div>
                 </div>
-              </div>
 
-              <p
+                <p
                 id="addStatus1"
                 style={{ color: "red", visibility: this.state.show2 }}
-              />
+                />
+
+              </div>
               <div className="mt-4">{table}</div>
-              <hr color="#7e1530" />
+
+                <Button text="Generate Schedule" onClick={this.handleDisplay}/>
+
+                <Link to="/build-seq-or-sem">
+                  <Button text="Main Selector" />
+                </Link>
+
+                <Link to="/">
+                  <Button text="Home Page" />
+                </Link>
+                
+              {/*<hr color="#7e1530" />*/}
           <h2 className="display-5">
             {this.state.semester} {this.state.year} Semester
           </h2>
