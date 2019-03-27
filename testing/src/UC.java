@@ -1,10 +1,12 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /*
@@ -24,11 +26,24 @@ public class UC {
 		System.out.println("Starting Selenium, please wait.");
 		driver = new FirefoxDriver();
 		driver.manage().deleteAllCookies();
+		boolean serverRunning = false;
+		Scanner review = new Scanner(System.in);
+		while (!serverRunning) {
+			try {
+				driver.get(URL);
+				serverRunning = true;
+			} catch (WebDriverException e) {
+				System.out.println("Webpage unavailable yo. Did you make sure the server is running properly?\nPlease review then type click enter.");
+				try{
+					System.in.read();
+				}catch (Exception nada){}
+			}
+		}
 
 	}
 	public  static boolean login (String user, String pass) {
 		setup();
-		driver.get(URL);
+
 		System.out.println("Navigated to url (logged out)");
 		driver.findElement(By.xpath("//button[contains(.,'I am a Student')]")).click();
 		System.out.println("filling credentials with username and password...");

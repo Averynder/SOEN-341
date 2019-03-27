@@ -59,18 +59,19 @@ public class TestMaster {
 						if (UserCase1.run(username, password)) {
 							System.out.println("Test #" + numberOfRuns + " completed successfully for UC1");
 							numberOfRuns--;
-						}else{
-							System.out.println("Please re-enter credentials and run again:");
+						}else {
+							System.out.println("Please re-enter credentials and run again (0 for either to exit):");
 							System.out.print("username: ");
 							username = userInput.nextLine();
 							System.out.print("\nPassword: ");
 							password = userInput.nextLine();
+							if (username.equals("0") || password.equals("0")){
+								System.out.println("Goodbye");
+								userInput.close();
+								break outerloop;
+							}
 							continue ;
 						}
-//						else {
-//							System.out.println("Test #" + numberOfRuns + " failed for UC1. Was it on purpose? Please read log.");
-//							numberOfRuns = 0;
-//						}
 						break;
 					case 14:
 						if (UserCase14.run(username, password)) {
@@ -81,14 +82,18 @@ public class TestMaster {
 							System.out.println("Closing driver... ");
 							UC.driver.quit();
 							System.out.print("Driver closed");
-							System.out.println("Please re-enter credentials to run again:");
+							System.out.println("Please re-enter credentials and run again (0 for either to exit):");
 							System.out.print("username: ");
 							username = userInput.nextLine();
 							System.out.print("\nPassword: ");
 							password = userInput.nextLine();
-							continue ;
+							if (username.equals("0") || password.equals("0")) {
+								System.out.println("Goodbye");
+								userInput.close();
+								break outerloop;
+							}
+							continue;
 						}
-						break;
 					case 18:
 						if (UserCase18.run()) {
 							System.out.println("Test #" + numberOfRuns + " completed successfully for UC18");
@@ -111,12 +116,17 @@ public class TestMaster {
 					} else {
 						System.out.println("Closing driver... ");
 						UC.driver.quit();
-						System.out.println("Driver closed");
-						System.out.println("Please re-enter credentials to run again:");
+						System.out.print("Driver closed");
+						System.out.println("Please re-enter credentials and run again (0 for either to exit):");
 						System.out.print("username: ");
 						username = userInput.nextLine();
 						System.out.print("\nPassword: ");
 						password = userInput.nextLine();
+						if (username.equals("0") || password.equals("0")) {
+							System.out.println("Goodbye");
+							userInput.close();
+							break outerloop;
+						}
 						continue;
 					}
 				}
