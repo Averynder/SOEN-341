@@ -966,6 +966,10 @@ class CourseSelectionMenu extends React.Component {
 
     let courseNameInput = document.getElementById("colorChanger").value; //Get user input comp248
     let chosenClass; //class object
+    
+    if (courseNameInput == "") {
+      return;
+    }
 
     // instead of 'selectedCourses' it looped through 'classes' before
     for (let i = 0; i < this.state.selectedCourses.length; i++) {
@@ -1217,6 +1221,36 @@ class CourseSelectionMenu extends React.Component {
     if (colorChosen === null || colorChosen === undefined) {
       return;
     }
+/*
+      let validLecture = true, validTutorial = true, validLab = true;
+      let lectureIndex = 0, tutorialIndex = 0, labIndex = 0;
+      
+      for (let i = lectureIndex; i < addedClass.lecture.length; i++) {
+        for(let j=0; j<addedClass.lecture[lectureIndex].days.length; j++) {
+          let initial = this.timeToNum(addedClass.lecture[lectureIndex].startTime);
+          let final = this.timeToNum(addedClass.lecture[lectureIndex].endTime) - 1;
+
+          for (let k = 0; k < 61; k++) {
+            if (document.getElementById(dayOfTheWeek + i).innerHTML != "----------------") {
+              validLecture = false;
+              break;
+            }
+            else {
+              validLecture = true;
+            }
+          }
+
+          if (validLecture) {
+            lectureIndex = i;
+          }
+        }
+
+        if (validLecture && addedClass[lectureIndex].tutorial.length != 0) {
+          for (let l = tutorialIndex; l < addedClass.lecture[lectureIndex].tutorial.length; l++) {
+
+          }
+        }
+      }*/
 
 // right now it's hardcoded to always add the first lecture section of a new class "[0]"
 // it doesn't verify if that section can actually fit in the table
