@@ -6,8 +6,24 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/UserCase_1" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="11.0.2" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="dependencies" level="project" />
+    <orderEntry type="library" exported="" name="dependencies" level="project" />
   </component>
+   <dependencies>
+          <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+          <dependency>
+              <groupId>org.seleniumhq.selenium</groupId>
+              <artifactId>selenium-java</artifactId>
+              <version>3.12.0</version>
+          </dependency>
+
+          <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+          <dependency>
+              <groupId>org.testng</groupId>
+              <artifactId>testng</artifactId>
+              <version>6.14.3</version>
+          </dependency>
+
+      </dependencies>
 </module>
