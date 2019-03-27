@@ -532,7 +532,7 @@ class PdfSequenceGenerator extends React.Component {
             <Button text="Modify" onClick={() => this.setState({modify: !this.state.modify})}/>
             
             {/* Printing this part */}
-            <Container className="mt-6" id="divToPrint">
+            <Container className="mt-4" id="divToPrint">
               <Row>
                 
                 <Col className='tableCol' md={4}>
