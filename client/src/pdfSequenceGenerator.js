@@ -51,7 +51,7 @@ class PdfSequenceGenerator extends React.Component {
       pdf.addImage(imgData, "JPEG", 0, 0);
       pdf.output("/jimmyTest.pdf");
       pdf.save("jimmyTest.pdf");
-    }).then(() => { 
+    }).then(() => { //This then() call will put back the div-to-print to its original size
       [].forEach.call(dummies, row => {
         row.style.display = "contents";
       });
