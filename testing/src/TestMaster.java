@@ -1,14 +1,13 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.logging.Level;
-
 public class TestMaster {
 
 	public static void main(String[] args) {
+
 		Scanner userInput = new Scanner(System.in);
 		System.out.print("Please enter username: ");
 		String username = userInput.nextLine();
-		System.out.print("\n Password: ");
+		System.out.print("\nPassword: ");
 		String password = userInput.nextLine();
 		outerloop: while (true) {
 			int userCaseNumber = 0;
@@ -25,8 +24,6 @@ public class TestMaster {
 						if (userCaseNumber == 0) {
 							System.out.println("Goodbye");
 							userInput.close();
-							if (UC.driver != null)
-								UC.driver.quit();
 							break outerloop;
 						}
 						if (userCaseNumber < 50 && userCaseNumber > -1)
@@ -49,32 +46,31 @@ public class TestMaster {
 					userInput.nextLine();
 					System.out.println("The input you submitted was not a number or outside of the range available for a programming integer");
 				}
-				catch (Exception e)
-				{
-					break outerloop;
-				}
 			}
 
 			// run as many times as user specified
-			boolean answeredQuestion= false;
-			boolean isSuccessful = false;
+			boolean withLogin = false;
+			boolean answeredQuestion = false;
 			while (numberOfRuns > 0) {
 				switch (userCaseNumber) {
 
 					case 1:
-						if(!answeredQuestion) {
-							System.out.print("Do you wish the login to succeed? [y/n]: ");
-							String answer = userInput.nextLine();
-							System.out.println();
-							isSuccessful =answer.equals("y");
-							answeredQuestion = true;
-						}if (UserCase1.run(username, password, isSuccessful)) {
+
+						if (UserCase1.run(username, password)) {
 							System.out.println("Test #" + numberOfRuns + " completed successfully for UC1");
 							numberOfRuns--;
-						} else {
-							System.out.println("Test #" + numberOfRuns + " failed for UC1. Was it on purpose? Please read log.");
-							numberOfRuns = 0;
+						}else{
+							System.out.println("Please re-enter credentials and run again:");
+							System.out.print("username: ");
+							username = userInput.nextLine();
+							System.out.print("\nPassword: ");
+							password = userInput.nextLine();
+							continue ;
 						}
+//						else {
+//							System.out.println("Test #" + numberOfRuns + " failed for UC1. Was it on purpose? Please read log.");
+//							numberOfRuns = 0;
+//						}
 						break;
 					case 14:
 						if (UserCase14.run(username, password)) {
@@ -82,8 +78,15 @@ public class TestMaster {
 							numberOfRuns--;
 
 						} else {
-							System.out.println("Test #" + numberOfRuns + "failed for UC14. Was it on purpose? Please read log.");
-							numberOfRuns = 0;
+							System.out.println("Closing driver... ");
+							UC.driver.quit();
+							System.out.print("Driver closed");
+							System.out.println("Please re-enter credentials to run again:");
+							System.out.print("username: ");
+							username = userInput.nextLine();
+							System.out.print("\nPassword: ");
+							password = userInput.nextLine();
+							continue ;
 						}
 						break;
 					case 18:
@@ -91,25 +94,31 @@ public class TestMaster {
 							System.out.println("Test #" + numberOfRuns + " completed successfully for UC18");
 							numberOfRuns--;
 						} else {
-							System.out.println("Test #" + numberOfRuns + " failed for UC18. Was it on purpose? Please read log.");
+							System.out.println("UC18 failed. Please check log file");
 							numberOfRuns = 0;
 						}
 						break ;
 					case 22:
 						if(!answeredQuestion) {
-						System.out.print("Do you want to perform this use case while logged in? [y/n]: ");
-						String answer = userInput.nextLine();
-						System.out.println();
-						isSuccessful =answer.equals("y");
-						answeredQuestion = true;
-					}if(UserCase22.run(username, password, isSuccessful)){
+							System.out.print("Do you want to perform this use case while logged in? [y/n]: ");
+							String answer = userInput.nextLine();
+							System.out.println();
+							withLogin =answer.equals("y");
+							answeredQuestion = true;
+						}if(UserCase22.run(username, password, withLogin)){
 						System.out.println("Test #"+ numberOfRuns+" completed successfully for UC22");
 						numberOfRuns--;
-					}else{
-						System.out.println("Test #"+ numberOfRuns+" failed for UC1. Was it on purpose? Please read log.");
-						numberOfRuns = 0;
+					} else {
+						System.out.println("Closing driver... ");
+						UC.driver.quit();
+						System.out.println("Driver closed");
+						System.out.println("Please re-enter credentials to run again:");
+						System.out.print("username: ");
+						username = userInput.nextLine();
+						System.out.print("\nPassword: ");
+						password = userInput.nextLine();
+						continue;
 					}
-
 				}
 			}
 

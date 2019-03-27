@@ -2,6 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+    <configuration>
+        <release>10</release> <!-- This was the problem. -->
+    </configuration>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cssd</groupId>
@@ -21,6 +28,7 @@
             <artifactId>testng</artifactId>
             <version>6.14.3</version>
         </dependency>
+
 
     </dependencies>
 
