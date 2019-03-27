@@ -2,11 +2,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /*
@@ -18,7 +20,6 @@ public class UC {
 
 	static final String URL = "http://localhost:3000";
 	private static void setup(){
-<<<<<<< HEAD
 //		System.setProperty("webdriver.gecko.driver","src/main/resources/drivers/geckodriver.exe");
 //		System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE,"true");
 //		System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"/dev/null");
@@ -34,11 +35,24 @@ public class UC {
 		driver = new FirefoxDriver(firefoxOptions);
 		driver.manage().timeouts().implicitlyWait(90, TimeUnit.SECONDS);
 		driver.manage().deleteAllCookies();
+		boolean serverRunning = false;
+		Scanner review = new Scanner(System.in);
+		while (!serverRunning) {
+			try {
+				driver.get(URL);
+				serverRunning = true;
+			} catch (WebDriverException e) {
+				System.out.println("Webpage unavailable yo. Did you make sure the server is running properly?\nPlease review then type click enter.");
+				try{
+					System.in.read();
+				}catch (Exception nada){}
+			}
+		}
 
 	}
 	public  static boolean login (String user, String pass) {
 		setup();
-		driver.get(URL);
+
 		System.out.println("Navigated to url (logged out)");
 		driver.findElement(By.xpath("//button[contains(.,'I am a Student')]")).click();
 		System.out.println("filling credentials with username and password...");
