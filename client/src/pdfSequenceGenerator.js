@@ -26,6 +26,8 @@ class PdfSequenceGenerator extends React.Component {
   convertToPDF = () => {
     const input = document.getElementById("divToPrint");
     const dummies = document.getElementsByClassName("dummyRow");
+
+    //This block below formats the div-to-print properly so it is sized correctly on the pdf
     [].forEach.call(dummies, row => {
       row.style.display = "none";
     });
@@ -48,7 +50,7 @@ class PdfSequenceGenerator extends React.Component {
       pdf.addImage(imgData, "JPEG", 0, 0);
       pdf.output("/jimmyTest.pdf");
       pdf.save("jimmyTest.pdf");
-    }).then(() => {
+    }).then(() => { 
       [].forEach.call(dummies, row => {
         row.style.display = "contents";
       });
