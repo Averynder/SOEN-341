@@ -501,7 +501,7 @@ class PdfSequenceGenerator extends React.Component {
 
 
 
-    /* JSX here */
+    /**************************************** JSX here *******************************************************/
 
     return (
       <div className="container">
