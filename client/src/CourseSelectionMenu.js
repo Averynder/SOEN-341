@@ -466,9 +466,64 @@ class CourseSelectionMenu extends React.Component {
         coursesSummer.push(courses31[i]);
       }
     }
+    var j, k, a, b;
+    for (i = 0; i < courses31.length; i++)
+    {
+      // lecture removing duplicates
+      if (courses31[i].lecture != null) {
+        for (j = 0; j < courses31[i].lecture.length; j++) {
+          for (k = 0; k < courses31[i].lecture.length; k++) {
+            if (courses31[i].lecture[j] != null) {
+              if (courses31[i].lecture[j].section == courses31[i].lecture[k].section
+                  && courses31[i].lecture[j].startTime == courses31[i].lecture[k].startTime
+                  && courses31[i].lecture[j].endTime == courses31[i].lecture[k].endTime
+                  && courses31[i].lecture[j].room != courses31[i].lecture[k].room
+                  && j != k) {
+                courses31[i].lecture[j].room += " or " + courses31[i].lecture[k].room;
+                courses31[i].lecture.splice(k, 1);
+              }
+            }
+          }
+          if (courses31[i].lecture[j] != null) {
+            if (courses31[i].lecture[j].tutorial != null) {
+              for (b = 0; b < courses31[i].lecture[j].tutorial.length; b++) {
+                for (a = 0; a < courses31[i].lecture[j].tutorial.length; a++) {
+                  if (courses31[i].lecture[j].tutorial[b] != null) {
+                    if (courses31[i].lecture[j].tutorial[b].section == courses31[i].lecture[j].tutorial[a].section
+                        && courses31[i].lecture[j].tutorial[b].startTime == courses31[i].lecture[j].tutorial[a].startTime
+                        && courses31[i].lecture[j].tutorial[b].endTime == courses31[i].lecture[j].tutorial[a].endTime
+                        && courses31[i].lecture[j].tutorial[b].room != courses31[i].lecture[j].tutorial[a].room
+                        && a != b) {
+                      courses31[i].lecture[j].tutorial[b].room += " or " + courses31[i].lecture[j].tutorial[a].room;
+                      courses31[i].lecture[j].tutorial.splice(a, 1);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      // lab removing duplicates
+      if (courses31[i].lab != null) {
+        for (a = 0; a < courses31[i].lab.length; a++) {
+          for (k = 0; k < courses31[i].lab.length; k++) {
+            if (courses31[i].lab[a].section == courses31[i].lab[k].section
+                && courses31[i].lab[a].startTime == courses31[i].lab[k].startTime
+                && courses31[i].lab[a].endTime == courses31[i].lab[k].endTime
+                && courses31[i].lab[a].room != courses31[i].lab[k].room
+                && a != k) {
+              courses31[i].lab[a].room += " or " + courses31[i].lab[k].room;
+              courses31[i].lab.splice(k, 1);
+            }
+          }
+        }
+      }
+    }
     this.state.coursesFall = coursesFall;
     this.state.coursesWinter = coursesWinter;
     this.state.coursesSummer = coursesSummer;
+    this.state.courses2 = this.state.coursesFall;
     //this.state.courses2 = courses31; //CHANGE TO GET PROPER COURSES
   }
 
@@ -650,11 +705,11 @@ class CourseSelectionMenu extends React.Component {
     {
       this.state.courses2 = this.state.coursesWinter;
     }
-    else
+    else if (this.state.semester == "Summer")
     {
       this.state.courses2 = this.state.coursesSummer;
     }
-    console.log(this.state.semester);
+    //console.log(this.state.semester);
   }
 
   handleDisplay = () => {
