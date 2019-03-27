@@ -97,8 +97,8 @@ class CourseSelectionMenu extends React.Component {
       defaultValueLectureTutorial: "",
       defaultValueLab: "",
 
-      showSelection: true,
-      showSchedule: false
+      showSelection: 'block',
+      showSchedule: 'none'
 
     };
     //console.log("data.sequence: " + JSON.stringify(data.sequence));
@@ -631,8 +631,15 @@ class CourseSelectionMenu extends React.Component {
 
   handleDisplay = () => {
     this.setState({
-      showSelection: !this.state.showSelection,
-      showSchedule: !this.state.showSchedule
+      showSelection: 'none',
+      showSchedule: 'block'
+    })
+  }
+
+  handleDisplay1 = () => {
+    this.setState({
+      showSelection: 'block',
+      showSchedule: 'none'
     })
   }
 
@@ -1947,6 +1954,7 @@ class CourseSelectionMenu extends React.Component {
       <div className="container">
 
         <div className="jumbotron j-greetings">
+        <div style={{display: this.state.showSelection}}>
           <h2 className="display-4">Select Your Semester</h2>
           <hr color="#7e1530" />
           <div style={{ textAlign: "center" }}>
@@ -2037,7 +2045,10 @@ class CourseSelectionMenu extends React.Component {
                 <Link to="/">
                   <Button text="Home Page" />
                 </Link>
+          </div>
                 
+          <div style={{display:this.state.showSchedule}}>
+            
               {/*<hr color="#7e1530" />*/}
           <h2 className="display-5">
             {this.state.semester} {this.state.year} Semester
@@ -2104,9 +2115,10 @@ class CourseSelectionMenu extends React.Component {
             <Button text="Finalize" />
           </Link>
 
-          <Link to="/select-semester">
-            <Button text="Back To Select Semester" />
-          </Link>
+          
+          <Button text="Back To Select Semester" onClick={this.handleDisplay1}/>
+
+          </div>
         </div>
 
         {/* <Modal show={this.state.show} onHide={this.handleClose}>
