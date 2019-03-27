@@ -3,6 +3,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.ElementClickInterceptedException;
 
 import java.util.List;
 import java.util.Random;
@@ -14,7 +15,8 @@ This class tests UC 14: student adds course. When run, it will login using the c
 public class UserCase14 extends UC{
 	public static boolean run(String user, String pass) {	//TODO: give option to choose how many courses to add.
 
-		login(user, pass, true);
+		if (!login(user, pass))
+			return false;
 		Random rand = new Random();
 
 		driver.findElement(By.xpath("//button[contains(.,'Semester')]")).click();
@@ -33,8 +35,16 @@ public class UserCase14 extends UC{
 		driver.findElement(By.xpath("//button[contains(.,'Continue')]")).click();
 		driver.findElement(By.xpath("//input")).sendKeys("COMP248");//TODO: give option to choose course to add
 		WebDriverWait wait = new WebDriverWait(driver, 20);
-		WebElement button = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@type='button']")));	//splash screen workaround
-		button.click();
+		WebElement button = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@type='button']")));    //splash screen workaround
+		boolean notClickableYet = true;
+		while (notClickableYet) {
+			try {
+				button.click();
+				notClickableYet = false;
+			}catch (ElementClickInterceptedException e){
+				continue;
+			}
+		}
 		driver.findElement(By.xpath("//select")).click();
 		WebElement sectionElement = driver.findElement(By.name("course-section"));
 		Select sectionSelector = new Select(sectionElement);
@@ -48,7 +58,7 @@ public class UserCase14 extends UC{
 		labSelector.selectByIndex(lab);
 		driver.findElement(By.xpath("//button[contains(.,'Change Section')]")).click();
 		System.out.println("Added COMP248, section "+ sections.get(section).getText()+ ", lab "+ labList.get(lab).getText()+" successfully");//
-		driver.close();	//TODO: make more robust by confirming that the course is displayed on the schedule before returning true
+		driver.quit();	//TODO: make more robust by confirming that the course is displayed on the schedule before returning true
 		return true;
 	}
 }

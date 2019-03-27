@@ -43,7 +43,7 @@ public class Scraper
             System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE,"true");
             System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"C:/Users/MonPC/Desktop/School/SOEN/SOEN 341 Software Process'/Project/cssd/testing/dependencies/logs.txt");
             java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
-            
+
             filewriter = new PrintWriter(new FileOutputStream(output));
             System.setProperty("webdriver.gecko.driver", "C:/Users/MonPC/Desktop/School/SOEN/SOEN 341 Software Process'/Project/cssd/testing/dependencies/geckodriver.exe");
             WebDriver firefoxInstance = new FirefoxDriver();
