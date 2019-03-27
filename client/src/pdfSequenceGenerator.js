@@ -491,6 +491,18 @@ class PdfSequenceGenerator extends React.Component {
     }
     const years = yeetus.map(jimmy => <option value={jimmy}>{jimmy}</option>);
 
+
+
+
+
+
+
+
+
+
+
+    /* JSX here */
+
     return (
       <div className="container">
         <DragDropContext onDragEnd={this.onDragEnd}>
