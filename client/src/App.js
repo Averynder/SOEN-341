@@ -7,7 +7,6 @@ import Backdrop from "./components/Backdrop";
 import Button from "./components/Button";
 import { Link } from "react-router-dom";
 import "./App.css";
-import LinkBox from "./LinkBox";
 
 class App extends React.Component {
   constructor(props, context) {
@@ -104,7 +103,6 @@ class App extends React.Component {
             link="/pull-previous-courses"
           />
         </Backdrop>
-        <LinkBox />
       </div>
     );
   }
