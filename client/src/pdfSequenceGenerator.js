@@ -529,6 +529,12 @@ class PdfSequenceGenerator extends React.Component {
             </p> */}
             <h3>YEAR {true ? (new Date()).getFullYear() : 2020}</h3>
             <Button text="Sequence Settings" onClick={() => this.setState({modify: !this.state.modify})}/>
+
+            
+            Fall   <input id="fallCheck" type="checkbox"    value="Bike"/> <br />
+            Winter <input id="winterCheck" type="checkbox"  value="Car"/> <br/>
+            Summer <input id="summerCheck" type="checkbox"  value="Boat"/> <br/>
+            
             
             {/* Printing this part */}
             <Container className="mt-4" id="divToPrint">
@@ -649,7 +655,6 @@ class PdfSequenceGenerator extends React.Component {
             <Modal.Title>Sequence Settings</Modal.Title>
           </Modal.Header>
           <Modal.Body style={{ textAlign: "center" }}>
-            <p id="removeStatus" style={{ color: "red" }} />
           </Modal.Body>
         </Modal>
       </div>
