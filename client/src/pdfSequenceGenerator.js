@@ -35,8 +35,10 @@ class PdfSequenceGenerator extends React.Component {
     });
     const reduce = document.querySelectorAll('table, #pdfTable');
     [].forEach.call(reduce, col => {
-      col.style.width = '70%';
+      col.style.width = '606px';
     });
+    document.getElementById('soen341').style.width = "896px";
+
     html2canvas(input, {
       dpi: 9000, //supposed to make it less blurry on retina
       scale: 1.2 //approximately fills the width of pdf page with the sequence table
@@ -46,6 +48,7 @@ class PdfSequenceGenerator extends React.Component {
       pdf.addImage(imgData, "JPEG", 0, 0);
       pdf.output("/jimmyTest.pdf");
       pdf.save("jimmyTest.pdf");
+    }).then(() => {
       [].forEach.call(dummies, row => {
         row.style.display = "contents";
       });
@@ -55,7 +58,9 @@ class PdfSequenceGenerator extends React.Component {
       [].forEach.call(reduce, col => {
         col.style.width = '100%';
       });
+      document.getElementById('soen341').style.width = "100%";
     });
+
   };
 
   /*
@@ -489,6 +494,7 @@ class PdfSequenceGenerator extends React.Component {
           <div
             style={{ padding: "4rem 1rem" }}
             className="jumbotron j-greetings"
+            id="soen341"
           >
             {/* <h2 className="display-4">
               Sequence To PDF <br /> Year{" "}
@@ -506,6 +512,8 @@ class PdfSequenceGenerator extends React.Component {
             </p> */}
             <h3>YEAR {this.props.year}</h3>
 
+
+            {/* Printing this part */}
             <Container className="mt-4" id="divToPrint">
               <Row>
                 <Col className='tableCol' md={4}>
@@ -513,7 +521,7 @@ class PdfSequenceGenerator extends React.Component {
                   {falltable}
                 </Col>
                 <Col className='tableCol' md={4}>
-                <p style={{textAlign: "center"}}>Winter</p>
+                  <p style={{textAlign: "center"}}>Winter</p>
                   {wintertable}
                 </Col>
                 <Col className='tableCol' md={4}>
@@ -522,6 +530,9 @@ class PdfSequenceGenerator extends React.Component {
                 </Col>
               </Row>
             </Container>
+
+
+
             <table style={{ marginLeft: "auto", marginRight: "auto" }}>
               <tr>
                 <td>
