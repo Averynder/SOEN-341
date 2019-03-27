@@ -7,7 +7,7 @@ public class UserCase18 extends UC{
 		//System.setOut(new PrintStream(new FileOutputStream(fileName)));
 		boolean success = 	noLogin();
 		System.out.println("CLOSING DRIVER");
-		driver.close();
+		driver.quit();
 		System.out.println("DRIVER CLOSED");
 		return success;
 	}
