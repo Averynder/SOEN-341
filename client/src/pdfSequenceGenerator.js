@@ -545,6 +545,7 @@ class PdfSequenceGenerator extends React.Component {
                 </Col>
               </Row>
             </Container>
+            {/* End of print part */}
 
 
 
