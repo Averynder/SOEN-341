@@ -69,15 +69,7 @@ class CourseSelectionMenu extends React.Component {
       ],
       //classes: JSON.parse(JSON.stringify(data.sequence)),
 
-      colors: [["red", 0], ["pink", 0], ["green", 0], ["yellow", 0], ["orange", 0], ["blue", 0], ["grey", 0]],
-
-      color1: "red",
-      color2: "pink",
-      color3: "green",
-      color4: "yellow",
-      color5: "orange",
-      color6: "blue",
-      color7: "black",
+      colors: [["red", 0], ["pink", 0], ["green", 0], ["brown", 0], ["orange", 0], ["blue", 0], ["grey", 0]],
 
       addedClasses: [],
 
@@ -2036,6 +2028,8 @@ class CourseSelectionMenu extends React.Component {
 
                 <Button text="Generate Schedule" onClick={this.handleDisplay}/>
 
+                <Button text="Color Selection" onClick={this.openRubiat} />
+
                 <Link to="/build-seq-or-sem">
                   <Button text="Main Selector" />
                 </Link>
@@ -2114,7 +2108,7 @@ class CourseSelectionMenu extends React.Component {
           </Link>
 
           
-          <Button text="Back To Select Semester" onClick={this.handleDisplay1}/>
+          <Button text="Back To Select Courses" onClick={this.handleDisplay1}/>
 
           </div>
         </div>
