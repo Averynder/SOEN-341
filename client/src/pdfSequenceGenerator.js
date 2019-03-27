@@ -528,7 +528,7 @@ class PdfSequenceGenerator extends React.Component {
               later.
             </p> */}
             <h3>YEAR {this.props.year}</h3>
-            <Button text="Modify" onClick={() => this.setState({modify: !this.state.modify})}/>
+            <Button text="Sequence Settings" onClick={() => this.setState({modify: !this.state.modify})}/>
             
             {/* Printing this part */}
             <Container className="mt-4" id="divToPrint">
