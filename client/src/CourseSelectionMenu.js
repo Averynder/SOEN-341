@@ -65,13 +65,11 @@ class CourseSelectionMenu extends React.Component {
         "Tuesday",
         "Wednesday",
         "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday"
+        "Friday"
       ],
       //classes: JSON.parse(JSON.stringify(data.sequence)),
 
-      colors: [["red", 0], ["pink", 0], ["green", 0], ["yellow", 0], ["orange", 0], ["blue", 0], ["black", 0]],
+      colors: [["red", 0], ["pink", 0], ["green", 0], ["yellow", 0], ["orange", 0], ["blue", 0], ["grey", 0]],
 
       color1: "red",
       color2: "pink",
@@ -1425,7 +1423,7 @@ class CourseSelectionMenu extends React.Component {
       ) {
         color = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
         document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
-        document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+        document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
       }
     }
 
@@ -1438,7 +1436,7 @@ class CourseSelectionMenu extends React.Component {
             this.timeToNum(courseToRemove.ta[k].endTime) >= i
           ) {
             document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
-            document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+            document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
           }
         }
       }
@@ -1527,7 +1525,7 @@ class CourseSelectionMenu extends React.Component {
       ) {
         color = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
         document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
-        document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+        document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
       }
     }
   }
@@ -1542,7 +1540,7 @@ class CourseSelectionMenu extends React.Component {
             (this.timeToNum(courseToRemove.lecture[lectureIndex].tutorial[tutorialIndex].endTime)-1) >= i
           ) {
             document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
-            document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+            document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
           }
         }
       }
@@ -1557,7 +1555,7 @@ class CourseSelectionMenu extends React.Component {
               (this.timeToNum(courseToRemove.lab[labIndex].endTime)-1) >= i
             ) {
               document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
-              document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+              document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
             }
           }
         }
@@ -1625,7 +1623,7 @@ class CourseSelectionMenu extends React.Component {
         ) {
           colorChosen = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
           document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
-          document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+          document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
         }
       }
     }
@@ -1639,7 +1637,7 @@ class CourseSelectionMenu extends React.Component {
             (this.timeToNum(courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].endTime) - 1) >= i
           ) {
             document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
-            document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+            document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
           }
         }
       }
@@ -1654,7 +1652,7 @@ class CourseSelectionMenu extends React.Component {
             (this.timeToNum(courseToChange.lab[labIndex].endTime) - 1) >= i
           ) {
             document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
-            document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+            document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
           }
         }
       }
@@ -2092,7 +2090,7 @@ class CourseSelectionMenu extends React.Component {
                                 let myID = days + "-" + element.num;
                                 return (
                                   <div id={myID}>
-                                    -----------------
+                                    ----------------
                                   </div>
                                 );
                               })}
