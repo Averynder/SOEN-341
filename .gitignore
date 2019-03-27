@@ -68,7 +68,7 @@ typings/
 testing/out
 
 # Java Libraries
-testing/dependencies
+testing/dependencies/libs
 
 # Mac Users
 *.DS_Store

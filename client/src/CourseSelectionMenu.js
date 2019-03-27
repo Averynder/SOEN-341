@@ -577,6 +577,8 @@ class CourseSelectionMenu extends React.Component {
 
   timeToNum = time => {
     // time parameter represents start time or end time of a class
+
+    // algo for rounding since table is jumps of 15 mins
     let time1, time2;
     let time1Minute, time2Minute;
     let timeHour = time.substring(0, time.indexOf(":"));
@@ -828,15 +830,15 @@ class CourseSelectionMenu extends React.Component {
                   initial <= i &&
                   final >= i
                 ) {
-                  let dayOfTheWeek = addedClass.lab[0].days[l] + "-";
+                  let dayOfTheWeek = addedClass.lab[labIndex].days[l] + "-";
                   document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
                   if (i === middle - 1) {
                     document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
                   }else if (i === middle) {
                     document.getElementById(dayOfTheWeek + i).innerHTML = "Lab";
                   }else if(i === middle + 1){
-                    document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[0].startTime + 
-                    "-" + addedClass.lab[0].endTime;
+                    document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[labIndex].startTime + 
+                    "-" + addedClass.lab[labIndex].endTime;
                   } else {
                     document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
                   }
@@ -882,7 +884,12 @@ class CourseSelectionMenu extends React.Component {
         this.setState({colorOfNewClass: oldColors}) // when rendering the selection menu it will render it with all the old colors + the newly added color
 
         let defaultValue1 = addedClass.lecture[lectureIndex].section + "-" + addedClass.lecture[lectureIndex].tutorial[tutorialIndex].section;
-        let defaultValue2 = addedClass.lab[labIndex].section + "";
+        let defaultValue2 = ""; 
+        
+        if (addedClass.lab.length != 0) {
+          defaultValue2 = addedClass.lab[labIndex].section + "";
+        }
+        
         this.setState({
           defaultValueLectureTutorial: defaultValue1, defaultValueLab: defaultValue2
         })
@@ -1737,15 +1744,15 @@ class CourseSelectionMenu extends React.Component {
                 initial <= i &&
                 final >= i
               ) {
-                let dayOfTheWeek = courseToChange.lab[0].days[l] + "-";
+                let dayOfTheWeek = courseToChange.lab[labIndex].days[l] + "-";
                 document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
                 if (i === middle - 1) {
                   document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.course;
                 }else if (i === middle) {
                   document.getElementById(dayOfTheWeek + i).innerHTML = "Lab";
                 }else if(i === middle + 1){
-                  document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lab[0].startTime + 
-                  "-" + courseToChange.lab[0].endTime;
+                  document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lab[labIndex].startTime + 
+                  "-" + courseToChange.lab[labIndex].endTime;
                 } else {
                   document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
                 }
