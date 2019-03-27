@@ -39,22 +39,24 @@ module.exports = {
             resolve(false);
             browser.quit();
           } else { // successfully logged in
-            browser
-              .manage()
-              .getCookie("concordia-mportal-auth-guid") // get auth cookie
-              .then(cookie => {
-                try {
-                  getInfo(cookie)
-                    .then(info => {
-                      resolve(info);
-                      browser.quit();
-                    });
-                } catch (err) {
-                  console.log(err);
-                }
-              }, err => {
-                reject('Error retrieving cookie');
-              })
+            try {
+              browser
+                .manage()
+                .getCookie("concordia-mportal-auth-guid") // get auth cookie
+                .then(cookie => {
+                  try {
+                    getInfo(cookie)
+                      .then(info => {
+                        resolve(info);
+                        browser.quit();
+                      }, err => reject('Error retrieving grades'));
+                  } catch (err) {
+                    console.log(err);
+                  }
+                }, err => reject('Error retrieving cookie'));
+            } catch (err) {
+              console.log(err);
+            }
           }
         });
     });
