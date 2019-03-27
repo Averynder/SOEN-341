@@ -1947,6 +1947,9 @@ class CourseSelectionMenu extends React.Component {
       <div className="container">
 
         <div className="jumbotron j-greetings">
+        <div>
+          {this.state.showSelection ? 
+          <div>
           <h2 className="display-4">Select Your Semester</h2>
           <hr color="#7e1530" />
           <div style={{ textAlign: "center" }}>
@@ -2037,7 +2040,13 @@ class CourseSelectionMenu extends React.Component {
                 <Link to="/">
                   <Button text="Home Page" />
                 </Link>
+              </div>
+              : null }
+          </div>
                 
+          <div>
+            {this.state.showSchedule ? 
+            <div>
               {/*<hr color="#7e1530" />*/}
           <h2 className="display-5">
             {this.state.semester} {this.state.year} Semester
@@ -2104,9 +2113,12 @@ class CourseSelectionMenu extends React.Component {
             <Button text="Finalize" />
           </Link>
 
-          <Link to="/select-semester">
-            <Button text="Back To Select Semester" />
-          </Link>
+          
+          <Button text="Back To Select Semester" onClick={this.handleDisplay}/>
+
+          </div>
+          : null }
+          </div>
         </div>
 
         {/* <Modal show={this.state.show} onHide={this.handleClose}>
