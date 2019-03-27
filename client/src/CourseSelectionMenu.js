@@ -58,6 +58,9 @@ class CourseSelectionMenu extends React.Component {
       tutorials: null,
       dataCourses: null,
       Courses: null,
+      coursesFall: null,
+      coursesWinter: null,
+      coursesSummer: null,
       semester: semester,
       year: year,
       weekdays: [
@@ -65,21 +68,11 @@ class CourseSelectionMenu extends React.Component {
         "Tuesday",
         "Wednesday",
         "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday"
+        "Friday"
       ],
       //classes: JSON.parse(JSON.stringify(data.sequence)),
 
-      colors: [["red", 0], ["pink", 0], ["green", 0], ["yellow", 0], ["orange", 0], ["blue", 0], ["black", 0]],
-
-      color1: "red",
-      color2: "pink",
-      color3: "green",
-      color4: "yellow",
-      color5: "orange",
-      color6: "blue",
-      color7: "black",
+      colors: [["red", 0], ["pink", 0], ["green", 0], ["brown", 0], ["orange", 0], ["blue", 0], ["grey", 0]],
 
       addedClasses: [],
 
@@ -455,7 +448,28 @@ class CourseSelectionMenu extends React.Component {
     this.regEx2();
     console.log(this.state.dataCourses);
     console.log(data1.sequence);
-    this.state.courses2 = courses31; //CHANGE TO GET PROPER COURSES
+    var coursesFall = [];
+    var coursesWinter = [];
+    var coursesSummer = [];
+    for (i = 0; i < courses31.length; i++)
+    {
+      if (courses31[i].semester == "Fall")
+      {
+        coursesFall.push(courses31[i]);
+      }
+      else if (courses31[i].semester == "Winter")
+      {
+        coursesWinter.push(courses31[i]);
+      }
+      else
+      {
+        coursesSummer.push(courses31[i]);
+      }
+    }
+    this.state.coursesFall = coursesFall;
+    this.state.coursesWinter = coursesWinter;
+    this.state.coursesSummer = coursesSummer;
+    //this.state.courses2 = courses31; //CHANGE TO GET PROPER COURSES
   }
 
   regEx2()
@@ -625,8 +639,22 @@ class CourseSelectionMenu extends React.Component {
     this.setState({
       year: document.getElementById("semester-year").value,
       semester: document.getElementById("semester").value
-    })
-
+    });
+    this.state.year = document.getElementById("semester-year").value;
+    this.state.semester = document.getElementById("semester").value;
+    if (this.state.semester == "Fall")
+    {
+      this.state.courses2 = this.state.coursesFall;
+    }
+    else if (this.state.semester == "Winter")
+    {
+      this.state.courses2 = this.state.coursesWinter;
+    }
+    else
+    {
+      this.state.courses2 = this.state.coursesSummer;
+    }
+    console.log(this.state.semester);
   }
 
   handleDisplay = () => {
@@ -976,6 +1004,10 @@ class CourseSelectionMenu extends React.Component {
 
     let courseNameInput = document.getElementById("colorChanger").value; //Get user input comp248
     let chosenClass; //class object
+    
+    if (courseNameInput == "") {
+      return;
+    }
 
     // instead of 'selectedCourses' it looped through 'classes' before
     for (let i = 0; i < this.state.selectedCourses.length; i++) {
@@ -1227,6 +1259,36 @@ class CourseSelectionMenu extends React.Component {
     if (colorChosen === null || colorChosen === undefined) {
       return;
     }
+/*
+      let validLecture = true, validTutorial = true, validLab = true;
+      let lectureIndex = 0, tutorialIndex = 0, labIndex = 0;
+      
+      for (let i = lectureIndex; i < addedClass.lecture.length; i++) {
+        for(let j=0; j<addedClass.lecture[lectureIndex].days.length; j++) {
+          let initial = this.timeToNum(addedClass.lecture[lectureIndex].startTime);
+          let final = this.timeToNum(addedClass.lecture[lectureIndex].endTime) - 1;
+
+          for (let k = 0; k < 61; k++) {
+            if (document.getElementById(dayOfTheWeek + i).innerHTML != "----------------") {
+              validLecture = false;
+              break;
+            }
+            else {
+              validLecture = true;
+            }
+          }
+
+          if (validLecture) {
+            lectureIndex = i;
+          }
+        }
+
+        if (validLecture && addedClass[lectureIndex].tutorial.length != 0) {
+          for (let l = tutorialIndex; l < addedClass.lecture[lectureIndex].tutorial.length; l++) {
+
+          }
+        }
+      }*/
 
 // right now it's hardcoded to always add the first lecture section of a new class "[0]"
 // it doesn't verify if that section can actually fit in the table
@@ -1425,7 +1487,7 @@ class CourseSelectionMenu extends React.Component {
       ) {
         color = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
         document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
-        document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+        document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
       }
     }
 
@@ -1438,7 +1500,7 @@ class CourseSelectionMenu extends React.Component {
             this.timeToNum(courseToRemove.ta[k].endTime) >= i
           ) {
             document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
-            document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+            document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
           }
         }
       }
@@ -1527,7 +1589,7 @@ class CourseSelectionMenu extends React.Component {
       ) {
         color = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
         document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
-        document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+        document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
       }
     }
   }
@@ -1542,7 +1604,7 @@ class CourseSelectionMenu extends React.Component {
             (this.timeToNum(courseToRemove.lecture[lectureIndex].tutorial[tutorialIndex].endTime)-1) >= i
           ) {
             document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
-            document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+            document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
           }
         }
       }
@@ -1557,7 +1619,7 @@ class CourseSelectionMenu extends React.Component {
               (this.timeToNum(courseToRemove.lab[labIndex].endTime)-1) >= i
             ) {
               document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
-              document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+              document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
             }
           }
         }
@@ -1625,7 +1687,7 @@ class CourseSelectionMenu extends React.Component {
         ) {
           colorChosen = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
           document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
-          document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+          document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
         }
       }
     }
@@ -1639,7 +1701,7 @@ class CourseSelectionMenu extends React.Component {
             (this.timeToNum(courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].endTime) - 1) >= i
           ) {
             document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
-            document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+            document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
           }
         }
       }
@@ -1654,7 +1716,7 @@ class CourseSelectionMenu extends React.Component {
             (this.timeToNum(courseToChange.lab[labIndex].endTime) - 1) >= i
           ) {
             document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
-            document.getElementById(dayOfTheWeek + i).innerHTML = "-----------------";
+            document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
           }
         }
       }
@@ -2038,6 +2100,8 @@ class CourseSelectionMenu extends React.Component {
 
                 <Button text="Generate Schedule" onClick={this.handleDisplay}/>
 
+                <Button text="Color Selection" onClick={this.openRubiat} />
+
                 <Link to="/build-seq-or-sem">
                   <Button text="Main Selector" />
                 </Link>
@@ -2092,7 +2156,7 @@ class CourseSelectionMenu extends React.Component {
                                 let myID = days + "-" + element.num;
                                 return (
                                   <div id={myID}>
-                                    -----------------
+                                    ----------------
                                   </div>
                                 );
                               })}
@@ -2116,7 +2180,7 @@ class CourseSelectionMenu extends React.Component {
           </Link>
 
           
-          <Button text="Back To Select Semester" onClick={this.handleDisplay1}/>
+          <Button text="Back To Select Courses" onClick={this.handleDisplay1}/>
 
           </div>
         </div>
