@@ -98,6 +98,21 @@ app.get('/grades', hasLoggedIn, (req, res, next) => {
   res.send(req.session.info);
 });
 
+app.get('/grades/names', hasLoggedIn, (req, res, next) => {
+  let container = [];
+  let terms = req.session.info.result.programs[0].terms;
+  for (let i = 0; i < terms.length; i++) {
+    let term = terms[i];
+    for (let j = 0; j < term.courses.length; j++) {
+      let course = term.courses[j].course;
+      if (course.type === 'LEC') {
+        container.push(course.subject + " " + course.catalog);
+      }
+    }
+  }
+  res.json(container);
+});
+
 app.get('/logout', hasLoggedIn, (req, res, next) => {
   req.session.destroy(err => console.log(err));
   res.end();
