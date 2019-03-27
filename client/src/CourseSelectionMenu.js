@@ -101,6 +101,16 @@ class CourseSelectionMenu extends React.Component {
     //console.log("data.sequence: " + JSON.stringify(data.sequence));
     //console.log("courses: " + JSON.stringify(data.default.sequence));
   }
+
+  handleSemesterChange = () => {
+
+    this.setState({
+      year: document.getElementById("semester-year").value,
+      semester: document.getElementById("semester").value
+    })
+
+  }
+
   componentDidMount() {
     fetch("/semQuery")
         .then(res => res.json())
@@ -1914,11 +1924,44 @@ class CourseSelectionMenu extends React.Component {
       <option value={choice.course} />
     ));
 
+    const currentYear = new Date().getFullYear();
+    var yeetus = [];
+    for (let i = 1; i < 8; i++) {
+      /*Basically choose a year from current year up to 8 years later. Don't touch this*/
+      yeetus[i] = currentYear + i;
+    }
+    const years = yeetus.map(jimmy => <option>{jimmy}</option>);
+
     return (
 
       <div className="container">
 
         <div className="jumbotron j-greetings">
+          <h2 className="display-4">Select Your Semester</h2>
+          <hr color="#7e1530" />
+          <div style={{ textAlign: "center" }}>
+            <Form>
+                <Form.Group controlId="semester">
+                  <Form.Label>Select Semester</Form.Label>
+                  <Form.Control as="select" onChange={this.handleSemesterChange}>
+                    <option selected="selected">Fall</option>
+                    <option>Winter</option>
+                    <option>Summer</option>
+                  </Form.Control>
+                </Form.Group>
+              </Form>
+
+              <Form>
+                <Form.Group controlId="semester-year">
+                  <Form.Label>Select Year</Form.Label>
+                  <Form.Control as="select" selected={currentYear} onChange={this.handleSemesterChange}>
+                    <option selected="selected">{currentYear}</option>
+                    {years}
+                  </Form.Control>
+                </Form.Group>
+              </Form>
+          </div>
+
           <LoadingScreen
               loading={this.state.isLoading}
               bgColor='#f1f1f1'
@@ -1929,8 +1972,9 @@ class CourseSelectionMenu extends React.Component {
           >
 
           </LoadingScreen>
-          <h2 className="display-4">Course Selection Menu</h2>
-          <hr color="#7e1530" />
+          {/*<h2 className="display-4">Course Selection Menu</h2>
+          <hr color="#7e1530" />*/}
+          <br/>
 
           <div className="container">
                 <div className="row bg-secondary text-white rounded">
