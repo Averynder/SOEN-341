@@ -28,18 +28,19 @@ class PdfSequenceGenerator extends React.Component {
     const dummies = document.getElementsByClassName("dummyRow");
 
     //This block below formats the div-to-print properly so it is sized correctly on the pdf
-    [].forEach.call(dummies, row => {
-      row.style.display = "none";
-    });
-    const tableCols = document.getElementsByClassName('tableCol');
-    [].forEach.call(tableCols, tableCol => {
-      tableCol.classList.add('col-md-12');
-    });
-    const reduce = document.querySelectorAll('table, #pdfTable');
-    [].forEach.call(reduce, col => {
-      col.style.width = '606px';
-    });
-    document.getElementById('soen341').style.width = "896px";
+      [].forEach.call(dummies, row => {
+        row.style.display = "none";
+      });
+      const tableCols = document.getElementsByClassName('tableCol');
+      [].forEach.call(tableCols, tableCol => {
+        tableCol.classList.add('col-md-12');
+      });
+      const reduce = document.querySelectorAll('table, #pdfTable');
+      [].forEach.call(reduce, col => {
+        col.style.width = '606px';
+      });
+      document.getElementById('soen341').style.width = "896px";
+      
 
     html2canvas(input, {
       dpi: 9000, //supposed to make it less blurry on retina
