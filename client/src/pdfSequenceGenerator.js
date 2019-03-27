@@ -40,7 +40,7 @@ class PdfSequenceGenerator extends React.Component {
         col.style.width = '606px';
       });
       document.getElementById('soen341').style.width = "896px";
-      
+    //End of formatting code  
 
     html2canvas(input, {
       dpi: 9000, //supposed to make it less blurry on retina
