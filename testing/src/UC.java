@@ -1,5 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxBinary;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.concurrent.TimeUnit;
@@ -16,12 +18,16 @@ public class UC {
 //		System.setProperty("webdriver.gecko.driver","src/main/resources/drivers/geckodriver.exe");
 //		System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE,"true");
 //		System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"/dev/null");
+		FirefoxBinary firefoxBinary = new FirefoxBinary();
+		firefoxBinary.addCommandLineOptions("--headless");
+		FirefoxOptions firefoxOptions = new FirefoxOptions();
+		firefoxOptions.setBinary(firefoxBinary);
 		String URL = "http://localhost:3000";
 		java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
-		System.setProperty("webdriver.gecko.driver","../testing/dependencies/geckodriver.exe");
+		System.setProperty("webdriver.gecko.driver","../testing/dependencies/geckodriver");
 		System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE,"true");
 		System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"/dev/null");
-		driver = new FirefoxDriver();
+		driver = new FirefoxDriver(firefoxOptions);
 		driver.manage().timeouts().implicitlyWait(90, TimeUnit.SECONDS);
 		driver.manage().deleteAllCookies();
 	}
