@@ -58,6 +58,9 @@ class CourseSelectionMenu extends React.Component {
       tutorials: null,
       dataCourses: null,
       Courses: null,
+      coursesFall: null,
+      coursesWinter: null,
+      coursesSummer: null,
       semester: semester,
       year: year,
       weekdays: [
@@ -445,7 +448,28 @@ class CourseSelectionMenu extends React.Component {
     this.regEx2();
     console.log(this.state.dataCourses);
     console.log(data1.sequence);
-    this.state.courses2 = courses31; //CHANGE TO GET PROPER COURSES
+    var coursesFall = [];
+    var coursesWinter = [];
+    var coursesSummer = [];
+    for (i = 0; i < courses31.length; i++)
+    {
+      if (courses31[i].semester == "Fall")
+      {
+        coursesFall.push(courses31[i]);
+      }
+      else if (courses31[i].semester == "Winter")
+      {
+        coursesWinter.push(courses31[i]);
+      }
+      else
+      {
+        coursesSummer.push(courses31[i]);
+      }
+    }
+    this.state.coursesFall = coursesFall;
+    this.state.coursesWinter = coursesWinter;
+    this.state.coursesSummer = coursesSummer;
+    //this.state.courses2 = courses31; //CHANGE TO GET PROPER COURSES
   }
 
   regEx2()
@@ -615,8 +639,22 @@ class CourseSelectionMenu extends React.Component {
     this.setState({
       year: document.getElementById("semester-year").value,
       semester: document.getElementById("semester").value
-    })
-
+    });
+    this.state.year = document.getElementById("semester-year").value;
+    this.state.semester = document.getElementById("semester").value;
+    if (this.state.semester == "Fall")
+    {
+      this.state.courses2 = this.state.coursesFall;
+    }
+    else if (this.state.semester == "Winter")
+    {
+      this.state.courses2 = this.state.coursesWinter;
+    }
+    else
+    {
+      this.state.courses2 = this.state.coursesSummer;
+    }
+    console.log(this.state.semester);
   }
 
   handleDisplay = () => {
