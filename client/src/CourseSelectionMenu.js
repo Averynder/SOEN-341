@@ -103,7 +103,7 @@ class CourseSelectionMenu extends React.Component {
     fetch("/semQuery")
         .then(res => res.json())
         .then(users2 =>
-            this.setState({ users2 }, () => {this.setCourses(users2); console.log(users2);}))
+            this.setState({ users2 }, () => {this.setCourses(users2);}))
         .then(() => {this.regEx()})
         .then(() => { this.toggleLoading(); });
   }
@@ -119,7 +119,6 @@ class CourseSelectionMenu extends React.Component {
     var sequenceStartPos = stringy.indexOf("\"result2\":[");
     this.state.labs = stringy.substring(labStartPosition+8,sequenceStartPos);
     this.state.Courses = stringy.substring(sequenceStartPos+11);
-    console.log(this.state.tutorials.length);
   }
 
   regEx()
