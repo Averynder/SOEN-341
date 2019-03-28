@@ -119,7 +119,7 @@ class CourseSelectionMenu extends React.Component {
     var sequenceStartPos = stringy.indexOf("\"result2\":[");
     this.state.labs = stringy.substring(labStartPosition+8,sequenceStartPos);
     this.state.Courses = stringy.substring(sequenceStartPos+11);
-    console.log(this.state.courses);
+    console.log(this.state.Courses);
   }
 
   regEx()
