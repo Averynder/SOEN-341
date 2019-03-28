@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 class Course {
-	String code, name, semester;
+	String code, name;
 	Course[] prerequisites;
 	Course[] corequisites;
 	int credits;
@@ -19,14 +19,13 @@ class Course {
 }
 class Lecture{
 	ArrayList<String> days = new ArrayList<>();
-	String room, code;
-	int startTime, endTime;
+	String room, code, semester, startTime, endTime;
 
 	public Lecture (String code) {
 		this.code = code;
 	}
 	public String toString(){
-		return code + days;
+		return code + days+room+semester;
 	}
 }
 class Tutorial{

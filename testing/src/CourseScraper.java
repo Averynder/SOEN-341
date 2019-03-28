@@ -114,6 +114,11 @@ public class CourseScraper {
 			String numberOfSectionsText = sectionsFoundText.replaceAll("[^\\d.]","").trim();
 			int numberOfSections = Integer.parseInt(numberOfSectionsText);
 			System.out.println(numberOfSections + " total sections found for "+ENCSCoursesCodes[i]);
+			String courseName = driver.findElement(By.id("win0divSSR_CLSRSLT_WRK_GROUPBOX2GP$0")).getText().split("-*\\s")[1];
+			ENCSCoursesList[i].name = courseName;
+			System.out.println("Name: "+ENCSCoursesList[i].name);
+			driver.findElement(By.id("MTG_CLASSNAME$0")).click();
+			//int credits = [0-9](\.[0-9])*
 			for (int j = 0; j<numberOfSections;j++) {
 
 				WebElement row = driver.findElement(By.id("trSSR_CLSRCH_MTG1$"+j+"_row1"));
@@ -132,8 +137,15 @@ public class CourseScraper {
 					if (rowText[3].contains("Fr"))
 						lec.days.add("Friday");
 					lec.room = rowText[4];
+					lec.semester = rowText[7];
+					String[] times = rowText[3].split(" ");
+					String startTime = times[1];
+					String endTime = times[3];
+					lec.startTime = startTime;
+					lec.endTime = endTime;
+					System.out.println(lec.code+" takes place in "+ lec.room+" during "+lec.days+" from "+lec.startTime+"to "+lec.endTime+" in "+lec.semester);
 					ENCSCoursesList[i].lectures.add(lec);
-					//add semesters, add time
+					//add time, name
 				}
 				System.out.println(Arrays.toString(rowText));
 			}
