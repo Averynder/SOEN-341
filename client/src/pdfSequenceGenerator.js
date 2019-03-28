@@ -157,7 +157,7 @@ class PdfSequenceGenerator extends React.Component {
 
     for (let i = 0; i < fall.length; i++) {
       //This loop prevents duplicates for fall table
-      if (fall[i].course === input && fall[i].semester === semester) {
+      if (fall[i].course === input) {
         errorMessage.innerHTML = "You have already added this class";
         return;
       }
@@ -165,7 +165,7 @@ class PdfSequenceGenerator extends React.Component {
 
     for (let i = 0; i < winter.length; i++) {
       //This loop prevents duplicates for winter table
-      if (winter[i].course === input && winter[i].semester === semester) {
+      if (winter[i].course === input) {
         errorMessage.innerHTML = "You have already added this class";
         return;
       }
@@ -173,7 +173,7 @@ class PdfSequenceGenerator extends React.Component {
 
     for (let i = 0; i < summer.length; i++) {
       //This loop prevents duplicates for summer table
-      if (summer[i].course === input && summer[i].semester === semester) {
+      if (summer[i].course === input) {
         errorMessage.innerHTML = "You have already added this class";
         return;
       }
@@ -193,13 +193,25 @@ class PdfSequenceGenerator extends React.Component {
       return;
     }
 
-    if (semester !== addedClass.semester) {
-      errorMessage.innerHTML =
-        "This class is only given in: " + addedClass.semester;
+    let boool = false;
+
+    for (let i = 0; i < addedClass.semester.length; i++) {
+      if (semester === addedClass.semester[i]) {
+        boool = true;
+        break;
+      }
+    }
+
+    if (boool === false) {
+      let str = "";
+      for (let i = 0; i < addedClass.semester.length; i++) {
+        str += addedClass.semester[i] + "<br />";
+      }
+      errorMessage.innerHTML = "This class is only offered in: <br />" + str;
       return;
     }
 
-    switch (addedClass.semester) {
+    switch (semester) {
       case "Fall":
         fall.push(addedClass);
         this.setState({
