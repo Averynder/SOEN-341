@@ -19,7 +19,8 @@ class PdfSequenceGenerator extends React.Component {
       showAdd: false,
       showRemove: false,
       modify: false,
-      year: "",
+      year: (new Date()).getFullYear(),
+      numberOfDisplayedSemesters: 3,
       semesterDisplayed: ["Fall", "Winter", "Summer"] 
     };
   }
@@ -282,6 +283,18 @@ class PdfSequenceGenerator extends React.Component {
     });
   };
 
+  updateSettings = () => {
+    this.setState({
+      year: document.getElementById('settingYear').value
+    })
+
+
+
+    this.setState({
+      modify: !this.state.modify
+    })
+  }
+
 
   // RENDER() HERE *********************************************************
 
@@ -499,8 +512,6 @@ class PdfSequenceGenerator extends React.Component {
 
 
 
-
-
     /**************************************** JSX here *******************************************************/
 
     return (
@@ -528,7 +539,7 @@ class PdfSequenceGenerator extends React.Component {
               real json file with all the classes can easily be substituted
               later.
             </p> */}
-            <h3>YEAR {true ? (new Date()).getFullYear() : 2020}</h3>
+            <h3>YEAR {this.state.year}</h3>
             <Button text="Sequence Settings" onClick={() => this.setState({modify: !this.state.modify})}/>
             
             {/* Printing this part */}
@@ -642,6 +653,10 @@ class PdfSequenceGenerator extends React.Component {
           </Modal.Body>
         </Modal>
 
+
+
+
+
         <Modal 
           show={this.state.modify}
           onHide={() => this.setState({modify: !this.state.modify})}
@@ -657,8 +672,8 @@ class PdfSequenceGenerator extends React.Component {
                       Choose Year
                       <br/>
                       <br/>
-                      <select style={{width: "100%"}}>
-                        <option>Choose ...</option>
+                      <select id="settingYear" style={{width: "100%"}}>
+                        <option>{this.state.year}</option>
                         {years}
                       </select>
                   </Col>
@@ -692,7 +707,7 @@ class PdfSequenceGenerator extends React.Component {
                 </Row>
               </Container>
 
-              <Button text="Apply Settings" />
+              <Button text="Apply Settings" onClick={this.updateSettings}/>
           </Modal.Body>
         </Modal>
       </div>
