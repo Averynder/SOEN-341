@@ -1,14 +1,12 @@
 import React, {Component} from "react"
 import Button from "./components/Button"
 import { Link } from "react-router-dom"
-import Navbar from "./components/Navbar"
 
 class Formalize extends Component {
 
     render() {
       return (
         <div className="container">
-          <Navbar />
           <div className="container">
             <div className="jumbotron j-greetings">
               <h2 className="display-4">Do you want to formalize upcoming semester</h2>

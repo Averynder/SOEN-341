@@ -2,17 +2,15 @@ import React from "react";
 import Navbar from "./components/Navbar";
 import Greetings from "./components/Greetings";
 import ButtonContainer from "./components/ButtonContainer";
-import LoginLoading from "./components/loginLoading";
 import LoginModal from "./components/LoginModal";
 import Backdrop from "./components/Backdrop";
 import Button from "./components/Button";
 import { Link } from "react-router-dom";
 import "./App.css";
-import LinkBox from "./LinkBox";
 
 class App extends React.Component {
-  constructor() {
-    super();
+  constructor(props, context) {
+    super(props, context);
 
     this.state = {
       clock: []
@@ -70,16 +68,20 @@ class App extends React.Component {
     });
   }
 
+  onUpdate = val => {
+    this.setState({ firstName: val });
+  }
+
+
   render() {
     return (
       <div className="bckgrnd container">
-        <Navbar />
         <Greetings>
           <Button text="Refresh Time" onClick={this.getTime} />
         </Greetings>
         <ButtonContainer>
           <Button text="I am a Student" onClick={this.toggleStudent} />
-          <Link to="/build-seq-or-sem">
+          <Link firstName={this.state.firstName} to="/build-seq-or-sem">
             <Button text="No Login" />
           </Link>
         </ButtonContainer>
@@ -101,7 +103,6 @@ class App extends React.Component {
             link="/pull-previous-courses"
           />
         </Backdrop>
-        <LinkBox />
       </div>
     );
   }

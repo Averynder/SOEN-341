@@ -42,11 +42,6 @@ router.post('/', function(req, res, next) {
 	console.log('setting cookie.password to: ' + req.body.password);
 	res.cookie('password', req.body.password, { httpOnly: true });
 	console.log(req.body);
-	/*passport.authenticate('local', { failureRedirect: '/login' }),
-	function(req, res) {
-			redirect('/');
-	});
-	*/
 	next();
 });
 

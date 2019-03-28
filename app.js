@@ -8,9 +8,6 @@ var fileUpload = require('express-fileupload')
 var cors = require('cors')
 var session = require('express-session');
 var logger = require('morgan');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var mysql = require("mysql2");
@@ -52,76 +49,58 @@ var waterfall = require('async-waterfall');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
-app.use(bodyParser.json());
 app.use(session({
-	secret: 'keyboard cat',
-	saveUninitialized: false,
-	resave: false,
-	cookie: {
-		maxAge: 1000 * 60 * 60 // 1 hour
-	}
+  secret: 'keyboard cat',
+  saveUninitialized: true,
+  resave: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60 // 1 hour
+  }
 }));
+app.use(bodyParser.json());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(fileUpload());
 app.use(cors());
-app.use(passport.initialize());
-app.use(passport.session());
 
 // var user = new usersRouter;
 
 
 
-var sequelize = require('./sequelize'); // get running instance of Sequelize
-require('./passport')(passport, sequelize); // importing passport.js with as a parameter the imported passport library from above
-const selenium = require('./selenium'); // importing passport.js with as a parameter the imported passport library from above
+const selenium = require('./selenium');
+
+function hasLoggedIn(req, res, next) {
+  if (req.session.info) {
+    return next();
+  }
+
+  res.sendStatus(401);
+}
 
 app.post('/concordia', function (req, res, next) {
   try {
     selenium.login(req.body.netname, req.body.password)
-      .then(loggedIn => {
-        console.log(loggedIn);
-        if (!loggedIn) {
-          res.sendStatus(422);
+      .then(info => {
+        if (!info) {
+          res.sendStatus(401);
         } else {
+          req.session.info = JSON.parse(info);
           res.sendStatus(200);
-          /*
-          res.json({
-            grades: 'whatever'
-          });
-          */
         }
       });
   } catch (err) {
     console.log(err);
   }
-
-	/*passport.authenticate('local', function(err, user, info)
-		if (err) { return next(err); }
-		if (!user) {
-      res.status(401);
-		} else {
-      const grades = passport.scrapeGrades();
-      res.status(200).json({
-        grades: grades
-      })
-			req.login(user, function(error) {
-			});
-		}
-	})(req, res, next);
-  */
 });
 
-app.get('/logout', (req, res, next) => {
-	req.logout();
-	res.end();
+app.get('/grades', hasLoggedIn, (req, res, next) => {
+  res.send(req.session.info);
 });
 
-app.get('/check', function(req, res, next) {
-	if (req.user) { console.log('logged in'); }
-	if (!req.user) { console.log('logged out'); }
-	res.end();
+app.get('/logout', hasLoggedIn, (req, res, next) => {
+  req.session.destroy(err => console.log(err));
+  res.end();
 });
 
 // set a cookie with random number as ID
@@ -140,109 +119,6 @@ app.use(function (req, res, next) {
     console.log('cookie already exists', cookie);
   }
   next();
-});
-
-// Handles the User Login Requests and Launches Selenium
-var { Builder, By, Key, until } = require('selenium-webdriver');
-var chrome = require('selenium-webdriver/firefox');
-const firefox = require('selenium-webdriver/firefox');
-
-app.post('/Selenium', function(req,res,next) {
-	const screen = {
-		width: 640,
-		height: 480
-	};
-	let driver = new Builder().forBrowser('firefox')
-		.setFirefoxOptions(new firefox.Options().headless().windowSize(screen)).build(); // invisible chrome
-		//.setFirefoxOptions().build();
-	try {
-		let getDriver = new Promise(function (resolve, reject) {
-			resolve(driver.get('https://my.concordia.ca/psp/upprpr9/?cmd=login&device=mobile')
-			//.then(_ => driver.findElement(By.name('userid')).sendKeys(req.params.netname))
-			//.then(_ => driver.findElement(By.name('pwd')).sendKeys(req.params.password, Key.RETURN)))
-				.then(_ => driver.findElement(By.name('userid')).sendKeys(req.body.netname))
-				.then(_ => driver.findElement(By.name('pwd')).sendKeys(req.body.password, Key.RETURN)))
-		});
-		getDriver.then(function (whateverwasresolved) {
-			//console.log("Got Inside1!");
-			let getNetName = new Promise(function (resolve, reject) {
-				resolve(sleep(30));
-				//resolve(driver.wait(until.elementLocated(By.id('btnGrade')), 20000))
-			});
-			getNetName.then(function (whateverisreturnedfromnetname) {
-				//console.log("Got Inside2!");
-				let getNetName2 = new Promise(function (resolve, reject) {
-					resolve(driver.findElement(By.id('btnGrade')).click())
-				});
-				getNetName2.then(function (whateverisreturnedfromnetname) {
-					//console.log("Got Inside3!");
-					//
-					let getNetName3 = new Promise(function (resolve, reject) {
-						resolve(sleep(30))
-					});
-					getNetName3.then(function (whateverisreturnedfromnetname) {
-						//console.log("Got Inside4!");
-						//
-						let getNetName4 = new Promise(function (resolve, reject) {
-							resolve(driver.findElement(By.id('btnAllGrades')).click())
-						});
-						getNetName4.then(function (whateverisreturnedfromnetname) {
-							console.log("Writing Previous Courses!");
-							driver.findElements(By.className("course mainsec")).then(function (elems) {
-								var stringy = "";
-								elems.forEach(function (elem) {
-									elem.getText().then(function (textValue) {
-										stringy += textValue;
-										fs.writeFile('routes/PrevCourses.txt', stringy, 'utf-8', function (err) {
-											if (err) throw err;
-										});
-										//console.log(textValue); // Insert / Do Stuff From this point
-									});
-								});
-							});
-							/*
-							let getNetName5 = new Promise(function(resolve,reject)
-							{
-								resolve(sleep(20))
-							});
-							getNetName5.then(function(whateverisreturnedfromnetname)
-							{
-								console.log("terminating");
-								callback(null, stringy);
-							});
-							*/
-						});
-						//
-					});
-					//
-				}).catch(function (rej) {
-					//here when you reject the promise
-					console.log("Failed to Login");
-					driver.quit();
-				});
-			});
-		});
-	} catch (err) {
-		console.log(err);
-	} finally {
-		res.end();
-	}
-});
-
-function sleep(seconds)
-{
-	var e = new Date().getTime() + (seconds * 1000);
-	while (new Date().getTime() <= e) {}
-}
-function regexPreviousCourses(stringy)
-{
-	console.log(stringy);
-}
-
-app.get('/Selenium', function(req, res, next) {
-	if (req.user) { console.log('logged in'); }
-	if (!req.user) { console.log('logged out'); }
-	res.end();
 });
 
 // This sets a session for when the user visits a site. This session remembers the number of visits.
@@ -419,6 +295,31 @@ app.get("/semQuery", function(req, res, next) {
 				},
 				function(arg3, callback)
 				{
+					async.waterfall([
+						function(callback){
+							// do this first
+							connection.query("SELECT * FROM `course`", function (err, result, fields) {
+								if (err) throw err;
+								callback(null, result);
+							});
+
+						},
+						function(arg4, callback){
+							// do this 2nd
+							res.json
+							(
+								JSON.stringify([
+									{
+										lectures: arg2,
+										tutorials: arg3,
+										labs: arg1,
+										result2: arg4,
+									},
+								])
+							);
+						}
+					]);
+					/*
 					res.json
 					(
 						JSON.stringify([
@@ -429,6 +330,7 @@ app.get("/semQuery", function(req, res, next) {
 							},
 						])
 					);
+					*/
 				},
 			]);
 		}
@@ -443,7 +345,6 @@ app.use('/public', express.static(__dirname + '/public'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/MyDoublyLinkedList',MyDoublyLinkedList);
 app.use('/LectureSequence',LectureSequence);

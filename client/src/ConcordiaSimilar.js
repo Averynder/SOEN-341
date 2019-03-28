@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "./components/Navbar";
 import * as data from "./data/courses.json";
 import { Table } from "react-bootstrap";
 import Button from "./components/Button";
@@ -99,7 +98,6 @@ class ConcordiaSimilar extends React.Component {
 
     return (
       <div>
-        <Navbar />
         <div className="container">
           <div className="jumbotron j-greetings">
             <h2 className="display-4">Concordia Look-Alike Page</h2>

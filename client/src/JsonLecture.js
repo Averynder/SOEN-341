@@ -20,6 +20,11 @@ class JsonLecture extends Component {
 		this.room = room;
 	}
 
+	addTut(tutorial)
+	{
+		this.tutorial.push(tutorial);
+	}
+
 	clone () {
 		var cc = new JsonLecture(null,null,null,null,null,null);
 		cc.section = this.section;
