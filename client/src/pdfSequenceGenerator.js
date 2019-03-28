@@ -22,6 +22,9 @@ class PdfSequenceGenerator extends React.Component {
       year: (new Date()).getFullYear(),
       numberOfDisplayedSemesters: 3,
       semesterDisplay: null,
+      fallTable: null,
+      winterTable: null,
+      summerTable: null
     };
   }
 
@@ -158,7 +161,7 @@ class PdfSequenceGenerator extends React.Component {
   };
 
   // FUNCTIONS() HERE *********************************************************
-  addClass = () => {
+  addClass = (falltable, wintertable, summertable) => {
     let fall = this.state.selectedCoursesFall; //Keep track of user selected classes for Fall
     let winter = this.state.selectedCoursesWinter; //Keep track of user selected classes for Winter
     let summer = this.state.selectedCoursesSummer; //Keep track of user selected classes for Summer
@@ -244,9 +247,11 @@ class PdfSequenceGenerator extends React.Component {
       yeetus[i] = new Date().getFullYear() + i;
     }
     const years = yeetus.map(jimmy => <option value={jimmy}>{jimmy}</option>);
+
+    this.updateSettings(falltable, wintertable, summertable);
   };
 
-  removeClass = () => {
+  removeClass = (falltable, wintertable, summertable) => {
     let fall = this.state.selectedCoursesFall; //Keep track of user selected classes for Fall
     let winter = this.state.selectedCoursesWinter; //Keep track of user selected classes for Winter
     let summer = this.state.selectedCoursesSummer; //Keep track of user selected classes for Summer
@@ -281,17 +286,23 @@ class PdfSequenceGenerator extends React.Component {
       selectedCoursesFall: fall,
       selectedCoursesWinter: winter,
       selectedCoursesSummer: summer,
-      showRemove: !this.state.showRemove
+      showRemove: !this.state.showRemove,
     });
+
+    this.updateSettings(falltable, wintertable, summertable);
   };
 
   updateSettings = (falltable, wintertable, summertable) => {
 
     let semesterArray = []; //this.state.semesterDisplay will take on this value
-
-    const fallRemove = document.getElementById('fallSetting').value === "Remove" ? 1 : 0; //if removed, set 1 else 0
-    const winterRemove = document.getElementById('winterSetting').value === "Remove" ? 1 : 0;
-    const summerRemove = document.getElementById('summerSetting').value === "Remove" ? 1 : 0;
+    let fallRemove = 0;
+    let winterRemove = 0;
+    let summerRemove = 0;
+    if(document.getElementById('fallSetting')){
+      fallRemove = document.getElementById('fallSetting').value === "Remove" ? 1 : 0; //if removed, set 1 else 0
+      winterRemove = document.getElementById('winterSetting').value === "Remove" ? 1 : 0;
+      summerRemove = document.getElementById('summerSetting').value === "Remove" ? 1 : 0;
+    }
 
     const numberOfSemesters = 3 - fallRemove - winterRemove - summerRemove; //Number of semester visible for the year
     const division = numberOfSemesters === 0 ? 12 : 12/ numberOfSemesters; //The number used for the md attribute
@@ -321,14 +332,13 @@ class PdfSequenceGenerator extends React.Component {
 
     let result = <Container className={newID} id="divToPrint">
                     <Row>
-                      {semesterArray}
+                      {semesterArray.map((element) => element)}
                     </Row>
                  </Container>
 
     this.setState({
       semesterDisplay: result,
-      modify: !this.state.modify,
-      year: document.getElementById('settingYear').value
+      year: document.getElementById('settingYear') ?  document.getElementById('settingYear').value : this.state.year
     })
   }
 
@@ -660,7 +670,7 @@ class PdfSequenceGenerator extends React.Component {
               <option value="Summer">Summer</option>
             </select>
             <p id="addStatus" style={{ color: "red" }} />
-            <Button type="submit" text="Add Course" onClick={this.addClass} />
+            <Button type="submit" text="Add Course" onClick={() => this.addClass(falltable, wintertable, summertable)} />
           </Modal.Body>
         </Modal>
 
@@ -684,7 +694,7 @@ class PdfSequenceGenerator extends React.Component {
             <Button
               type="submit"
               text="Remove Course"
-              onClick={this.removeClass}
+              onClick={() => this.removeClass(falltable, wintertable, summertable)}
             />
           </Modal.Body>
         </Modal>
