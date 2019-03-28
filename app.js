@@ -333,18 +333,6 @@ app.get("/semQuery", function(req, res, next) {
 							);
 						}
 					]);
-					/*
-					res.json
-					(
-						JSON.stringify([
-							{
-								lectures: arg2,
-								tutorials: arg3,
-								labs: arg1,
-							},
-						])
-					);
-					*/
 				},
 			]);
 		}
