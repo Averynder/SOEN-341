@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Redirect from "react-router/es/Redirect";
+import { Redirect } from "react-router";
 import Button from "react-bootstrap/Button";
 
 class LoginModal extends Component
