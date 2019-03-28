@@ -521,6 +521,32 @@ class CourseSelectionMenu extends React.Component {
         }
       }
     }
+
+    // Previous Loop Skips certain duplicates because of numbering
+    for (i = 0; i < courses31.length; i++) {
+      // lecture removing duplicates
+      if (courses31[i].lecture != null) {
+        for (j = 0; j < courses31[i].lecture.length; j++) {
+          if (courses31[i].lecture[j] != null) {
+            if (courses31[i].lecture[j].tutorial != null) {
+              for (b = 0; b < courses31[i].lecture[j].tutorial.length; b++) {
+                for (a = 0; a < courses31[i].lecture[j].tutorial.length; a++) {
+                  if (courses31[i].lecture[j].tutorial[b] != null) {
+                    if (courses31[i].lecture[j].tutorial[b].section == courses31[i].lecture[j].tutorial[a].section
+                        && courses31[i].lecture[j].tutorial[b].startTime == courses31[i].lecture[j].tutorial[a].startTime
+                        && courses31[i].lecture[j].tutorial[b].endTime == courses31[i].lecture[j].tutorial[a].endTime
+                        && courses31[i].lecture[j].tutorial[b].room != courses31[i].lecture[j].tutorial[a].room
+                        && a != b) {
+                      courses31[i].lecture[j].tutorial.splice(a, 1);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
     this.state.coursesFall = coursesFall;
     this.state.coursesWinter = coursesWinter;
     this.state.coursesSummer = coursesSummer;
