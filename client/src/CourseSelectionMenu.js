@@ -880,6 +880,13 @@ class CourseSelectionMenu extends React.Component {
               }else{
                 document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
               }
+
+              if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
+                document.getElementById(dayOfTheWeek + i).style.color = "beige";
+              }
+              else {
+                document.getElementById(dayOfTheWeek + i).style.color = "black";
+              }
             }
           }
         }
@@ -909,6 +916,13 @@ class CourseSelectionMenu extends React.Component {
                 }else{
                   document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
                 }
+
+                if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
+                  document.getElementById(dayOfTheWeek + i).style.color = "beige";
+                }
+                else {
+                  document.getElementById(dayOfTheWeek + i).style.color = "black";
+                }
               }
             }
           }
@@ -932,6 +946,13 @@ class CourseSelectionMenu extends React.Component {
                   document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].endTime;
                 }else{
                   document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+                }
+
+                if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
+                  document.getElementById(dayOfTheWeek + i).style.color = "beige";
+                }
+                else {
+                  document.getElementById(dayOfTheWeek + i).style.color = "black";
                 }
               }
             }
@@ -964,6 +985,13 @@ class CourseSelectionMenu extends React.Component {
                   } else {
                     document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
                   }
+
+                  if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
+                    document.getElementById(dayOfTheWeek + i).style.color = "beige";
+                  }
+                  else {
+                    document.getElementById(dayOfTheWeek + i).style.color = "black";
+                  }
                 }
               }
             } 
@@ -989,6 +1017,13 @@ class CourseSelectionMenu extends React.Component {
                   document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[labIndex].endTime;
                 }else{
                   document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+                }
+
+                if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
+                  document.getElementById(dayOfTheWeek + i).style.color = "beige";
+                }
+                else {
+                  document.getElementById(dayOfTheWeek + i).style.color = "black";
                 }
               }
             }
@@ -1500,6 +1535,13 @@ class CourseSelectionMenu extends React.Component {
           }else{
             document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
           }
+
+          if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
+            document.getElementById(dayOfTheWeek + i).style.color = "beige";
+          }
+          else {
+            document.getElementById(dayOfTheWeek + i).style.color = "black";
+          }
         }
       }
     }
@@ -1529,6 +1571,12 @@ class CourseSelectionMenu extends React.Component {
             }else{
               document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
             }
+            if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
+              document.getElementById(dayOfTheWeek + i).style.color = "beige";
+            }
+            else {
+              document.getElementById(dayOfTheWeek + i).style.color = "black";
+            }
           }
         }
       }
@@ -1554,6 +1602,13 @@ class CourseSelectionMenu extends React.Component {
               document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].endTime;
             }else{
               document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+            }
+
+            if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
+              document.getElementById(dayOfTheWeek + i).style.color = "beige";
+            }
+            else {
+              document.getElementById(dayOfTheWeek + i).style.color = "black";
             }
           }
         }
@@ -1586,6 +1641,13 @@ class CourseSelectionMenu extends React.Component {
             } else {
               document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
             }
+
+            if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
+              document.getElementById(dayOfTheWeek + i).style.color = "beige";
+            }
+            else {
+              document.getElementById(dayOfTheWeek + i).style.color = "black";
+            }
           }
         }
       } 
@@ -1609,6 +1671,13 @@ class CourseSelectionMenu extends React.Component {
               document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[labIndex].endTime;
             }else{
               document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+            }
+
+            if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
+              document.getElementById(dayOfTheWeek + i).style.color = "beige";
+            }
+            else {
+              document.getElementById(dayOfTheWeek + i).style.color = "black";
             }
           }
         }
