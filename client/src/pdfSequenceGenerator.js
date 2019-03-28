@@ -22,7 +22,7 @@ class PdfSequenceGenerator extends React.Component {
       year: (new Date()).getFullYear(),
       numberOfDisplayedSemesters: 3,
       semesterDisplay: null, //holds the code for the Container tag #divtoprint
-      semesterArray: [] //Holds the Col tags
+      semesterArray: null //Holds the Col tags
     };
   }
 
@@ -343,12 +343,31 @@ class PdfSequenceGenerator extends React.Component {
     this.setState({
       semesterDisplay: result,
       semesterArray: semesterArray,
-      year: document.getElementById('settingYear') ?  document.getElementById('settingYear').value : this.state.year
+      year: document.getElementById('settingYear').value
     })
+
   }
 
   bootlegUpdateSettings = (falltable, wintertable, summertable) => { //this just updates the tables
-    let semesterArray = this.state.semesterArray; //contains code for Col tags
+    let semesterArray = this.state.semesterArray ? this.state.semesterArray : [
+      {semester: "Fall",
+       code: <Col className='tableCol' md={4}>
+                <p style={{textAlign: "center"}}>Fall</p>
+                {falltable}
+              </Col>
+      },
+      {semester: "Winter",
+       code: <Col className='tableCol' md={4}>
+                <p style={{textAlign: "center"}}>Winter</p>
+                {wintertable}
+              </Col>
+      },
+      {semester: "Summer",
+       code: <Col className='tableCol' md={4}>
+                <p style={{textAlign: "center"}}>Summer</p>
+                {summertable}
+              </Col>
+      }] ; //contains code for Col tags
     let newArray = []; //New col tags array
 
     semesterArray.forEach(element => {
@@ -363,7 +382,7 @@ class PdfSequenceGenerator extends React.Component {
 
       if(element.semester === "Winter"){
         element.code = <Col className='tableCol' md={12/ semesterArray.length}>
-                        <p style={{textAlign: "center"}}>Winter</p>
+                        <p style={{textAlign: "center"}}>Winter </p>
                         {wintertable}
                       </Col>;
         
@@ -613,7 +632,7 @@ class PdfSequenceGenerator extends React.Component {
     </Col>
     
     <Col className='tableCol' md={4}>
-      <p style={{textAlign: "center"}}>Winter</p>
+      <p style={{textAlign: "center"}}>Winter </p>
       {wintertable}
     </Col>
 
@@ -638,26 +657,12 @@ class PdfSequenceGenerator extends React.Component {
             className="jumbotron j-greetings"
             id="soen341"
           >
-            {/* <h2 className="display-4">
-              Sequence To PDF <br /> Year{" "}
-              {this.state.modify ? "" : this.state.sequenceYear}
-            </h2> */}
-            {/* <hr color="#7e1530" /> */}
-            {/* <p className="lead">
-              Click Add Course and try out COMP248, COMP232, SOEN228 or ENGR213
-              to test it out.
-              <br />
-              <br />
-              These 4 classes are only available because this is a test. The
-              real json file with all the classes can easily be substituted
-              later.
-            </p> */}
-            <h3>YEAR {this.state.year}</h3>
-            <Button text="Sequence Settings" onClick={() => this.setState({modify: !this.state.modify})}/>
+            <h3>Year {this.state.year}</h3>
+            <br/>
             
             {/* Printing this part */}
-            
-              {this.state.semesterDisplay ? <Container className="mt-4" id="divToPrint"><Row>{this.state.semesterDisplay}</Row></Container> : semesterDisplay /* semesterDisplay is default 3 semester, the state version of this will change dynamically */}
+
+              {this.state.semesterDisplay ? <Container className="mt-4" id="divToPrint"><Row>{this.state.semesterDisplay}</Row></Container> : <Container className="mt-4" id="divToPrint">{semesterDisplay}</Container> /* semesterDisplay is default 3 semester, the state version of this will change dynamically */}
             
             {/* End of print part */}
 
@@ -686,6 +691,8 @@ class PdfSequenceGenerator extends React.Component {
                 </td>
               </tr>
             </table>
+
+            <Button text="Sequence Settings" onClick={() => this.setState({modify: !this.state.modify})}/>
             {/* <Button
               text="Add Course"
               onClick={() => {
