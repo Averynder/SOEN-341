@@ -277,7 +277,7 @@ app.get("/semQuery", function(req, res, next) {
       for (let j = 0; j < term.courses.length; j++) {
         let course = term.courses[j].course;
         if (course.type === 'LEC') {
-          container.names.push(course.subject + " " + course.catalog);
+          names.push(course.subject + " " + course.catalog);
         }
       }
     }
@@ -327,7 +327,7 @@ app.get("/semQuery", function(req, res, next) {
 										tutorials: arg3,
 										labs: arg1,
 										result2: arg4,
-                    names: names,
+                    names: names
 									},
 								])
 							);
