@@ -286,6 +286,8 @@ class PdfSequenceGenerator extends React.Component {
   // RENDER() HERE *********************************************************
 
   render() {
+    const semesterList = ["Fall", "Winter", "Summer"];
+
     let falltable = (
       <Table id="pdfTable" striped bordered hover variant="dark">
         <thead>
@@ -652,26 +654,40 @@ class PdfSequenceGenerator extends React.Component {
               <Container className="mt-3">
                 <Row>
                   <Col md={3}>
-                    Choose Year
-                    <br/>
-
+                      Choose Year
+                      <br/>
+                      <br/>
+                      <select style={{width: "100%"}}>
+                        <option>Choose A Year...</option>
+                        {years}
+                      </select>
                   </Col>
-                  
+
                   <Col md={3}>
                     Fall Semester
                     <br/>
+                    <select style={{width: "100%"}}>
+                        <option>Choose A Year...</option>
+                        {years}
+                      </select>
                   </Col>
 
                   <Col md={3}>
                     Winter Semester
                     <br/>
-                    
+                    <select style={{width: "100%"}}>
+                        <option>Choose A Year...</option>
+                        {years}
+                      </select>
                   </Col>
 
                   <Col md={3}>
                     Summer Semester
                     <br/>
-                    
+                    <select style={{width: "100%"}}>
+                        <option>Choose A Year...</option>
+                        {years}
+                      </select>
                   </Col>
                 </Row>
               </Container>
