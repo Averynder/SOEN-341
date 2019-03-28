@@ -21,7 +21,11 @@ class PdfSequenceGenerator extends React.Component {
       modify: false,
       year: (new Date()).getFullYear(),
       numberOfDisplayedSemesters: 3,
-      semesterDisplayed: ["Fall", "Winter", "Summer"] 
+      semestersRemoved: {
+        fall: false,
+        winter: false,
+        summer: false
+      } 
     };
   }
 
@@ -233,7 +237,7 @@ class PdfSequenceGenerator extends React.Component {
       default:
     }
 
-    let totalNumberOfClasses =
+    let totalNumberOfClasses = //Damn I really forgot why we need this
       this.state.selectedCoursesFall.length +
       this.state.selectedCoursesSummer.length +
       this.state.selectedCoursesWinter.length;
@@ -508,7 +512,24 @@ class PdfSequenceGenerator extends React.Component {
     }
     const years = yeetus.map(jimmy => <option value={jimmy}>{jimmy}</option>);
 
+    let semesterDisplay = <Row>
+                
+    <Col className='tableCol' md={4}>
+      <p style={{textAlign: "center"}}>Fall</p>
+      {falltable}
+    </Col>
+    
+    <Col className='tableCol' md={4}>
+      <p style={{textAlign: "center"}}>Winter</p>
+      {wintertable}
+    </Col>
 
+    <Col className='tableCol' md={4}>
+      <p style={{textAlign: "center"}}>Summer</p>
+      {summertable}
+    </Col>
+
+  </Row>;
 
 
 
@@ -544,24 +565,7 @@ class PdfSequenceGenerator extends React.Component {
             
             {/* Printing this part */}
             <Container className="mt-4" id="divToPrint">
-              <Row>
-                
-                <Col className='tableCol' md={4}>
-                  <p style={{textAlign: "center"}}>Fall</p>
-                  {falltable}
-                </Col>
-                
-                <Col className='tableCol' md={4}>
-                  <p style={{textAlign: "center"}}>Winter</p>
-                  {wintertable}
-                </Col>
-
-                <Col className='tableCol' md={4}>
-                  <p style={{textAlign: "center"}}>Summer</p>
-                  {summertable}
-                </Col>
-
-              </Row>
+              {semesterDisplay}
             </Container>
             {/* End of print part */}
 
@@ -681,28 +685,28 @@ class PdfSequenceGenerator extends React.Component {
                   <Col md={3}>
                     Fall Semester
                     <br/>
-                    <select style={{width: "100%"}}>
-                        <option>Keep</option>
-                        <option>Remove</option>
-                      </select>
+                    <select id="fallSetting" style={{width: "100%"}}>
+                      <option value="Keep">Keep</option>
+                      <option value="Remove">Remove</option>
+                    </select>
                   </Col>
 
                   <Col md={3}>
                     Winter Semester
                     <br/>
-                    <select style={{width: "100%"}}>
-                        <option>Keep</option>
-                        <option>Remove</option>
+                    <select id="winterSetting" style={{width: "100%"}}>
+                        <option value="Keep">Keep</option>
+                        <option value="Remove">Remove</option>
                       </select>
                   </Col>
 
                   <Col md={3}>
                     Summer Semester
                     <br/>
-                    <select style={{width: "100%"}}>
-                        <option>Keep</option>
-                        <option>Remove</option>
-                      </select>
+                    <select id="summerSetting" style={{width: "100%"}}>
+                      <option value="Keep">Keep</option>
+                      <option value="Remove">Remove</option>
+                    </select>
                   </Col>
                 </Row>
               </Container>
