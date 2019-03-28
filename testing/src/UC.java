@@ -33,10 +33,17 @@ public class UC {
 				driver.get(URL);
 				serverRunning = true;
 			} catch (WebDriverException e) {
-				System.out.println("Webpage unavailable yo. Did you make sure the server is running properly?\nPlease review then type click enter.");
-				try{
-					System.in.read();
-				}catch (Exception nada){}
+
+				System.out.print("Webpage unavailable yo. Did you make sure the server is running properly? Please review.\nWould you like to continue?[y/n]: ");
+				String answer = review.nextLine();
+				if (answer.equals("n")) {
+					System.out.println("Goodbye");
+					review.close();
+					driver.quit();
+					System.exit(0);
+				}
+
+
 			}
 		}
 
@@ -54,7 +61,7 @@ public class UC {
 		driver.findElement(By.id("waiting")).click();
 		boolean isLoggedIn = false;
 		try {
-			WebDriverWait waitForError = new WebDriverWait(driver, 11);
+			WebDriverWait waitForError = new WebDriverWait(driver, 15);
 			waitForError.until(ExpectedConditions.visibilityOfElementLocated(By.id("errorMessage")));
 			WebElement errorMessage = driver.findElement(By.id("errorMessage"));
 			System.out.println("Error message found");
