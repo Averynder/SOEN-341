@@ -270,13 +270,15 @@ app.get("/seqQuery", function(req, res, next) {
 });
 app.get("/semQuery", function(req, res, next) {
   let container = { names: [], query: ''};
-  let terms = req.session.info.result.programs[0].terms;
-  for (let i = 0; i < terms.length; i++) {
-    let term = terms[i];
-    for (let j = 0; j < term.courses.length; j++) {
-      let course = term.courses[j].course;
-      if (course.type === 'LEC') {
-        container.names.push(course.subject + " " + course.catalog);
+  if (req.session.info) {
+    let terms = req.session.info.result.programs[0].terms;
+    for (let i = 0; i < terms.length; i++) {
+      let term = terms[i];
+      for (let j = 0; j < term.courses.length; j++) {
+        let course = term.courses[j].course;
+        if (course.type === 'LEC') {
+          container.names.push(course.subject + " " + course.catalog);
+        }
       }
     }
   }
