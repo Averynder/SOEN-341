@@ -58,6 +58,9 @@ class CourseSelectionMenu extends React.Component {
       tutorials: null,
       dataCourses: null,
       Courses: null,
+      coursesFall: null,
+      coursesWinter: null,
+      coursesSummer: null,
       semester: semester,
       year: year,
       weekdays: [
@@ -446,7 +449,83 @@ class CourseSelectionMenu extends React.Component {
     this.regEx2();
     console.log(this.state.dataCourses);
     console.log(data1.sequence);
-    this.state.courses2 = courses31; //CHANGE TO GET PROPER COURSES
+    var coursesFall = [];
+    var coursesWinter = [];
+    var coursesSummer = [];
+    for (i = 0; i < courses31.length; i++)
+    {
+      if (courses31[i].semester == "Fall")
+      {
+        coursesFall.push(courses31[i]);
+      }
+      else if (courses31[i].semester == "Winter")
+      {
+        coursesWinter.push(courses31[i]);
+      }
+      else
+      {
+        coursesSummer.push(courses31[i]);
+      }
+    }
+    var j, k, a, b;
+    for (i = 0; i < courses31.length; i++)
+    {
+      // lecture removing duplicates
+      if (courses31[i].lecture != null) {
+        for (j = 0; j < courses31[i].lecture.length; j++) {
+          for (k = 0; k < courses31[i].lecture.length; k++) {
+            if (courses31[i].lecture[j] != null) {
+              if (courses31[i].lecture[j].section == courses31[i].lecture[k].section
+                  && courses31[i].lecture[j].startTime == courses31[i].lecture[k].startTime
+                  && courses31[i].lecture[j].endTime == courses31[i].lecture[k].endTime
+                  && courses31[i].lecture[j].room != courses31[i].lecture[k].room
+                  && j != k) {
+                courses31[i].lecture[j].room += " or " + courses31[i].lecture[k].room;
+                courses31[i].lecture.splice(k, 1);
+              }
+            }
+          }
+          if (courses31[i].lecture[j] != null) {
+            if (courses31[i].lecture[j].tutorial != null) {
+              for (b = 0; b < courses31[i].lecture[j].tutorial.length; b++) {
+                for (a = 0; a < courses31[i].lecture[j].tutorial.length; a++) {
+                  if (courses31[i].lecture[j].tutorial[b] != null) {
+                    if (courses31[i].lecture[j].tutorial[b].section == courses31[i].lecture[j].tutorial[a].section
+                        && courses31[i].lecture[j].tutorial[b].startTime == courses31[i].lecture[j].tutorial[a].startTime
+                        && courses31[i].lecture[j].tutorial[b].endTime == courses31[i].lecture[j].tutorial[a].endTime
+                        && courses31[i].lecture[j].tutorial[b].room != courses31[i].lecture[j].tutorial[a].room
+                        && a != b) {
+                      courses31[i].lecture[j].tutorial[b].room += " or " + courses31[i].lecture[j].tutorial[a].room;
+                      courses31[i].lecture[j].tutorial.splice(a, 1);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      // lab removing duplicates
+      if (courses31[i].lab != null) {
+        for (a = 0; a < courses31[i].lab.length; a++) {
+          for (k = 0; k < courses31[i].lab.length; k++) {
+            if (courses31[i].lab[a].section == courses31[i].lab[k].section
+                && courses31[i].lab[a].startTime == courses31[i].lab[k].startTime
+                && courses31[i].lab[a].endTime == courses31[i].lab[k].endTime
+                && courses31[i].lab[a].room != courses31[i].lab[k].room
+                && a != k) {
+              courses31[i].lab[a].room += " or " + courses31[i].lab[k].room;
+              courses31[i].lab.splice(k, 1);
+            }
+          }
+        }
+      }
+    }
+    this.state.coursesFall = coursesFall;
+    this.state.coursesWinter = coursesWinter;
+    this.state.coursesSummer = coursesSummer;
+    this.state.courses2 = this.state.coursesFall;
+    //this.state.courses2 = courses31; //CHANGE TO GET PROPER COURSES
   }
 
   regEx2()
@@ -624,8 +703,22 @@ class CourseSelectionMenu extends React.Component {
       year: document.getElementById("semester-year").value,
       semester: document.getElementById("semester").value,
       selectedCourses: []
-    })
-
+    });
+    this.state.year = document.getElementById("semester-year").value;
+    this.state.semester = document.getElementById("semester").value;
+    if (this.state.semester == "Fall")
+    {
+      this.state.courses2 = this.state.coursesFall;
+    }
+    else if (this.state.semester == "Winter")
+    {
+      this.state.courses2 = this.state.coursesWinter;
+    }
+    else if (this.state.semester == "Summer")
+    {
+      this.state.courses2 = this.state.coursesSummer;
+    }
+    //console.log(this.state.semester);
   }
 
   handleDisplay = () => {
