@@ -269,7 +269,7 @@ app.get("/seqQuery", function(req, res, next) {
 	]);
 });
 app.get("/semQuery", function(req, res, next) {
-  let container = { names: [], query: ''};
+  let container = { query: '', names: []};
   if (req.session.info) {
     let terms = req.session.info.result.programs[0].terms;
     for (let i = 0; i < terms.length; i++) {
@@ -325,7 +325,7 @@ app.get("/semQuery", function(req, res, next) {
 										labs: arg1,
 										result2: arg4,
               };
-              res.json(container);
+              res.send(JSON.stringify(container));
 						}
 					]);
 					/*
