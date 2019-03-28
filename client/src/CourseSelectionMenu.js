@@ -73,7 +73,7 @@ class CourseSelectionMenu extends React.Component {
       credits: 0,
       //classes: JSON.parse(JSON.stringify(data.sequence)),
 
-      colors: [["red", 0], ["pink", 0], ["green", 0], ["brown", 0], ["orange", 0], ["blue", 0], ["grey", 0]],
+      colors: [["#f44336", 0], ["#e91e63", 0], ["#4caf50", 0], ["#795548", 0], ["#ff9800", 0], ["#3f51b5", 0], ["#607d8b", 0]],
 
       addedClasses: [],
 
