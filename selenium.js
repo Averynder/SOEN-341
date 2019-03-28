@@ -32,7 +32,7 @@ module.exports = {
       browser.get('https://my.concordia.ca/psp/upprpr9/?cmd=login&device=mobile')
         .then(_ => browser.findElement(By.name('userid')).sendKeys(netname))
         .then(_ => browser.findElement(By.name('pwd')).sendKeys(password, Key.RETURN))
-        .then(_ => browser.sleep(5000))
+        .then(_ => browser.wait(until.urlMatches(/errorCode|mainMenu\.html/)))
         .then(_ => browser.getCurrentUrl())
         .then(url => {
           if (url.includes('errorCode')) { // failed to log in
@@ -45,7 +45,6 @@ module.exports = {
               .then(cookie => {
                 getInfo(cookie)
                   .then(info => {
-                    console.log('grades');
                     resolve(info);
                   }, err => reject('Error retrieving grades'));
               }, err => reject('Error retrieving cookie'))
