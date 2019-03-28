@@ -668,7 +668,7 @@ class PdfSequenceGenerator extends React.Component {
                     <br/>
                     <select style={{width: "100%"}}>
                         <option>Keep</option>
-                        {years}
+                        <option>Remove</option>
                       </select>
                   </Col>
 
@@ -677,7 +677,7 @@ class PdfSequenceGenerator extends React.Component {
                     <br/>
                     <select style={{width: "100%"}}>
                         <option>Keep</option>
-                        {years}
+                        <option>Remove</option>
                       </select>
                   </Col>
 
@@ -686,11 +686,13 @@ class PdfSequenceGenerator extends React.Component {
                     <br/>
                     <select style={{width: "100%"}}>
                         <option>Keep</option>
-                        {years}
+                        <option>Remove</option>
                       </select>
                   </Col>
                 </Row>
               </Container>
+
+              <Button text="Apply Settings" />
           </Modal.Body>
         </Modal>
       </div>
