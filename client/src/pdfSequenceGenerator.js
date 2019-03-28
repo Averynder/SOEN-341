@@ -19,6 +19,8 @@ class PdfSequenceGenerator extends React.Component {
       showAdd: false,
       showRemove: false,
       modify: false,
+      year: "",
+      semesterDisplayed: ["Fall", "Winter", "Summer"] 
     };
   }
 
@@ -280,6 +282,7 @@ class PdfSequenceGenerator extends React.Component {
     });
   };
 
+
   // RENDER() HERE *********************************************************
 
   render() {
@@ -496,10 +499,6 @@ class PdfSequenceGenerator extends React.Component {
 
 
 
-
-
-
-
     /**************************************** JSX here *******************************************************/
 
     return (
@@ -529,12 +528,6 @@ class PdfSequenceGenerator extends React.Component {
             </p> */}
             <h3>YEAR {true ? (new Date()).getFullYear() : 2020}</h3>
             <Button text="Sequence Settings" onClick={() => this.setState({modify: !this.state.modify})}/>
-
-            
-            Fall   <input id="fallCheck" type="checkbox"    value="Bike"/> <br />
-            Winter <input id="winterCheck" type="checkbox"  value="Car"/> <br/>
-            Summer <input id="summerCheck" type="checkbox"  value="Boat"/> <br/>
-            
             
             {/* Printing this part */}
             <Container className="mt-4" id="divToPrint">
@@ -654,7 +647,16 @@ class PdfSequenceGenerator extends React.Component {
           <Modal.Header>
             <Modal.Title>Sequence Settings</Modal.Title>
           </Modal.Header>
+
           <Modal.Body style={{ textAlign: "center" }}>
+              <Container className="mt-3">
+                <Row>
+                  <Col md={3}></Col>
+                  <Col md={3}></Col>
+                  <Col md={3}></Col>
+                  <Col md={3}></Col>
+                </Row>
+              </Container>
           </Modal.Body>
         </Modal>
       </div>
