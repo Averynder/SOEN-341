@@ -1312,7 +1312,7 @@ class CourseSelectionMenu extends React.Component {
       return;
     }
 
-    if ((this.state.credits + addedClass.credit) > 18.5) {
+    if ((this.state.credits + addedClass.credit) > 16.5) {
       document.getElementById("addStatus1").innerHTML =
         "Credit Limit Reached";
       this.setState({ show2: "visible" });
