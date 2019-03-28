@@ -702,7 +702,8 @@ class CourseSelectionMenu extends React.Component {
     this.setState({
       year: document.getElementById("semester-year").value,
       semester: document.getElementById("semester").value,
-      selectedCourses: []
+      selectedCourses: [],
+      credits: 0
     });
     this.state.year = document.getElementById("semester-year").value;
     this.state.semester = document.getElementById("semester").value;
