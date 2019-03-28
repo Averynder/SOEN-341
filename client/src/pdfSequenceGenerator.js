@@ -21,10 +21,8 @@ class PdfSequenceGenerator extends React.Component {
       modify: false,
       year: (new Date()).getFullYear(),
       numberOfDisplayedSemesters: 3,
-      semesterDisplay: null,
-      fallTable: null,
-      winterTable: null,
-      summerTable: null
+      semesterDisplay: null, //holds the code for the Container tag #divtoprint
+      semesterArray: [] //Holds the Col tags
     };
   }
 
@@ -248,7 +246,7 @@ class PdfSequenceGenerator extends React.Component {
     }
     const years = yeetus.map(jimmy => <option value={jimmy}>{jimmy}</option>);
 
-    this.updateSettings(falltable, wintertable, summertable);
+    this.bootlegUpdateSettings(falltable, wintertable, summertable);
   };
 
   removeClass = (falltable, wintertable, summertable) => {
@@ -289,7 +287,7 @@ class PdfSequenceGenerator extends React.Component {
       showRemove: !this.state.showRemove,
     });
 
-    this.updateSettings(falltable, wintertable, summertable);
+    this.bootlegUpdateSettings(falltable, wintertable, summertable);
   };
 
   updateSettings = (falltable, wintertable, summertable) => {
@@ -308,20 +306,26 @@ class PdfSequenceGenerator extends React.Component {
     const division = numberOfSemesters === 0 ? 12 : 12/ numberOfSemesters; //The number used for the md attribute
     const newID = "mt-" + division; //New id of the <Container />
 
-    let fall = <Col className='tableCol' md={division}>
-                <p style={{textAlign: "center"}}>Fall</p>
-                {falltable}
-              </Col>
+    let fall = {semester: "Fall",
+                code: <Col className='tableCol' md={division}>
+                        <p style={{textAlign: "center"}}>Fall</p>
+                        {falltable}
+                      </Col>
+              }
 
-    let winter = <Col className='tableCol' md={division}>
-                  <p style={{textAlign: "center"}}>Winter</p>
-                  {wintertable}
-                </Col>
+    let winter = {semester: "Winter",
+                  code: <Col className='tableCol' md={division}>
+                          <p style={{textAlign: "center"}}>Winter</p>
+                          {wintertable}
+                        </Col>
+                }
 
-    let summer = <Col className='tableCol' md={division}>
-                  <p style={{textAlign: "center"}}>Summer</p>
-                  {summertable}
-                </Col>
+    let summer = {semester: "Summer",
+                  code: <Col className='tableCol' md={division}>
+                          <p style={{textAlign: "center"}}>Summer</p>
+                          {summertable}
+                        </Col>
+                }
 
     if(fallRemove === 0)
       semesterArray.push(fall);
@@ -332,16 +336,63 @@ class PdfSequenceGenerator extends React.Component {
 
     let result = <Container className={newID} id="divToPrint">
                     <Row>
-                      {semesterArray.map((element) => element)}
+                      {semesterArray.map((element) => element.code)}
                     </Row>
                  </Container>
 
     this.setState({
       semesterDisplay: result,
+      semesterArray: semesterArray,
       year: document.getElementById('settingYear') ?  document.getElementById('settingYear').value : this.state.year
     })
   }
 
+  bootlegUpdateSettings = (falltable, wintertable, summertable) => { //this just updates the tables
+    let semesterArray = this.state.semesterArray; //contains code for Col tags
+    let newArray = []; //New col tags array
+
+    semesterArray.forEach(element => {
+      if(element.semester === "Fall"){
+        element.code = <Col className='tableCol' md={12/ semesterArray.length}>
+                        <p style={{textAlign: "center"}}>Fall</p>
+                        {falltable}
+                      </Col>;
+        
+        newArray.push(element);
+      }
+
+      if(element.semester === "Winter"){
+        element.code = <Col className='tableCol' md={12/ semesterArray.length}>
+                        <p style={{textAlign: "center"}}>Winter</p>
+                        {wintertable}
+                      </Col>;
+        
+        newArray.push(element);
+      }
+
+      if(element.semester === "Summer"){
+        element.code = <Col className='tableCol' md={12/ semesterArray.length}>
+                        <p style={{textAlign: "center"}}>Summer</p>
+                        {summertable}
+                      </Col>;
+        
+        newArray.push(element);
+      }
+    })
+
+    let newID = "mt-" + (12 / newArray.length);
+
+    let result = <Container className={newID} id="divToPrint">
+                    <Row>
+                      {newArray.map((element) => element.code)}
+                    </Row>
+                 </Container>
+
+    this.setState({
+      semesterDisplay: result,
+      semesterArray: newArray,
+    })
+  }
 
   // RENDER() HERE *********************************************************
 
@@ -580,7 +631,6 @@ class PdfSequenceGenerator extends React.Component {
     return (
       <div className="container">
         
-
         <DragDropContext onDragEnd={this.onDragEnd}>  
 
           <div
@@ -698,10 +748,6 @@ class PdfSequenceGenerator extends React.Component {
             />
           </Modal.Body>
         </Modal>
-
-
-
-
 
         <Modal 
           show={this.state.modify}
