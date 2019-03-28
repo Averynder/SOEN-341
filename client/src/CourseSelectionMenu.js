@@ -101,11 +101,11 @@ class CourseSelectionMenu extends React.Component {
 
   componentDidMount() {
     fetch("/semQuery")
-        .then(res => res.json())
-        .then(users2 =>
-            this.setState({ users2 }, () => this.setCourses(users2)))
-        .then(() => this.regEx())
-        .then(() => this.toggleLoading());
+      .then(res => res.json())
+      .then(users2 =>
+        this.setState({ users2 }, () => this.setCourses(users2)))
+      .then(() => this.regEx())
+      .then(() => this.toggleLoading());
   }
 
   setCourses(stringy)
