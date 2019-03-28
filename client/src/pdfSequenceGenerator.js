@@ -658,7 +658,7 @@ class PdfSequenceGenerator extends React.Component {
                       <br/>
                       <br/>
                       <select style={{width: "100%"}}>
-                        <option>Choose A Year...</option>
+                        <option>Choose ...</option>
                         {years}
                       </select>
                   </Col>
@@ -667,7 +667,7 @@ class PdfSequenceGenerator extends React.Component {
                     Fall Semester
                     <br/>
                     <select style={{width: "100%"}}>
-                        <option>Choose A Year...</option>
+                        <option>Keep</option>
                         {years}
                       </select>
                   </Col>
@@ -676,7 +676,7 @@ class PdfSequenceGenerator extends React.Component {
                     Winter Semester
                     <br/>
                     <select style={{width: "100%"}}>
-                        <option>Choose A Year...</option>
+                        <option>Keep</option>
                         {years}
                       </select>
                   </Col>
@@ -685,7 +685,7 @@ class PdfSequenceGenerator extends React.Component {
                     Summer Semester
                     <br/>
                     <select style={{width: "100%"}}>
-                        <option>Choose A Year...</option>
+                        <option>Keep</option>
                         {years}
                       </select>
                   </Col>
