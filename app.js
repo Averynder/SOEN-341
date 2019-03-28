@@ -9,7 +9,6 @@ var cors = require('cors')
 var session = require('express-session');
 var logger = require('morgan');
 var usersRouter = require('./routes/users');
-var loginRouter = require('./routes/login');
 var mysql = require("mysql2");
 // This class will run the DB script when called
 var DBcheck = require('./routes/DBcheck');
@@ -361,8 +360,6 @@ app.use('/TutorialSequence',TutorialSequence);
 app.use('/Stack',Stack);
 app.use('/SpanningTree',SpanningTree);
 app.use('/Course',Course);
-
-//app.use('/login', loginRouter);
 
 var fileUploaded = {};
 
