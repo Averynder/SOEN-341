@@ -84,6 +84,7 @@ app.post('/concordia', function (req, res, next) {
         if (!info) {
           res.sendStatus(401);
         } else {
+          console.log(info)
           req.session.info = JSON.parse(info);
           res.sendStatus(200);
         }
