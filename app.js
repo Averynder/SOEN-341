@@ -314,6 +314,7 @@ app.get("/semQuery", function(req, res, next) {
 										tutorials: arg3,
 										labs: arg1,
 										result2: arg4,
+										cookie: false,
 									},
 								])
 							);
