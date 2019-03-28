@@ -1337,7 +1337,7 @@ class CourseSelectionMenu extends React.Component {
       let validLecture, validTutorial, validLab;
       
       // time conflict incomplete
-      for (let i = 0; i < addedClass.lecture.length; i++) {
+      /*for (let i = 0; i < addedClass.lecture.length; i++) {
         validLecture = true;
         validTutorial = true;
         validLab = true;
@@ -1436,7 +1436,7 @@ class CourseSelectionMenu extends React.Component {
       if (!validLecture || !validTutorial || !validLab) {
         console.log("Conflict");
         return;
-      }
+      }*/
 
 // right now it's hardcoded to always add the first lecture section of a new class "[0]"
 // it doesn't verify if that section can actually fit in the table
@@ -1812,6 +1812,7 @@ class CourseSelectionMenu extends React.Component {
     );
 
     let credits = this.state.credits - courseToRemove.credit;
+    //this.state.credits = this.state.credits - courseToRemove.credit;
     this.setState({
       selectedCourses: array, show2: "hidden", credits: credits
     });
