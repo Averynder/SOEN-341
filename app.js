@@ -268,6 +268,23 @@ app.get("/seqQuery", function(req, res, next) {
 		}
 	]);
 });
+app.get('/check', hasLoggedIn, (req, res, next) => {
+  let names = [];
+  if (req.session.info) {
+    let terms = req.session.info.result.programs[0].terms;
+    for (let i = 0; i < terms.length; i++) {
+      let term = terms[i];
+      for (let j = 0; j < term.courses.length; j++) {
+        let course = term.courses[j].course;
+        if (course.type === 'LEC') {
+          names.push(course.subject + " " + course.catalog);
+        }
+      }
+    }
+  }
+  res.json(names);
+});
+
 app.get("/semQuery", function(req, res, next) {
   let names = [];
   if (req.session.info) {
