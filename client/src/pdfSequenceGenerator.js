@@ -651,10 +651,28 @@ class PdfSequenceGenerator extends React.Component {
           <Modal.Body style={{ textAlign: "center" }}>
               <Container className="mt-3">
                 <Row>
-                  <Col md={3}></Col>
-                  <Col md={3}></Col>
-                  <Col md={3}></Col>
-                  <Col md={3}></Col>
+                  <Col md={3}>
+                    Choose Year
+                    <br/>
+
+                  </Col>
+                  
+                  <Col md={3}>
+                    Fall Semester
+                    <br/>
+                  </Col>
+
+                  <Col md={3}>
+                    Winter Semester
+                    <br/>
+                    
+                  </Col>
+
+                  <Col md={3}>
+                    Summer Semester
+                    <br/>
+                    
+                  </Col>
                 </Row>
               </Container>
           </Modal.Body>
