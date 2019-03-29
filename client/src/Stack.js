@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 import MyDoublyLinkedList from "./MyDoublyLinkedList";
 
-class Stack extends Component
+class Stack extends React.Component
 {
 	constructor(props)
 	{

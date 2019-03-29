@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "./components/Navbar";
 import * as data from "./data/courses.json";
 import { Table } from "react-bootstrap";
 import { Form } from "react-bootstrap";
@@ -128,8 +127,6 @@ class SelectSemester extends React.Component {
 
     return (
       <div className="container">
-        <Navbar />
-
         <div className="container">
           <div className="jumbotron j-greetings">
             <h2 className="display-4">Select Your Semester</h2>

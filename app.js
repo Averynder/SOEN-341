@@ -8,8 +8,6 @@ var fileUpload = require('express-fileupload')
 var cors = require('cors')
 var session = require('express-session');
 var logger = require('morgan');
-//var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var calendarRouter = require('./routes/calendar');
@@ -66,15 +64,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(fileUpload());
 app.use(cors());
-//app.use(passport.initialize());
-//app.use(passport.session());
 
 // var user = new usersRouter;
 
 
 
-//require('./passport') // importing passport.js with as a parameter the imported passport library from above
-const selenium = require('./selenium'); // importing passport.js with as a parameter the imported passport library from above
+const selenium = require('./selenium');
 
 function hasLoggedIn(req, res, next) {
   if (req.session.info) {
@@ -91,6 +86,7 @@ app.post('/concordia', function (req, res, next) {
         if (!info) {
           res.sendStatus(401);
         } else {
+          console.log(info)
           req.session.info = JSON.parse(info);
           res.sendStatus(200);
         }
@@ -274,7 +270,44 @@ app.get("/seqQuery", function(req, res, next) {
 		}
 	]);
 });
+app.get('/check', hasLoggedIn, (req, res, next) => {
+  let names = [];
+  let programs = req.session.info.result.programs;
+  for (let m = 0; m < programs.length; m++) {
+    let terms = programs[m].terms;
+    for (let i = 0; i < terms.length; i++) {
+      let term = terms[i];
+      for (let j = 0; j < term.courses.length; j++) {
+        let course = term.courses[j].course;
+        if (course.type === 'LEC') {
+          names.push(course.subject + " " + course.catalog);
+        }
+      }
+    }
+  }
+  res.json({
+    session: req.session.info,
+    names: names
+  });
+});
+
 app.get("/semQuery", function(req, res, next) {
+  let names = [];
+  if (req.session.info) {
+    let programs = req.session.info.result.programs;
+    for (let m = 0; m < programs.length; m++) {
+      let terms = programs[m].terms;
+      for (let i = 0; i < terms.length; i++) {
+        let term = terms[i];
+        for (let j = 0; j < term.courses.length; j++) {
+          let course = term.courses[j].course;
+          if (course.type === 'LEC') {
+            names.push(course.subject + " " + course.catalog);
+          }
+        }
+      }
+    }
+  }
 	async.waterfall([
 		function(callback){
 			connection.query("SELECT * FROM `laboratory`", function (err, result, fields) {
@@ -320,23 +353,12 @@ app.get("/semQuery", function(req, res, next) {
 										tutorials: arg3,
 										labs: arg1,
 										result2: arg4,
+                    names: names
 									},
 								])
 							);
 						}
 					]);
-					/*
-					res.json
-					(
-						JSON.stringify([
-							{
-								lectures: arg2,
-								tutorials: arg3,
-								labs: arg1,
-							},
-						])
-					);
-					*/
 				},
 			]);
 		}
@@ -362,8 +384,6 @@ app.use('/calendar',calendarRouter);
 app.use('/Stack',Stack);
 app.use('/SpanningTree',SpanningTree);
 app.use('/Course',Course);
-
-//app.use('/login', loginRouter);
 
 var fileUploaded = {};
 
