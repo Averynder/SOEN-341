@@ -61,6 +61,8 @@ class CourseSelectionMenu extends React.Component {
       coursesFall: null,
       coursesWinter: null,
       coursesSummer: null,
+      coursesTaken: null,
+      loggedIn: false,
       semester: semester,
       year: year,
       weekdays: [
@@ -118,8 +120,12 @@ class CourseSelectionMenu extends React.Component {
     this.state.tutorials = stringy.substring(tutStartPosition+13,labStartPosition);
     var sequenceStartPos = stringy.indexOf("\"result2\":[");
     this.state.labs = stringy.substring(labStartPosition+8,sequenceStartPos);
-    this.state.Courses = stringy.substring(sequenceStartPos+11);
-    console.log(this.state.Courses);
+    var namePosition = stringy.indexOf("\"names\":[");
+    this.state.Courses = stringy.substring(sequenceStartPos+11,namePosition);
+    var endingPosition = stringy.indexOf("]}]");
+    this.state.coursesTaken = stringy.substring(namePosition+9,endingPosition);
+    if (this.state.coursesTaken != "")
+      this.state.loggedIn = true;
   }
 
   regEx()
@@ -450,6 +456,44 @@ class CourseSelectionMenu extends React.Component {
     this.regEx2();
     console.log(this.state.dataCourses);
     console.log(data1.sequence);
+    // Removing Courses Already taken from set
+    if (this.state.loggedIn)
+    {
+      var jjj;
+      while (this.state.coursesTaken.length > 1)
+      {
+        var startingQuote = this.state.coursesTaken.indexOf("\"");
+        this.state.coursesTaken = this.state.coursesTaken.substring(startingQuote+1);
+        var endingQuote = this.state.coursesTaken.indexOf("\"");
+        var course = this.state.coursesTaken.substring(0,endingQuote);
+        course = course.substring(0,course.indexOf(" ")) + course.substring(course.indexOf(" ")+1);
+        this.state.coursesTaken = this.state.coursesTaken.substring(9);
+        for (jjj = 0; jjj < this.state.dataCourses.length; jjj++)
+        {
+          if (this.state.dataCourses[jjj].course == course)
+          {
+            this.state.dataCourses.splice(jjj, 1);
+          }
+        }
+      }
+    }
+    // Removing Undefined Lectures from set
+    var jarjar, jarjab;
+    for (jarjar = 0; jarjar < this.state.dataCourses.length; jarjar++)
+    {
+      for (jarjab = 0; jarjab < this.state.dataCourses[jarjar].lecture.length; jarjab++)
+      {
+        if (this.state.dataCourses[jarjar].lecture[jarjab] != null)
+        {
+          if (this.state.dataCourses[jarjar].lecture[jarjab].section == undefined)
+          {
+            this.state.dataCourses[jarjar].lecture.splice(jarjab, 1);
+            jarjab = -1;
+          }
+        }
+      }
+    }
+    // Placing Courses into Semesters
     var coursesFall = [];
     var coursesWinter = [];
     var coursesSummer = [];
@@ -498,6 +542,7 @@ class CourseSelectionMenu extends React.Component {
                         && a != b) {
                       courses31[i].lecture[j].tutorial[b].room += " or " + courses31[i].lecture[j].tutorial[a].room;
                       courses31[i].lecture[j].tutorial.splice(a, 1);
+                      a = -1;
                     }
                   }
                 }
@@ -523,6 +568,7 @@ class CourseSelectionMenu extends React.Component {
       }
     }
 
+    /*
     // Previous Loop Skips certain duplicates because of numbering
     for (i = 0; i < courses31.length; i++) {
       // lecture removing duplicates
@@ -548,6 +594,7 @@ class CourseSelectionMenu extends React.Component {
         }
       }
     }
+    */
     this.state.coursesFall = coursesFall;
     this.state.coursesWinter = coursesWinter;
     this.state.coursesSummer = coursesSummer;
