@@ -7,8 +7,8 @@ import * as html2canvas from "html2canvas";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 class PdfSequenceGenerator extends React.Component {
-  constructor() {
-    super();
+  constructor(props, context) {
+    super(props, context);
 
     this.state = {
       courses: data.default.sequence,
@@ -167,85 +167,40 @@ class PdfSequenceGenerator extends React.Component {
     let addedClass; //object
     let classExists = false;
 
-    for (let i = 0; i < fall.length; i++) {
-      //This loop prevents duplicates for fall table
-      if (fall[i].course === input) {
-        errorMessage.innerHTML = "You have already added this class";
-        return;
+    let classFound;
+    // already added
+    [fall, winter, summer].forEach(semester => {
+      semester.forEach(course => {
+        if (course.course === input) {
+          classFound = course;
+        }
+      });
+    });
+
+    // exists
+    if (!classFound) {
+      let validClass;
+      classList.forEach(course => {
+        if (course.course === input) {
+          validClass = course;
+        }
+      });
+
+      if (validClass) {
+        if (!validClass.semester.includes(semester)) {
+          errorMessage.innerHTML = "This class is not offered in this semester!";
+        } else {
+          let sel = "selectedCourses" + semester;
+          this.setState({
+            [sel]: [...this.state[sel], validClass],
+            showAdd: !this.state.showAdd
+          }, () => console.log(this.state));
+        }
+      } else {
+        errorMessage.innerHTML = "Invalid Class/Class Not Found";
       }
-    }
-
-    for (let i = 0; i < winter.length; i++) {
-      //This loop prevents duplicates for winter table
-      if (winter[i].course === input) {
-        errorMessage.innerHTML = "You have already added this class";
-        return;
-      }
-    }
-
-    for (let i = 0; i < summer.length; i++) {
-      //This loop prevents duplicates for summer table
-      if (summer[i].course === input) {
-        errorMessage.innerHTML = "You have already added this class";
-        return;
-      }
-    }
-
-    for (let i = 0; i < classList.length; i++) {
-      // Finds if input class exists and stores it in addedClass
-      if (classList[i].course === input) {
-        addedClass = classList[i];
-        classExists = true;
-        break;
-      }
-    }
-
-    if (classExists === false) {
-      errorMessage.innerHTML = "Invalid Class/Class Not Found";
-      return;
-    }
-
-    let boool = false;
-
-    for (let i = 0; i < addedClass.semester.length; i++) {
-      if (semester === addedClass.semester[i]) {
-        boool = true;
-        break;
-      }
-    }
-
-    if (boool === false) {
-      let str = "";
-      for (let i = 0; i < addedClass.semester.length; i++) {
-        str += addedClass.semester[i] + "<br />";
-      }
-      errorMessage.innerHTML = "This class is only offered in: <br />" + str;
-      return;
-    }
-
-    switch (semester) {
-      case "Fall":
-        fall.push(addedClass);
-        this.setState({
-          selectedCoursesFall: fall,
-          showAdd: !this.state.showAdd
-        });
-        break;
-      case "Summer":
-        summer.push(addedClass);
-        this.setState({
-          selectedCoursesSummer: summer,
-          showAdd: !this.state.showAdd
-        });
-        break;
-      case "Winter":
-        winter.push(addedClass);
-        this.setState({
-          selectedCoursesWinter: winter,
-          showAdd: !this.state.showAdd
-        });
-        break;
-      default:
+    } else {
+      errorMessage.innerHTML = "You have already added this class";
     }
 
     let totalNumberOfClasses =
