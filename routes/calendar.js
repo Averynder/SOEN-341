@@ -9,7 +9,10 @@
 var express = require('express');
 var router = express.Router();
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 var app = express();
+
+router.use(bodyParser.json())
 
 var fs = require('fs');
 var readline = require('readline');
@@ -25,8 +28,10 @@ const TOKEN_PATH = 'token.json';
 
 router.post('/', function(req, res, next) {
 	console.log('POST req received');
-	console.log(req);
-	
+	console.log(req.body);
+	var parsedJSON = req.body.courseArray;
+	console.log("This is temp: ");
+	console.log(parsedJSON);
 	// Load client secrets from a local file.
 	fs.readFile('credentials.json', (err, content) => {
 	  if (err) return console.log('Error loading client secret file:', err);
@@ -76,191 +81,245 @@ router.post('/', function(req, res, next) {
 	function insertEvents(auth) {
 	  const calendar = google.calendar({ version: 'v3', auth });
 	  var digit = 0;  
-	  for (item in req.body){
+	  for (item in parsedJSON){
+		//console.log(parsedJSON[item]);
 		digit++;
 		var lab = false;
 		var eventName;
+		var tutorialName;
+		var labName;
 		var yearCourse = '';
 		var monthCourse = '';
 		var dayCourse = '';
 		var dayTutorial = '';
 		var dayLab = '';
+		var firstDayCourse = '';
+		var firstDayTutorial = '';
+		var firstDayLab = '';
 		var startTimeCourse;
 		var startTimeTutorial;
 		var startTimeLab;
 		var endTimeCourse;
 		var endTimeTutorial;
-		var endTimeLab;
+		var endTimeLab; 
 		var repetitionsCourse = 0;
 		var repetitionsTutorial = 0;
 		var repetitionsLab = 0;
 		var semester = '';
-		for (a in req.body[item]){
-			//console.log(a);
-			if (a == "course")
-				eventName = req.body[item][a];
+		var section = parsedJSON[item][1];
+		var tutorial = parsedJSON[item][2];
+		var lab = parsedJSON[item][3];
+		for (a in parsedJSON[item][0]){
+			//console.log(parsedJSON[item][0][a]);
+			if (a == "course"){
+				eventName = parsedJSON[item][0][a];
+				tutorialName = parsedJSON[item][0][a] + " Tutorial";
+				labName = parsedJSON[item][0][a] + " Lab";
+			}
 			if (a == "name")
-				eventName += ":" + req.body[item][a];
-			if (a == "startTime"){
-				startTimeCourse = req.body[item][a];
-				//console.log(startTimeCourse)
-			}
-			if (a == "endTime"){
-				endTimeCourse = req.body[item][a];
-				//console.log(endTimeCourse)
-			}
-			if (a == "days") {
-				for (b in req.body[item][a]){
-					dayCourse += req.body[item][a][b].substring(0, 2) + ",";
-					repetitionsCourse++;
-				}
-				dayCourse = dayCourse.substring(0, dayCourse.length - 1);
-				dayCourse = dayCourse.toUpperCase();
-				//console.log(dayCourse);
-			}
+				eventName += ":" + parsedJSON[item][0][a];
 			if (a == "semester")
-				semester = req.body[item][a];
-			if (a == "ta") {
-				for (b in req.body[item][a]){
-					for (c in req.body[item][a][b]){
-						if (c == "type"){
-							if (req.body[item][a][b][c] == "Lab")
-								lab = true;
-							console.log(lab);
+				semester = parsedJSON[item][0][a];
+			if (a == "lecture"){
+				for (b in parsedJSON[item][0][a][section]){
+					if (b == "section")
+						eventName += " " + parsedJSON[item][0][a][section][b];
+					if (b == "days"){
+						if (parsedJSON[item][0][a][section][b][0] == "Monday")
+							firstDayCourse = "02";
+						else if (parsedJSON[item][0][a][section][b][0] == "Tuesday")
+							firstDayCourse = "03";
+						else if (parsedJSON[item][0][a][section][b][0] == "Wednesday")
+							firstDayCourse = "04";
+						else if (parsedJSON[item][0][a][section][b][0] == "Thursday")
+							firstDayCourse = "05";
+						else if (parsedJSON[item][0][a][section][b][0] == "Friday")
+							firstDayCourse = "06";
+						for (c in parsedJSON[item][0][a][section][b]){
+							dayCourse += parsedJSON[item][0][a][section][b][c].substring(0, 2) + ",";
+							repetitionsCourse++;
 						}
-						if (c == "days") {
-							for (d in req.body[item][a][b][c]){
-								if (lab == false){
-									dayTutorial += req.body[item][a][b][c][d].substring(0, 2) + ",";
+						dayCourse = dayCourse.substring(0, dayCourse.length - 1);
+						dayCourse = dayCourse.toUpperCase();
+					}
+					if (b == "room")
+						eventName += " " + parsedJSON[item][0][a][section][b];
+					if (b == "startTime")
+						startTimeCourse = parsedJSON[item][0][a][section][b];
+					if (b == "endTime")
+						endTimeCourse = parsedJSON[item][0][a][section][b];
+					if (b == "tutorial")
+					{
+						var tut = parsedJSON[item][0][a][section][b][tutorial];
+						tutorialName += " " + tut.section;
+						for (c in tut.days){
+							if (tut.days[0] == "Monday")
+								firstDayTutorial = "02";
+							else if (tut.days[0] == "Tuesday")
+								firstDayTutorial = "03";
+							else if (tut.days[0] == "Wednesday")
+								firstDayTutorial = "04";
+							else if (tut.days[0] == "Thursday")
+								firstDayTutorial = "05";
+							else if (tut.days[0] == "Friday")
+								firstDayTutorial = "06";
+							dayTutorial += tut.days[c].substring(0, 2) + ",";
+							repetitionsTutorial++;
+						}
+						dayTutorial = dayTutorial.substring(0, dayTutorial.length - 1);
+						dayTutorial = dayTutorial.toUpperCase();
+						tutorialName += " " + tut.room;
+						startTimeTutorial = tut.startTime;
+						endTimeTutorial = tut.endTime;
+						console.log(tut);
+						/*for (c in parsedJSON[item][0][a][section][b][tutorial]){
+							console.log(parsedJSON[item][0][a][section][b][tutorial]);
+							if (c = "section")
+								tutorialName += " " + parsedJSON[item][0][a][section][b][tutorial][c];
+							if (c == "days"){
+								for (d in parsedJSON[item][0][a][section][b][tutorial][c]){
+									console.log(dayTutorial);
+									dayTutorial += parsedJSON[item][0][a][section][b][tutorial][c][d].substring(0, 2) + ",";
 									repetitionsTutorial++;
 								}
-								else{
-									dayLab += req.body[item][a][b][c][d].substring(0, 2) + ",";
-									repetitionsLab++;
-								}
-								if (lab == false){
-									dayTutorial = dayTutorial.substring(0, dayTutorial.length - 1);
-									dayTutorial = dayTutorial.toUpperCase();
-								}
-								else{
-									dayLab = dayLab.substring(0, dayLab.length - 1);
-									dayLab = dayLab.toUpperCase();
-								}
-							}
-						}
-						if (c == "startTime"){
-							if (lab == false){
-								startTimeTutorial = req.body[item][a][b][c];
-								console.log(startTimeTutorial);
-							}
-							else
-								startTimeLab = req.body[item][a][b][c];
-						}
-						if (c == "endTime"){
-							if (lab == false)
-								endTimeTutorial = req.body[item][a][b][c];
-							else
-								endTimeLab = req.body[item][a][b][c];
-						}
+								dayTutorial = dayTutorial.substring(0, dayTutorial.length - 1);
+								dayTutorial = dayTutorial.toUpperCase();
+							}		
+							if (c == "room")
+								tutorialName += " " + parsedJSON[item][0][a][section][b][tutorial][c];
+							if (c == "startTime")
+								startTimeTutorial = parsedJSON[item][0][a][section][b][tutorial][c];
+							if (c == "endTime")
+								endTimeTutorial = parsedJSON[item][0][a][section][b][tutorial][c];
+						}*/
+					}
 					}
 				}
-			}
-		}	
+			if (a == "lab"){
+				for (b in parsedJSON[item][0][a][lab]){
+					if (b == "section")
+						labName += " " + parsedJSON[item][0][a][lab][b];
+					if (b == "days"){
+						if (parsedJSON[item][0][a][section][b][0] == "Monday")
+							firstDayLab = "02";
+						else if (parsedJSON[item][0][a][section][b][0] == "Tuesday")
+							firstDayLab = "03";
+						else if (parsedJSON[item][0][a][section][b][0] == "Wednesday")
+							firstDayLab = "04";
+						else if (parsedJSON[item][0][a][section][b][0] == "Thursday")
+							firstDayLab = "05";
+						else if (parsedJSON[item][0][a][section][b][0] == "Friday")
+							firstDayLab = "06";
+						for (c in parsedJSON[item][0][a][lab][b]){
+							dayLab += parsedJSON[item][0][a][lab][b][c].substring(0, 2) + ",";
+							repetitionsLab++;
+						}
+						dayLab = dayLab.substring(0, dayLab.length - 1);
+						dayLab = dayLab.toUpperCase();
+					}
+					if (b == "room")
+						labName += " " + parsedJSON[item][0][a][lab][b];
+					if (b == "startTime")
+						startTimeLab = parsedJSON[item][0][a][lab][b];
+					if (b == "endTime")
+						endTimeLab = parsedJSON[item][0][a][lab][b];
+					}
+				}
+		}
+		// Will need to be changed to get Year.
+		
+		
 		var eventCourse = {
-			summary: eventName,
-			start: {
-			  dateTime: '2019-09-02T' + startTimeCourse + ':00-04:00',
-			  timeZone: 'America/New_York'
-			},
-			end: {
-			  dateTime: '2019-09-02T' + endTimeCourse + ':00-04:00',
-			  timeZone: 'America/New_York'
-			},
-			recurrence: ['RRULE:FREQ=WEEKLY;BYDAY='+dayCourse+';COUNT='+13*repetitionsCourse],
-			colorId: [digit]
-		}
-		console.log(eventCourse);
-		var eventTutorial = {
-			summary: eventName + " Tutorial",
-			start: {
-			  dateTime: '2019-09-02T' + startTimeTutorial + ':00-04:00',
-			  timeZone: 'America/New_York'
-			},
-			end: {
-			  dateTime: '2019-09-02T' + endTimeTutorial + ':00-04:00',
-			  timeZone: 'America/New_York'
-			},
-			recurrence: ['RRULE:FREQ=WEEKLY;BYDAY='+dayTutorial+';COUNT='+13*repetitionsTutorial],
-			colorId: [digit]
-		}
-		console.log(eventTutorial);
-		if (lab == true){
-			var eventLab = {
-				summary: eventName + " Lab",
+				summary: eventName,
 				start: {
-				  dateTime: '2019-09-02T' + startTimeLab + ':00-04:00',
+				  dateTime: '2019-09-'+firstDayCourse+'T' + startTimeCourse + ':00-04:00',
 				  timeZone: 'America/New_York'
 				},
 				end: {
-				  dateTime: '2019-09-02T' + endTimeLab + ':00-04:00',
+				  dateTime: '2019-09-'+firstDayCourse+'T' + endTimeCourse + ':00-04:00',
 				  timeZone: 'America/New_York'
 				},
-				recurrence: ['RRULE:FREQ=WEEKLY;BYDAY='+dayLab+';COUNT='+13*repetitionsLab],
+				recurrence: ['RRULE:FREQ=WEEKLY;BYDAY='+dayCourse+';COUNT='+13*repetitionsCourse],
 				colorId: [digit]
 			}
-			console.log(eventLab);
-		}
-		calendar.events.insert(
-			{
-			  auth: auth,
-			  calendarId: 'primary',
-			  resource: eventCourse
-			},
-			function(err, eventCourse) {
-			  if (err) {
-				console.log(
-				  'There was an error contacting the Calendar service: ' + err
-				);
-				return;
-			  }
-			  console.log('Event created: %s', eventCourse.data.htmlLink);
+			console.log(eventCourse);
+			var eventTutorial = {
+				summary: tutorialName,
+				start: {
+				  dateTime: '2019-09-'+firstDayTutorial+'T' + startTimeTutorial + ':00-04:00',
+				  timeZone: 'America/New_York'
+				},
+				end: {
+				  dateTime: '2019-09-'+firstDayTutorial+'T' + endTimeTutorial + ':00-04:00',
+				  timeZone: 'America/New_York'
+				},
+				recurrence: ['RRULE:FREQ=WEEKLY;BYDAY='+dayTutorial+';COUNT='+13*repetitionsTutorial],
+				colorId: [digit]
 			}
-		);
-		calendar.events.insert(
-			{
-			  auth: auth,
-			  calendarId: 'primary',
-			  resource: eventTutorial
-			},
-			function(err, eventTutorial) {
-			  if (err) {
-				console.log(
-				  'There was an error contacting the Calendar service: ' + err
-				);
-				return;
-			  }
-			  console.log('Event created: %s', eventTutorial.data.htmlLink);
-			}
-		);
-		if (lab == true){
+			console.log(eventTutorial);	
+			var eventLab = {
+					summary: labName,
+					start: {
+					  dateTime: '2019-09-'+firstDayLab+'T' + startTimeLab + ':00-04:00',
+					  timeZone: 'America/New_York'
+					},
+					end: {
+					  dateTime: '2019-09-'+firstDayLab+'T' + endTimeLab + ':00-04:00',
+					  timeZone: 'America/New_York'
+					},
+					recurrence: ['RRULE:FREQ=WEEKLY;BYDAY='+dayLab+';COUNT='+13*repetitionsLab],
+					colorId: [digit]
+				}
+			console.log(eventLab);	
 			calendar.events.insert(
-			{
-			  auth: auth,
-			  calendarId: 'primary',
-			  resource: eventLab
-			},
-			function(err, eventLab) {
-			  if (err) {
-				console.log(
-				  'There was an error contacting the Calendar service: ' + err
-				);
-				return;
-			  }
-			  console.log('Event created: %s', eventLab.data.htmlLink);
-			}
-		);
-		}
-	  }
+				{
+				  auth: auth,
+				  calendarId: 'primary',
+				  resource: eventCourse
+				},
+				function(err, eventCourse) {
+				  if (err) {
+					console.log(
+					  'There was an error contacting the Calendar service: ' + err
+					);
+					return;
+				  }
+				  console.log('Event created: %s', eventCourse.data.htmlLink);
+				}
+			);
+			calendar.events.insert(
+				{
+				  auth: auth,
+				  calendarId: 'primary',
+				  resource: eventTutorial
+				},
+				function(err, eventTutorial) {
+				  if (err) {
+					console.log(
+					  'There was an error contacting the Calendar service: ' + err
+					);
+					return;
+				  }
+				  console.log('Event created: %s', eventTutorial.data.htmlLink);
+				}
+			);
+			calendar.events.insert(
+				{
+				  auth: auth,
+				  calendarId: 'primary',
+				  resource: eventLab
+				},
+				function(err, eventLab) {
+				  if (err) {
+					console.log(
+					  'There was an error contacting the Calendar service: ' + err
+					);
+					return;
+				  }
+				  console.log('Event created: %s', eventLab.data.htmlLink);
+				}
+			);
+	    }
 	}
 });
 

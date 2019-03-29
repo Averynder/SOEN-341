@@ -869,8 +869,8 @@ class CourseSelectionMenu extends React.Component {
   
   sendCalendar = () => {
     let courseArray = this.state.selectedCourses;
-	axios.post('calendar',courseArray)
-	.then(res=> console.log(res.data))
+	console.log(courseArray);
+	axios.post('calendar', {courseArray}).then(res=> console.log(res.data))
     .catch(err=>console.log(err.response.data));
   }
 
