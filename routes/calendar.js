@@ -239,7 +239,7 @@ router.post('/', function(req, res, next) {
 				  dateTime: '2019-09-'+firstDayCourse+'T' + endTimeCourse + ':00-04:00',
 				  timeZone: 'America/New_York'
 				},
-				recurrence: ['RRULE:FREQ=WEEKLY;BYDAY='+dayCourse+';COUNT='+13*repetitionsCourse],
+				recurrence: ['RRULE:FREQ=WEEKLY;BYDAY='+dayCourse+';COUNT='+15*repetitionsCourse],
 				colorId: [digit]
 			}
 			console.log(eventCourse);
@@ -253,7 +253,7 @@ router.post('/', function(req, res, next) {
 				  dateTime: '2019-09-'+firstDayTutorial+'T' + endTimeTutorial + ':00-04:00',
 				  timeZone: 'America/New_York'
 				},
-				recurrence: ['RRULE:FREQ=WEEKLY;BYDAY='+dayTutorial+';COUNT='+13*repetitionsTutorial],
+				recurrence: ['RRULE:FREQ=WEEKLY;BYDAY='+dayTutorial+';COUNT='+15*repetitionsTutorial],
 				colorId: [digit]
 			}
 			console.log(eventTutorial);	
@@ -267,7 +267,7 @@ router.post('/', function(req, res, next) {
 					  dateTime: '2019-09-'+firstDayLab+'T' + endTimeLab + ':00-04:00',
 					  timeZone: 'America/New_York'
 					},
-					recurrence: ['RRULE:FREQ=WEEKLY;BYDAY='+dayLab+';COUNT='+13*repetitionsLab],
+					recurrence: ['RRULE:FREQ=WEEKLY;BYDAY='+dayLab+';COUNT='+15*repetitionsLab],
 					colorId: [digit]
 				}
 			console.log(eventLab);	
