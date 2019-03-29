@@ -99,6 +99,14 @@ class PdfSequenceGenerator extends React.Component {
     //background: isDraggingOver? 'blue': 'red'
   });
 
+  offeredIn = (semClass, supported) => {
+    let desiredSem = semClass.substr(15); // remove selectedCourses from semester string
+
+    let offered = supported.includes(desiredSem);
+
+    return offered;
+  }
+
   onDragEnd = result => {
     console.log(result);
     const { source, destination } = result;
@@ -119,29 +127,33 @@ class PdfSequenceGenerator extends React.Component {
         [source.droppableId]: items
       });
     } else {
-      const moved = this.move(
-        this.state[source.droppableId],
-        this.state[destination.droppableId],
-        source,
-        destination
-      );
+      let movingCourse = this.state[source.droppableId][source.index];
+      let semesterStr = destination.droppableId;
+      let canMove = this.offeredIn(destination.droppableId, movingCourse.semester) // e.g. canMove(selectedCoursesWinter, ['Fall', 'Winter', 'Summer'])
+      if (canMove) {
+        const moved = this.move(
+          this.state[source.droppableId],
+          this.state[destination.droppableId],
+          source,
+          destination
+        );
 
-      if (!moved) {
-        return;
-      }
-
-      this.setState(
-        {
-          [source.droppableId]: moved[source.droppableId],
-          [destination.droppableId]: moved[destination.droppableId]
-        },
-        () => {
-          console.log(this.state);
-          console.log(moved);
+        if (!moved) {
+          return;
         }
-      );
+
+        this.setState(
+          {
+            [source.droppableId]: moved[source.droppableId],
+            [destination.droppableId]: moved[destination.droppableId]
+          },
+          () => {
+          }
+        );
+      }
     }
   };
+
 
   // FUNCTIONS() HERE *********************************************************
   addClass = () => {
