@@ -28,13 +28,13 @@ class PdfSequenceGenerator extends React.Component {
     [].forEach.call(dummies, row => {
       row.style.display = "none";
     });
-    const tableCols = document.getElementsByClassName('tableCol');
+    const tableCols = document.getElementsByClassName("tableCol");
     [].forEach.call(tableCols, tableCol => {
-      tableCol.classList.add('col-md-12');
+      tableCol.classList.add("col-md-12");
     });
-    const reduce = document.querySelectorAll('table, #pdfTable');
+    const reduce = document.querySelectorAll("table, #pdfTable");
     [].forEach.call(reduce, col => {
-      col.style.width = '70%';
+      col.style.width = "70%";
     });
     html2canvas(input).then(canvas => {
       const imgData = canvas.toDataURL("image/png");
@@ -46,10 +46,10 @@ class PdfSequenceGenerator extends React.Component {
         row.style.display = "contents";
       });
       [].forEach.call(tableCols, tableCol => {
-        tableCol.classList.remove('col-md-12');
+        tableCol.classList.remove("col-md-12");
       });
       [].forEach.call(reduce, col => {
-        col.style.width = '100%';
+        col.style.width = "100%";
       });
     });
   };
@@ -152,12 +152,12 @@ class PdfSequenceGenerator extends React.Component {
     let classList = this.state.courses; //Gets the whole list of courses of concordia
     let errorMessage = document.getElementById("addStatus");
     let semester = document.getElementById("semester").value;
-    let addedClass;
+    let addedClass; //object
     let classExists = false;
 
     for (let i = 0; i < fall.length; i++) {
       //This loop prevents duplicates for fall table
-      if (fall[i].course === input && fall[i].semester === semester) {
+      if (fall[i].course === input) {
         errorMessage.innerHTML = "You have already added this class";
         return;
       }
@@ -165,7 +165,7 @@ class PdfSequenceGenerator extends React.Component {
 
     for (let i = 0; i < winter.length; i++) {
       //This loop prevents duplicates for winter table
-      if (winter[i].course === input && winter[i].semester === semester) {
+      if (winter[i].course === input) {
         errorMessage.innerHTML = "You have already added this class";
         return;
       }
@@ -173,7 +173,7 @@ class PdfSequenceGenerator extends React.Component {
 
     for (let i = 0; i < summer.length; i++) {
       //This loop prevents duplicates for summer table
-      if (summer[i].course === input && summer[i].semester === semester) {
+      if (summer[i].course === input) {
         errorMessage.innerHTML = "You have already added this class";
         return;
       }
@@ -183,7 +183,6 @@ class PdfSequenceGenerator extends React.Component {
       // Finds if input class exists and stores it in addedClass
       if (classList[i].course === input) {
         addedClass = classList[i];
-        addedClass.semester = semester;
         classExists = true;
         break;
       }
@@ -194,7 +193,25 @@ class PdfSequenceGenerator extends React.Component {
       return;
     }
 
-    switch (addedClass.semester) {
+    let boool = false;
+
+    for (let i = 0; i < addedClass.semester.length; i++) {
+      if (semester === addedClass.semester[i]) {
+        boool = true;
+        break;
+      }
+    }
+
+    if (boool === false) {
+      let str = "";
+      for (let i = 0; i < addedClass.semester.length; i++) {
+        str += addedClass.semester[i] + "<br />";
+      }
+      errorMessage.innerHTML = "This class is only offered in: <br />" + str;
+      return;
+    }
+
+    switch (semester) {
       case "Fall":
         fall.push(addedClass);
         this.setState({
@@ -504,15 +521,15 @@ class PdfSequenceGenerator extends React.Component {
 
             <Container className="mt-4" id="divToPrint">
               <Row>
-                <Col className='tableCol' md={4}>
+                <Col className="tableCol" md={4}>
                   Fall
                   {falltable}
                 </Col>
-                <Col className='tableCol' md={4}>
+                <Col className="tableCol" md={4}>
                   Winter
                   {wintertable}
                 </Col>
-                <Col className='tableCol' md={4}>
+                <Col className="tableCol" md={4}>
                   Summer
                   {summertable}
                 </Col>

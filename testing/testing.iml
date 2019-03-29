@@ -6,7 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/UserCase_1" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="11.0.2" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="dependencies" level="project" />
     <orderEntry type="module-library" exported="">

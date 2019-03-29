@@ -269,6 +269,19 @@ app.get("/seqQuery", function(req, res, next) {
 	]);
 });
 app.get("/semQuery", function(req, res, next) {
+  let names = [];
+  if (req.session.info) {
+    let terms = req.session.info.result.programs[0].terms;
+    for (let i = 0; i < terms.length; i++) {
+      let term = terms[i];
+      for (let j = 0; j < term.courses.length; j++) {
+        let course = term.courses[j].course;
+        if (course.type === 'LEC') {
+          names.push(course.subject + " " + course.catalog);
+        }
+      }
+    }
+  }
 	async.waterfall([
 		function(callback){
 			connection.query("SELECT * FROM `laboratory`", function (err, result, fields) {
@@ -314,23 +327,12 @@ app.get("/semQuery", function(req, res, next) {
 										tutorials: arg3,
 										labs: arg1,
 										result2: arg4,
+                    names: names
 									},
 								])
 							);
 						}
 					]);
-					/*
-					res.json
-					(
-						JSON.stringify([
-							{
-								lectures: arg2,
-								tutorials: arg3,
-								labs: arg1,
-							},
-						])
-					);
-					*/
 				},
 			]);
 		}
