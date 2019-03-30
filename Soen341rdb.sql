@@ -10,7 +10,7 @@ USE `soen341` ;
 -- Table `soen341`.`teacher`
 -- -----------------------------------------------------
 CREATE TABLE  `soen341`.`teacher` (
-  `facultyID` int(8) PRIMARY KEY,
+  `facultyID` int(8) NOT NULL,
   `teacherName` varchar(50) NOT NULL,
   `courseHistory` varchar(200) NOT NULL,
   `courseList` varchar(200) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE  `soen341`.`teacher` (
 -- Table `soen341`.`student`
 -- -----------------------------------------------------
 CREATE TABLE `soen341`.`student` (
-  `studentID` int(8) PRIMARY KEY,
+  `studentID` int(8) NOT NULL,
   `studentName` varchar(50) NOT NULL,
   `programOfStudy` text NOT NULL,
   `academicRecord` text NOT NULL);
@@ -84,7 +84,7 @@ CREATE TABLE  `soen341`.`optimizes`(
 -- Table `soen341`.`lecture`
 -- -----------------------------------------------------
 CREATE TABLE `soen341`.`lecture` (
-  `lectureSectionNumber` varchar(100) PRIMARY KEY,
+  `lectureSectionNumber` varchar(100) DEFAULT NULL,
   `classNumber` varchar(100) DEFAULT NULL,
   `subject` varchar(100) DEFAULT NULL,
   `instructorName` varchar(100) DEFAULT NULL,
@@ -98,7 +98,7 @@ CREATE TABLE `soen341`.`lecture` (
 -- Table `soen341`.`laboratory`
 -- -----------------------------------------------------
 CREATE TABLE  `soen341`.`laboratory` (
-  `labSectionNumber` varchar(100) PRIMARY KEY,
+  `labSectionNumber` varchar(100) DEFAULT NULL,
   `classNumber` varchar(100) DEFAULT NULL,
   `subject` varchar(100) DEFAULT NULL,
   `instructorName` varchar(100) DEFAULT NULL,
@@ -112,7 +112,7 @@ CREATE TABLE  `soen341`.`laboratory` (
 -- Table `soen341`.`tutorial`
 -- -----------------------------------------------------
 CREATE TABLE  `soen341`.`tutorial` (
-  `tutorialSectionNumber` varchar(100) PRIMARY KEY,
+  `tutorialSectionNumber` varchar(100) DEFAULT NULL,
   `classNumber` varchar(100) DEFAULT NULL,
   `subject` varchar(100) DEFAULT NULL,
   `instructorName` varchar(100) DEFAULT NULL,
@@ -126,7 +126,7 @@ CREATE TABLE  `soen341`.`tutorial` (
 -- Table `soen341`.`course`
 -- -----------------------------------------------------
 CREATE TABLE `soen341`.`course` (
-  `classNumber` varchar(100) PRIMARY KEY,
+  `classNumber` varchar(100) DEFAULT NULL,
   `subject` varchar(100) DEFAULT NULL,
   `courseTitle` varchar(100) DEFAULT NULL,
   `description` varchar(100) NULL DEFAULT NULL,
@@ -142,61 +142,61 @@ CREATE TABLE `soen341`.`course` (
 -- -----------------------------------------------------
 -- Table `soen341`.`contains`
 -- -----------------------------------------------------
-CREATE TABLE  `soen341`.`contains`(
-  `classNumber` varchar(100) NOT NULL,
-  `lectureSectionNumber` varchar(7) NOT NULL,
-  `labSectionNumber` varchar(7) NOT NULL,
-  `tutorialSectionNumber` varchar(7) NOT NULL,
-   foreign key (classNumber) references course(classNumber),
-   foreign key (lectureSectionNumber) references lecture(lectureSectionNumber),
-   foreign key (labSectionNumber) references laboratory(labSectionNumber),
-   foreign key (tutorialSectionNumber) references tutorial(tutorialSectionNumber),
-   unique(classNumber, lectureSectionNumber, labSectionNumber, tutorialSectionNumber));
+-- CREATE TABLE  `soen341`.`contains`(
+--  `classNumber` varchar(100) NOT NULL,
+--  `lectureSectionNumber` varchar(7) NOT NULL,
+--  `labSectionNumber` varchar(7) NOT NULL,
+--  `tutorialSectionNumber` varchar(7) NOT NULL,
+--   foreign key (classNumber) references course(classNumber),
+--   foreign key (lectureSectionNumber) references lecture(lectureSectionNumber),
+--   foreign key (labSectionNumber) references laboratory(labSectionNumber),
+--   foreign key (tutorialSectionNumber) references tutorial(tutorialSectionNumber),
+--   unique(classNumber, lectureSectionNumber, labSectionNumber, tutorialSectionNumber));
 
 
 -- -----------------------------------------------------
 -- Table `soen341`.`memberOf`    (same same)
 -- -----------------------------------------------------
-CREATE TABLE  `soen341`.`member of`(
-  `classNumber` int(11) NOT NULL,
-  `lectureSectionNumber` varchar(7) NOT NULL,
-  `labSectionNumber` varchar(7) NOT NULL,
-  `tutorialSectionNumber` varchar(7) NOT NULL,
-   foreign key (classNumber) references course(classNumber),
-   foreign key (lectureSectionNumber) references lecture(lectureSectionNumber),
-   foreign key (labSectionNumber) references laboratory(labSectionNumber),
-   foreign key (tutorialSectionNumber) references tutorial(tutorialSectionNumber),
-   unique(classNumber, lectureSectionNumber, labSectionNumber, tutorialSectionNumber));
+-- CREATE TABLE  `soen341`.`member of`(
+--  `classNumber` int(11) NOT NULL,
+--  `lectureSectionNumber` varchar(7) NOT NULL,
+--  `labSectionNumber` varchar(7) NOT NULL,
+--  `tutorialSectionNumber` varchar(7) NOT NULL,
+--   foreign key (classNumber) references course(classNumber),
+--   foreign key (lectureSectionNumber) references lecture(lectureSectionNumber),
+--   foreign key (labSectionNumber) references laboratory(labSectionNumber),
+--   foreign key (tutorialSectionNumber) references tutorial(tutorialSectionNumber),
+--   unique(classNumber, lectureSectionNumber, labSectionNumber, tutorialSectionNumber));
 
 
 -- -----------------------------------------------------
 -- Table `soen341`.`course selection`
 -- -----------------------------------------------------
-CREATE TABLE  `soen341`.`course selection`(
-  `term` varchar(10) DEFAULT NULL,
-  `courseList` varchar(200) DEFAULT NULL);
+-- CREATE TABLE  `soen341`.`course selection`(
+--  `term` varchar(10) DEFAULT NULL,
+--  `courseList` varchar(200) DEFAULT NULL);
 
 
 
 -- -----------------------------------------------------
 -- Table `soen341`.`selected with`
 -- -----------------------------------------------------
-CREATE TABLE  `soen341`.`selected with`(
-  `classNumber` int(11) NOT NULL,
-  `term` varchar(10) DEFAULT NULL,
-  `courseList` varchar(200)  DEFAULT NULL,
-   foreign key (classNumber) references course(classNumber),
-   unique(classNumber));
+-- CREATE TABLE  `soen341`.`selected with`(
+--  `classNumber` int(11) NOT NULL,
+--  `term` varchar(10) DEFAULT NULL,
+--  `courseList` varchar(200)  DEFAULT NULL,
+--   foreign key (classNumber) references course(classNumber),
+--   unique(classNumber));
 
 
 -- -----------------------------------------------------
 -- Table `soen341`.`user preferences`
 -- -----------------------------------------------------
 CREATE TABLE  `soen341`.`user preferences` (
-  `days` date NULL DEFAULT NULL,
-  `times` time NULL DEFAULT NULL,
-  `numberOfCourses` int(11) NOT NULL,
-  `constraints` varchar(50) NOT NULL);
+  `days` date  DEFAULT NULL,
+  `times` time  DEFAULT NULL,
+  `numberOfCourses` int(11) DEFAULT NULL,
+  `constraints` varchar(50) DEFAULT NULL);
 
 
 -- -----------------------------------------------------
@@ -204,17 +204,15 @@ CREATE TABLE  `soen341`.`user preferences` (
 -- -----------------------------------------------------
 CREATE TABLE  `soen341`.`student record` (
   `completedCourses` varchar(200) DEFAULT NULL,
-  `academicRequirements` varchar(200)DEFAULT NULL);
+  `academicRequirements` varchar(200) DEFAULT NULL);
 
 -- -----------------------------------------------------
 -- Additional Table for an old format
 -- -----------------------------------------------------
 CREATE TABLE  `soen341`.`users` (
-`username` varchar(50) PRIMARY KEY,
+`username` varchar(50) DEFAULT NULL,
 `password` varchar(50) DEFAULT NULL);
 INSERT INTO `soen341`.`users` (`username`, `password`) VALUES ('Avery', 'Singh');
-DROP TABLE soen341.`teacher`
-
 
 
 

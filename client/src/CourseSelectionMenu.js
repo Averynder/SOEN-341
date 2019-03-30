@@ -12,6 +12,8 @@ import JsonLecture from "./JsonLecture";
 import JsonClass from "./JsonClass";
 import JsonTut from "./JsonTut";
 import Course from "./Course";
+import axios from 'axios';
+import * as ReactDOM from "react-dom";
 
 class CourseSelectionMenu extends React.Component {
   constructor(props, context) {
@@ -1150,7 +1152,7 @@ class CourseSelectionMenu extends React.Component {
     let courseArray = this.state.selectedCourses;
     let filename = "schedule.json";
     let contentType = "application/json;charset=utf-8;";
-
+	console.log(courseArray);
     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
       var blob = new Blob([decodeURIComponent(encodeURI(JSON.stringify(courseArray)))], { type: contentType });
       navigator.msSaveOrOpenBlob(blob, filename);
@@ -1163,6 +1165,20 @@ class CourseSelectionMenu extends React.Component {
       file.click();
       document.body.removeChild(file);
     }
+  }
+  
+  sendCalendar = () => {
+    let courseArray = this.state.selectedCourses;
+    let semesterYear = '2019';
+	// This variable needs to have the year added to it.
+    var elements = document.getElementsByClassName('display-5');
+    var indexEle = elements[0].innerHTML.search(/[0-9]/);
+    semesterYear = elements[0].innerHTML.substring(indexEle,indexEle+4);
+	console.log(courseArray);
+	courseArray.push(semesterYear);
+	console.log(courseArray);
+	axios.post('calendar', {courseArray}).then(res=> console.log(res.data))
+    .catch(err=>console.log(err.response.data));
   }
 
   /*addClass(days_array) {
@@ -2519,6 +2535,7 @@ class CourseSelectionMenu extends React.Component {
           <Button text="Remove A Class" onClick={this.handleShow1} /> */}
           <Button text="Color Selection" onClick={this.openRubiat} />
           <Button text="Download Schedule" onClick={this.downloadJson} />
+  <Button text="Send to Google Calendar" onClick={this.sendCalendar} />
           <Link to="/finalize-export-sem">
             <Button text="Finalize" />
           </Link>
