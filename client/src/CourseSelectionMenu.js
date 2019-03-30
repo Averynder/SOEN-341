@@ -11,6 +11,9 @@ import LoadingScreen from "react-loading-screen";
 import JsonLecture from "./JsonLecture";
 import JsonClass from "./JsonClass";
 import JsonTut from "./JsonTut";
+import Course from "./Course";
+import axios from 'axios';
+import * as ReactDOM from "react-dom";
 
 class CourseSelectionMenu extends React.Component {
   constructor(props, context) {
@@ -1288,7 +1291,7 @@ class CourseSelectionMenu extends React.Component {
     let courseArray = this.state.selectedCourses;
     let filename = "schedule.json";
     let contentType = "application/json;charset=utf-8;";
-
+	console.log(courseArray);
     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
       var blob = new Blob(
         [decodeURIComponent(encodeURI(JSON.stringify(courseArray)))],
@@ -1308,7 +1311,21 @@ class CourseSelectionMenu extends React.Component {
       file.click();
       document.body.removeChild(file);
     }
-  };
+  }
+  
+  sendCalendar = () => {
+    let courseArray = this.state.selectedCourses;
+    let semesterYear = '2019';
+	// This variable needs to have the year added to it.
+    var elements = document.getElementsByClassName('display-5');
+    var indexEle = elements[0].innerHTML.search(/[0-9]/);
+    semesterYear = elements[0].innerHTML.substring(indexEle,indexEle+4);
+	console.log(courseArray);
+	courseArray.push(semesterYear);
+	console.log(courseArray);
+	axios.post('calendar', {courseArray}).then(res=> console.log(res.data))
+    .catch(err=>console.log(err.response.data));
+  }
 
   /*addClass(days_array) {
     document.getElementById("id");
@@ -2862,6 +2879,20 @@ class CourseSelectionMenu extends React.Component {
                         </tbody>
                       </Table>
                     </td>
+                  ))}
+                </tr>
+              </tbody>
+            </Table>
+          </div>
+
+          {/* <Button text="Add A Class" onClick={this.handleShow} />
+          <Button text="Remove A Class" onClick={this.handleShow1} /> */}
+          <Button text="Color Selection" onClick={this.openRubiat} />
+          <Button text="Download Schedule" onClick={this.downloadJson} />
+  <Button text="Send to Google Calendar" onClick={this.sendCalendar} />
+          <Link to="/finalize-export-sem">
+            <Button text="Finalize" />
+          </Link>
 
                     {this.state.weekdays.map(days => (
                       <td>
@@ -2880,9 +2911,7 @@ class CourseSelectionMenu extends React.Component {
                         </table>
                       </td>
                     ))}
-                  </tr>
-                </tbody>
-              </Table>
+                  
             </div>
 
             {/* <Button text="Add A Class" onClick={this.handleShow} />
@@ -2898,7 +2927,7 @@ class CourseSelectionMenu extends React.Component {
               onClick={this.handleDisplay1}
             />
           </div>
-        </div>
+        
 
         {/* <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
