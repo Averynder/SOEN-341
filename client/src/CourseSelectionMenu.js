@@ -1169,6 +1169,7 @@ class CourseSelectionMenu extends React.Component {
   sendCalendar = () => {
     let courseArray = this.state.selectedCourses;
 	// This variable needs to have the year added to it.
+	let semesterYear = '2019';
 	console.log(courseArray);
 	axios.post('calendar', {courseArray}).then(res=> console.log(res.data))
     .catch(err=>console.log(err.response.data));
