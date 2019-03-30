@@ -1,0 +1,672 @@
+[
+    {
+        "ID": "008430",
+        "title": "Composition and Argumentation for Engineers",
+        "subject": "ENCS",
+        "catalog": "272",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "008432",
+        "title": "Technical Writing and Communication",
+        "subject": "ENCS",
+        "catalog": "282",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "   Never Taken: CIVI390, BLDG390, SOEN384, SOEN341, ENCS393, ENCS382, ELEC390, COMP495, COMP490, COMP354, COEN390, ENGR392 You must complete 1 of the following rules   Course Prerequisite: ENCS272",
+        "crosslisted": null
+    },
+    {
+        "ID": "008435",
+        "title": "Social and Ethical Dimensions of Information and Communication Technologies",
+        "subject": "ENCS",
+        "catalog": "393",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Course Prerequisite: ENCS282",
+        "crosslisted": null
+    },
+    {
+        "ID": "008440",
+        "title": "INN.&CRITICL THKNG SCI&TECH",
+        "subject": "ENCS",
+        "catalog": "483",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "PREREQ ENCS483",
+        "crosslisted": null
+    },
+    {
+        "ID": "008441",
+        "title": "DEVELOPMENT & GLOBAL ENGR",
+        "subject": "ENCS",
+        "catalog": "484",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "PREREQ ENCS484",
+        "crosslisted": null
+    },
+    {
+        "ID": "040631",
+        "title": "Engineering Industrial Experience Reflective Learning I",
+        "subject": "ENGR",
+        "catalog": "108",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "009939",
+        "title": "Professional Practice and Responsibility",
+        "subject": "ENGR",
+        "catalog": "201",
+        "career": "UGRD",
+        "classUnit": "1.50",
+        "prerequisites": "   Never Taken: ENGR392",
+        "crosslisted": null
+    },
+    {
+        "ID": "009941",
+        "title": "Sustainable Development and Environmental Stewardship",
+        "subject": "ENGR",
+        "catalog": "202",
+        "career": "UGRD",
+        "classUnit": "1.50",
+        "prerequisites": "   Never Taken: ENGR392",
+        "crosslisted": null
+    },
+    {
+        "ID": "040632",
+        "title": "Engineering Industrial Experience Reflective Learning II",
+        "subject": "ENGR",
+        "catalog": "208",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "009951",
+        "title": "Applied Ordinary Differential Equations",
+        "subject": "ENGR",
+        "catalog": "213",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Course Co-requisite: MATH204; Course Prerequisite: MATH205",
+        "crosslisted": null
+    },
+    {
+        "ID": "009960",
+        "title": "Applied Advanced Calculus",
+        "subject": "ENGR",
+        "catalog": "233",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Course Prerequisite: MATH204, MATH205",
+        "crosslisted": null
+    },
+    {
+        "ID": "009964",
+        "title": "Statics",
+        "subject": "ENGR",
+        "catalog": "242",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Course Prerequisite: PHYS204, MATH204; Course Co-requisite: ENGR213",
+        "crosslisted": null
+    },
+    {
+        "ID": "009965",
+        "title": "Dynamics",
+        "subject": "ENGR",
+        "catalog": "243",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Course Prerequisite: ENGR213; ENGR242",
+        "crosslisted": null
+    },
+    {
+        "ID": "009966",
+        "title": "Mechanics of Materials",
+        "subject": "ENGR",
+        "catalog": "244",
+        "career": "UGRD",
+        "classUnit": "3.75",
+        "prerequisites": "PREREQ ENGR 213; ENGR 242 or 245; ENGR 233 previously or concurrently",
+        "crosslisted": null
+    },
+    {
+        "ID": "009967",
+        "title": "Mechanical Analysis",
+        "subject": "ENGR",
+        "catalog": "245",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Course Prerequisite: PHYS204; Co-requisite: ENGR213",
+        "crosslisted": null
+    },
+    {
+        "ID": "009968",
+        "title": "Thermodynamics I",
+        "subject": "ENGR",
+        "catalog": "251",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Course Prerequisite: MATH203",
+        "crosslisted": null
+    },
+    {
+        "ID": "009977",
+        "title": "INTRO. ENGR TEAM DESIGN PROJ",
+        "subject": "ENGR",
+        "catalog": "290",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "   Course Prerequisite: ENGR213, ENGR233, ENCS282",
+        "crosslisted": null
+    },
+    {
+        "ID": "009979",
+        "title": "Engineering Management Principles and Economics",
+        "subject": "ENGR",
+        "catalog": "301",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "   Never Taken: CIVI490, ELEC390, COEN390, INDU490, MECH490A, MECH498B, MECH498C, BCEE464, BLDG493, BLDG491",
+        "crosslisted": null
+    },
+    {
+        "ID": "040633",
+        "title": "Engineering Industrial Experience Reflective Learning III",
+        "subject": "ENGR",
+        "catalog": "308",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "009985",
+        "title": "Transform Calculus and Partial Differential Equations",
+        "subject": "ENGR",
+        "catalog": "311",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Course Prerequisite: ENGR233",
+        "crosslisted": null
+    },
+    {
+        "ID": "009999",
+        "title": "Fluid Mechanics I",
+        "subject": "ENGR",
+        "catalog": "361",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Course Prerequisite: ENGR213; ENGR233; ENGR 251",
+        "crosslisted": null
+    },
+    {
+        "ID": "010005",
+        "title": "Probability and Statistics in Engineering",
+        "subject": "ENGR",
+        "catalog": "371",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Course Prerequisite:  ENGR213; ENGR233",
+        "crosslisted": null
+    },
+    {
+        "ID": "010009",
+        "title": "Numerical Methods in Engineering",
+        "subject": "ENGR",
+        "catalog": "391",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Course Prerequisite: ENGR213; ENGR 233; You must complete 1 of the following courses COMP248, COEN243, MECH215, BCEE231",
+        "crosslisted": null
+    },
+    {
+        "ID": "010010",
+        "title": "Impact of Technology on Society",
+        "subject": "ENGR",
+        "catalog": "392",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "   Course Prerequisite: ENCS282, ENGR202, ENGR201",
+        "crosslisted": null
+    },
+    {
+        "ID": "010015",
+        "title": "Special Technical Report",
+        "subject": "ENGR",
+        "catalog": "411",
+        "career": "UGRD",
+        "classUnit": "1.00",
+        "prerequisites": "ENCS282; permission of the Department",
+        "crosslisted": null
+    },
+    {
+        "ID": "010016",
+        "title": "HONOURS RESEARCH PROJECT",
+        "subject": "ENGR",
+        "catalog": "412",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "   Course Prerequisite: ENCS282",
+        "crosslisted": null
+    },
+    {
+        "ID": "002018",
+        "title": "Technology and Contemporary Art",
+        "subject": "ARTH",
+        "catalog": "353",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "005955",
+        "title": "Mass Media",
+        "subject": "COMS",
+        "catalog": "360",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "008599",
+        "title": "The Creative Process",
+        "subject": "ENGL",
+        "catalog": "224",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "008614",
+        "title": "Critical Reading",
+        "subject": "ENGL",
+        "catalog": "233",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "011492",
+        "title": "Canadian Film",
+        "subject": "FMST",
+        "catalog": "214",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "011493",
+        "title": "Le cin?ma qu?b?cois",
+        "subject": "FMST",
+        "catalog": "215",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "013921",
+        "title": "MODERN EUROPE",
+        "subject": "HIST",
+        "catalog": "202",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "013983",
+        "title": "FILM IN HISTORY",
+        "subject": "HIST",
+        "catalog": "281",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "026485",
+        "title": "Problems of Philosophy",
+        "subject": "PHIL",
+        "catalog": "201",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "026488",
+        "title": "Critical Thinking",
+        "subject": "PHIL",
+        "catalog": "210",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "026508",
+        "title": "Introduction to Ethics",
+        "subject": "PHIL",
+        "catalog": "232",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Students must not have taken the following courses: PHIL330, PHIL371, PHIL430.",
+        "crosslisted": null
+    },
+    {
+        "ID": "026511",
+        "title": "Biomedical Ethics",
+        "subject": "PHIL",
+        "catalog": "235",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Students must not have taken the following course: PHIL330.",
+        "crosslisted": null
+    },
+    {
+        "ID": "026531",
+        "title": "From Modern to Postmodern: Philosophical Thought and Cultural Critique",
+        "subject": "PHIL",
+        "catalog": "275",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "033870",
+        "title": "Introduction to Biblical Studies",
+        "subject": "THEO",
+        "catalog": "202",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Students must not have taken the following course: THEO406.",
+        "crosslisted": null
+    },
+    {
+        "ID": "033874",
+        "title": "Introduction to Christian Ethics",
+        "subject": "THEO",
+        "catalog": "204",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "033903",
+        "title": "Religious Pluralism in a Secular Culture",
+        "subject": "THEO",
+        "catalog": "233",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "000981",
+        "title": "Introduction to Culture",
+        "subject": "ANTH",
+        "catalog": "202",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "007158",
+        "title": "Introduction to Microeconomics",
+        "subject": "ECON",
+        "catalog": "201",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Students may not have taken the following courses: ECON301, ECON303, ECON319, ECON391, ECON311, ECON318, ECON324, ECON325, ECON331, ECON337, ECON350, ECON361, ECON362, ECON377, ECON379, ECON381, ECON3",
+        "crosslisted": null
+    },
+    {
+        "ID": "007160",
+        "title": "Introduction to Macroeconomics",
+        "subject": "ECON",
+        "catalog": "203",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Students must not have taken the following courses: ECON301, ECON303, ECON319, ECON391, ECON311, ECON318, ECON324, ECON325, ECON337, ECON350, ECON361, ECON362, ECON377, ECON379, ECON381, ECON382, ECON",
+        "crosslisted": null
+    },
+    {
+        "ID": "007662",
+        "title": "Introduction to Philosophy of Education",
+        "subject": "EDUC",
+        "catalog": "230",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "012883",
+        "title": "Canadian Environmental Issues",
+        "subject": "GEOG",
+        "catalog": "203",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Students currently registered in a Human Environment, Environmental Geography, or Environmental Science program may not take this course for credit.",
+        "crosslisted": null
+    },
+    {
+        "ID": "012884",
+        "title": "Global Environmental Issues",
+        "subject": "GEOG",
+        "catalog": "204",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "   Never Taken/Not Registered: GEOZ204, SCHA253",
+        "crosslisted": null
+    },
+    {
+        "ID": "012890",
+        "title": "Geography of Global Change",
+        "subject": "GEOG",
+        "catalog": "210",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "012892",
+        "title": "The Human Environment: Place, Space, and Identity",
+        "subject": "GEOG",
+        "catalog": "220",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "   Never Taken/Not Registered: GEOZ220; Never Taken: GEOG290, GEOG317, GEOG318, GEOG330, GEOG333, GEOG340",
+        "crosslisted": null
+    },
+    {
+        "ID": "016226",
+        "title": "Introductory Information Literacy Skills",
+        "subject": "INST",
+        "catalog": "250",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "   Never Taken/Not Registered: INSZ250, LIBS250, EDUC250",
+        "crosslisted": null
+    },
+    {
+        "ID": "023467",
+        "title": "Language and Mind: The Chomskyan Program",
+        "subject": "LING",
+        "catalog": "222",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "023471",
+        "title": "Sociolinguistics",
+        "subject": "LING",
+        "catalog": "300",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "029764",
+        "title": "Religions of the West",
+        "subject": "RELI",
+        "catalog": "214",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Students who have received credit for RELI213 may not take this course for credit.",
+        "crosslisted": null
+    },
+    {
+        "ID": "029765",
+        "title": "Religions of Asia",
+        "subject": "RELI",
+        "catalog": "215",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Students who have received credit for RELI213 may not take this course for credit.",
+        "crosslisted": null
+    },
+    {
+        "ID": "029766",
+        "title": "ENCOUNTERING RELIGIONS",
+        "subject": "RELI",
+        "catalog": "216",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Students who have received credit for this topic under a RELI 298 number may not take this course for credit.",
+        "crosslisted": null
+    },
+    {
+        "ID": "029814",
+        "title": "Self and Other: Identity and Ethical Development",
+        "subject": "RELI",
+        "catalog": "310",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "029816",
+        "title": "Justice and Social Conflict in a Globalized World",
+        "subject": "RELI",
+        "catalog": "312",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "031217",
+        "title": "Introduction to Public Policy and the Public Interest",
+        "subject": "SCPA",
+        "catalog": "201",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "031221",
+        "title": "Economics for Public Policy and Community Development",
+        "subject": "SCPA",
+        "catalog": "215",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "031408",
+        "title": "Introduction to Society",
+        "subject": "SOCI",
+        "catalog": "203",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "034703",
+        "title": "URBANIZATION: GLOBAL AND HISTORICAL PERSPECTIVES",
+        "subject": "URBS",
+        "catalog": "230",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "034703",
+        "title": "URBANIZATION: GLOBAL AND HISTORICAL PERSPECTIVES",
+        "subject": "URBS",
+        "catalog": "230",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "034885",
+        "title": "Introduction to Contemporary Concerns in Womens Studies",
+        "subject": "WSDB",
+        "catalog": "291",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "",
+        "crosslisted": null
+    },
+    {
+        "ID": "023738",
+        "title": "Introduction to Business and Management",
+        "subject": "MANA",
+        "catalog": "201",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Never Taken: MANA266, COMM210",
+        "crosslisted": null
+    },
+    {
+        "ID": "023739",
+        "title": "Human Behaviour in Organizations",
+        "subject": "MANA",
+        "catalog": "202",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "Never Taken: MANA213, COMM222",
+        "crosslisted": null
+    },
+    {
+        "ID": "023982",
+        "title": "Introduction to Marketing",
+        "subject": "MARK",
+        "catalog": "201",
+        "career": "UGRD",
+        "classUnit": "3.00",
+        "prerequisites": "   Never Taken/Not Registered: MARK213, MARK350, COMM224; Never Taken: COMM320, IBUS462, IBUS465, MANA369, MARK402, MARK405, MARK451, MARK452, MARK453, MARK454, MARK455, MARK460, MARK462, MARK463, MAR",
+        "crosslisted": null
+    }
+]
