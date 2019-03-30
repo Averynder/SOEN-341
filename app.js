@@ -289,6 +289,73 @@ app.get('/check', hasLoggedIn, (req, res, next) => {
   });
 });
 
+app.get('/semjson', (req, res, next) => {
+  let names = [];
+  if (req.session.info) {
+    let programs = req.session.info.result.programs;
+    for (let m = 0; m < programs.length; m++) {
+      let terms = programs[m].terms;
+      for (let i = 0; i < terms.length; i++) {
+        let term = terms[i];
+        for (let j = 0; j < term.courses.length; j++) {
+          let course = term.courses[j].course;
+          if (course.type === 'LEC') {
+            names.push(course.subject + " " + course.catalog);
+          }
+        }
+      }
+    }
+  }
+  async.waterfall([
+    function(callback){
+      connection.query("SELECT * FROM `laboratory`", function (err, result, fields) {
+        if (err) throw err;
+        callback(null, result);
+      });
+
+    },
+    function(arg1, callback){
+      connection.query("SELECT * FROM `lecture`", function (err, result, fields) {
+        if (err) throw err;
+        callback(null, arg1, result);
+      });
+
+    },
+    function(arg1, arg2, callback) {
+      async.waterfall([
+        function(callback){
+          connection.query("SELECT * FROM `tutorial`", function (err, result, fields) {
+            if (err) throw err;
+            callback(null, result);
+          });
+
+        },
+        function(arg3, callback) {
+          async.waterfall([
+            function(callback){
+        // do this first
+              connection.query("SELECT * FROM `course`", function (err, result, fields) {
+                if (err) throw err;
+                callback(null, result);
+              });
+            },
+            function(arg4, callback){
+            // do this 2nd
+              res.json({
+                lectures: arg2,
+                tutorials: arg3,
+                labs: arg1,
+                result2: arg4,
+                names: names
+              });
+            }
+          ]);
+        },
+      ]);
+    }
+  ]);
+});
+
 app.get("/semQuery", function(req, res, next) {
   let names = [];
   if (req.session.info) {
