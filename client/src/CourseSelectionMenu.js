@@ -796,6 +796,22 @@ class CourseSelectionMenu extends React.Component {
           if (this.state.dataCourses[i].course == subject) {
             this.state.dataCourses[i].name = title;
             this.state.dataCourses[i].credit = parseFloat(creditNumber);
+            if (prereqs != "")
+            {
+              if (prereqs.charAt(prereqs.length-1) == " ")
+              {
+                prereqs = prereqs.substring(0,prereqs.length-1);
+              }
+              this.state.dataCourses[i].prerequisites.push(prereqs);
+            }
+            if (coreqs != "")
+            {
+              if (coreqs.charAt(coreqs.length-1) == " ")
+              {
+                coreqs = coreqs.substring(0,coreqs.length-1);
+              }
+              this.state.dataCourses[i].corequisites.push(coreqs);
+            }
           }
         }
         //console.log(title + " " + subject + " " + creditNumber + " Pre: " + prereqs + " Co: " + coreqs);
