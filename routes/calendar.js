@@ -84,7 +84,8 @@ router.post('/', function(req, res, next) {
 	  for (item in parsedJSON){
 		//console.log(parsedJSON[item]);
 		digit++;
-		var lab = false;
+		var hasLab = false;
+		var hasTut = false;		
 		var eventName;
 		var tutorialName;
 		var labName;
@@ -102,6 +103,8 @@ router.post('/', function(req, res, next) {
 		var endTimeCourse;
 		var endTimeTutorial;
 		var endTimeLab; 
+		var year = '';
+		var month = '';
 		var repetitionsCourse = 0;
 		var repetitionsTutorial = 0;
 		var repetitionsLab = 0;
@@ -125,16 +128,48 @@ router.post('/', function(req, res, next) {
 					if (b == "section")
 						eventName += " " + parsedJSON[item][0][a][section][b];
 					if (b == "days"){
-						if (parsedJSON[item][0][a][section][b][0] == "Monday")
-							firstDayCourse = "02";
-						else if (parsedJSON[item][0][a][section][b][0] == "Tuesday")
-							firstDayCourse = "03";
-						else if (parsedJSON[item][0][a][section][b][0] == "Wednesday")
-							firstDayCourse = "04";
-						else if (parsedJSON[item][0][a][section][b][0] == "Thursday")
-							firstDayCourse = "05";
-						else if (parsedJSON[item][0][a][section][b][0] == "Friday")
-							firstDayCourse = "06";
+						if (semester == "Fall"){
+							year = '2019';
+							month = '09';
+							if (parsedJSON[item][0][a][section][b][0] == "Monday")
+								firstDayCourse = "02";
+							else if (parsedJSON[item][0][a][section][b][0] == "Tuesday")
+								firstDayCourse = "03";
+							else if (parsedJSON[item][0][a][section][b][0] == "Wednesday")
+								firstDayCourse = "04";
+							else if (parsedJSON[item][0][a][section][b][0] == "Thursday")
+								firstDayCourse = "05";
+							else if (parsedJSON[item][0][a][section][b][0] == "Friday")
+								firstDayCourse = "06";
+						}
+						else if (semester == "Winter"){
+							year = '2020';
+							month = '01';
+							if (parsedJSON[item][0][a][section][b][0] == "Monday")
+								firstDayCourse = "06";
+							else if (parsedJSON[item][0][a][section][b][0] == "Tuesday")
+								firstDayCourse = "07";
+							else if (parsedJSON[item][0][a][section][b][0] == "Wednesday")
+								firstDayCourse = "08";
+							else if (parsedJSON[item][0][a][section][b][0] == "Thursday")
+								firstDayCourse = "09";
+							else if (parsedJSON[item][0][a][section][b][0] == "Friday")
+								firstDayCourse = "10";
+						}
+						else if (semester == "Summer"){
+							year = '2020';
+							month = '05';
+							if (parsedJSON[item][0][a][section][b][0] == "Monday")
+								firstDayCourse = "04";
+							else if (parsedJSON[item][0][a][section][b][0] == "Tuesday")
+								firstDayCourse = "05";
+							else if (parsedJSON[item][0][a][section][b][0] == "Wednesday")
+								firstDayCourse = "06";
+							else if (parsedJSON[item][0][a][section][b][0] == "Thursday")
+								firstDayCourse = "07";
+							else if (parsedJSON[item][0][a][section][b][0] == "Friday")
+								firstDayCourse = "08";
+						}
 						for (c in parsedJSON[item][0][a][section][b]){
 							dayCourse += parsedJSON[item][0][a][section][b][c].substring(0, 2) + ",";
 							repetitionsCourse++;
@@ -150,66 +185,159 @@ router.post('/', function(req, res, next) {
 						endTimeCourse = parsedJSON[item][0][a][section][b];
 					if (b == "tutorial")
 					{
-						var tut = parsedJSON[item][0][a][section][b][tutorial];
-						tutorialName += " " + tut.section;
-						for (c in tut.days){
-							if (tut.days[0] == "Monday")
-								firstDayTutorial = "02";
-							else if (tut.days[0] == "Tuesday")
-								firstDayTutorial = "03";
-							else if (tut.days[0] == "Wednesday")
-								firstDayTutorial = "04";
-							else if (tut.days[0] == "Thursday")
-								firstDayTutorial = "05";
-							else if (tut.days[0] == "Friday")
-								firstDayTutorial = "06";
-							dayTutorial += tut.days[c].substring(0, 2) + ",";
-							repetitionsTutorial++;
-						}
-						dayTutorial = dayTutorial.substring(0, dayTutorial.length - 1);
-						dayTutorial = dayTutorial.toUpperCase();
-						tutorialName += " " + tut.room;
-						startTimeTutorial = tut.startTime;
-						endTimeTutorial = tut.endTime;
-						console.log(tut);
-						/*for (c in parsedJSON[item][0][a][section][b][tutorial]){
-							console.log(parsedJSON[item][0][a][section][b][tutorial]);
-							if (c = "section")
-								tutorialName += " " + parsedJSON[item][0][a][section][b][tutorial][c];
-							if (c == "days"){
-								for (d in parsedJSON[item][0][a][section][b][tutorial][c]){
-									console.log(dayTutorial);
+						if (parsedJSON[item][0][a][section][b] != undefined){
+							hasTut = true;
+							for (c in parsedJSON[item][0][a][section][b][tutorial]){
+								if (c == "section"){
+									tutorialName += " " + parsedJSON[item][0][a][section][b][tutorial][c];
+								}
+								if (c == "days"){
+									for (d in parsedJSON[item][0][a][section][b][tutorial][c]){
+										if (semester == "Fall"){
+											if (parsedJSON[item][0][a][section][b][tutorial][c][0] == "Monday")
+												firstDayTutorial = "02";
+											else if (parsedJSON[item][0][a][section][b][tutorial][c][0] == "Tuesday")
+												firstDayTutorial = "03";
+											else if (parsedJSON[item][0][a][section][b][tutorial][c][0] == "Wednesday")
+												firstDayTutorial = "04";
+											else if (parsedJSON[item][0][a][section][b][tutorial][c][0] == "Thursday")
+												firstDayTutorial = "05";
+											else if (parsedJSON[item][0][a][section][b][tutorial][c][0] == "Friday")
+												firstDayTutorial = "06";
+										}
+										else if (semester == "Winter"){
+											if (parsedJSON[item][0][a][section][b][tutorial][c][0] == "Monday")
+												firstDayTutorial = "06";
+											else if (parsedJSON[item][0][a][section][b][tutorial][c][0]  == "Tuesday")
+												firstDayTutorial = "07";
+											else if (parsedJSON[item][0][a][section][b][tutorial][c][0] == "Wednesday")
+												firstDayTutorial = "08";
+											else if (parsedJSON[item][0][a][section][b][tutorial][c][0] == "Thursday")
+												firstDayTutorial = "09";
+											else if (parsedJSON[item][0][a][section][b][tutorial][c][0] == "Friday")
+												firstDayTutorial = "10";
+										}
+										else if (seemester == "Summer"){
+											if (parsedJSON[item][0][a][section][b][tutorial][c][0] == "Monday")
+												firstDayTutorial = "04";
+											else if (parsedJSON[item][0][a][section][b][tutorial][c][0] == "Tuesday")
+												firstDayTutorial = "05";
+											else if (parsedJSON[item][0][a][section][b][tutorial][c][0] == "Wednesday")
+												firstDayTutorial = "06";
+											else if (parsedJSON[item][0][a][section][b][tutorial][c][0] == "Thursday")
+												firstDayTutorial = "07";
+											else if (parsedJSON[item][0][a][section][b][tutorial][c][0] == "Friday")
+												firstDayTutorial = "08";
+									}
 									dayTutorial += parsedJSON[item][0][a][section][b][tutorial][c][d].substring(0, 2) + ",";
 									repetitionsTutorial++;
-								}
+									}
 								dayTutorial = dayTutorial.substring(0, dayTutorial.length - 1);
 								dayTutorial = dayTutorial.toUpperCase();
-							}		
-							if (c == "room")
-								tutorialName += " " + parsedJSON[item][0][a][section][b][tutorial][c];
-							if (c == "startTime")
-								startTimeTutorial = parsedJSON[item][0][a][section][b][tutorial][c];
-							if (c == "endTime")
-								endTimeTutorial = parsedJSON[item][0][a][section][b][tutorial][c];
-						}*/
-					}
+								}
+								if (c == "room"){
+									tutorialName += " " + parsedJSON[item][0][a][section][b][tutorial][c];
+								}
+								if (c == "startTime")
+									startTimeTutorial = parsedJSON[item][0][a][section][b][tutorial][c];
+								if (c == "endTime")
+									endTimeTutorial = parsedJSON[item][0][a][section][b][tutorial][c];
+							}
+						}
 					}
 				}
-			if (a == "lab"){
-				for (b in parsedJSON[item][0][a][lab]){
+			}
+			if (a == "lab"&& parsedJSON[item][0][a][lab] != undefined){
+				hasLab = true;
+				var takenLab = parsedJSON[item][0][a][lab];
+				console.log(takenLab);
+				for (b in takenLab.days){
+					if (semester == "Fall"){
+						if (takenLab.days[0] == "Monday")
+							firstDayLab = "02";
+						else if (takenLab.days[0] == "Tuesday")
+							firstDayLab = "03";
+						else if (takenLab.days[0] == "Wednesday")
+							firstDayLab = "04";
+						else if (takenLab.days[0] == "Thursday")
+							firstDayLab = "05";
+						else if (takenLab.days[0] == "Friday")
+							firstDayLab = "06";
+					}
+					else if (semester == "Winter"){
+						if (takenLab.days[0] == "Monday")
+							firstDayLab = "06";
+						else if (takenLab.days[0] == "Tuesday")
+							firstDayLab = "07";
+						else if (takenLab.days[0] == "Wednesday")
+							firstDayLab = "08";
+						else if (takenLab.days[0] == "Thursday")
+							firstDayLab = "09";
+						else if (takenLab.days[0] == "Friday")
+							firstDayLab = "10";
+						}
+					else if (semester == "Summer"){
+						if (takenLab.days[0] == "Monday")
+							firstDayLab = "04";
+						else if (takenLab.days[0] == "Tuesday")
+							firstDayLab = "05";
+						else if (takenLab.days[0] == "Wednesday")
+							firstDayLab = "06";
+						else if (takenLab.days[0] == "Thursday")
+							firstDayLab = "07";
+						else if (takenLab.days[0] == "Friday")
+							firstDayLab = "08";
+					}
+					dayLab += takenLab.days[b].substring(0, 2) + ",";
+					repetitionsLab++;
+				}
+				dayLab = dayLab.substring(0, dayLab.length - 1);
+				dayLab = dayLab.toUpperCase();
+				labName += " " + takenLab.section;
+				startTimeLab = takenLab.startTime;
+				endTimeLab = takenLab.endTime;
+				labName += " " + takenLab.room;
+				/*for (b in parsedJSON[item][0][a][0][lab]){
+					console.log(parsedJSON[item][0][a][lab]);
 					if (b == "section")
 						labName += " " + parsedJSON[item][0][a][lab][b];
 					if (b == "days"){
-						if (parsedJSON[item][0][a][section][b][0] == "Monday")
-							firstDayLab = "02";
-						else if (parsedJSON[item][0][a][section][b][0] == "Tuesday")
-							firstDayLab = "03";
-						else if (parsedJSON[item][0][a][section][b][0] == "Wednesday")
-							firstDayLab = "04";
-						else if (parsedJSON[item][0][a][section][b][0] == "Thursday")
-							firstDayLab = "05";
-						else if (parsedJSON[item][0][a][section][b][0] == "Friday")
-							firstDayLab = "06";
+						if (semester == "Fall"){
+							if (parsedJSON[item][0][a][section][b][0] == "Monday")
+								firstDayLab = "02";
+							else if (parsedJSON[item][0][a][section][b][0] == "Tuesday")
+								firstDayLab = "03";
+							else if (parsedJSON[item][0][a][section][b][0] == "Wednesday")
+								firstDayLab = "04";
+							else if (parsedJSON[item][0][a][section][b][0] == "Thursday")
+								firstDayLab = "05";
+							else if (parsedJSON[item][0][a][section][b][0] == "Friday")
+								firstDayLab = "06";
+						}
+						else if (semester == "Winter"){
+							if (parsedJSON[item][0][a][section][b][0] == "Monday")
+								firstDayLab = "06";
+							else if (parsedJSON[item][0][a][section][b][0] == "Tuesday")
+								firstDayLab = "07";
+							else if (parsedJSON[item][0][a][section][b][0] == "Wednesday")
+								firstDayLab = "08";
+							else if (parsedJSON[item][0][a][section][b][0] == "Thursday")
+								firstDayLab = "09";
+							else if (parsedJSON[item][0][a][section][b][0] == "Friday")
+								firstDayLab = "10";
+						}
+						else if (semester == "Summer"){
+							if (parsedJSON[item][0][a][section][b][0] == "Monday")
+								firstDayLab = "04";
+							else if (parsedJSON[item][0][a][section][b][0] == "Tuesday")
+								firstDayLab = "05";
+							else if (parsedJSON[item][0][a][section][b][0] == "Wednesday")
+								firstDayLab = "06";
+							else if (parsedJSON[item][0][a][section][b][0] == "Thursday")
+								firstDayLab = "07";
+							else if (parsedJSON[item][0][a][section][b][0] == "Friday")
+								firstDayLab = "08";
+						}
 						for (c in parsedJSON[item][0][a][lab][b]){
 							dayLab += parsedJSON[item][0][a][lab][b][c].substring(0, 2) + ",";
 							repetitionsLab++;
@@ -223,54 +351,57 @@ router.post('/', function(req, res, next) {
 						startTimeLab = parsedJSON[item][0][a][lab][b];
 					if (b == "endTime")
 						endTimeLab = parsedJSON[item][0][a][lab][b];
-					}
-				}
+				}*/
+			}
 		}
 		// Will need to be changed to get Year.
-		
-		
+		console.log(hasLab);
 		var eventCourse = {
 				summary: eventName,
 				start: {
-				  dateTime: '2019-09-'+firstDayCourse+'T' + startTimeCourse + ':00-04:00',
+				  dateTime: year + '-'+month+'-'+firstDayCourse+'T' + startTimeCourse + ':00-04:00',
 				  timeZone: 'America/New_York'
 				},
 				end: {
-				  dateTime: '2019-09-'+firstDayCourse+'T' + endTimeCourse + ':00-04:00',
+				  dateTime: year + '-'+month+'-'+firstDayCourse+'T' + endTimeCourse + ':00-04:00',
 				  timeZone: 'America/New_York'
 				},
 				recurrence: ['RRULE:FREQ=WEEKLY;BYDAY='+dayCourse+';COUNT='+15*repetitionsCourse],
 				colorId: [digit]
 			}
 			console.log(eventCourse);
-			var eventTutorial = {
-				summary: tutorialName,
-				start: {
-				  dateTime: '2019-09-'+firstDayTutorial+'T' + startTimeTutorial + ':00-04:00',
-				  timeZone: 'America/New_York'
-				},
-				end: {
-				  dateTime: '2019-09-'+firstDayTutorial+'T' + endTimeTutorial + ':00-04:00',
-				  timeZone: 'America/New_York'
-				},
-				recurrence: ['RRULE:FREQ=WEEKLY;BYDAY='+dayTutorial+';COUNT='+15*repetitionsTutorial],
-				colorId: [digit]
-			}
-			console.log(eventTutorial);	
-			var eventLab = {
-					summary: labName,
+			if (hasTut == true){
+				var eventTutorial = {
+					summary: tutorialName,
 					start: {
-					  dateTime: '2019-09-'+firstDayLab+'T' + startTimeLab + ':00-04:00',
+					  dateTime: year + '-'+month+'-'+firstDayTutorial+'T' + startTimeTutorial + ':00-04:00',
 					  timeZone: 'America/New_York'
 					},
 					end: {
-					  dateTime: '2019-09-'+firstDayLab+'T' + endTimeLab + ':00-04:00',
+					  dateTime: year + '-'+month+'-'+firstDayTutorial+'T' + endTimeTutorial + ':00-04:00',
 					  timeZone: 'America/New_York'
 					},
-					recurrence: ['RRULE:FREQ=WEEKLY;BYDAY='+dayLab+';COUNT='+15*repetitionsLab],
+					recurrence: ['RRULE:FREQ=WEEKLY;BYDAY='+dayTutorial+';COUNT='+15*repetitionsTutorial],
 					colorId: [digit]
 				}
-			console.log(eventLab);	
+				console.log(eventTutorial);	
+			}
+			if (hasLab == true){
+				var eventLab = {
+						summary: labName,
+						start: {
+						  dateTime: year + '-'+month+'-'+firstDayLab+'T' + startTimeLab + ':00-04:00',
+						  timeZone: 'America/New_York'
+						},
+						end: {
+						  dateTime: year + '-'+month+'-'+firstDayLab+'T' + endTimeLab + ':00-04:00',
+						  timeZone: 'America/New_York'
+						},
+						recurrence: ['RRULE:FREQ=WEEKLY;BYDAY='+dayLab+';COUNT='+15*repetitionsLab],
+						colorId: [digit]
+					}
+				console.log(eventLab);
+			}			
 			calendar.events.insert(
 				{
 				  auth: auth,
@@ -287,38 +418,42 @@ router.post('/', function(req, res, next) {
 				  console.log('Event created: %s', eventCourse.data.htmlLink);
 				}
 			);
-			calendar.events.insert(
-				{
-				  auth: auth,
-				  calendarId: 'primary',
-				  resource: eventTutorial
-				},
-				function(err, eventTutorial) {
-				  if (err) {
-					console.log(
-					  'There was an error contacting the Calendar service: ' + err
-					);
-					return;
-				  }
-				  console.log('Event created: %s', eventTutorial.data.htmlLink);
-				}
-			);
-			calendar.events.insert(
-				{
-				  auth: auth,
-				  calendarId: 'primary',
-				  resource: eventLab
-				},
-				function(err, eventLab) {
-				  if (err) {
-					console.log(
-					  'There was an error contacting the Calendar service: ' + err
-					);
-					return;
-				  }
-				  console.log('Event created: %s', eventLab.data.htmlLink);
-				}
-			);
+			if (hasTut == true){
+				calendar.events.insert(
+					{
+					  auth: auth,
+					  calendarId: 'primary',
+					  resource: eventTutorial
+					},
+					function(err, eventTutorial) {
+					  if (err) {
+						console.log(
+						  'There was an error contacting the Calendar service: ' + err
+						);
+						return;
+					  }
+					  console.log('Event created: %s', eventTutorial.data.htmlLink);
+					}
+				);
+			}
+			if (hasLab == true){
+				calendar.events.insert(
+					{
+					  auth: auth,
+					  calendarId: 'primary',
+					  resource: eventLab
+					},
+					function(err, eventLab) {
+					  if (err) {
+						console.log(
+						  'There was an error contacting the Calendar service: ' + err
+						);
+						return;
+					  }
+					  console.log('Event created: %s', eventLab.data.htmlLink);
+					}
+				);
+			}
 	    }
 	}
 });
