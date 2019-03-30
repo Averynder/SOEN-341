@@ -164,8 +164,6 @@ class PdfSequenceGenerator extends React.Component {
     let classList = this.state.courses; //Gets the whole list of courses of concordia
     let errorMessage = document.getElementById("addStatus");
     let semester = document.getElementById("semester").value;
-    let addedClass; //object
-    let classExists = false;
 
     let classFound;
     // already added
