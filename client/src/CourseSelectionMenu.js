@@ -13,6 +13,7 @@ import JsonClass from "./JsonClass";
 import JsonTut from "./JsonTut";
 import Course from "./Course";
 import axios from 'axios';
+import * as ReactDOM from "react-dom";
 
 class CourseSelectionMenu extends React.Component {
   constructor(props, context) {
@@ -1168,8 +1169,11 @@ class CourseSelectionMenu extends React.Component {
   
   sendCalendar = () => {
     let courseArray = this.state.selectedCourses;
+    let semesterYear = '2019';
 	// This variable needs to have the year added to it.
-	let semesterYear = '2019';
+    var elements = document.getElementsByClassName('display-5');
+    var indexEle = elements[0].innerHTML.search(/[0-9]/);
+    semesterYear = elements[0].innerHTML.substring(indexEle,indexEle+4);
 	console.log(courseArray);
 	courseArray.push(semesterYear);
 	console.log(courseArray);
