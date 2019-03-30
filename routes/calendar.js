@@ -81,6 +81,8 @@ router.post('/', function(req, res, next) {
 	function insertEvents(auth) {
 	  const calendar = google.calendar({ version: 'v3', auth });
 	  var digit = 0;  
+	  var semesterYear = parsedJSON[parsedJSON.length - 1];
+	  console.log(semesterYear);
 	  for (item in parsedJSON){
 		//console.log(parsedJSON[item]);
 		digit++;
