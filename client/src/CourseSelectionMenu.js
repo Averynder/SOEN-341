@@ -2689,11 +2689,19 @@ class CourseSelectionMenu extends React.Component {
               onClick={() => this.changeSection(element[0].course)}
             />
             <br />
-            <strong>Prerequisites: </strong>
-            <span id="prerequisites">Prereq here</span>
+            <span style={{ fontWeight: "bold", color: "black" }}>Prerequisites: </span>
+            <span id="prerequisites" style={{ color: "black" }}>
+              {element[0].prerequisites.map(pre => pre + "; ")}
+            </span>
             &nbsp;
-            <span style={{ fontWeight: "bold" }}> | Corequisites: </span>
-            <span id="corequisites">Coreq here</span>
+            &nbsp;
+            |
+            &nbsp;
+            &nbsp;
+            <span style={{ fontWeight: "bold", color: "black"}}>Co-requisites: </span>
+            <span id="corequisites" style={{ color: "black" }}>
+              {element[0].corequisites.map(cor => cor + "; ")}
+            </span>
           </div>
         </td>
       </tr>
