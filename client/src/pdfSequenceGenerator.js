@@ -26,7 +26,11 @@ class PdfSequenceGenerator extends React.Component {
   componentDidMount() {
     fetch('/semjson')
       .then(res => res.json())
-      .then(courses => {this.setState({ data: courses });})
+      .then(data => {this.setState({ data: data });})
+  }
+
+  loggedIn = () => {
+    return this.state.data.names !== null;
   }
 
   convertToPDF = () => {
@@ -106,16 +110,51 @@ class PdfSequenceGenerator extends React.Component {
     //background: isDraggingOver? 'blue': 'red'
   });
 
-  offeredIn = (semClass, supported) => {
-    let desiredSem = semClass.substr(15); // remove selectedCourses from semester string
+  offeredIn = (semClass, course) => {
+    let semester = semClass.substr(15); // remove selectedCourses from semester string
+    semester = semester.charAt(0).toUpperCase() + semester.slice(1);
 
-    let offered = supported.includes(desiredSem);
+    return new Promise((resolve, reject) => {
+      fetch('/semesters/' + course)
+        .then(res => res.json())
+        .then(semesters => resolve(semesters.includes(semester)));
+    });
+  }
 
-    return offered;
+  verifyPrereqs = (semester, input) => {
+    let dependents = [];
+    let fall = this.state.selectedCoursesFall;
+    let winter = this.state.selectedCoursesWinter;
+    let summer = this.state.selectedCoursesSummer;
+
+    let fallDeps = fall.filter(course => this.isPrereqTo(course, input));
+    if (fallDeps)
+      dependents.push(fallDeps);
+    if (["Winter", "Summer"].includes(semester)) {
+      let winterDeps = winter.filter(course => this.isPrereqTo(course, input));
+      if (winterDeps)
+        dependents.push(winterDeps);
+      if (semester === "Summer") {
+        let summerDeps = summer.filter(course => this.isPrereqTo(course, input));
+        if (summerDeps)
+          dependents.push(summerDeps);
+      }
+    }
+    return dependents;
+  }
+
+  isPrereqTo = (course, name) => {
+    let prereqs = course["prerequisites"].match(/\w{4} \d{3}/g);
+    if (prereqs) {
+      let addSpace = name.substring(0, 4) + ' ' + name.slice(4);
+      let isPrereq = prereqs.includes(addSpace);
+      return isPrereq;
+    } else {
+      return false;
+    }
   }
 
   onDragEnd = result => {
-    console.log(result);
     const { source, destination } = result;
 
     // dropped outside a droppable element
@@ -136,28 +175,27 @@ class PdfSequenceGenerator extends React.Component {
     } else {
       let movingCourse = this.state[source.droppableId][source.index];
       let semesterStr = destination.droppableId;
-      let canMove = this.offeredIn(destination.droppableId, movingCourse.semester) // e.g. canMove(selectedCoursesWinter, ['Fall', 'Winter', 'Summer'])
-      if (canMove) {
-        const moved = this.move(
-          this.state[source.droppableId],
-          this.state[destination.droppableId],
-          source,
-          destination
-        );
+      this.offeredIn(destination.droppableId, movingCourse.course) // e.g. canMove(selectedCoursesWinter, "SOEN341")
+        .then(canMove => {
+          if (canMove) {
+            const moved = this.move(
+              this.state[source.droppableId],
+              this.state[destination.droppableId],
+              source,
+              destination
+            );
 
-        if (!moved) {
-          return;
-        }
+            if (!moved) {
+              return;
+            }
 
-        this.setState(
-          {
-            [source.droppableId]: moved[source.droppableId],
-            [destination.droppableId]: moved[destination.droppableId]
-          },
-          () => {
+            this.setState({
+                [source.droppableId]: moved[source.droppableId],
+                [destination.droppableId]: moved[destination.droppableId]
+              }, () => {}
+            );
           }
-        );
-      }
+        });
     }
   };
 
@@ -168,7 +206,7 @@ class PdfSequenceGenerator extends React.Component {
     let winter = this.state.selectedCoursesWinter; //Keep track of user selected classes for Winter
     let summer = this.state.selectedCoursesSummer; //Keep track of user selected classes for Summer
     let input = document.getElementById("add-class").value; //Get user input
-    let classList = this.state.courses; //Gets the whole list of courses of concordia
+    let classList = this.state.data.catalog; //Gets the whole list of courses of concordia
     let errorMessage = document.getElementById("addStatus");
     let semester = document.getElementById("semester").value;
 
@@ -192,15 +230,21 @@ class PdfSequenceGenerator extends React.Component {
       });
 
       if (validClass) {
-        if (!validClass.semester.includes(semester)) {
-          errorMessage.innerHTML = "This class is not offered in this semester!";
-        } else {
-          let sel = "selectedCourses" + semester;
-          this.setState({
-            [sel]: [...this.state[sel], validClass],
-            showAdd: !this.state.showAdd
-          }, () => console.log(this.state));
-        }
+        fetch('/semesters/' + input)
+          .then(res => res.json())
+          .then(semesters => {
+            if (!semesters.includes(semester)) {
+              errorMessage.innerHTML = "This class is not offered in this semester!";
+            } else {
+              let sel = "selectedCourses" + semester;
+              let dependents = this.verifyPrereqs(semester, validClass.course);
+              console.log(dependents);
+              this.setState({
+                [sel]: [...this.state[sel], validClass],
+                showAdd: !this.state.showAdd
+              }, () => console.log(this.state));
+            }
+          });
       } else {
         errorMessage.innerHTML = "Invalid Class/Class Not Found";
       }
@@ -261,7 +305,6 @@ class PdfSequenceGenerator extends React.Component {
   // RENDER() HERE *********************************************************
 
   render() {
-    console.log(this.state.data);
     let falltable = (
       <Table id="pdfTable" striped bordered hover variant="dark">
         <thead>
@@ -297,8 +340,8 @@ class PdfSequenceGenerator extends React.Component {
                       {...provided.dragHandleProps}
                     >
                       <td>{course.course}</td>
-                      <td>{course.name}</td>
-                      <td>{course.credit}</td>
+                      <td>{course.courseTitle}</td>
+                      <td>{course.credits}</td>
                     </tr>
                   )}
                 </Draggable>
@@ -349,8 +392,8 @@ class PdfSequenceGenerator extends React.Component {
                       {...provided.dragHandleProps}
                     >
                       <td>{course.course}</td>
-                      <td>{course.name}</td>
-                      <td>{course.credit}</td>
+                      <td>{course.courseTitle}</td>
+                      <td>{course.credits}</td>
                     </tr>
                   )}
                 </Draggable>
@@ -401,8 +444,8 @@ class PdfSequenceGenerator extends React.Component {
                       {...provided.dragHandleProps}
                     >
                       <td>{course.course}</td>
-                      <td>{course.name}</td>
-                      <td>{course.credit}</td>
+                      <td>{course.courseTitle}</td>
+                      <td>{course.credits}</td>
                     </tr>
                   )}
                 </Draggable>
@@ -476,20 +519,6 @@ class PdfSequenceGenerator extends React.Component {
             style={{ padding: "4rem 1rem" }}
             className="jumbotron j-greetings"
           >
-            {/* <h2 className="display-4">
-              Sequence To PDF <br /> Year{" "}
-              {this.state.selectYear ? "" : this.state.sequenceYear}
-            </h2> */}
-            {/* <hr color="#7e1530" /> */}
-            {/* <p className="lead">
-              Click Add Course and try out COMP248, COMP232, SOEN228 or ENGR213
-              to test it out.
-              <br />
-              <br />
-              These 4 classes are only available because this is a test. The
-              real json file with all the classes can easily be substituted
-              later.
-            </p> */}
             <h3>YEAR {this.props.year}</h3>
 
             <Container className="mt-4" id="divToPrint">
