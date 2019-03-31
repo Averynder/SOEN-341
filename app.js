@@ -340,7 +340,7 @@ app.get('/semjson', (req, res, next) => {
 
     },
     function(arg1, callback){
-      connection.query("SELECT * FROM `lecture`", function (err, result, fields) {
+      connection.query("SELECT CONCAT(subject, classNumber) AS course, lectureSectionNumber, location, days, startTime, endTime, instructorName, semester FROM lecture", function (err, result, fields) {
         if (err) throw err;
         callback(null, arg1, result);
       });
