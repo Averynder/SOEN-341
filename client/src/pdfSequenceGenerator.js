@@ -121,31 +121,26 @@ class PdfSequenceGenerator extends React.Component {
     });
   }
 
-  verifyPrereqs = (semester, input) => {
+  verifyPrereqs = (semester, check) => {
     let dependents = [];
     let fall = this.state.selectedCoursesFall;
     let winter = this.state.selectedCoursesWinter;
     let summer = this.state.selectedCoursesSummer;
 
-    let fallDeps = fall.filter(course => this.isPrereqTo(course, input));
-    if (fallDeps)
-      dependents.push(fallDeps);
-    if (["Winter", "Summer"].includes(semester)) {
-      let winterDeps = winter.filter(course => this.isPrereqTo(course, input));
-      if (winterDeps)
-        dependents.push(winterDeps);
-      if (semester === "Summer") {
-        let summerDeps = summer.filter(course => this.isPrereqTo(course, input));
-        if (summerDeps)
-          dependents.push(summerDeps);
-      }
-    }
+    // see if check is a prereq to present courses or if check has prereq already present
+    [fall, winter, summer].forEach(semester => {
+      semester.forEach(course => {
+        if (this.isPrereqTo(course, check)) dependents.push({ course: course.course, prereq: check.course});
+        else if (this.isPrereqTo(check, course)) dependents.push({ course: check.course, prereq: course.course});
+      });
+    });
     return dependents;
   }
 
-  isPrereqTo = (course, name) => {
+  isPrereqTo = (course, maybePrereq) => {
     let prereqs = course["prerequisites"].match(/\w{4} \d{3}/g);
     if (prereqs) {
+      let name = maybePrereq.course;
       let addSpace = name.substring(0, 4) + ' ' + name.slice(4);
       let isPrereq = prereqs.includes(addSpace);
       return isPrereq;
@@ -237,7 +232,17 @@ class PdfSequenceGenerator extends React.Component {
               errorMessage.innerHTML = "This class is not offered in this semester!";
             } else {
               let sel = "selectedCourses" + semester;
-              let dependents = this.verifyPrereqs(semester, validClass.course);
+              let dependents = this.verifyPrereqs(semester, validClass);
+              let messageElem = document.getElementById('infoMessage');
+              if (dependents.length > 0) {
+                let str = "";
+                dependents.forEach(duo => {
+                  str += duo.prereq + " is a prereq to " + duo.course + "<br />";
+                });
+                  messageElem.innerHTML = str;
+              } else {
+                //messageElem.innerHTML = '';
+              }
               console.log(dependents);
               this.setState({
                 [sel]: [...this.state[sel], validClass],
@@ -560,19 +565,7 @@ class PdfSequenceGenerator extends React.Component {
                 </td>
               </tr>
             </table>
-            {/* <Button
-              text="Add Course"
-              onClick={() => {
-                this.setState({ showAdd: !this.state.showAdd });
-              }}
-            />
-            <Button
-              text="Remove Course"
-              onClick={() => {
-                this.setState({ showRemove: !this.state.showRemove });
-              }}
-            />
-            <Button id="mb5" text="PDF" onClick={this.convertToPDF} /> */}
+            <div style={{ background: 'yellow' }} id="infoMessage"></div>
           </div>
         </DragDropContext>
 
