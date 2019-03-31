@@ -619,27 +619,6 @@ class PdfSequenceGenerator extends React.Component {
             />
           </Modal.Body>
         </Modal>
-
-        {/* <Modal show={this.state.selectYear}>
-          <Modal.Header>
-            <Modal.Title>Pick A Year</Modal.Title>
-          </Modal.Header>
-          <Modal.Body style={{ textAlign: "center" }}>
-            <select id="select-year">{years}</select>
-            <p id="removeStatus" style={{ color: "red" }} />
-            <Button
-              type="submit"
-              text="Select Year"
-              onClick={() => {
-                let dooks = document.getElementById("select-year").value; //selected year
-                this.setState({
-                  sequenceYear: dooks,
-                  selectYear: false
-                });
-              }}
-            />
-          </Modal.Body>
-        </Modal> */}
       </div>
     );
   }
