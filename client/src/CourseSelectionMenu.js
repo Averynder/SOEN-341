@@ -12,6 +12,8 @@ import JsonLecture from "./JsonLecture";
 import JsonClass from "./JsonClass";
 import JsonTut from "./JsonTut";
 import Course from "./Course";
+import axios from 'axios';
+import * as ReactDOM from "react-dom";
 
 class CourseSelectionMenu extends React.Component {
   constructor(props, context) {
@@ -61,6 +63,8 @@ class CourseSelectionMenu extends React.Component {
       coursesFall: null,
       coursesWinter: null,
       coursesSummer: null,
+      coursesTaken: null,
+      loggedIn: false,
       semester: semester,
       year: year,
       weekdays: [
@@ -73,7 +77,7 @@ class CourseSelectionMenu extends React.Component {
       credits: 0,
       //classes: JSON.parse(JSON.stringify(data.sequence)),
 
-      colors: [["red", 0], ["pink", 0], ["green", 0], ["brown", 0], ["orange", 0], ["blue", 0], ["grey", 0]],
+      colors: [["#f44336", 0], ["#e91e63", 0], ["#4caf50", 0], ["#795548", 0], ["#ff9800", 0], ["#3f51b5", 0], ["#607d8b", 0]],
 
       addedClasses: [],
 
@@ -101,11 +105,11 @@ class CourseSelectionMenu extends React.Component {
 
   componentDidMount() {
     fetch("/semQuery")
-        .then(res => res.json())
-        .then(users2 =>
-            this.setState({ users2 }, () => this.setCourses(users2)))
-        .then(() => {this.regEx()})
-        .then(() => { this.toggleLoading(); });
+      .then(res => res.json())
+      .then(users2 =>
+        this.setState({ users2 }, () => this.setCourses(users2)))
+      .then(() => this.regEx())
+      .then(() => this.toggleLoading());
   }
 
   setCourses(stringy)
@@ -118,7 +122,12 @@ class CourseSelectionMenu extends React.Component {
     this.state.tutorials = stringy.substring(tutStartPosition+13,labStartPosition);
     var sequenceStartPos = stringy.indexOf("\"result2\":[");
     this.state.labs = stringy.substring(labStartPosition+8,sequenceStartPos);
-    this.state.Courses = stringy.substring(sequenceStartPos+11);
+    var namePosition = stringy.indexOf("\"names\":[");
+    this.state.Courses = stringy.substring(sequenceStartPos+11,namePosition);
+    var endingPosition = stringy.indexOf("]}]");
+    this.state.coursesTaken = stringy.substring(namePosition+9,endingPosition);
+    if (this.state.coursesTaken != "")
+      this.state.loggedIn = true;
   }
 
   regEx()
@@ -449,6 +458,44 @@ class CourseSelectionMenu extends React.Component {
     this.regEx2();
     console.log(this.state.dataCourses);
     console.log(data1.sequence);
+    // Removing Courses Already taken from set
+    if (this.state.loggedIn)
+    {
+      var jjj;
+      while (this.state.coursesTaken.length > 1)
+      {
+        var startingQuote = this.state.coursesTaken.indexOf("\"");
+        this.state.coursesTaken = this.state.coursesTaken.substring(startingQuote+1);
+        var endingQuote = this.state.coursesTaken.indexOf("\"");
+        var course = this.state.coursesTaken.substring(0,endingQuote);
+        course = course.substring(0,course.indexOf(" ")) + course.substring(course.indexOf(" ")+1);
+        this.state.coursesTaken = this.state.coursesTaken.substring(9);
+        for (jjj = 0; jjj < this.state.dataCourses.length; jjj++)
+        {
+          if (this.state.dataCourses[jjj].course == course)
+          {
+            this.state.dataCourses.splice(jjj, 1);
+          }
+        }
+      }
+    }
+    // Removing Undefined Lectures from set
+    var jarjar, jarjab;
+    for (jarjar = 0; jarjar < this.state.dataCourses.length; jarjar++)
+    {
+      for (jarjab = 0; jarjab < this.state.dataCourses[jarjar].lecture.length; jarjab++)
+      {
+        if (this.state.dataCourses[jarjar].lecture[jarjab] != null)
+        {
+          if (this.state.dataCourses[jarjar].lecture[jarjab].section == undefined)
+          {
+            this.state.dataCourses[jarjar].lecture.splice(jarjab, 1);
+            jarjab = -1;
+          }
+        }
+      }
+    }
+    // Placing Courses into Semesters
     var coursesFall = [];
     var coursesWinter = [];
     var coursesSummer = [];
@@ -497,6 +544,7 @@ class CourseSelectionMenu extends React.Component {
                         && a != b) {
                       courses31[i].lecture[j].tutorial[b].room += " or " + courses31[i].lecture[j].tutorial[a].room;
                       courses31[i].lecture[j].tutorial.splice(a, 1);
+                      a = -1;
                     }
                   }
                 }
@@ -522,8 +570,41 @@ class CourseSelectionMenu extends React.Component {
       }
     }
 
-    // Previous Loop Skips certain duplicates because of numbering
-    for (i = 0; i < courses31.length; i++) {
+    // Changing Name for duplicate tutorials to 2 if diff times but same section
+    j = 0; k = 0; a = 0; b = 0;
+    for (i = 0; i < courses31.length; i++)
+    {
+      // lecture removing duplicates
+      if (courses31[i].lecture != null) {
+        for (j = 0; j < courses31[i].lecture.length; j++) {
+          if (courses31[i].lecture[j] != null) {
+            if (courses31[i].lecture[j].tutorial != null) {
+              for (b = 0; b < courses31[i].lecture[j].tutorial.length; b++) {
+                for (a = 0; a < courses31[i].lecture[j].tutorial.length; a++) {
+                  if (courses31[i].lecture[j].tutorial[b] != null) {
+                    if (courses31[i].lecture[j].tutorial[b].section == courses31[i].lecture[j].tutorial[a].section
+                        && courses31[i].lecture[j].tutorial[b].startTime != courses31[i].lecture[j].tutorial[a].startTime
+                        && courses31[i].lecture[j].tutorial[b].endTime != courses31[i].lecture[j].tutorial[a].endTime
+                        && a != b) {
+                      if (courses31[i].lecture[j].tutorial[a].section.charAt(courses31[i].lecture[j].tutorial[a].section.length) != "2")
+                      {
+                        courses31[i].lecture[j].tutorial[a].section += "*";
+                      }
+                      a = -1;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Removing duplicate tuts if Room was added but other room wasn't removed
+    j = 0; k = 0; a = 0; b = 0;
+    for (i = 0; i < courses31.length; i++)
+    {
       // lecture removing duplicates
       if (courses31[i].lecture != null) {
         for (j = 0; j < courses31[i].lecture.length; j++) {
@@ -535,9 +616,9 @@ class CourseSelectionMenu extends React.Component {
                     if (courses31[i].lecture[j].tutorial[b].section == courses31[i].lecture[j].tutorial[a].section
                         && courses31[i].lecture[j].tutorial[b].startTime == courses31[i].lecture[j].tutorial[a].startTime
                         && courses31[i].lecture[j].tutorial[b].endTime == courses31[i].lecture[j].tutorial[a].endTime
-                        && courses31[i].lecture[j].tutorial[b].room != courses31[i].lecture[j].tutorial[a].room
                         && a != b) {
                       courses31[i].lecture[j].tutorial.splice(a, 1);
+                      a = -1;
                     }
                   }
                 }
@@ -668,6 +749,26 @@ class CourseSelectionMenu extends React.Component {
           {
             this.state.dataCourses[i].name = title;
             this.state.dataCourses[i].credit = parseFloat(creditNumber);
+            if (prereqs.charAt(prereqs.length) == " ")
+            {
+              prereqs = prereqs.substring(0,prereqs.length-1);
+            }
+            while (prereqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/) > -1)
+            {
+              prereqs = prereqs.substring(0,prereqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/)+4) + prereqs.substring(prereqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/)+5);
+            }
+            this.state.dataCourses[i].prereqs = [];
+            this.state.dataCourses[i].prereqs.push(prereqs);
+            if (coreqs.charAt(coreqs.length) == " ")
+            {
+              coreqs = coreqs.substring(0,coreqs.length-1);
+            }
+            while (coreqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/) > -1)
+            {
+              coreqs = coreqs.substring(0,coreqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/)+4) + coreqs.substring(coreqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/)+5);
+            }
+            this.state.dataCourses[i].coreqs = [];
+            this.state.dataCourses[i].coreqs.push(coreqs);
           }
         }
         //console.log(title + " " + subject + " " + creditNumber + " Pre: " + prereqs + " Co: " + coreqs);
@@ -710,8 +811,8 @@ class CourseSelectionMenu extends React.Component {
     }
 
     for (let i = 0; i < 61; i++)
-      if ((time1 === times.time[i].startTime) || 
-          (time === times.time[i].startTime) || 
+      if ((time1 === times.time[i].startTime) ||
+          (time === times.time[i].startTime) ||
           (time2 === times.time[i].startTime)) return times.time[i].num;
     return null;
   };
@@ -885,7 +986,7 @@ class CourseSelectionMenu extends React.Component {
         let initial = this.timeToNum(addedClass.lecture[lectureIndex].startTime);
         let final = this.timeToNum(addedClass.lecture[lectureIndex].endTime) - 1;
         let middle = parseInt((initial + final)/2);
-    
+
           for (let i = 0; i < 61; i++) {
             if (
               initial <= i &&
@@ -906,6 +1007,13 @@ class CourseSelectionMenu extends React.Component {
               }else{
                 document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
               }
+
+              if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
+                document.getElementById(dayOfTheWeek + i).style.color = "beige";
+              }
+              else {
+                document.getElementById(dayOfTheWeek + i).style.color = "black";
+              }
             }
           }
         }
@@ -916,7 +1024,7 @@ class CourseSelectionMenu extends React.Component {
           let initial = this.timeToNum(addedClass.lecture[lectureIndex].tutorial[tutorialIndex].startTime);
           let final = this.timeToNum(addedClass.lecture[lectureIndex].tutorial[tutorialIndex].endTime) - 1;
           let middle = parseInt((initial + final)/2);
-      
+
           if ((final - initial) <= 3) {
             for (let i = 0; i < 61; i++) {
               if (
@@ -930,10 +1038,17 @@ class CourseSelectionMenu extends React.Component {
                 }else if (i === middle) {
                   document.getElementById(dayOfTheWeek + i).innerHTML = "Tutorial";
                 }else if(i === middle + 1){
-                  document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].startTime + 
+                  document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].startTime +
                   "-" + addedClass.lecture[lectureIndex].tutorial[tutorialIndex].endTime;
                 }else{
                   document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+                }
+
+                if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
+                  document.getElementById(dayOfTheWeek + i).style.color = "beige";
+                }
+                else {
+                  document.getElementById(dayOfTheWeek + i).style.color = "black";
                 }
               }
             }
@@ -959,6 +1074,13 @@ class CourseSelectionMenu extends React.Component {
                 }else{
                   document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
                 }
+
+                if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
+                  document.getElementById(dayOfTheWeek + i).style.color = "beige";
+                }
+                else {
+                  document.getElementById(dayOfTheWeek + i).style.color = "black";
+                }
               }
             }
           }
@@ -971,7 +1093,7 @@ class CourseSelectionMenu extends React.Component {
             let initial = this.timeToNum(addedClass.lab[labIndex].startTime);
             let final = this.timeToNum(addedClass.lab[labIndex].endTime) - 1;
             let middle = parseInt((initial + final)/2);
-        
+
             if ((final - initial) <= 3) {
               for (let i = 0; i < 61; i++) {
                 if (
@@ -985,14 +1107,21 @@ class CourseSelectionMenu extends React.Component {
                   }else if (i === middle) {
                     document.getElementById(dayOfTheWeek + i).innerHTML = "Lab";
                   }else if(i === middle + 1){
-                    document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[labIndex].startTime + 
+                    document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[labIndex].startTime +
                     "-" + addedClass.lab[labIndex].endTime;
                   } else {
                     document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
                   }
+
+                  if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
+                    document.getElementById(dayOfTheWeek + i).style.color = "beige";
+                  }
+                  else {
+                    document.getElementById(dayOfTheWeek + i).style.color = "black";
+                  }
                 }
               }
-            } 
+            }
             else {
               for (let i = 0; i < 61; i++) {
               if (
@@ -1016,12 +1145,19 @@ class CourseSelectionMenu extends React.Component {
                 }else{
                   document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
                 }
+
+                if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
+                  document.getElementById(dayOfTheWeek + i).style.color = "beige";
+                }
+                else {
+                  document.getElementById(dayOfTheWeek + i).style.color = "black";
+                }
               }
             }
           }
         }
       }
-    
+
         let oldColors = [];
 
         for (let o = 0; o < this.state.selectedCourses.length; o++) { // get list of all the colors in the selection menu before change
@@ -1032,12 +1168,12 @@ class CourseSelectionMenu extends React.Component {
         this.setState({colorOfNewClass: oldColors}) // when rendering the selection menu it will render it with all the old colors + the newly added color
 
         let defaultValue1 = addedClass.lecture[lectureIndex].section + "-" + addedClass.lecture[lectureIndex].tutorial[tutorialIndex].section;
-        let defaultValue2 = ""; 
-        
+        let defaultValue2 = "";
+
         if (addedClass.lab.length != 0) {
           defaultValue2 = addedClass.lab[labIndex].section + "";
         }
-        
+
         let credits = this.state.credits + addedClass.credit;
         this.setState({
           defaultValueLectureTutorial: defaultValue1, defaultValueLab: defaultValue2, credits: credits
@@ -1067,7 +1203,7 @@ class CourseSelectionMenu extends React.Component {
     let courseArray = this.state.selectedCourses;
     let filename = "schedule.json";
     let contentType = "application/json;charset=utf-8;";
-
+	console.log(courseArray);
     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
       var blob = new Blob([decodeURIComponent(encodeURI(JSON.stringify(courseArray)))], { type: contentType });
       navigator.msSaveOrOpenBlob(blob, filename);
@@ -1080,6 +1216,20 @@ class CourseSelectionMenu extends React.Component {
       file.click();
       document.body.removeChild(file);
     }
+  }
+  
+  sendCalendar = () => {
+    let courseArray = this.state.selectedCourses;
+    let semesterYear = '2019';
+	// This variable needs to have the year added to it.
+    var elements = document.getElementsByClassName('display-5');
+    var indexEle = elements[0].innerHTML.search(/[0-9]/);
+    semesterYear = elements[0].innerHTML.substring(indexEle,indexEle+4);
+	console.log(courseArray);
+	courseArray.push(semesterYear);
+	console.log(courseArray);
+	axios.post('calendar', {courseArray}).then(res=> console.log(res.data))
+    .catch(err=>console.log(err.response.data));
   }
 
   /*addClass(days_array) {
@@ -1096,7 +1246,7 @@ class CourseSelectionMenu extends React.Component {
 
     let courseNameInput = document.getElementById("colorChanger").value; //Get user input comp248
     let chosenClass; //class object
-    
+
     if (courseNameInput == "") {
       return;
     }
@@ -1114,6 +1264,13 @@ class CourseSelectionMenu extends React.Component {
     let labSection = chosenClass[3];
 
     document.getElementById(chosenClass[0].course).style.backgroundColor = color.hex;
+
+    if ((color.hex == "#ffeb3b") || (color.hex == "#ffc107") || (color.hex == "#ff9800") || (color.hex == "#cddc39")) {
+      document.getElementById(chosenClass[0].course).style.color = "black";
+    }
+    else {
+      document.getElementById(chosenClass[0].course).style.color = "white";
+    }
 
     let color1;
 
@@ -1133,6 +1290,14 @@ class CourseSelectionMenu extends React.Component {
       ) {
         color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
         document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
+        if ((color.hex == "#795548") || (color.hex == "#ff5722") || (color.hex == "#607d8b") || 
+            (color.hex == "#009688") || (color.hex == "#f44336") || (color.hex == "#795548") ||
+            (color.hex == "#9c27b0") || (color.hex == "#673ab7") || (color.hex == "#3f51b5")) {
+          document.getElementById(dayOfTheWeek + i).style.color = "beige";
+        }
+        else {
+          document.getElementById(dayOfTheWeek + i).style.color = "black";
+        }
       }
     }
   }
@@ -1147,6 +1312,14 @@ class CourseSelectionMenu extends React.Component {
         ) {
           //color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
           document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
+          if ((color.hex == "#795548") || (color.hex == "#ff5722") || (color.hex == "#607d8b") || 
+            (color.hex == "#009688") || (color.hex == "#f44336") || (color.hex == "#795548") ||
+            (color.hex == "#9c27b0") || (color.hex == "#673ab7") || (color.hex == "#3f51b5")) {
+          document.getElementById(dayOfTheWeek + i).style.color = "beige";
+        }
+        else {
+          document.getElementById(dayOfTheWeek + i).style.color = "black";
+        }
         }
       }
     }
@@ -1162,6 +1335,14 @@ class CourseSelectionMenu extends React.Component {
             ) {
               //color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
               document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
+              if ((color.hex == "#795548") || (color.hex == "#ff5722") || (color.hex == "#607d8b") || 
+            (color.hex == "#009688") || (color.hex == "#f44336") || (color.hex == "#795548") ||
+            (color.hex == "#9c27b0") || (color.hex == "#673ab7") || (color.hex == "#3f51b5")) {
+          document.getElementById(dayOfTheWeek + i).style.color = "beige";
+        }
+        else {
+          document.getElementById(dayOfTheWeek + i).style.color = "black";
+        }
             }
           }
         }
@@ -1361,18 +1542,18 @@ class CourseSelectionMenu extends React.Component {
 
       let lectureIndex = 0, tutorialIndex = 0, labIndex = 0;
       let validLecture, validTutorial, validLab;
-      
+
       // time conflict incomplete
-      for (let i = 0; i < addedClass.lecture.length; i++) {
+      /*for (let i = 0; i < addedClass.lecture.length; i++) {
         validLecture = true;
         validTutorial = true;
         validLab = true;
-        
+
         for(let j=0; j<addedClass.lecture[i].days.length; j++) {
           let initial = this.timeToNum(addedClass.lecture[i].startTime);
           let final = this.timeToNum(addedClass.lecture[i].endTime) - 1;
 
-          
+
           for (let k = 0; k < 61; k++) {
             if (
               initial <= k &&
@@ -1447,7 +1628,7 @@ class CourseSelectionMenu extends React.Component {
               labIndex = n;
               break;
             }
-            
+
           }
 
         }
@@ -1462,7 +1643,7 @@ class CourseSelectionMenu extends React.Component {
       if (!validLecture || !validTutorial || !validLab) {
         console.log("Conflict");
         return;
-      }
+      }*/
 
 // right now it's hardcoded to always add the first lecture section of a new class "[0]"
 // it doesn't verify if that section can actually fit in the table
@@ -1495,6 +1676,13 @@ class CourseSelectionMenu extends React.Component {
           }else{
             document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
           }
+
+          if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
+            document.getElementById(dayOfTheWeek + i).style.color = "beige";
+          }
+          else {
+            document.getElementById(dayOfTheWeek + i).style.color = "black";
+          }
         }
       }
     }
@@ -1505,7 +1693,7 @@ class CourseSelectionMenu extends React.Component {
       let initial = this.timeToNum(addedClass.lecture[lectureIndex].tutorial[tutorialIndex].startTime);
       let final = this.timeToNum(addedClass.lecture[lectureIndex].tutorial[tutorialIndex].endTime) - 1;
       let middle = parseInt((initial + final)/2);
-  
+
       if ((final - initial) <= 3) {
         for (let i = 0; i < 61; i++) {
           if (
@@ -1519,10 +1707,16 @@ class CourseSelectionMenu extends React.Component {
             }else if (i === middle) {
               document.getElementById(dayOfTheWeek + i).innerHTML = "Tutorial";
             }else if(i === middle + 1){
-              document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].startTime + 
+              document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].startTime +
               "-" + addedClass.lecture[lectureIndex].tutorial[tutorialIndex].endTime;
             }else{
               document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+            }
+            if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
+              document.getElementById(dayOfTheWeek + i).style.color = "beige";
+            }
+            else {
+              document.getElementById(dayOfTheWeek + i).style.color = "black";
             }
           }
         }
@@ -1550,6 +1744,13 @@ class CourseSelectionMenu extends React.Component {
             }else{
               document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
             }
+
+            if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
+              document.getElementById(dayOfTheWeek + i).style.color = "beige";
+            }
+            else {
+              document.getElementById(dayOfTheWeek + i).style.color = "black";
+            }
           }
         }
       }
@@ -1558,11 +1759,11 @@ class CourseSelectionMenu extends React.Component {
 
     if (addedClass.lab.length != 0) {
       for (let l = 0; l < addedClass.lab[labIndex].days.length; l++) { // add lab
-    
+
         let initial = this.timeToNum(addedClass.lab[labIndex].startTime);
         let final = this.timeToNum(addedClass.lab[labIndex].endTime) - 1;
         let middle = parseInt((initial + final)/2);
-    
+
       if ((final - initial) <= 3) {
         for (let i = 0; i < 61; i++) {
           if (
@@ -1576,14 +1777,21 @@ class CourseSelectionMenu extends React.Component {
             }else if (i === middle) {
               document.getElementById(dayOfTheWeek + i).innerHTML = "Lab";
             }else if(i === middle + 1){
-              document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[labIndex].startTime + 
+              document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[labIndex].startTime +
               "-" + addedClass.lab[labIndex].endTime;
             } else {
               document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
             }
+
+            if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
+              document.getElementById(dayOfTheWeek + i).style.color = "beige";
+            }
+            else {
+              document.getElementById(dayOfTheWeek + i).style.color = "black";
+            }
           }
         }
-      } 
+      }
       else {
         for (let i = 0; i < 61; i++) {
           if (
@@ -1604,6 +1812,13 @@ class CourseSelectionMenu extends React.Component {
               document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[labIndex].endTime;
             }else{
               document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+            }
+
+            if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
+              document.getElementById(dayOfTheWeek + i).style.color = "beige";
+            }
+            else {
+              document.getElementById(dayOfTheWeek + i).style.color = "black";
             }
           }
         }
@@ -1637,9 +1852,9 @@ class CourseSelectionMenu extends React.Component {
     else {
       defaultValue1 = addedClass.lecture[lectureIndex].section + "";
     }
-    
-    let defaultValue2 = ""; 
-        
+
+    let defaultValue2 = "";
+
     if (addedClass.lab.length != 0) {
       defaultValue2 = addedClass.lab[labIndex].section + "";
     }
@@ -1838,6 +2053,7 @@ class CourseSelectionMenu extends React.Component {
     );
 
     let credits = this.state.credits - courseToRemove.credit;
+    //this.state.credits = this.state.credits - courseToRemove.credit;
     this.setState({
       selectedCourses: array, show2: "hidden", credits: credits
     });
@@ -1946,7 +2162,7 @@ class CourseSelectionMenu extends React.Component {
       let initial = this.timeToNum(courseToChange.lecture[lectureIndex].startTime);
       let final = this.timeToNum(courseToChange.lecture[lectureIndex].endTime) - 1;
       let middle = parseInt((initial + final)/2);
-  
+
         for (let i = 0; i < 61; i++) {
           if (
             initial <= i &&
@@ -1992,7 +2208,7 @@ class CourseSelectionMenu extends React.Component {
                 }else if (i === middle) {
                   document.getElementById(dayOfTheWeek + i).innerHTML = "Tutorial";
                 }else if(i === middle + 1){
-                  document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].startTime + 
+                  document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].startTime +
                   "-" + courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].endTime;
                 }else{
                   document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
@@ -2028,14 +2244,14 @@ class CourseSelectionMenu extends React.Component {
           }
         }
       }
-    
+
       if (courseToChange.lab.length != 0) {
         for (let l = 0; l < courseToChange.lab[labIndex].days.length; l++) { // add lab
 
           let initial = this.timeToNum(courseToChange.lab[labIndex].startTime);
           let final = this.timeToNum(courseToChange.lab[labIndex].endTime) - 1;
           let middle = parseInt((initial + final)/2);
-      
+
           if ((final - initial) <= 3) {
             for (let i = 0; i < 61; i++) {
               if (
@@ -2049,14 +2265,14 @@ class CourseSelectionMenu extends React.Component {
                 }else if (i === middle) {
                   document.getElementById(dayOfTheWeek + i).innerHTML = "Lab";
                 }else if(i === middle + 1){
-                  document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lab[labIndex].startTime + 
+                  document.getElementById(dayOfTheWeek + i).innerHTML = courseToChange.lab[labIndex].startTime +
                   "-" + courseToChange.lab[labIndex].endTime;
                 } else {
                   document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
                 }
               }
             }
-          } 
+          }
           else {
             for (let i = 0; i < 61; i++) {
               if (
@@ -2305,9 +2521,9 @@ class CourseSelectionMenu extends React.Component {
                   <Button text="Home Page" />
                 </Link>
           </div>
-                
+
           <div style={{display:this.state.showSchedule}}>
-            
+
               {/*<hr color="#7e1530" />*/}
           <h2 className="display-5">
             {this.state.semester} {this.state.year} Semester
@@ -2370,11 +2586,12 @@ class CourseSelectionMenu extends React.Component {
           <Button text="Remove A Class" onClick={this.handleShow1} /> */}
           <Button text="Color Selection" onClick={this.openRubiat} />
           <Button text="Download Schedule" onClick={this.downloadJson} />
+  <Button text="Send to Google Calendar" onClick={this.sendCalendar} />
           <Link to="/finalize-export-sem">
             <Button text="Finalize" />
           </Link>
 
-          
+
           <Button text="Back To Select Courses" onClick={this.handleDisplay1}/>
 
           </div>
