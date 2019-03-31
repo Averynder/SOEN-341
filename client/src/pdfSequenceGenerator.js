@@ -16,10 +16,17 @@ class PdfSequenceGenerator extends React.Component {
       selectedCoursesWinter: [],
       selectedCoursesSummer: [],
       showAdd: false,
-      showRemove: false
+      showRemove: false,
+      data: null,
       // selectYear: true,
       // sequenceYear: null
     };
+  }
+
+  componentDidMount() {
+    fetch('/semjson')
+      .then(res => res.json())
+      .then(courses => {this.setState({ data: courses });})
   }
 
   convertToPDF = () => {
@@ -254,6 +261,7 @@ class PdfSequenceGenerator extends React.Component {
   // RENDER() HERE *********************************************************
 
   render() {
+    console.log(this.state.data);
     let falltable = (
       <Table id="pdfTable" striped bordered hover variant="dark">
         <thead>
