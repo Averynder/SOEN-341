@@ -570,33 +570,6 @@ class CourseSelectionMenu extends React.Component {
       }
     }
 
-    /*
-    // Previous Loop Skips certain duplicates because of numbering
-    for (i = 0; i < courses31.length; i++) {
-      // lecture removing duplicates
-      if (courses31[i].lecture != null) {
-        for (j = 0; j < courses31[i].lecture.length; j++) {
-          if (courses31[i].lecture[j] != null) {
-            if (courses31[i].lecture[j].tutorial != null) {
-              for (b = 0; b < courses31[i].lecture[j].tutorial.length; b++) {
-                for (a = 0; a < courses31[i].lecture[j].tutorial.length; a++) {
-                  if (courses31[i].lecture[j].tutorial[b] != null) {
-                    if (courses31[i].lecture[j].tutorial[b].section == courses31[i].lecture[j].tutorial[a].section
-                        && courses31[i].lecture[j].tutorial[b].startTime == courses31[i].lecture[j].tutorial[a].startTime
-                        && courses31[i].lecture[j].tutorial[b].endTime == courses31[i].lecture[j].tutorial[a].endTime
-                        && courses31[i].lecture[j].tutorial[b].room != courses31[i].lecture[j].tutorial[a].room
-                        && a != b) {
-                      courses31[i].lecture[j].tutorial.splice(a, 1);
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    */
     this.state.coursesFall = coursesFall;
     this.state.coursesWinter = coursesWinter;
     this.state.coursesSummer = coursesSummer;
@@ -718,6 +691,26 @@ class CourseSelectionMenu extends React.Component {
           {
             this.state.dataCourses[i].name = title;
             this.state.dataCourses[i].credit = parseFloat(creditNumber);
+            if (prereqs.charAt(prereqs.length) == " ")
+            {
+              prereqs = prereqs.substring(0,prereqs.length-1);
+            }
+            while (prereqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/) > -1)
+            {
+              prereqs = prereqs.substring(0,prereqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/)+4) + prereqs.substring(prereqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/)+5);
+            }
+            this.state.dataCourses[i].prereqs = [];
+            this.state.dataCourses[i].prereqs.push(prereqs);
+            if (coreqs.charAt(coreqs.length) == " ")
+            {
+              coreqs = coreqs.substring(0,coreqs.length-1);
+            }
+            while (coreqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/) > -1)
+            {
+              coreqs = coreqs.substring(0,coreqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/)+4) + coreqs.substring(coreqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/)+5);
+            }
+            this.state.dataCourses[i].coreqs = [];
+            this.state.dataCourses[i].coreqs.push(coreqs);
           }
         }
         //console.log(title + " " + subject + " " + creditNumber + " Pre: " + prereqs + " Co: " + coreqs);
