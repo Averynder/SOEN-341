@@ -215,7 +215,7 @@ console.log("hello");
 
 
 
-async.waterfall([task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14], function() {
+async.waterfall([task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14,task15,task16], function() {
   console.log('tasks done!');
 });
 //
@@ -352,7 +352,7 @@ function task8(done) {
 
 
 function task9(done) {
-  console.log('4. Lets find SOEN entries for courses');
+  console.log('3. Lets find SOEN entries for courses');
 
 
 
@@ -581,7 +581,7 @@ function task9(done) {
 }
 
 function task10(done) {
-  console.log('4. Lets find COMP entries for courses');
+  console.log('3. Lets find COMP entries for courses');
 
 
 // For COMP entries
@@ -824,7 +824,250 @@ function task10(done) {
 }
 
 function task11(done) {
-  console.log('5. Lets find SOEN entries for schedule');
+  console.log('3. Lets find ENGR/ENCS/etc. entries for courses');
+
+
+// For COMP entries
+  if (fs.existsSync('routes/ELECTIVEScatalog.txt')) {
+    console.log('Found file');
+
+    var rl = require("readline").createInterface({
+      input: require("fs").createReadStream("routes/ELECTIVEScatalog.txt")
+    });
+
+
+
+    rl.on("line", function(line) {
+      var a = 10;
+      var b = 14;
+      var c = 27;
+      var d = 30;
+      if (line.search(/("career":"UGRD")/) >= 0)
+      {
+        var subject =
+            line.substring(
+                line.search(/(subject)/) + 10,
+                line.search(/(","catalog)/)
+            );
+        var catalog =
+            line.substring(
+                line.search(/(catalog)/) + 10,
+                line.search(/(","career)/)
+            );
+        var a = 11;
+        var b = 15;
+        var c = 28;
+        var d = 31;
+        var courseTitle = line.substring(
+            line.search(/(title)/) + 8,
+            line.search(/(","subject")/)
+        );
+        var credits = line.substring(
+            line.search(/(Unit)/) + 7,
+            line.search(/(Unit)/) + 11
+        );
+
+        var prereqs = "";
+
+        // Prereqs
+        if (line.search(/(Corequisite|Co-requisite)/) > -1)
+        {
+          var bool1 = line.search(/(Prerequisite)/) > -1;
+          var bool2 = line.search(/(PREREQ)/) > -1;
+          if (bool1)
+          {
+            if (line.search(/(Prerequisite)/) + 13 > line.search(/(Course Corequisite|Corequisite|Co-requisite|Never Taken)/))
+            {
+              line = line.substring(line.search(/(Prerequisite)/));
+              prereqs = line.substring
+              (
+                  line.search(/(Prerequisite)/) + 13,
+                  line.search(/(Course Corequisite|Course Co-requisite|Corequisite|Co-requisite)/)
+              );
+            }
+            else
+            {
+              line = line.substring(line.search(/(Prerequisite)/));
+              prereqs = line.substring
+              (
+                  line.search(/(Prerequisite)/) + 13,
+                  line.search(/(Course Corequisite|Course Co-requisite|Corequisite|Co-requisite|Never Taken)/)
+              );
+            }
+          }
+          else if (bool2)
+          {
+            if (line.search(/(PREREQ)/) + 7 > line.search(/(Course Corequisite|Corequisite|Co-requisite|Never Taken)/))
+            {
+              line = line.substring(line.search(/(PREREQ)/));
+              prereqs = line.substring
+              (
+                  line.search(/(PREREQ)/) + 7,
+                  line.search(/(Course Corequisite|Course Co-requisite|Corequisite|Co-requisite)/)
+              );
+            }
+            else
+            {
+              line = line.substring(line.search(/(PREREQ)/));
+              prereqs = line.substring
+              (
+                  line.search(/(PREREQ)/) + 7,
+                  line.search(/(Course Corequisite|Course Co-requisite|Corequisite|Co-requisite|Never Taken)/)
+              );
+            }
+          }
+        }
+        else
+        {
+          var bool1 = line.search(/(Prerequisite)/) > -1;
+          var bool2 = line.search(/(PREREQ)/) > -1;
+          if (bool1)
+          {
+            if (line.search(/(Never Taken|","crosslisted")/) > line.search(/(Prerequisite)/) + 13)
+            {
+              line = line.substring(line.search(/(Prerequisite)/));
+              prereqs = line.substring
+              (
+                  line.search(/(Prerequisite)/) + 13,
+                  line.search(/(Never Taken|","crosslisted")/)
+              );
+            }
+            else
+            {
+              line = line.substring(line.search(/(Prerequisite)/));
+              prereqs = line.substring
+              (
+                  line.search(/(Prerequisite)/) + 13,
+                  line.search(/(","crosslisted")/)
+              );
+            }
+          }
+          else if (bool2)
+          {
+            if (line.search(/(Never Taken|","crosslisted")/) > line.search(/(PREREQ)/) + 7)
+            {
+              line = line.substring(line.search(/(PREREQ)/));
+              prereqs = line.substring
+              (
+                  line.search(/(PREREQ)/) + 7,
+                  line.search(/(Never Taken|","crosslisted")/)
+              );
+            }
+            else
+            {
+              line = line.substring(line.search(/(PREREQ)/));
+              prereqs = line.substring
+              (
+                  line.search(/(PREREQ)/) + 7,
+                  line.search(/(","crosslisted")/)
+              );
+            }
+          }
+        }
+
+        var coreqs = "";
+        if (prereqs.search(/(previously or concurrently)/) > -1)
+        {
+          coreqs += prereqs.substring
+          (
+              prereqs.search(/(;)/) + 2,
+              prereqs.search(/(previously or concurrently)/)
+          );
+          prereqs = prereqs.substring
+          (
+              prereqs.charAt(0),
+              prereqs.search(/(;)/)
+          );
+        }
+
+        if (line.search(/(Corequisite|Co-requisite)/) > -1)
+        {
+          var bool1 = line.search(/(Corequisite)/) > -1;
+          var bool2 = line.search(/(Co-requisite)/) > -1;
+          if (bool1)
+          {
+            line = line.substring(line.search(/(Corequisite)/));
+            coreqs += line.substring
+            (
+                line.search(/(Corequisite)/) + 13,
+                line.search(/(;|","crosslisted")/)
+            );
+
+          }
+          else if (bool2)
+          {
+            line = line.substring(line.search(/(Co-requisite)/));
+            coreqs += line.substring
+            (
+                line.search(/(Co-requisite)/) + 13,
+                line.search(/(;|","crosslisted")/)
+            );
+          }
+        }
+
+        prereqs = prereqs.replace (/;/g, "");
+        prereqs = prereqs.replace (/,/g, "");
+        prereqs = prereqs.replace (/ or /g, "<==>");
+        prereqs = prereqs.replace (/and /g, "");
+        prereqs = prereqs.replace (/or /g, "<==>");
+        prereqs = prereqs.replace (/  /g, " ");
+        prereqs = prereqs.replace (/ Course prerequisite: /g, " ");
+
+
+
+        // Course co-reqs are sandwiched in the middle so im using this to avoid that issue
+        if (subject.toString().includes('COMP') && catalog.toString().includes('228')) {
+          prereqs = 'COMP248';
+          coreqs = 'MATH204 MATH203';
+        }
+
+        var courseToAdd = new Course(courseTitle.toString(),subject.toString(),catalog.toString(),credits.toString(),prereqs.toString(),coreqs.toString());
+
+        courseList.addLast(courseToAdd);
+
+        while ((courseList.size > oldValue)) {
+
+          connection.query(`INSERT INTO course (courseTitle,subject,classNumber,credits,prerequisites,corequisites) VALUES ('${courseToAdd.courseTitle.toString()}','${courseToAdd.subject.toString()}','${courseToAdd.catalog.toString()}','${courseToAdd.credits.toString()}','${courseToAdd.prereqs.toString()}','${courseToAdd.coreqs.toString()}');`, function (err, result, fields) {
+            if (err) throw err;
+          });
+          /*
+          console.log(
+              "Succesfully inserted: Title: "+courseToAdd.courseTitle+" subject: "+courseToAdd.subject+ " catalog: " + courseToAdd.catalog + " credits: " + courseToAdd.credits + " prereqs: " +
+              courseToAdd.prereqs + " coreqs: " + courseToAdd.coreqs
+          );*/
+          oldValue++;
+        }
+
+
+      }
+      else
+      {
+        //console.log("GRAD course");
+      }
+
+      //console.log("courseList size");
+      //console.log(courseList.size);
+
+
+
+
+
+    });
+
+
+    rl.on('close', function(line) {
+      done();
+    });
+
+  }
+
+
+
+
+}
+
+function task12(done) {
+  console.log('4. Lets find SOEN entries for schedule');
 
 
 // SOEN schedule
@@ -1135,8 +1378,8 @@ function task11(done) {
 
 }
 
-function task12(done) {
-  console.log('5. Lets find COMP entries for schedule');
+function task13(done) {
+  console.log('4. Lets find COMP entries for schedule');
 
 
 
@@ -1447,7 +1690,320 @@ function task12(done) {
 
 }
 
-function task13(done) {
+function task14(done) {
+  console.log('4. Lets find ENGR/ENCS/etc. entries for schedule');
+
+
+// SOEN schedule
+
+  if (fs.existsSync('routes/ELECTIVESschedule.txt')) {
+    console.log('Found file');
+
+    var rl = require("readline").createInterface({
+      input: require("fs").createReadStream('routes/ELECTIVESschedule.txt')
+    });
+
+    rl.on("line", function(line) {
+
+      var a = 10;
+      var b = 14;
+      var c = 27;
+      var d = 30;
+
+      if (line.includes("Graduate")) {
+        //console.log("Ignore graduate course")
+      }
+
+      else if (line.search(/("componentDescription":"Lecture")/) >= 0) {
+        var days = "";
+        if (line.search(/("modays":"Y")/) >= 0) {
+          days += "Monday, "
+        }
+        ;
+        if (line.search(/("tuesdays":"Y")/) >= 0) {
+          days += "Tuesday, "
+        }
+        ;
+        if (line.search(/("wednesdays":"Y")/) >= 0) {
+          days += "Wednesday, "
+        }
+        ;
+        if (line.search(/("thursdays":"Y")/) >= 0) {
+          days += "Thursday, "
+        }
+        ;
+        if (line.search(/("fridays":"Y")/) >= 0) {
+          days += "Friday, "
+        }
+        ;
+        if (line.search(/("saturdays":"Y")/) >= 0) {
+          days += "Saturday, "
+        }
+        ;
+        if (line.search(/("sundays":"Y")/) >= 0) {
+          days += "Sunday"
+        }
+        ;
+
+        var semester = "";
+        if (line.includes('classStartDate":"07\\/01\\/2015') || line.includes('classStartDate":"09\\/01\\/2017')
+            || line.includes('classStartDate":"06\\/01\\/2020') || line.includes('classStartDate":"06\\/01\\/2016')
+            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019')
+        || line.includes('classStartDate":"08\\/01\\/2018'))
+        {
+          semester = 'Winter'
+        }
+        if (line.includes('classStartDate":"08\\/09\\/2015') || line.includes('classStartDate":"02\\/09\\/2014')
+            || line.includes('classStartDate":"03\\/09\\/2019') || line.includes('classStartDate":"06\\/09\\/2016')
+            || line.includes('classStartDate":"05\\/09\\/2017') || line.includes('classStartDate":"04\\/09\\/2018'))
+        {
+          semester = 'Fall'
+        }
+        if (line.includes('classStartDate":"07\\/05\\/2014') || line.includes('classStartDate":"02\\/05\\/2016')
+            || line.includes('classStartDate":"03\\/05\\/2017') || line.includes('classStartDate":"06\\/05\\/2019')
+            || line.includes('classStartDate":"04\\/05\\/2015'))
+        {
+          semester = 'Summer'
+        }
+        var lectureSectionNumber = line.substring(line.search(/("section":)/) + 10, line.search(/(,"componentCode")/));
+        var instructorName = null;
+        var classLocation = line.substring(line.search(/("roomCode":)/) + 11, line.search(/(,"buildingCode)/));
+        var subject =
+            line.substring(
+                line.search(/(subject)/) + a,
+                line.search(/(subject)/) + b
+            );
+        var catalog =
+            line.substring(
+                line.search(/(subject)/) + c,
+                line.search(/(","section)/)
+            );
+        var startTime =
+            line.substring(
+                line.search(/(classStartTime":")/) + 17,
+                line.search(/(","classEndTime)/)
+            );
+        var endTime =
+            line.substring(
+                line.search(/(classEndTime":")/) + 15,
+                line.search(/(","modays)/)
+            );
+        // console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+lectureSectionNumber+ "from " +startTime+ " to " +endTime);
+
+
+        // var seqToAdd = "Lecture added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+lectureSectionNumber+ "from " +startTime+ " to " +endTime;
+
+
+        var lecSequence = new LectureSequence(subject.toString(),catalog.toString(),lectureSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString(),semester.toString());
+
+        lectureSequenceList.addLast(lecSequence);
+
+        if (!(lectureOldValue == lectureSequenceList.size)) {
+
+          /*
+          console.log(
+              "Succesfully inserted: Title: "+courseTitle+" subject: "+subject+ " catalog:  " + catalog + " credits: " + credits + " prereqs: " +
+              prereqs + " coreqs: " + coreqs
+          );*/
+
+          // // adding to database
+          connection.query(`INSERT INTO lecture (subject,classNumber,lectureSectionNumber,location,days,startTime,endTime,semester) VALUES ('${subject}','${catalog}','${lectureSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {
+            if (err) throw err;
+          });
+
+          lectureOldValue = lectureSequenceList.size;
+        }
+
+
+      }
+      else if (line.search(/("componentDescription":"Tutorial")/) >= 0)
+      { 	var days="";
+        if(line.search(/("modays":"Y")/)>= 0){
+          days += "Monday, "};
+        if(line.search(/("tuesdays":"Y")/)>= 0){
+          days += "Tuesday, "};
+        if(line.search(/("wednesdays":"Y")/)>= 0){
+          days += "Wednesday, "};
+        if(line.search(/("thursdays":"Y")/)>= 0){
+          days += "Thursday, "};
+        if(line.search(/("fridays":"Y")/)>= 0){
+          days += "Friday, "};
+        if(line.search(/("saturdays":"Y")/)>= 0){
+          days += "Saturday, "};
+        if(line.search(/("sundays":"Y")/)>= 0){
+          days += "Sunday"};
+        var semester = "";
+        if (line.includes('classStartDate":"07\\/01\\/2015') || line.includes('classStartDate":"09\\/01\\/2017')
+            || line.includes('classStartDate":"06\\/01\\/2020') || line.includes('classStartDate":"06\\/01\\/2016')
+            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019')
+            || line.includes('classStartDate":"08\\/01\\/2018'))
+        {
+          semester = 'Winter'
+        }
+        if (line.includes('classStartDate":"08\\/09\\/2015') || line.includes('classStartDate":"02\\/09\\/2014')
+            || line.includes('classStartDate":"03\\/09\\/2019') || line.includes('classStartDate":"06\\/09\\/2016')
+            || line.includes('classStartDate":"05\\/09\\/2017') || line.includes('classStartDate":"04\\/09\\/2018'))
+        {
+          semester = 'Fall'
+        }
+        if (line.includes('classStartDate":"07\\/05\\/2014') || line.includes('classStartDate":"02\\/05\\/2016')
+            || line.includes('classStartDate":"03\\/05\\/2017') || line.includes('classStartDate":"06\\/05\\/2019')
+            || line.includes('classStartDate":"04\\/05\\/2015'))
+        {
+          semester = 'Summer'
+        }
+        var tutorialSectionNumber = line.substring(line.search(/("section":)/)+10,line.search(/(,"componentCode")/));
+        var instructorName = null;
+        var classLocation =line.substring(line.search(/("roomCode":)/)+11,line.search(/(,"buildingCode)/));
+        var subject =
+            line.substring(
+                line.search(/(subject)/) + a,
+                line.search(/(subject)/) + b
+            );
+        var catalog =
+            line.substring(
+                line.search(/(subject)/) + c,
+                line.search(/(","section)/)
+            );
+
+        var startTime =
+            line.substring(
+                line.search(/(classStartTime":")/) + 17,
+                line.search(/(","classEndTime)/)
+            );
+        var endTime =
+            line.substring(
+                line.search(/(classEndTime":")/) + 15,
+                line.search(/(","modays)/)
+            );
+
+        //console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+tutorialSectionNumber+ "from " +startTime+ " to " +endTime);
+
+        // // adding to database
+        // var seqToAdd = "Tutorial added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+lectureSectionNumber+ "from " +startTime+ " to " +endTime;
+
+        var tutSequence = new TutorialSequence(subject.toString(),catalog.toString(),tutorialSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString(),semester.toString());
+
+        tutSequenceList.addLast(tutSequence);
+
+        if (!(tutOldValue == tutSequenceList.size)) {
+
+          /*
+          console.log(
+              "Succesfully inserted: Title: "+courseTitle+" subject: "+subject+ " catalog:  " + catalog + " credits: " + credits + " prereqs: " +
+              prereqs + " coreqs: " + coreqs
+          );*/
+
+          // // adding to database
+          connection.query(`INSERT INTO tutorial (subject,classNumber,tutorialSectionNumber,location,days,startTime,endTime,semester) VALUES ('${subject}','${catalog}','${tutorialSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {
+            if (err) throw err;
+          });
+          tutOldValue = tutSequenceList.size;
+        }
+      }
+
+      else if (line.search(/("componentDescription":"Laboratory")/) >= 0)
+      { 	var days ="";
+        if(line.search(/("modays":"Y")/)>= 0){
+          days += "Monday, "};
+        if(line.search(/("tuesdays":"Y")/)>= 0){
+          days += "Tuesday, "};
+        if(line.search(/("wednesdays":"Y")/)>= 0){
+          days += "Wednesday, "};
+        if(line.search(/("thursdays":"Y")/)>= 0){
+          days += "Thursday, "};
+        if(line.search(/("fridays":"Y")/)>= 0){
+          days += "Friday, "};
+        if(line.search(/("saturdays":"Y")/)>= 0){
+          days += "Saturday, "};
+        if(line.search(/("sundays":"Y")/)>= 0){
+          days += "Sunday"};
+        var semester = "";
+        if (line.includes('classStartDate":"07\\/01\\/2015') || line.includes('classStartDate":"09\\/01\\/2017')
+            || line.includes('classStartDate":"06\\/01\\/2020') || line.includes('classStartDate":"06\\/01\\/2016')
+            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019')
+            || line.includes('classStartDate":"08\\/01\\/2018'))
+        {
+          semester = 'Winter'
+        }
+        if (line.includes('classStartDate":"08\\/09\\/2015') || line.includes('classStartDate":"02\\/09\\/2014')
+            || line.includes('classStartDate":"03\\/09\\/2019') || line.includes('classStartDate":"06\\/09\\/2016')
+            || line.includes('classStartDate":"05\\/09\\/2017') || line.includes('classStartDate":"04\\/09\\/2018'))
+        {
+          semester = 'Fall'
+        }
+        if (line.includes('classStartDate":"07\\/05\\/2014') || line.includes('classStartDate":"02\\/05\\/2016')
+            || line.includes('classStartDate":"03\\/05\\/2017') || line.includes('classStartDate":"06\\/05\\/2019')
+            || line.includes('classStartDate":"04\\/05\\/2015'))
+        {
+          semester = 'Summer'
+        }
+        var labSectionNumber = line.substring(line.search(/("section":)/)+10,line.search(/(,"componentCode")/));
+        var instructorName = null;
+        var classLocation =line.substring(line.search(/("roomCode":)/)+11,line.search(/(,"buildingCode)/));
+        var subject =
+            line.substring(
+                line.search(/(subject)/) + a,
+                line.search(/(subject)/) + b
+            );
+        var catalog =
+            line.substring(
+                line.search(/(subject)/) + c,
+                line.search(/(","section)/)
+            );
+
+        var startTime =
+            line.substring(
+                line.search(/(classStartTime":")/) + 17,
+                line.search(/(","classEndTime)/)
+            );
+        var endTime =
+            line.substring(
+                line.search(/(classEndTime":")/) + 15,
+                line.search(/(","modays)/)
+            );
+
+        //console.log("Laboratory added! Class: " +subject+ " " +catalog+ "  Room: "+classLocation+" Days: "+days+" Section number: "+labSectionNumber+ "from " +startTime+ " to " +endTime);
+
+        // // adding to database
+        var labSequence = new LabSequence(subject.toString(),catalog.toString(),labSectionNumber.toString(),classLocation.toString(),days.toString(),startTime.toString(),endTime.toString(),semester.toString());
+
+        labSequenceList.addLast(labSequence);
+
+        if (!(labOldValue == labSequenceList.size)) {
+
+          /*
+          console.log(
+              "Succesfully inserted: Title: "+courseTitle+" subject: "+subject+ " catalog:  " + catalog + " credits: " + credits + " prereqs: " +
+              prereqs + " coreqs: " + coreqs
+          );*/
+
+          // // adding to database
+          connection.query(`INSERT INTO laboratory (subject,classNumber,labSectionNumber,location,days,startTime,endTime,semester) VALUES ('${subject}','${catalog}','${labSectionNumber}','${classLocation}','${days}','${startTime}','${endTime}','${semester}');`, function (err, result, fields) {
+            if (err) throw err;
+          });
+          labOldValue = labSequenceList.size;
+        }
+      }
+      else
+      {
+        console.log("Empty Line");
+      }
+
+
+    });
+
+    rl.on('close', function(line) {
+      done();
+    });
+
+  }
+
+
+}
+
+
+function task15(done) {
   console.log('FINAL TASK. Lets print the size of the lists-');
 
   // These are the 4 linked lists with the relevant information
@@ -1474,7 +2030,7 @@ function task13(done) {
 
 }
 
-function task14(done) {
+function task16(done) {
 
   // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   // Any future work should be done here in order to maintain the async waterfall
