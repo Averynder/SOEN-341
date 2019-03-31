@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cross-env PORT=3001 nodemon ./bin/www"
+    "start": "cross-env PORT=3001 nodemon --ignore client/ ./bin/www"
   },
   "dependencies": {
     "async-waterfall": "^0.1.5",
