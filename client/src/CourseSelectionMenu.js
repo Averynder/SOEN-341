@@ -12,7 +12,7 @@ import JsonLecture from "./JsonLecture";
 import JsonClass from "./JsonClass";
 import JsonTut from "./JsonTut";
 import Course from "./Course";
-import axios from 'axios';
+import axios from "axios";
 import * as ReactDOM from "react-dom";
 
 class CourseSelectionMenu extends React.Component {
@@ -572,11 +572,11 @@ class CourseSelectionMenu extends React.Component {
             if (courses31[i].lecture[j] != null) {
               if (
                 courses31[i].lecture[j].section ==
-                  courses31[i].lecture[k].section &&
+                courses31[i].lecture[k].section &&
                 courses31[i].lecture[j].startTime ==
-                  courses31[i].lecture[k].startTime &&
+                courses31[i].lecture[k].startTime &&
                 courses31[i].lecture[j].endTime ==
-                  courses31[i].lecture[k].endTime &&
+                courses31[i].lecture[k].endTime &&
                 courses31[i].lecture[j].room != courses31[i].lecture[k].room &&
                 j != k
               ) {
@@ -593,13 +593,13 @@ class CourseSelectionMenu extends React.Component {
                   if (courses31[i].lecture[j].tutorial[b] != null) {
                     if (
                       courses31[i].lecture[j].tutorial[b].section ==
-                        courses31[i].lecture[j].tutorial[a].section &&
+                      courses31[i].lecture[j].tutorial[a].section &&
                       courses31[i].lecture[j].tutorial[b].startTime ==
-                        courses31[i].lecture[j].tutorial[a].startTime &&
+                      courses31[i].lecture[j].tutorial[a].startTime &&
                       courses31[i].lecture[j].tutorial[b].endTime ==
-                        courses31[i].lecture[j].tutorial[a].endTime &&
+                      courses31[i].lecture[j].tutorial[a].endTime &&
                       courses31[i].lecture[j].tutorial[b].room !=
-                        courses31[i].lecture[j].tutorial[a].room &&
+                      courses31[i].lecture[j].tutorial[a].room &&
                       a != b
                     ) {
                       courses31[i].lecture[j].tutorial[b].room +=
@@ -796,19 +796,15 @@ class CourseSelectionMenu extends React.Component {
           if (this.state.dataCourses[i].course == subject) {
             this.state.dataCourses[i].name = title;
             this.state.dataCourses[i].credit = parseFloat(creditNumber);
-            if (prereqs != "")
-            {
-              if (prereqs.charAt(prereqs.length-1) == " ")
-              {
-                prereqs = prereqs.substring(0,prereqs.length-1);
+            if (prereqs != "") {
+              if (prereqs.charAt(prereqs.length - 1) == " ") {
+                prereqs = prereqs.substring(0, prereqs.length - 1);
               }
               this.state.dataCourses[i].prerequisites.push(prereqs);
             }
-            if (coreqs != "")
-            {
-              if (coreqs.charAt(coreqs.length-1) == " ")
-              {
-                coreqs = coreqs.substring(0,coreqs.length-1);
+            if (coreqs != "") {
+              if (coreqs.charAt(coreqs.length - 1) == " ") {
+                coreqs = coreqs.substring(0, coreqs.length - 1);
               }
               this.state.dataCourses[i].corequisites.push(coreqs);
             }
@@ -1307,7 +1303,7 @@ class CourseSelectionMenu extends React.Component {
     let courseArray = this.state.selectedCourses;
     let filename = "schedule.json";
     let contentType = "application/json;charset=utf-8;";
-	console.log(courseArray);
+    console.log(courseArray);
     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
       var blob = new Blob(
         [decodeURIComponent(encodeURI(JSON.stringify(courseArray)))],
@@ -1327,21 +1323,23 @@ class CourseSelectionMenu extends React.Component {
       file.click();
       document.body.removeChild(file);
     }
-  }
-  
+  };
+
   sendCalendar = () => {
     let courseArray = this.state.selectedCourses;
-    let semesterYear = '2019';
-	// This variable needs to have the year added to it.
-    var elements = document.getElementsByClassName('display-5');
+    let semesterYear = "2019";
+    // This variable needs to have the year added to it.
+    var elements = document.getElementsByClassName("display-5");
     var indexEle = elements[0].innerHTML.search(/[0-9]/);
-    semesterYear = elements[0].innerHTML.substring(indexEle,indexEle+4);
-	console.log(courseArray);
-	courseArray.push(semesterYear);
-	console.log(courseArray);
-	axios.post('calendar', {courseArray}).then(res=> console.log(res.data))
-    .catch(err=>console.log(err.response.data));
-  }
+    semesterYear = elements[0].innerHTML.substring(indexEle, indexEle + 4);
+    console.log(courseArray);
+    courseArray.push(semesterYear);
+    console.log(courseArray);
+    axios
+      .post("calendar", { courseArray })
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err.response.data));
+  };
 
   /*addClass(days_array) {
     document.getElementById("id");
@@ -1406,9 +1404,9 @@ class CourseSelectionMenu extends React.Component {
         let dayOfTheWeek = chosenClass[0].lecture[lectureSection].days[j] + "-";
         if (
           this.timeToNum(chosenClass[0].lecture[lectureSection].startTime) <=
-            i &&
+          i &&
           this.timeToNum(chosenClass[0].lecture[lectureSection].endTime) - 1 >=
-            i
+          i
         ) {
           color1 = document.getElementById(dayOfTheWeek + i).style
             .backgroundColor;
@@ -1455,8 +1453,8 @@ class CourseSelectionMenu extends React.Component {
               chosenClass[0].lecture[lectureSection].tutorial[tutorialSection]
                 .endTime
             ) -
-              1 >=
-              i
+            1 >=
+            i
           ) {
             //color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
             document.getElementById(dayOfTheWeek + i).style.backgroundColor =
@@ -1884,7 +1882,7 @@ class CourseSelectionMenu extends React.Component {
             if (initial <= i && final >= i) {
               let dayOfTheWeek =
                 addedClass.lecture[lectureIndex].tutorial[tutorialIndex].days[
-                  k
+                k
                 ] + "-";
               document.getElementById(
                 dayOfTheWeek + i
@@ -1921,7 +1919,7 @@ class CourseSelectionMenu extends React.Component {
             if (initial <= i && final >= i) {
               let dayOfTheWeek =
                 addedClass.lecture[lectureIndex].tutorial[tutorialIndex].days[
-                  k
+                k
                 ] + "-";
               document.getElementById(
                 dayOfTheWeek + i
@@ -2262,8 +2260,8 @@ class CourseSelectionMenu extends React.Component {
               courseToRemove.lecture[lectureIndex].tutorial[tutorialIndex]
                 .endTime
             ) -
-              1 >=
-              i
+            1 >=
+            i
           ) {
             document.getElementById(dayOfTheWeek + i).style.backgroundColor =
               ""; // (you can choose to select the return of a function)
@@ -2391,8 +2389,8 @@ class CourseSelectionMenu extends React.Component {
               courseToChange.lecture[lectureIndex].tutorial[tutorialIndex]
                 .endTime
             ) -
-              1 >=
-              i
+            1 >=
+            i
           ) {
             document.getElementById(dayOfTheWeek + i).style.backgroundColor =
               ""; // (you can choose to select the return of a function)
@@ -2722,16 +2720,12 @@ class CourseSelectionMenu extends React.Component {
               onClick={() => this.changeSection(element[0].course)}
             />
             <br />
-            <span style={{ fontWeight: "bold"}}>Prerequisites: </span>
+            <span style={{ fontWeight: "bold" }}>Prerequisites: </span>
             <span id="prerequisites">
               {element[0].prerequisites.map(pre => pre + " ")}
             </span>
-            &nbsp;
-            &nbsp;
-            |
-            &nbsp;
-            &nbsp;
-            <span style={{ fontWeight: "bold"}}>Co-requisites: </span>
+            &nbsp; &nbsp; | &nbsp; &nbsp;
+            <span style={{ fontWeight: "bold" }}>Co-requisites: </span>
             <span id="corequisites">
               {element[0].corequisites.map(cor => cor + " ")}
             </span>
@@ -2764,6 +2758,44 @@ class CourseSelectionMenu extends React.Component {
       yeetus[i] = currentYear + i;
     }
     const years = yeetus.map(jimmy => <option>{jimmy}</option>);
+
+    let displayInfo =
+      this.state.selectedCourses === undefined ||
+        this.state.selectedCourses.length === 0 ? (
+          <h1>No Class Chosen Yet</h1>
+        ) : (
+          this.state.selectedCourses.map(element => (
+            <div>
+              <p>Course Number: {element[0].course}</p>
+              <p>Course Name: {element[0].name}</p>
+              <p>Semester: {element[0].semester}</p>
+              <h5>LEC</h5>
+              <p>Section: {element[0].lecture[0].section}</p>
+              <p>Room: {element[0].lecture[0].room}</p>
+              {element[0].lecture[0].tutorial.length !== 0 ? (
+                <div>
+                  <h5>TUT</h5>
+                  <p>Section: {element[0].lecture[0].tutorial[0].section}</p>
+                  <p>Room: {element[0].lecture[0].tutorial[0].room}</p>
+                </div>
+              ) : (
+                  <div />
+                )}
+              {element[0].lab.length !== 0 ? (
+                <div>
+                  <h5>LAB</h5>
+                  <p>Section: {element[0].lab[0].section}</p>
+                  <p>Room: {element[0].lab[0].room}</p>
+                </div>
+              ) : (
+                  <div />
+                )}
+              <hr color="#7E1530" />
+            </div>
+          ))
+        );
+
+    const data = this.state.selectedCourses;
 
     return (
       <div className="container">
@@ -2895,20 +2927,6 @@ class CourseSelectionMenu extends React.Component {
                         </tbody>
                       </Table>
                     </td>
-                  ))}
-                </tr>
-              </tbody>
-            </Table>
-          </div>
-
-          {/* <Button text="Add A Class" onClick={this.handleShow} />
-          <Button text="Remove A Class" onClick={this.handleShow1} /> */}
-          <Button text="Color Selection" onClick={this.openRubiat} />
-          <Button text="Download Schedule" onClick={this.downloadJson} />
-  <Button text="Send to Google Calendar" onClick={this.sendCalendar} />
-          <Link to="/finalize-export-sem">
-            <Button text="Finalize" />
-          </Link>
 
                     {this.state.weekdays.map(days => (
                       <td>
@@ -2919,7 +2937,11 @@ class CourseSelectionMenu extends React.Component {
                               <td>
                                 {times.time.map(element => {
                                   let myID = days + "-" + element.num;
-                                  return <div id={myID}>----------------</div>;
+                                  return (
+                                    <div id={myID}>
+                                      ----------------
+                                  </div>
+                                  );
                                 })}
                               </td>
                             </tr>
@@ -2927,14 +2949,19 @@ class CourseSelectionMenu extends React.Component {
                         </table>
                       </td>
                     ))}
-                  
+                  </tr>
+                </tbody>
+              </Table>
             </div>
 
             {/* <Button text="Add A Class" onClick={this.handleShow} />
           <Button text="Remove A Class" onClick={this.handleShow1} /> */}
             <Button text="Color Selection" onClick={this.openRubiat} />
             <Button text="Download Schedule" onClick={this.downloadJson} />
-            <Link to="/finalize-export-sem">
+            <Link to={{
+              pathname: "/finalize-export-sem",
+              selectedCourses: data
+            }}>
               <Button text="Finalize" />
             </Link>
 
@@ -2943,7 +2970,8 @@ class CourseSelectionMenu extends React.Component {
               onClick={this.handleDisplay1}
             />
           </div>
-        
+        </div>
+
 
         {/* <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
