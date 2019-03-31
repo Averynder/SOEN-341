@@ -2376,7 +2376,7 @@ class CourseSelectionMenu extends React.Component {
       data => coursecode !== data[0].course
     );
 
-    let newFinalizedClassArray = this.state.finalizedClassArray.map(
+    let newFinalizedClassArray = this.state.finalizedClassArray.filter(
       theClass => coursecode !== theClass.course_number
     );
 
