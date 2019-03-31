@@ -245,7 +245,7 @@ class PdfSequenceGenerator extends React.Component {
                 });
                   messageElem.innerHTML = str;
               } else {
-                //messageElem.innerHTML = '';
+                messageElem.innerHTML = '';
               }
               console.log(dependents);
               this.setState({
@@ -296,6 +296,8 @@ class PdfSequenceGenerator extends React.Component {
         "You have not selected anything.";
       return;
     }
+    let messageElem = document.getElementById('infoMessage');
+    messageElem.innerHTML = '';
     fall = fall.filter(element => element.course !== removedFallClass.value); //Remove json course object from fall array
     winter = winter.filter(
       element => element.course !== removedWinterClass.value
