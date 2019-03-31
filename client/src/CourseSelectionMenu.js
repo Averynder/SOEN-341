@@ -14,6 +14,7 @@ import JsonTut from "./JsonTut";
 import Course from "./Course";
 import axios from 'axios';
 import * as ReactDOM from "react-dom";
+import AveryAlgorithms from "./AveryAlgorithms";
 
 class CourseSelectionMenu extends React.Component {
   constructor(props, context) {
@@ -458,6 +459,12 @@ class CourseSelectionMenu extends React.Component {
     this.regEx2();
     console.log(this.state.dataCourses);
     console.log(data1.sequence);
+    let aa = new AveryAlgorithms();
+    console.log("possibilities:");
+    if (courses31[36] != undefined)
+    {
+      console.log(aa.allPossibilities(courses31[36]));
+    }
     // Removing Courses Already taken from set
     if (this.state.loggedIn)
     {
