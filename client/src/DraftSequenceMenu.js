@@ -10,15 +10,14 @@ class DraftSequenceMenu extends React.Component {
     this.state = {
       showYearPicker: false,
       startingYear: new Date().getFullYear(),
-      numberOfYear: 5,
-      info: null
+      numberOfYear: 1,
     };
   }
 
   componentDidMount() {
     fetch('/semjson')
       .then(res => res.json())
-      .then(info => this.setState({ info: info.result2 }));
+      .then(courses => {this.setState({ data: courses });})
   }
 
   handleStartingYear = () => {
@@ -29,6 +28,7 @@ class DraftSequenceMenu extends React.Component {
 
 
   render() {
+    console.log(this.state.data);
     const currentYear = new Date().getFullYear();
     var yeetus = [];
     for (let i = 0; i < 8; i++) {
@@ -44,7 +44,7 @@ class DraftSequenceMenu extends React.Component {
       arr[i] = parseInt(theStartingYear) + i;
     }
 
-    let theSequence = arr.map(index => <PdfSequenceGenerator info={this.state.info} year={index} />);
+    let theSequence = arr.map(index => <PdfSequenceGenerator year={index} />);
 
 
     return (
