@@ -9,42 +9,54 @@ class FinalizeExportSem extends React.Component {
 
     let displayInfo =
       selectedCourses === undefined || selectedCourses.length === 0 ? (
-        <h1>No Class Chosen Yet</h1>
+        <h3>No Class Chosen Yet</h3>
       ) : (
         selectedCourses.map(element => (
-          <tr style={{ margin: "auto" }}>
-            <div>
-              <td style={{ padding: "20px" }}>
-                <h5>{element[0].course}</h5>
-                <p>{element[0].name}</p>
-                <p>{element[0].semester}</p>
-              </td>
-              <td style={{ padding: "20px" }}>
-                <h5>LEC</h5>
-                <p>Section: {element[0].lecture[0].section}</p>
-                <p>Room: {element[0].lecture[0].room}</p>
-              </td>
+          <tr
+            style={{
+              margin: "auto",
+              backgroundColor: element.course_color
+            }}
+          >
+            <td style={{ padding: "20px" }}>
+              <h5>{element.course_number}</h5>
+              <p>{element.course_name}</p>
+              <p>{element.course_semester}</p>
+              <p>{element.course_year}</p>
+            </td>
+            <td style={{ padding: "20px" }}>
+              <h5>LEC</h5>
+              <p>Section: {element.lecture_section}</p>
+              <p>Room: {element.lecture_room}</p>
+              <p>Days: {element.lecture_days}</p>
+              <p>Start Time: {element.lecture_start}</p>
+              <p>End Time: {element.lecture_end}</p>
+            </td>
 
-              {element[0].lecture[0].tutorial.length !== 0 ? (
-                <td style={{ padding: "20px" }}>
-                  <h5>TUT</h5>
-                  <p>Section: {element[0].lecture[0].tutorial[0].section}</p>
-                  <p>Room: {element[0].lecture[0].tutorial[0].room}</p>
-                </td>
-              ) : (
-                <td />
-              )}
-              {element[0].lab.length !== 0 ? (
-                <td style={{ padding: "20px" }}>
-                  <h5>LAB</h5>
-                  <p>Section: {element[0].lab[0].section}</p>
-                  <p>Room: {element[0].lab[0].room}</p>
-                </td>
-              ) : (
-                <td />
-              )}
-            </div>
-            <hr color="#7E1530" />
+            {element.tutorial_section !== "" ? (
+              <td style={{ padding: "20px" }}>
+                <h5>TUT</h5>
+                <p>Section: {element.tutorial_section}</p>
+                <p>Room: {element.tutorial_room}</p>
+                <p>Days: {element.tutorial_days}</p>
+                <p>Start Time: {element.tutorial_start}</p>
+                <p>End Time: {element.tutorial_end}</p>
+              </td>
+            ) : (
+              <td />
+            )}
+            {element.lab_section !== "" ? (
+              <td style={{ padding: "20px" }}>
+                <h5>LAB</h5>
+                <p>Section: {element.lab_section}</p>
+                <p>Room: {element.lab_room}</p>
+                <p>Days: {element.lab_days}</p>
+                <p>Start Time: {element.lab_start}</p>
+                <p>End Time: {element.lab_end}</p>
+              </td>
+            ) : (
+              <td />
+            )}
           </tr>
         ))
       );
@@ -55,8 +67,10 @@ class FinalizeExportSem extends React.Component {
           <div className="jumbotron j-greetings">
             <h1>This is your Finalized Format</h1>
             <hr color="#7E1530" />
-            <div className="jumbotron j-greetings">
-              <table className="table">{displayInfo}</table>
+            <div>
+              <table style={{ marginLeft: "auto", marginRight: "auto" }}>
+                {displayInfo}
+              </table>
             </div>
             <Link to="/select-semester">
               <Button text="Export as PDF" />

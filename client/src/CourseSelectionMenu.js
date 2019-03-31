@@ -98,7 +98,9 @@ class CourseSelectionMenu extends React.Component {
       defaultValueLab: "",
 
       showSelection: "block",
-      showSchedule: "none"
+      showSchedule: "none",
+
+      finalizedClassArray: []
     };
     //console.log("data.sequence: " + JSON.stringify(data.sequence));
     //console.log("courses: " + JSON.stringify(data.default.sequence));
@@ -1367,6 +1369,14 @@ class CourseSelectionMenu extends React.Component {
       }
     }
 
+    
+    for (let s = 0; s < this.state.finalizedClassArray.length; s++) {
+      if (courseNameInput === this.state.finalizedClassArray[s].course_number) {
+        this.state.finalizedClassArray[s].course_color = color.hex;
+        break;
+      }
+    }
+
     let lectureSection = chosenClass[1];
     let tutorialSection = chosenClass[2];
     let labSection = chosenClass[3];
@@ -1816,6 +1826,49 @@ class CourseSelectionMenu extends React.Component {
     // right now it's hardcoded to always add the first lecture section of a new class "[0]"
     // it doesn't verify if that section can actually fit in the table
 
+    let newClassForFinalize = {
+      course_number: addedClass.course,
+      course_name: addedClass.name,
+      course_semester: addedClass.semester,
+      course_year: "2019",
+      course_color: colorChosen,
+      lecture_section: addedClass.lecture[lectureIndex].section,
+      lecture_room: addedClass.lecture[lectureIndex].room,
+      lecture_days: addedClass.lecture[lectureIndex].days,
+      lecture_start: addedClass.lecture[lectureIndex].startTime,
+      lecture_end: addedClass.lecture[lectureIndex].endTime,
+      tutorial_section:
+        addedClass.lecture[0].tutorial.length !== 0
+          ? addedClass.lecture[lectureIndex].tutorial[tutorialIndex].section
+          : "",
+      tutorial_room:
+        addedClass.lecture[0].tutorial.length !== 0
+          ? addedClass.lecture[lectureIndex].tutorial[tutorialIndex].room
+          : "",
+      tutorial_days:
+        addedClass.lecture[0].tutorial.length !== 0
+          ? addedClass.lecture[lectureIndex].tutorial[tutorialIndex].days
+          : "",
+      tutorial_start:
+        addedClass.lecture[0].tutorial.length !== 0
+          ? addedClass.lecture[lectureIndex].tutorial[tutorialIndex].startTime
+          : "",
+      tutorial_end:
+        addedClass.lecture[0].tutorial.length !== 0
+          ? addedClass.lecture[lectureIndex].tutorial[tutorialIndex].endTime
+          : "",
+      lab_section:
+        addedClass.lab.length != 0 ? addedClass.lab[labIndex].section : "",
+      lab_room:
+        addedClass.lab.length != 0 ? addedClass.lab[labIndex].room : "",
+      lab_days:
+        addedClass.lab.length != 0 ? addedClass.lab[labIndex].days : "",
+      lab_start:
+        addedClass.lab.length != 0 ? addedClass.lab[labIndex].startTime : "",
+      lab_end:
+        addedClass.lab.length != 0 ? addedClass.lab[labIndex].endTime : "",
+    };
+
     for (let j = 0; j < addedClass.lecture[lectureIndex].days.length; j++) {
       // add lecture
 
@@ -1852,8 +1905,10 @@ class CourseSelectionMenu extends React.Component {
             colorChosen == "grey"
           ) {
             document.getElementById(dayOfTheWeek + i).style.color = "beige";
+            // newClassForFinalize.course_color = "beige";
           } else {
             document.getElementById(dayOfTheWeek + i).style.color = "black";
+            // newClassForFinalize.course_color = "black";
           }
         }
       }
@@ -1909,8 +1964,10 @@ class CourseSelectionMenu extends React.Component {
                 colorChosen == "grey"
               ) {
                 document.getElementById(dayOfTheWeek + i).style.color = "beige";
+                // newClassForFinalize.course_color = "beige";
               } else {
                 document.getElementById(dayOfTheWeek + i).style.color = "black";
+                // newClassForFinalize.course_color = "black";
               }
             }
           }
@@ -1952,8 +2009,10 @@ class CourseSelectionMenu extends React.Component {
                 colorChosen == "grey"
               ) {
                 document.getElementById(dayOfTheWeek + i).style.color = "beige";
+                // newClassForFinalize.course_color = "beige";
               } else {
                 document.getElementById(dayOfTheWeek + i).style.color = "black";
+                // newClassForFinalize.course_color = "black";
               }
             }
           }
@@ -1996,8 +2055,10 @@ class CourseSelectionMenu extends React.Component {
                 colorChosen == "grey"
               ) {
                 document.getElementById(dayOfTheWeek + i).style.color = "beige";
+                // newClassForFinalize.course_color = "beige";
               } else {
                 document.getElementById(dayOfTheWeek + i).style.color = "black";
+                // newClassForFinalize.course_color = "black";
               }
             }
           }
@@ -2031,14 +2092,18 @@ class CourseSelectionMenu extends React.Component {
                 colorChosen == "grey"
               ) {
                 document.getElementById(dayOfTheWeek + i).style.color = "beige";
+                // newClassForFinalize.course_color = "beige";
               } else {
                 document.getElementById(dayOfTheWeek + i).style.color = "black";
+                // newClassForFinalize.course_color = "black";
               }
             }
           }
         }
       }
     }
+
+    this.state.finalizedClassArray.push(newClassForFinalize);
 
     let oldColors = [];
 
@@ -2311,12 +2376,17 @@ class CourseSelectionMenu extends React.Component {
       data => coursecode !== data[0].course
     );
 
+    let newFinalizedClassArray = this.state.finalizedClassArray.map(
+      theClass => coursecode !== theClass.course_number
+    );
+
     let credits = this.state.credits - courseToRemove.credit;
     //this.state.credits = this.state.credits - courseToRemove.credit;
     this.setState({
       selectedCourses: array,
       show2: "hidden",
-      credits: credits
+      credits: credits,
+      finalizedClassArray: newFinalizedClassArray,
     });
 
     // this.setState({
@@ -2349,6 +2419,14 @@ class CourseSelectionMenu extends React.Component {
         lectureIndex = this.state.selectedCourses[i][1];
         tutorialIndex = this.state.selectedCourses[i][2];
         labIndex = this.state.selectedCourses[i][3];
+      }
+    }
+
+    let courseToChangeForFinalize;
+    for (let s = 0; s<this.state.finalizedClassArray.length; s++) {
+      if (this.state.finalizedClassArray[s].course_number === courseName) {
+        courseToChangeForFinalize = this.state.finalizedClassArray[s];
+        break;
       }
     }
 
@@ -2422,7 +2500,7 @@ class CourseSelectionMenu extends React.Component {
 
     for (let i = 0; i < courseToChange.lecture.length; i++) {
       if (courseToChange.lecture[i].section === lectureSection) {
-        lectureIndex = i;
+        lectureIndex = i;             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       }
     }
 
@@ -2436,18 +2514,42 @@ class CourseSelectionMenu extends React.Component {
           courseToChange.lecture[lectureIndex].tutorial[i].section ===
           tutorialSection
         ) {
-          tutorialIndex = i;
-        }
+            tutorialIndex = i;        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+          }
       }
     }
 
     if (courseToChange.lab.length != 0) {
       for (let i = 0; i < courseToChange.lab.length; i++) {
         if (courseToChange.lab[i].section === labSection) {
-          labIndex = i;
+          labIndex = i;               //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         }
       }
     }
+
+    courseToChangeForFinalize.course_color = colorChosen;
+    courseToChangeForFinalize.lecture_section = lectureSection;
+    courseToChangeForFinalize.lecture_days = courseToChange.lecture[lectureIndex].days;
+    courseToChangeForFinalize.lecture_start = courseToChange.lecture[lectureIndex].startTime;
+    courseToChangeForFinalize.lecture_end = courseToChange.lecture[lectureIndex].endTime;
+    courseToChangeForFinalize.lecture_room = courseToChange.lecture[lectureIndex].room;
+    courseToChangeForFinalize.tutorial_section = tutorialSection;
+    courseToChangeForFinalize.tutorial_room =
+      (courseToChange.lecture[lectureIndex].tutorial.length !== 0) ? courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].room : "";
+    courseToChangeForFinalize.tutorial_days =
+      (courseToChange.lecture[lectureIndex].tutorial.length !== 0) ? courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].days : "";
+    courseToChangeForFinalize.tutorial_start =
+      (courseToChange.lecture[lectureIndex].tutorial.length !== 0) ? courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].startTime : "";
+    courseToChangeForFinalize.tutorial_end =
+      (courseToChange.lecture[lectureIndex].tutorial.length !== 0) ? courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].endTime : "";
+    courseToChangeForFinalize.lab_section = labSection;
+    courseToChangeForFinalize.lab_room = (courseToChange.lab.length !== 0) ? courseToChange.lab[labIndex].room : "";
+    courseToChangeForFinalize.lab_days = (courseToChange.lab.length !== 0) ? courseToChange.lab[labIndex].days : "";
+    courseToChangeForFinalize.lab_start = (courseToChange.lab.length !== 0) ? courseToChange.lab[labIndex].startTime : "";
+    courseToChangeForFinalize.lab_end = (courseToChange.lab.length !== 0) ? courseToChange.lab[labIndex].endTime : "";
+
+
+
 
     for (let j = 0; j < courseToChange.lecture[lectureIndex].days.length; j++) {
       // add lecture
@@ -2759,43 +2861,9 @@ class CourseSelectionMenu extends React.Component {
     }
     const years = yeetus.map(jimmy => <option>{jimmy}</option>);
 
-    let displayInfo =
-      this.state.selectedCourses === undefined ||
-        this.state.selectedCourses.length === 0 ? (
-          <h1>No Class Chosen Yet</h1>
-        ) : (
-          this.state.selectedCourses.map(element => (
-            <div>
-              <p>Course Number: {element[0].course}</p>
-              <p>Course Name: {element[0].name}</p>
-              <p>Semester: {element[0].semester}</p>
-              <h5>LEC</h5>
-              <p>Section: {element[0].lecture[0].section}</p>
-              <p>Room: {element[0].lecture[0].room}</p>
-              {element[0].lecture[0].tutorial.length !== 0 ? (
-                <div>
-                  <h5>TUT</h5>
-                  <p>Section: {element[0].lecture[0].tutorial[0].section}</p>
-                  <p>Room: {element[0].lecture[0].tutorial[0].room}</p>
-                </div>
-              ) : (
-                  <div />
-                )}
-              {element[0].lab.length !== 0 ? (
-                <div>
-                  <h5>LAB</h5>
-                  <p>Section: {element[0].lab[0].section}</p>
-                  <p>Room: {element[0].lab[0].room}</p>
-                </div>
-              ) : (
-                  <div />
-                )}
-              <hr color="#7E1530" />
-            </div>
-          ))
-        );
+    
 
-    const data = this.state.selectedCourses;
+    const data = this.state.finalizedClassArray;
 
     return (
       <div className="container">
