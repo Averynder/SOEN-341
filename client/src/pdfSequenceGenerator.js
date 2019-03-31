@@ -170,7 +170,7 @@ class PdfSequenceGenerator extends React.Component {
     } else {
       let movingCourse = this.state[source.droppableId][source.index];
       let semesterStr = destination.droppableId;
-      let messageElem = document.getElementById('infoMessage');
+      let messageElem = document.getElementById('infoMessage' + this.props.year);
       this.offeredIn(destination.droppableId, movingCourse.course) // e.g. canMove("selectedCoursesWinter", "SOEN341")
         .then(canMove => {
           if (canMove) {
@@ -237,7 +237,7 @@ class PdfSequenceGenerator extends React.Component {
             } else {
               let sel = "selectedCourses" + semester;
               let dependents = this.verifyPrereqs(semester, validClass);
-              let messageElem = document.getElementById('infoMessage');
+              let messageElem = document.getElementById('infoMessage' + this.props.year);
               if (dependents.length > 0) {
                 let str = "";
                 dependents.forEach(duo => {
@@ -296,7 +296,7 @@ class PdfSequenceGenerator extends React.Component {
         "You have not selected anything.";
       return;
     }
-    let messageElem = document.getElementById('infoMessage');
+    let messageElem = document.getElementById('infoMessage' + this.props.year);
     messageElem.innerHTML = '';
     fall = fall.filter(element => element.course !== removedFallClass.value); //Remove json course object from fall array
     winter = winter.filter(
@@ -571,7 +571,7 @@ class PdfSequenceGenerator extends React.Component {
                 </td>
               </tr>
             </table>
-            <div style={{ background: 'yellow' }} id="infoMessage"></div>
+            <div style={{ background: 'yellow' }} id={ this.props.year? 'infoMessage' + this.props.year: 'infoMessage' }></div>
           </div>
         </DragDropContext>
 
