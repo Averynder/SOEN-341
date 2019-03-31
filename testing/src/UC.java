@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
+import java.util.concurrent.TimeUnit;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,9 +20,7 @@ public class UC {
 
 	static final String URL = "http://localhost:3000";
 	private static void setup(){
-//		System.setProperty("webdriver.gecko.driver","src/main/resources/drivers/geckodriver.exe");
-//		System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE,"true");
-//		System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"/dev/null");
+
 		FirefoxBinary firefoxBinary = new FirefoxBinary();
 		firefoxBinary.addCommandLineOptions("--headless");
 		FirefoxOptions firefoxOptions = new FirefoxOptions();
@@ -42,10 +40,17 @@ public class UC {
 				driver.get(URL);
 				serverRunning = true;
 			} catch (WebDriverException e) {
-				System.out.println("Webpage unavailable yo. Did you make sure the server is running properly?\nPlease review then type click enter.");
-				try{
-					System.in.read();
-				}catch (Exception nada){}
+
+				System.out.print("Webpage unavailable yo. Did you make sure the server is running properly? Please review.\nWould you like to continue?[y/n]: ");
+				String answer = review.nextLine();
+				if (answer.equals("n")) {
+					System.out.println("Goodbye");
+					review.close();
+					driver.quit();
+					System.exit(0);
+				}
+
+
 			}
 		}
 
@@ -63,7 +68,7 @@ public class UC {
 		driver.findElement(By.id("waiting")).click();
 		boolean isLoggedIn = false;
 		try {
-			WebDriverWait waitForError = new WebDriverWait(driver, 11);
+			WebDriverWait waitForError = new WebDriverWait(driver, 15);
 			waitForError.until(ExpectedConditions.visibilityOfElementLocated(By.id("errorMessage")));
 			WebElement errorMessage = driver.findElement(By.id("errorMessage"));
 			System.out.println("Error message found");

@@ -6,14 +6,6 @@
 CREATE SCHEMA IF NOT EXISTS `soen341`;
 USE `soen341` ;
 
-
- -- ---------------------------------------------------
- -- Table `soen341`.`account user`
- -- ---------------------------------------------------
- CREATE TABLE  `soen341`.`account user` (
-   `netname` varchar(50) NOT NULL,
-   `password` varchar(50) NOT NULL);
-
 -- -----------------------------------------------------
 -- Table `soen341`.`teacher`
 -- -----------------------------------------------------
