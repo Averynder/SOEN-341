@@ -170,9 +170,11 @@ class PdfSequenceGenerator extends React.Component {
     } else {
       let movingCourse = this.state[source.droppableId][source.index];
       let semesterStr = destination.droppableId;
-      this.offeredIn(destination.droppableId, movingCourse.course) // e.g. canMove(selectedCoursesWinter, "SOEN341")
+      let messageElem = document.getElementById('infoMessage');
+      this.offeredIn(destination.droppableId, movingCourse.course) // e.g. canMove("selectedCoursesWinter", "SOEN341")
         .then(canMove => {
           if (canMove) {
+            messageElem.innerHTML = '';
             const moved = this.move(
               this.state[source.droppableId],
               this.state[destination.droppableId],
@@ -189,6 +191,8 @@ class PdfSequenceGenerator extends React.Component {
                 [destination.droppableId]: moved[destination.droppableId]
               }, () => {}
             );
+          } else {
+            messageElem.innerHTML = 'Course not offered in this semester!';
           }
         });
     }
