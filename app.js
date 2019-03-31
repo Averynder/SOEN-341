@@ -336,7 +336,7 @@ app.get('/semjson', (req, res, next) => {
           async.waterfall([
             function(callback){
         // do this first
-              connection.query("SELECT * FROM `course`", function (err, result, fields) {
+              connection.query("SELECT courseTitle, CONCAT(subject, classNumber) AS course, credits, prerequisites, corequisites from `course`", function (err, result, fields) {
                 if (err) throw err;
                 callback(null, result);
               });
@@ -347,7 +347,7 @@ app.get('/semjson', (req, res, next) => {
                 lectures: arg2,
                 tutorials: arg3,
                 labs: arg1,
-                result2: arg4,
+                catalog: arg4,
                 names: names
               });
             }
