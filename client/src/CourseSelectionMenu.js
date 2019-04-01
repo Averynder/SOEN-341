@@ -2863,12 +2863,12 @@ class CourseSelectionMenu extends React.Component {
             <br />
             <span style={{ fontWeight: "bold" }}>Prerequisites: </span>
             <span id="prerequisites">
-              {element[0].prerequisites.map(pre => pre + " ")}
+              {element[0].prereqs.map(pre => pre + " ")}
             </span>
             &nbsp; &nbsp; | &nbsp; &nbsp;
             <span style={{ fontWeight: "bold" }}>Co-requisites: </span>
             <span id="corequisites">
-              {element[0].corequisites.map(cor => cor + " ")}
+              {element[0].coreqs.map(cor => cor + " ")}
             </span>
           </div>
         </td>
