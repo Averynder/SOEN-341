@@ -1062,13 +1062,13 @@ class CourseSelectionMenu extends React.Component {
                 }
 
                 if ((colorChosen == "#795548") || (colorChosen == "#ff5722") || (colorChosen == "#607d8b") || 
-                  (colorChosen == "#009688") || (colorChosen == "#f44336") ||
-                  (colorChosen == "#9c27b0") || (colorChosen == "#673ab7") || (colorChosen == "#3f51b5")) {
-                    document.getElementById(dayOfTheWeek + i).style.color = "beige";
-              }
-              else {
-                document.getElementById(dayOfTheWeek + i).style.color = "black";
-              }
+                    (colorChosen == "#009688") || (colorChosen == "#f44336") ||
+                    (colorChosen == "#9c27b0") || (colorChosen == "#673ab7") || (colorChosen == "#3f51b5")) {
+                      document.getElementById(dayOfTheWeek + i).style.color = "beige";
+                }
+                else {
+                  document.getElementById(dayOfTheWeek + i).style.color = "black";
+                }
               }
             }
           }
@@ -1095,8 +1095,8 @@ class CourseSelectionMenu extends React.Component {
                 }
 
                 if ((colorChosen == "#795548") || (colorChosen == "#ff5722") || (colorChosen == "#607d8b") || 
-                  (colorChosen == "#009688") || (colorChosen == "#f44336") ||
-                  (colorChosen == "#9c27b0") || (colorChosen == "#673ab7") || (colorChosen == "#3f51b5")) {
+                    (colorChosen == "#009688") || (colorChosen == "#f44336") ||
+                    (colorChosen == "#9c27b0") || (colorChosen == "#673ab7") || (colorChosen == "#3f51b5")) {
                     document.getElementById(dayOfTheWeek + i).style.color = "beige";
                   }
                 else {
