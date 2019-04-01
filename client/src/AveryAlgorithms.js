@@ -31,27 +31,70 @@ class AveryAlgorithms extends Component {
 		let possibilities = [];
 		let lecturesTut = cloneDeep(aCourse.lecture);
 		let labs = aCourse.lab;
-
+		// Lectures + Tuts + Labs
 		if (lecturesTut.length > 0 && labs.length > 0)
 		{
 			for (let i = 0; i < lecturesTut.length; i++)
 			{
 				for (let k = 0; k < labs.length; k++)
 				{
-					if (lecturesTut[i].tutorial != null) { // && lecturesTut[i].tutorial != undefined
-						for (let j = 0; j < lecturesTut[i].tutorial.length; j++) {
+					if (lecturesTut[i].tutorial != null)
+					{
+						if (lecturesTut[i].tutorial.length > 0)
+						{
+							for (let j = 0; j < lecturesTut[i].tutorial.length; j++)
+							{
+								let pos = new JsonClass();
+								pos.lab = labs[k];
+								pos.lecture = cloneDeep(lecturesTut[i]);
+								pos.lecture.tutorial = cloneDeep(lecturesTut[i].tutorial);
+								pos.lecture.tutorial = pos.lecture.tutorial.slice(j, pos.lecture.tutorial.length);
+								pos.lecture.tutorial = pos.lecture.tutorial.slice(0, 1);
+								possibilities.push(pos);
+							}
+						}
+						// Lectures + Labs - Tuts
+						else
+						{
 							let pos = new JsonClass();
 							pos.lab = labs[k];
-							pos.lecture = lecturesTut[i];
-							pos.lecture.tutorial = pos.lecture.tutorial.slice(j, pos.lecture.tutorial.length);
-							pos.lecture.tutorial = pos.lecture.tutorial.slice(0, 1);
+							pos.lecture = cloneDeep(lecturesTut[i]);
 							possibilities.push(pos);
 						}
 					}
 				}
 			}
-			return possibilities;
 		}
+		// Lectures + Tuts
+		else if (lecturesTut.length > 0)
+		{
+			for (let i = 0; i < lecturesTut.length; i++)
+			{
+				if (lecturesTut[i].tutorial != null)
+				{
+					if (lecturesTut[i].tutorial.length > 0)
+					{
+						for (let j = 0; j < lecturesTut[i].tutorial.length; j++)
+						{
+							let pos = new JsonClass();
+							pos.lecture = cloneDeep(lecturesTut[i]);
+							pos.lecture.tutorial = cloneDeep(lecturesTut[i].tutorial);
+							pos.lecture.tutorial = pos.lecture.tutorial.slice(j, pos.lecture.tutorial.length);
+							pos.lecture.tutorial = pos.lecture.tutorial.slice(0, 1);
+							possibilities.push(pos);
+						}
+					}
+					// lectures - Tuts
+					else
+					{
+						let pos = new JsonClass();
+						pos.lecture = cloneDeep(lecturesTut[i]);
+						possibilities.push(pos);
+					}
+				}
+			}
+		}
+		return possibilities;
 	}
 
 }

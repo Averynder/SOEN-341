@@ -459,12 +459,6 @@ class CourseSelectionMenu extends React.Component {
     this.regEx2();
     console.log(this.state.dataCourses);
     console.log(data1.sequence);
-    let aa = new AveryAlgorithms();
-    console.log("possibilities:");
-    if (courses31[36] != undefined)
-    {
-      console.log(aa.allPossibilities(courses31[36]));
-    }
     // Removing Courses Already taken from set
     if (this.state.loggedIn)
     {
@@ -612,7 +606,6 @@ class CourseSelectionMenu extends React.Component {
     j = 0; k = 0; a = 0; b = 0;
     for (i = 0; i < courses31.length; i++)
     {
-      // lecture removing duplicates
       if (courses31[i].lecture != null) {
         for (j = 0; j < courses31[i].lecture.length; j++) {
           if (courses31[i].lecture[j] != null) {
@@ -634,6 +627,21 @@ class CourseSelectionMenu extends React.Component {
           }
         }
       }
+    }
+    let aa = new AveryAlgorithms();
+    console.log("possibilities:");
+    if (this.state.dataCourses[36] != undefined)
+    {
+      console.log("COMP248: ");
+      console.log(aa.allPossibilities(courses31[36]));
+      console.log("COMP249: ");
+      console.log(aa.allPossibilities(courses31[26]));
+      console.log("COMP228: ");
+      console.log(aa.allPossibilities(courses31[45]));
+      console.log("COMP345: ");
+      console.log(aa.allPossibilities(courses31[24]));
+      console.log("SOEN390: ");
+      console.log(aa.allPossibilities(courses31[19]));
     }
     this.state.coursesFall = coursesFall;
     this.state.coursesWinter = coursesWinter;
