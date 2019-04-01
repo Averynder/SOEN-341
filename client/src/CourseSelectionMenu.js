@@ -847,6 +847,11 @@ class CourseSelectionMenu extends React.Component {
       selectedCourses: [],
       credits: 0
     });
+
+    for (let i = 0; i < this.state.colors.length; i++) {
+      this.state.colors[i][1] = 0;
+    }
+
     this.state.year = document.getElementById("semester-year").value;
     this.state.semester = document.getElementById("semester").value;
     if (this.state.semester == "Fall")
@@ -945,11 +950,13 @@ class CourseSelectionMenu extends React.Component {
       //console.log(reader.result);
       var JSONified = JSON.parse(reader.result);
 
+      let array = [];
+
       for (let i = 0; i < JSONified.length; i++) {
         // document.getElementById("add-class1").value = JSONified[i].course;
         // this.addClass();
 
-        let array = this.state.selectedCourses; //Keep track of user selected classes
+        //let array = this.state.selectedCourses; //Keep track of user selected classes
         let input = JSONified[i][0].course;
         let classList = this.state.courses2; //Gets the whole list of courses of concordia
         let addedClass;
@@ -1211,11 +1218,15 @@ class CourseSelectionMenu extends React.Component {
         array1[3] = labIndex; //addedClass.lab[0].section;
         array1[4] = colorChosen;
         array.push(array1);
-        this.setState({
-          selectedCourses: array
-        });
+        // this.setState({
+        //   selectedCourses: array
+        // });
 
       }
+
+      this.setState({
+        selectedCourses: array
+      })
 
     }
 
