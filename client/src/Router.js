@@ -31,7 +31,6 @@ import ConcordiaSimilar from "./ConcordiaSimilar";
 import LoadingCourses from "./LoadingCourses";
 import AveryAlgorithms from "./AveryAlgorithms";
 
-
 class Router extends React.Component {
   constructor(props, context) {
     super(props, context);
