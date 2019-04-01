@@ -584,9 +584,9 @@ class CourseSelectionMenu extends React.Component {
                 for (a = 0; a < courses31[i].lecture[j].tutorial.length; a++) {
                   if (courses31[i].lecture[j].tutorial[b] != null) {
                     if (courses31[i].lecture[j].tutorial[b].section == courses31[i].lecture[j].tutorial[a].section
-                        && courses31[i].lecture[j].tutorial[b].startTime != courses31[i].lecture[j].tutorial[a].startTime
-                        && courses31[i].lecture[j].tutorial[b].endTime != courses31[i].lecture[j].tutorial[a].endTime
                         && a != b) {
+                      // && courses31[i].lecture[j].tutorial[b].startTime != courses31[i].lecture[j].tutorial[a].startTime
+                      //                         && courses31[i].lecture[j].tutorial[b].endTime != courses31[i].lecture[j].tutorial[a].endTime
                       if (courses31[i].lecture[j].tutorial[a].section.charAt(courses31[i].lecture[j].tutorial[a].section.length) != "2")
                       {
                         courses31[i].lecture[j].tutorial[a].section += "*";
