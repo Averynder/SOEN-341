@@ -13,6 +13,7 @@ class AveryAlgorithms extends Component {
 	{
 		super();
 		this.allPossibilities = this.allPossibilities.bind(this);
+		this.treeMaker = this.treeMaker.bind(this);
 		this.duplicateArray = this.duplicateArray.bind(this);
 	}
 
@@ -97,6 +98,51 @@ class AveryAlgorithms extends Component {
 		return possibilities;
 	}
 
+	treeMaker(courses, parent)
+	{
+		if (courses.length == 0)
+		{
+			return;
+		}
+		let c1 = courses[0];
+		let poss = this.allPossibilities(c1);
+		for (let i = 0; i < poss.length; i++)
+		{
+			let child = new AveryAlgorithms.Node(poss[i], parent, null);
+			parent.branches.push(child);
+			courses.splice(0,1);
+			for (let j = 0; j < child.branches.length; j++)
+			{
+				let new_courses = cloneDeep(courses);
+				this.treeMaker(new_courses,child.branches[j])
+			}
+		}
+		return;
+	}
+
+	treeCaller(courses)
+	{
+		let root = new AveryAlgorithms.Node(null, null, null);
+		this.treeMaker(courses, root);
+		return root;
+	}
 }
+
+AveryAlgorithms["class"] = "AveryAlgorithms";
+(function (AveryAlgorithms) {
+	var Node = (function () {
+		function Node(course, parent, branches) {
+			this.parent = parent;
+			this.course = course;
+			if (branches != undefined)
+				this.branches = branches;
+			else
+				this.branches = [];
+		}
+		return Node;
+	}());
+	AveryAlgorithms.Node = Node;
+	Node["class"] = "AveryAlgorithms.Node";
+})(AveryAlgorithms || (AveryAlgorithms = {}));
 
 export default AveryAlgorithms;

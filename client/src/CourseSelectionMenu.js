@@ -629,19 +629,13 @@ class CourseSelectionMenu extends React.Component {
       }
     }
     let aa = new AveryAlgorithms();
+
     console.log("possibilities:");
     if (this.state.dataCourses[36] != undefined)
     {
       console.log("COMP248: ");
       console.log(aa.allPossibilities(courses31[36]));
-      console.log("COMP249: ");
-      console.log(aa.allPossibilities(courses31[26]));
-      console.log("COMP228: ");
-      console.log(aa.allPossibilities(courses31[45]));
-      console.log("COMP345: ");
-      console.log(aa.allPossibilities(courses31[24]));
-      console.log("SOEN390: ");
-      console.log(aa.allPossibilities(courses31[19]));
+      console.log(aa.treeCaller([courses31[36],courses31[26]]));
     }
     this.state.coursesFall = coursesFall;
     this.state.coursesWinter = coursesWinter;
