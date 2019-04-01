@@ -78,7 +78,7 @@ class CourseSelectionMenu extends React.Component {
       credits: 0,
       //classes: JSON.parse(JSON.stringify(data.sequence)),
 
-      colors: [["#f44336", 0], ["#e91e63", 0], ["#4caf50", 0], ["#795548", 0], ["#ff9800", 0], ["#3f51b5", 0], ["#607d8b", 0]],
+      colors: [["#f44336", 0], ["#e91e63", 0], ["#4caf50", 0], ["#795548", 0], ["#03a9f4", 0], ["#3f51b5", 0], ["#607d8b", 0]],
 
       addedClasses: [],
 
@@ -1023,8 +1023,10 @@ class CourseSelectionMenu extends React.Component {
                 document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
               }
 
-              if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
-                document.getElementById(dayOfTheWeek + i).style.color = "beige";
+              if ((colorChosen == "#795548") || (colorChosen == "#ff5722") || (colorChosen == "#607d8b") || 
+                  (colorChosen == "#009688") || (colorChosen == "#f44336") ||
+                  (colorChosen == "#9c27b0") || (colorChosen == "#673ab7") || (colorChosen == "#3f51b5")) {
+                    document.getElementById(dayOfTheWeek + i).style.color = "beige";
               }
               else {
                 document.getElementById(dayOfTheWeek + i).style.color = "black";
@@ -1059,12 +1061,14 @@ class CourseSelectionMenu extends React.Component {
                   document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
                 }
 
-                if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
-                  document.getElementById(dayOfTheWeek + i).style.color = "beige";
-                }
-                else {
-                  document.getElementById(dayOfTheWeek + i).style.color = "black";
-                }
+                if ((colorChosen == "#795548") || (colorChosen == "#ff5722") || (colorChosen == "#607d8b") || 
+                  (colorChosen == "#009688") || (colorChosen == "#f44336") ||
+                  (colorChosen == "#9c27b0") || (colorChosen == "#673ab7") || (colorChosen == "#3f51b5")) {
+                    document.getElementById(dayOfTheWeek + i).style.color = "beige";
+              }
+              else {
+                document.getElementById(dayOfTheWeek + i).style.color = "black";
+              }
               }
             }
           }
@@ -1090,12 +1094,14 @@ class CourseSelectionMenu extends React.Component {
                   document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
                 }
 
-                if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
-                  document.getElementById(dayOfTheWeek + i).style.color = "beige";
-                }
+                if ((colorChosen == "#795548") || (colorChosen == "#ff5722") || (colorChosen == "#607d8b") || 
+                  (colorChosen == "#009688") || (colorChosen == "#f44336") ||
+                  (colorChosen == "#9c27b0") || (colorChosen == "#673ab7") || (colorChosen == "#3f51b5")) {
+                    document.getElementById(dayOfTheWeek + i).style.color = "beige";
+                  }
                 else {
-                  document.getElementById(dayOfTheWeek + i).style.color = "black";
-                }
+                   document.getElementById(dayOfTheWeek + i).style.color = "black";
+                  }
               }
             }
           }
@@ -1128,8 +1134,10 @@ class CourseSelectionMenu extends React.Component {
                     document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
                   }
 
-                  if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
-                    document.getElementById(dayOfTheWeek + i).style.color = "beige";
+                  if ((colorChosen == "#795548") || (colorChosen == "#ff5722") || (colorChosen == "#607d8b") || 
+                      (colorChosen == "#009688") || (colorChosen == "#f44336") ||
+                      (colorChosen == "#9c27b0") || (colorChosen == "#673ab7") || (colorChosen == "#3f51b5")) {
+                        document.getElementById(dayOfTheWeek + i).style.color = "beige";
                   }
                   else {
                     document.getElementById(dayOfTheWeek + i).style.color = "black";
@@ -1161,11 +1169,13 @@ class CourseSelectionMenu extends React.Component {
                   document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
                 }
 
-                if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
-                  document.getElementById(dayOfTheWeek + i).style.color = "beige";
+                if ((colorChosen == "#795548") || (colorChosen == "#ff5722") || (colorChosen == "#607d8b") || 
+                    (colorChosen == "#009688") || (colorChosen == "#f44336") ||
+                    (colorChosen == "#9c27b0") || (colorChosen == "#673ab7") || (colorChosen == "#3f51b5")) {
+                      document.getElementById(dayOfTheWeek + i).style.color = "beige";
                 }
                 else {
-                  document.getElementById(dayOfTheWeek + i).style.color = "black";
+                    document.getElementById(dayOfTheWeek + i).style.color = "black";
                 }
               }
             }
@@ -1173,14 +1183,14 @@ class CourseSelectionMenu extends React.Component {
         }
       }
 
-        let oldColors = [];
+        // let oldColors = [];
 
-        for (let o = 0; o < this.state.selectedCourses.length; o++) { // get list of all the colors in the selection menu before change
-          oldColors[o] = document.getElementById(this.state.selectedCourses[o][0].course).style.backgroundColor;
-        }
+        // for (let o = 0; o < this.state.selectedCourses.length; o++) { // get list of all the colors in the selection menu before change
+        //   oldColors[o] = document.getElementById(this.state.selectedCourses[o][0].course).style.backgroundColor;
+        // }
 
-        oldColors.push(colorChosen); // add the color of new course to the list also
-        this.setState({colorOfNewClass: oldColors}) // when rendering the selection menu it will render it with all the old colors + the newly added color
+        // oldColors.push(colorChosen); // add the color of new course to the list also
+        // this.setState({colorOfNewClass: oldColors}) // when rendering the selection menu it will render it with all the old colors + the newly added color
 
         let defaultValue1 = addedClass.lecture[lectureIndex].section + "-" + addedClass.lecture[lectureIndex].tutorial[tutorialIndex].section;
         let defaultValue2 = "";
@@ -1199,6 +1209,7 @@ class CourseSelectionMenu extends React.Component {
         array1[1] = lectureIndex; //addedClass.lecture[0].section;
         array1[2] = tutorialIndex; //addedClass.lecture[0].tutorial[0].section;
         array1[3] = labIndex; //addedClass.lab[0].section;
+        array1[4] = colorChosen;
         array.push(array1);
         this.setState({
           selectedCourses: array
@@ -1287,7 +1298,7 @@ class CourseSelectionMenu extends React.Component {
       document.getElementById(chosenClass[0].course).style.color = "white";
     }
 
-    let color1;
+    let color1 = chosenClass[4];
 
     // for (let j = 0; j < this.state.colors.length; j++) { wtf is this
     //   if (this.state.colors[j][0] == color) {
@@ -1303,10 +1314,9 @@ class CourseSelectionMenu extends React.Component {
         this.timeToNum(chosenClass[0].lecture[lectureSection].startTime) <= i &&
         (this.timeToNum(chosenClass[0].lecture[lectureSection].endTime) - 1) >= i
       ) {
-        color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
         document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
         if ((color.hex == "#795548") || (color.hex == "#ff5722") || (color.hex == "#607d8b") || 
-            (color.hex == "#009688") || (color.hex == "#f44336") || (color.hex == "#795548") ||
+            (color.hex == "#009688") || (color.hex == "#f44336") ||
             (color.hex == "#9c27b0") || (color.hex == "#673ab7") || (color.hex == "#3f51b5")) {
           document.getElementById(dayOfTheWeek + i).style.color = "beige";
         }
@@ -1328,13 +1338,13 @@ class CourseSelectionMenu extends React.Component {
           //color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
           document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
           if ((color.hex == "#795548") || (color.hex == "#ff5722") || (color.hex == "#607d8b") || 
-            (color.hex == "#009688") || (color.hex == "#f44336") || (color.hex == "#795548") ||
-            (color.hex == "#9c27b0") || (color.hex == "#673ab7") || (color.hex == "#3f51b5")) {
-          document.getElementById(dayOfTheWeek + i).style.color = "beige";
-        }
-        else {
-          document.getElementById(dayOfTheWeek + i).style.color = "black";
-        }
+              (color.hex == "#009688") || (color.hex == "#f44336") ||
+              (color.hex == "#9c27b0") || (color.hex == "#673ab7") || (color.hex == "#3f51b5")) {
+                document.getElementById(dayOfTheWeek + i).style.color = "beige";
+          }
+          else {
+           document.getElementById(dayOfTheWeek + i).style.color = "black";
+          }
         }
       }
     }
@@ -1351,24 +1361,39 @@ class CourseSelectionMenu extends React.Component {
               //color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
               document.getElementById(dayOfTheWeek + i).style.backgroundColor = color.hex; // (you can choose to select the return of a function)
               if ((color.hex == "#795548") || (color.hex == "#ff5722") || (color.hex == "#607d8b") || 
-            (color.hex == "#009688") || (color.hex == "#f44336") || (color.hex == "#795548") ||
-            (color.hex == "#9c27b0") || (color.hex == "#673ab7") || (color.hex == "#3f51b5")) {
-          document.getElementById(dayOfTheWeek + i).style.color = "beige";
-        }
-        else {
-          document.getElementById(dayOfTheWeek + i).style.color = "black";
-        }
+                  (color.hex == "#009688") || (color.hex == "#f44336") ||
+                  (color.hex == "#9c27b0") || (color.hex == "#673ab7") || (color.hex == "#3f51b5")) {
+                    document.getElementById(dayOfTheWeek + i).style.color = "beige";
+              }
+              else {
+                document.getElementById(dayOfTheWeek + i).style.color = "black";
+              }
             }
           }
         }
       }
 
-    for (let j = 0; j < this.state.colors.length; j++) {
-      if (this.state.colors[j][0] == color1) {
-        this.state.colors[j][1] = 0;
-        break;
+      let array = this.state.selectedCourses.filter(
+        data => chosenClass[0].course !== data[0].course
+      );
+      
+      for (let j = 0; j < this.state.colors.length; j++) { // see if the color is one of the default colors
+        if (this.state.colors[j][0] == color1) {
+          let colorNotInUse = true;
+          for (let k = 0; k < array.length; k++) { // if it's a default color, make sure it's not 
+            if (array[k][4] == color1) {            // also in use by another course
+              colorNotInUse = false;
+              break;
+            }
+          }
+          if (colorNotInUse) {
+          this.state.colors[j][1] = 0;
+          }
+          break;
+        }
       }
-    }
+
+    chosenClass[4] = color.hex;
 
   };
 
@@ -1692,11 +1717,13 @@ class CourseSelectionMenu extends React.Component {
             document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
           }
 
-          if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
-            document.getElementById(dayOfTheWeek + i).style.color = "beige";
+          if ((colorChosen == "#795548") || (colorChosen == "#ff5722") || (colorChosen == "#607d8b") || 
+              (colorChosen == "#009688") || (colorChosen == "#f44336") ||
+              (colorChosen == "#9c27b0") || (colorChosen == "#673ab7") || (colorChosen == "#3f51b5")) {
+                document.getElementById(dayOfTheWeek + i).style.color = "beige";
           }
           else {
-            document.getElementById(dayOfTheWeek + i).style.color = "black";
+           document.getElementById(dayOfTheWeek + i).style.color = "black";
           }
         }
       }
@@ -1727,11 +1754,13 @@ class CourseSelectionMenu extends React.Component {
             }else{
               document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
             }
-            if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
-              document.getElementById(dayOfTheWeek + i).style.color = "beige";
+            if ((colorChosen == "#795548") || (colorChosen == "#ff5722") || (colorChosen == "#607d8b") || 
+                (colorChosen == "#009688") || (colorChosen == "#f44336") ||
+                (colorChosen == "#9c27b0") || (colorChosen == "#673ab7") || (colorChosen == "#3f51b5")) {
+                  document.getElementById(dayOfTheWeek + i).style.color = "beige";
             }
             else {
-              document.getElementById(dayOfTheWeek + i).style.color = "black";
+            document.getElementById(dayOfTheWeek + i).style.color = "black";
             }
           }
         }
@@ -1760,11 +1789,13 @@ class CourseSelectionMenu extends React.Component {
               document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
             }
 
-            if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
-              document.getElementById(dayOfTheWeek + i).style.color = "beige";
+            if ((colorChosen == "#795548") || (colorChosen == "#ff5722") || (colorChosen == "#607d8b") || 
+                (colorChosen == "#009688") || (colorChosen == "#f44336") ||
+                (colorChosen == "#9c27b0") || (colorChosen == "#673ab7") || (colorChosen == "#3f51b5")) {
+                 document.getElementById(dayOfTheWeek + i).style.color = "beige";
             }
             else {
-              document.getElementById(dayOfTheWeek + i).style.color = "black";
+             document.getElementById(dayOfTheWeek + i).style.color = "black";
             }
           }
         }
@@ -1798,11 +1829,13 @@ class CourseSelectionMenu extends React.Component {
               document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
             }
 
-            if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
-              document.getElementById(dayOfTheWeek + i).style.color = "beige";
+            if ((colorChosen == "#795548") || (colorChosen == "#ff5722") || (colorChosen == "#607d8b") || 
+                (colorChosen == "#009688") || (colorChosen == "#f44336") ||
+                (colorChosen == "#9c27b0") || (colorChosen == "#673ab7") || (colorChosen == "#3f51b5")) {
+                  document.getElementById(dayOfTheWeek + i).style.color = "beige";
             }
             else {
-              document.getElementById(dayOfTheWeek + i).style.color = "black";
+            document.getElementById(dayOfTheWeek + i).style.color = "black";
             }
           }
         }
@@ -1829,11 +1862,13 @@ class CourseSelectionMenu extends React.Component {
               document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
             }
 
-            if ((colorChosen == "brown") || (colorChosen == "green") || (colorChosen == "grey")) {
-              document.getElementById(dayOfTheWeek + i).style.color = "beige";
+            if ((colorChosen == "#795548") || (colorChosen == "#ff5722") || (colorChosen == "#607d8b") || 
+                (colorChosen == "#009688") || (colorChosen == "#f44336") ||
+                (colorChosen == "#9c27b0") || (colorChosen == "#673ab7") || (colorChosen == "#3f51b5")) {
+                  document.getElementById(dayOfTheWeek + i).style.color = "beige";
             }
             else {
-              document.getElementById(dayOfTheWeek + i).style.color = "black";
+            document.getElementById(dayOfTheWeek + i).style.color = "black";
             }
           }
         }
@@ -1852,9 +1887,10 @@ class CourseSelectionMenu extends React.Component {
 
     let array1 = [];
     array1[0] = addedClass;
-    array1[1] = lectureIndex; //addedClass.lecture[0].section;
-    array1[2] = tutorialIndex; //addedClass.lecture[0].tutorial[0].section;
-    array1[3] = labIndex; //addedClass.lab[0].section;
+    array1[1] = lectureIndex;
+    array1[2] = tutorialIndex;
+    array1[3] = labIndex;
+    array1[4] = colorChosen; // the array will also store the color corresponding to that course
     array.push(array1);
 
     let credits = this.state.credits + addedClass.credit;
@@ -1959,7 +1995,7 @@ class CourseSelectionMenu extends React.Component {
   remove1 = () => {
     let coursecode = document.getElementById("add-class1").value;
     let courseToRemove, lectureSection, tutorialSection, labSection,
-    lectureIndex, tutorialIndex, labIndex;
+    lectureIndex, tutorialIndex, labIndex, color;
 
     for (let i = 0; i < this.state.selectedCourses.length; i++) {
       if (this.state.selectedCourses[i][0].course === coursecode) {
@@ -1967,6 +2003,7 @@ class CourseSelectionMenu extends React.Component {
         lectureIndex = this.state.selectedCourses[i][1];
         tutorialIndex = this.state.selectedCourses[i][2];
         labIndex = this.state.selectedCourses[i][3];
+        color = this.state.selectedCourses[i][4];
         break;
       }
     }
@@ -1978,8 +2015,6 @@ class CourseSelectionMenu extends React.Component {
       this.setState({show2: "visible"})
       return;
     }
-
-    let color;
 
     // for (let i = 0; i < courseToRemove.lecture.length; i++) {
     //   if (courseToRemove.lecture[i].section === lectureSection) {
@@ -2010,9 +2045,9 @@ class CourseSelectionMenu extends React.Component {
         this.timeToNum(courseToRemove.lecture[lectureIndex].startTime) <= i &&
         (this.timeToNum(courseToRemove.lecture[lectureIndex].endTime)-1) >= i
       ) {
-        color = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
         document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
         document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
+        document.getElementById(dayOfTheWeek + i).style.color = "black";
       }
     }
   }
@@ -2028,6 +2063,7 @@ class CourseSelectionMenu extends React.Component {
           ) {
             document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
             document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
+            document.getElementById(dayOfTheWeek + i).style.color = "black";
           }
         }
       }
@@ -2043,17 +2079,11 @@ class CourseSelectionMenu extends React.Component {
             ) {
               document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
               document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
+              document.getElementById(dayOfTheWeek + i).style.color = "black";
             }
           }
         }
       }
-
-    for (let j = 0; j < this.state.colors.length; j++) {
-      if (this.state.colors[j][0] == color) {
-        this.state.colors[j][1] = 0;
-        break;
-      }
-    }
 
     let oldColors = [];
 
@@ -2066,6 +2096,22 @@ class CourseSelectionMenu extends React.Component {
     let array = this.state.selectedCourses.filter(
       data => coursecode !== data[0].course
     );
+
+    for (let j = 0; j < this.state.colors.length; j++) { // see if the color is one of the default colors
+      if (this.state.colors[j][0] == color) {
+        let colorNotInUse = true;
+        for (let k = 0; k < array.length; k++) { // if it's a default color, make sure it's not 
+          if (array[k][4] == color) {            // also being used by another course
+            colorNotInUse = false;
+            break;
+          }
+        }
+        if (colorNotInUse) {
+        this.state.colors[j][1] = 0;
+        }
+        break;
+      }
+    }
 
     let credits = this.state.credits - courseToRemove.credit;
     //this.state.credits = this.state.credits - courseToRemove.credit;
@@ -2101,6 +2147,7 @@ class CourseSelectionMenu extends React.Component {
         lectureIndex = this.state.selectedCourses[i][1];
         tutorialIndex = this.state.selectedCourses[i][2];
         labIndex = this.state.selectedCourses[i][3];
+        colorChosen = this.state.selectedCourses[i][4];
       }
     }
 
@@ -2111,7 +2158,6 @@ class CourseSelectionMenu extends React.Component {
           this.timeToNum(courseToChange.lecture[lectureIndex].startTime) <= i &&
           (this.timeToNum(courseToChange.lecture[lectureIndex].endTime) - 1) >= i
         ) {
-          colorChosen = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
           document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
           document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
         }
@@ -2371,7 +2417,7 @@ class CourseSelectionMenu extends React.Component {
     let i = 0;
 
     let x = this.state.selectedCourses.map(element => (
-      <tr id={element[0].course} style={{backgroundColor : this.state.colorOfNewClass[i++]}}>
+      <tr id={element[0].course} style={{backgroundColor : element[4]}}>
 
         <td>
           <div>
