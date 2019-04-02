@@ -4,6 +4,7 @@ import JsonClass from "./JsonClass";
 import JsonTut from "./JsonTut";
 import cloneDeep from 'lodash/cloneDeep';
 import * as times from "./data/calendar.json";
+import Stack from "./Stack";
 
 class AveryAlgorithms extends Component {
 
@@ -16,6 +17,8 @@ class AveryAlgorithms extends Component {
 		this.allPossibilities = this.allPossibilities.bind(this);
 		this.treeMaker = this.treeMaker.bind(this);
 		this.duplicateArray = this.duplicateArray.bind(this);
+		this.scrollMaker = this.scrollMaker.bind(this);
+		this.stacks2arrays = this.stacks2arrays.bind(this);
 	}
 
 	duplicateArray(oldArray)
@@ -121,10 +124,56 @@ class AveryAlgorithms extends Component {
 		return;
 	}
 
+	scrollMaker(parent, root, finalList)
+	{
+		if (parent.branches == null)
+			return;
+		for (let i = 0; i < parent.branches.length; i++)
+		{
+			this.scrollMaker(parent.branches[i], root, finalList);
+		}
+		if (parent.branches.length == 0)
+		{
+			let stacky = new Stack();
+			if (parent != root)
+				stacky.push(parent);
+			while (parent != root)
+			{
+				parent = parent.parent;
+				if (parent != root)
+					stacky.push(parent);
+			}
+			finalList.push(stacky);
+			return;
+		}
+	}
+
+	stacks2arrays(listOfStacks)
+	{
+		for (let i = 0; i < listOfStacks.length; i++)
+		{
+			let stacky = listOfStacks[i];
+			let newArray = [];
+			for (let j = 0; j < stacky.size(); j++)
+			{
+				newArray.push(stacky.pop());
+			}
+			listOfStacks.splice(i,1);
+			listOfStacks.unshift(newArray);
+		}
+	}
+
 	treeCaller(courses)
 	{
 		let root = new AveryAlgorithms.Node(null, null, null);
 		this.treeMaker(courses, root);
+		let myArray = [];
+		this.scrollMaker(root, root, myArray);
+		console.log("The array number 1");
+		console.log(myArray[0]);
+		this.stacks2arrays(myArray);
+		console.log("Array of Arrays:");
+		console.log(myArray);
 		return root;
 	}
 

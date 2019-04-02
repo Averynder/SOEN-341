@@ -85,22 +85,6 @@ class MyDoublyLinkedList extends Component {
      */
     addFirst = function (element) {
 
-        if (this.size > 0) {
-
-            // for (var i = 0; i < this.size; i++) {
-
-            let current = this.head;
-            while (current !== null) {
-
-                if (JSON.stringify(current.element) === JSON.stringify(element)) {
-                    console.log("Duplicate element found! Will not be added.");
-                    return
-                }
-                current = current.next;
-            }
-            // }
-        }
-
         var tmp = new MyDoublyLinkedList.Node(this, element, this.head, null);
         if (this.head != null) {
             this.head.prev = tmp;

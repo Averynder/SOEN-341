@@ -638,6 +638,7 @@ class CourseSelectionMenu extends React.Component {
       console.log("COMP249: ");
       console.log(aa.allPossibilities(courses31[26]));
       console.log(aa.treeCaller([courses31[36],courses31[26]]));
+      console.log("The item above ^^ is just the tree, no longer needed");
     }
     this.state.coursesFall = coursesFall;
     this.state.coursesWinter = coursesWinter;
