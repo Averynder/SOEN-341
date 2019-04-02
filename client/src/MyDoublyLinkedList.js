@@ -63,26 +63,14 @@ class MyDoublyLinkedList extends Component {
 
     }
 
-    /**
-     * returns the size of the linked list
-     * @return
-     * @return {number}
-     */
     size = function () {
         return this.size;
     };
-    /**
-     * return whether the list is empty or not
-     * @return
-     * @return {boolean}
-     */
+
     isEmpty = function () {
         return this.size === 0;
     };
-    /**
-     * adds element at the starting of the linked list
-     * @param {*} element
-     */
+
     addFirst = function (element) {
 
         var tmp = new MyDoublyLinkedList.Node(this, element, this.head, null);
@@ -94,12 +82,23 @@ class MyDoublyLinkedList extends Component {
             this.tail = tmp;
         }
         this.size++;
-        console.info("adding: " + element);
     };
-    /**
-     * adds element at the end of the linked list
-     * @param {*} element
-     */
+
+    removeAll = function()
+    {
+        let array1 = [];
+        for (let i = 0; i < this.size; i++)
+        {
+            array1.push(this.head.element);
+            this.head = this.head.next;
+        }
+        this.size = 0;
+        return array1;
+        //console.log(this.head.element);
+        //console.log(this.head.next.element);
+        //console.log(this.head.next.next.element);
+    };
+
     addLast = function (element) {
 
         if (this.size > 0) {
@@ -127,7 +126,6 @@ class MyDoublyLinkedList extends Component {
             this.head = tmp;
         }
         this.size++;
-        console.info("adding: " + element);
 
         // node current = head;
         // node prev = null;
@@ -149,10 +147,6 @@ class MyDoublyLinkedList extends Component {
     };
 
 
-    /**
-     * Removes a given element from anywhere within the list
-     * @param given element that user is searching for, in order to delete
-     */
     remove = function(given) {
 
         if (this.size === 0) {
@@ -176,19 +170,19 @@ class MyDoublyLinkedList extends Component {
                     temporary.next.prev = temporary.prev;
                 }
                 this.size--;
-                console.log("deleted: " + temporary.element);
                 return temporary.element;
             }
             temporary = temporary.next;
         }
     };
 
-    /**
-     * this method removes element from the start of the linked list
-     * @return
-     * @return {*}
-     */
-    removeFirst() {
+
+    removeFirst()
+    {
+        let ele = this.head.element;
+        this.head = this.head.next;
+        this.size--;
+        return ele;
 
         if (this.size === 1) {
             this.size--;
@@ -202,7 +196,6 @@ class MyDoublyLinkedList extends Component {
                 this.tail = null;
                 this.head = null;
 
-                console.log("deleted: " + start.element);
                 return;
             }
             while (start.next != null) {
@@ -211,7 +204,6 @@ class MyDoublyLinkedList extends Component {
             }
             prev.next = null;
 
-            console.log("deleted: " + start.element);
             return start.element;
 
         }
@@ -221,7 +213,6 @@ class MyDoublyLinkedList extends Component {
             this.head = this.head.next;
             this.head.prev = null;
             this.size--;
-            console.info("deleted: " + tmp.element);
             return tmp.element;
         }
 
@@ -229,11 +220,7 @@ class MyDoublyLinkedList extends Component {
             console.log("This list is empty!")
         }
     };
-    /**
-     * this method removes element from the end of the linked list
-     * @return
-     * @return {*}
-     */
+
     removeLast() {
 
         if (this.size === 1) {
@@ -248,7 +235,6 @@ class MyDoublyLinkedList extends Component {
                 this.tail = null;
                 this.head = null;
 
-                console.log("deleted: " + start.element);
                 return;
             }
             while (start.next != null) {
@@ -257,7 +243,6 @@ class MyDoublyLinkedList extends Component {
             }
             prev.next = null;
 
-            console.log("deleted: " + start.element);
             return start.element;
 
         }
@@ -270,7 +255,6 @@ class MyDoublyLinkedList extends Component {
             this.tail = this.tail.prev;
             this.tail.next = null;
             this.size--;
-            console.info("deleted: " + tmp.element);
             return tmp.element;
         }
 

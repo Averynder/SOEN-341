@@ -138,12 +138,12 @@ class AveryAlgorithms extends Component {
 		{
 			let stacky = new Stack();
 			if (parent != root)
-				stacky.push(parent);
+				stacky.push(parent.course);
 			while (parent != root)
 			{
 				parent = parent.parent;
 				if (parent != root)
-					stacky.push(parent);
+					stacky.push(parent.course);
 			}
 			finalList.push(stacky);
 			return;
@@ -158,7 +158,7 @@ class AveryAlgorithms extends Component {
 			let newArray = [];
 			for (let j = 0; j < stacky.size(); j++)
 			{
-				newArray.push(stacky.pop());
+				newArray.push(stacky.pop1());
 			}
 			listOfStacks.splice(i,1);
 			listOfStacks.unshift(newArray);
@@ -171,8 +171,6 @@ class AveryAlgorithms extends Component {
 		this.treeMaker(courses, root);
 		let myArray = [];
 		this.scrollMaker(root, root, myArray);
-		console.log("The array number 1");
-		console.log(myArray[0]);
 		this.stacks2arrays(myArray);
 		console.log("Array of Arrays:");
 		console.log(myArray);
