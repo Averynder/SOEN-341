@@ -896,6 +896,10 @@ class CourseSelectionMenu extends React.Component {
   }
 
   openRubiat() {
+    // let course1 = this.state.selectedCourses[0];
+    // let course2 = this.state.selectedCourses[1];
+    // let a = new AveryAlgorithms();
+    // console.log(a.timeConflict(course1, course2));
     this.setState({
       rubiat: true
     });
@@ -2167,6 +2171,7 @@ class CourseSelectionMenu extends React.Component {
         ) {
           document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
           document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
+          document.getElementById(dayOfTheWeek + i).style.color = "black";
         }
       }
     }
@@ -2181,6 +2186,7 @@ class CourseSelectionMenu extends React.Component {
           ) {
             document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
             document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
+            document.getElementById(dayOfTheWeek + i).style.color = "black";
           }
         }
       }
@@ -2196,6 +2202,7 @@ class CourseSelectionMenu extends React.Component {
           ) {
             document.getElementById(dayOfTheWeek + i).style.backgroundColor = ""; // (you can choose to select the return of a function)
             document.getElementById(dayOfTheWeek + i).innerHTML = "----------------";
+            document.getElementById(dayOfTheWeek + i).style.color = "black";
           }
         }
       }

@@ -3,6 +3,7 @@ import JsonLecture from "./JsonLecture";
 import JsonClass from "./JsonClass";
 import JsonTut from "./JsonTut";
 import cloneDeep from 'lodash/cloneDeep';
+import * as times from "./data/calendar.json";
 
 class AveryAlgorithms extends Component {
 
@@ -162,13 +163,13 @@ class AveryAlgorithms extends Component {
 		let start1, start2, end1, end2;
 
 		for (let i = 0; i < lecture1.days.length; i++) {
-			start1 = lecture1.startTime;
-			end1 = lecture1.endTime;
+			start1 = this.timeToNum(lecture1.startTime);
+			end1 = this.timeToNum(lecture1.endTime);
 			
 			for (let j = 0; j < lecture2.days.length; j++) {
 				if (lecture1.days[i] == lecture2.days[j]) {
-					start2 = lecture2.startTime;
-					end2 = lecture2.endTime;
+					start2 = this.timeToNum(lecture2.startTime);
+					end2 = this.timeToNum(lecture2.endTime);
 					// if (start2 > start1) {
 					// 	if (!(start2 >= end1)) {
 					// 		return "conflict between lecture1 and lecture2";
@@ -186,11 +187,190 @@ class AveryAlgorithms extends Component {
 				}
 			}
 
-			if (tutorial1 != undefined) {
+			if (tutorial2 != undefined) {
+				for (let k = 0; k < tutorial2.days.length; k++) {
+					if (lecture1.days[i] == tutorial2.days[k]) {
+						start2 = this.timeToNum(tutorial2.startTime);
+						end2 = this.timeToNum(tutorial2.endTime);
 
+						if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
+							return "conflict between lecture1 and tutorial2";
+						}
+					}
+				}
+			}
+
+			if (lab2 != undefined) {
+				for (let l = 0; l < lab2.days.length; l++) {
+					if (lecture1.days[i] == lab2.days[l]) {
+						start2 = this.timeToNum(lab2.startTime);
+						end2 = this.timeToNum(lab2.endTime);
+
+						if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
+							return "conflict between lecture1 and lab2";
+						}
+					}
+				}
+			}
+
+			if (lab1 != undefined) {
+				for (let m = 0; m < lab1.days.length; m++) {
+					if (lecture1.days[i] == lab1.days[m]) {
+						start2 = this.timeToNum(lab1.startTime);
+						end2 = this.timeToNum(lab1.endTime);
+
+						if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
+							return "conflict between lecture1 and lab1";
+						}
+					}
+				}
 			}
 		}
+
+		if (tutorial1 != undefined) {
+			for (let j = 0; j < tutorial1.days.length; j++) {
+				start1 = this.timeToNum(tutorial1.startTime);
+				end1 = this.timeToNum(tutorial1.endTime);
+
+				for (let i = 0; i < lecture2.days.length; i++) {
+					if (tutorial1.days[j] == lecture2.days[i]) {
+						start2 = this.timeToNum(lecture2.startTime);
+						end2 = this.timeToNum(lecture2.endTime);
+
+						if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
+							return "conflict between tutorial1 and lecture2";
+						}
+					}
+				}
+
+				if (tutorial2 != undefined) {
+					for (let k = 0; k < tutorial2.days.length; k++) {
+						if (tutorial1.days[j] == tutorial2.days[k]) {
+							start2 = this.timeToNum(tutorial2.startTime);
+							end2 = this.timeToNum(tutorial2.endTime);
+	
+							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
+								return "conflict between tutorial1 and tutorial2";
+							}
+						}
+					}
+				}
+
+				if (lab2 != undefined) {
+					for (let l = 0; l < lab2.days.length; l++) {
+						if (tutorial1.days[j] == lab2.days[l]) {
+							start2 = this.timeToNum(lab2.startTime);
+							end2 = this.timeToNum(lab2.endTime);
+	
+							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
+								return "conflict between tutorial1 and lab2";
+							}
+						}
+					}
+				}
+
+				if (lab1 != undefined) {
+					for (let m = 0; m < lab1.days.length; m++) {
+						if (tutorial1.days[j] == lab1.days[m]) {
+							start2 = this.timeToNum(lab1.startTime);
+							end2 = this.timeToNum(lab1.endTime);
+	
+							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
+								return "conflict between tutorial1 and lab1";
+							}
+						}
+					}
+				}
+			}
+		}
+
+		if (lab1 != undefined) {
+			for (let k = 0; k < lab1.days.length; k++) {
+				start1 = this.timeToNum(lab1.startTime);
+				end1 = this.timeToNum(lab1.endTime);
+
+				for (let i = 0; i < lecture2.days.length; i++) {
+					if (lab1.days[k] == lecture2.days[i]) {
+						start2 = this.timeToNum(lecture2.startTime);
+						end2 = this.timeToNum(lecture2.endTime);
+
+						if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
+							return "conflict between lab1 and lecture2";
+						}
+					}
+				}
+
+				if (tutorial2 != undefined) {
+					for (let j = 0; j < tutorial2.days.length; j++) {
+						if (tutorial1.days[k] == tutorial2.days[j]) {
+							start2 = this.timeToNum(tutorial2.startTime);
+							end2 = this.timeToNum(tutorial2.endTime);
+	
+							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
+								return "conflict between lab1 and tutorial2";
+							}
+						}
+					}
+				}
+
+				if (lab2 != undefined) {
+					for (let l = 0; l < lab2.days.length; l++) {
+						if (lab1.days[k] == lab2.days[l]) {
+							start2 = this.timeToNum(lab2.startTime);
+							end2 = this.timeToNum(lab2.endTime);
+	
+							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
+								return "conflict between lab1 and lab2";
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return "no conflicts";
 	}
+
+	timeToNum = time => {
+		// time parameter represents start time or end time of a class
+	
+		// algo for rounding since table is jumps of 15 mins
+		let time1, time2;
+		let time1Minute, time2Minute;
+		let timeHour = time.substring(0, time.indexOf(":"));
+		let timeMinute = time.substring(time.indexOf(":")+1);
+	
+		timeMinute = parseInt(timeMinute);
+		time1Minute = timeMinute - 5;
+		time2Minute = timeMinute + 5;
+	
+		if (time1Minute == -5) {
+		  time2 = timeHour + ":0" + time2Minute; // @@:05
+		  timeHour = parseInt(timeHour);
+		  timeHour--;
+		  time1 = timeHour + ":" + "55";
+		}
+		else if (time2Minute == 60) {
+		  time1 = timeHour + ":" + time1Minute; // @@:50
+		  timeHour = parseInt(timeHour);
+		  timeHour++;
+		  time2 = timeHour + ":" + "00";
+		}
+		else if (time1Minute == 0) {
+		  time1 = timeHour + ":00"; // @@:00 instead of @@:0
+		  time2 = timeHour + ":" + time2Minute; // @@:10
+		}
+		else {
+		  time1 = timeHour + ":" + time1Minute;
+		  time2 = timeHour + ":" + time2Minute;
+		}
+	
+		for (let i = 0; i < 61; i++)
+		  if ((time1 === times.time[i].startTime) ||
+			  (time === times.time[i].startTime) ||
+			  (time2 === times.time[i].startTime)) return times.time[i].num;
+		return null;
+	  };
 }
 
 AveryAlgorithms["class"] = "AveryAlgorithms";
