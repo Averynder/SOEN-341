@@ -458,7 +458,6 @@ class CourseSelectionMenu extends React.Component {
     this.state.dataCourses = courses31;
     this.regEx2();
     console.log(this.state.dataCourses);
-    console.log(data1.sequence);
     // Removing Courses Already taken from set
     if (this.state.loggedIn)
     {
@@ -629,18 +628,9 @@ class CourseSelectionMenu extends React.Component {
       }
     }
     let aa = new AveryAlgorithms();
-
-    console.log("possibilities:");
     if (this.state.dataCourses[36] != undefined)
     {
-      console.log("COMP248: ");
-      console.log(aa.allPossibilities(courses31[36]));
-      console.log("COMP249: ");
-      console.log(aa.allPossibilities(courses31[26]));
-      console.log("SOEN287");
-      console.log(aa.allPossibilities(courses31[10]));
       aa.treeCaller([courses31[36],courses31[26],courses31[10]]);
-      aa.treeCaller([courses31[36]]);
     }
     this.state.coursesFall = coursesFall;
     this.state.coursesWinter = coursesWinter;
