@@ -1690,6 +1690,7 @@ function task13(done) {
 
 }
 
+//TODO: fix semesters
 function task14(done) {
   console.log('4. Lets find ENGR/ENCS/etc. entries for schedule');
 
@@ -1745,7 +1746,27 @@ function task14(done) {
         }
         ;
 
+
+        var semCode = line.match('"termCode":"\\d{3}(\\d)"');
         var semester = "";
+        if (semCode[1]) {
+          switch (semCode[1]) {
+            case '1':
+              semester = "Summer";
+              break;
+            case '2':
+              semester = "Fall";
+              break;
+            case '4':
+              semester = "Winter";
+              break;
+            default:
+              semester = "Fall";
+          }
+        } else {
+          semester = "Fall";
+        }
+        /*
         if (line.includes('classStartDate":"07\\/01\\/2015') || line.includes('classStartDate":"09\\/01\\/2017')
             || line.includes('classStartDate":"06\\/01\\/2020') || line.includes('classStartDate":"06\\/01\\/2016')
             || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019')
@@ -1765,6 +1786,7 @@ function task14(done) {
         {
           semester = 'Summer'
         }
+        */
         var lectureSectionNumber = line.substring(line.search(/("section":)/) + 10, line.search(/(,"componentCode")/));
         var instructorName = null;
         var classLocation = line.substring(line.search(/("roomCode":)/) + 11, line.search(/(,"buildingCode)/));
@@ -1832,25 +1854,24 @@ function task14(done) {
           days += "Saturday, "};
         if(line.search(/("sundays":"Y")/)>= 0){
           days += "Sunday"};
+        var semCode = line.match('"termCode":"\\d{3}(\\d)"');
         var semester = "";
-        if (line.includes('classStartDate":"07\\/01\\/2015') || line.includes('classStartDate":"09\\/01\\/2017')
-            || line.includes('classStartDate":"06\\/01\\/2020') || line.includes('classStartDate":"06\\/01\\/2016')
-            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019')
-            || line.includes('classStartDate":"08\\/01\\/2018'))
-        {
-          semester = 'Winter'
-        }
-        if (line.includes('classStartDate":"08\\/09\\/2015') || line.includes('classStartDate":"02\\/09\\/2014')
-            || line.includes('classStartDate":"03\\/09\\/2019') || line.includes('classStartDate":"06\\/09\\/2016')
-            || line.includes('classStartDate":"05\\/09\\/2017') || line.includes('classStartDate":"04\\/09\\/2018'))
-        {
-          semester = 'Fall'
-        }
-        if (line.includes('classStartDate":"07\\/05\\/2014') || line.includes('classStartDate":"02\\/05\\/2016')
-            || line.includes('classStartDate":"03\\/05\\/2017') || line.includes('classStartDate":"06\\/05\\/2019')
-            || line.includes('classStartDate":"04\\/05\\/2015'))
-        {
-          semester = 'Summer'
+        if (semCode[1]) {
+          switch (semCode[1]) {
+            case '1':
+              semester = "Summer";
+              break;
+            case '2':
+              semester = "Fall";
+              break;
+            case '4':
+              semester = "Winter";
+              break;
+            default:
+              semester = "Fall";
+          }
+        } else {
+          semester = "Fall";
         }
         var tutorialSectionNumber = line.substring(line.search(/("section":)/)+10,line.search(/(,"componentCode")/));
         var instructorName = null;
@@ -1918,25 +1939,24 @@ function task14(done) {
           days += "Saturday, "};
         if(line.search(/("sundays":"Y")/)>= 0){
           days += "Sunday"};
+        var semCode = line.match('"termCode":"\\d{3}(\\d)"');
         var semester = "";
-        if (line.includes('classStartDate":"07\\/01\\/2015') || line.includes('classStartDate":"09\\/01\\/2017')
-            || line.includes('classStartDate":"06\\/01\\/2020') || line.includes('classStartDate":"06\\/01\\/2016')
-            || line.includes('classStartDate":"09\\/01\\/2017') || line.includes('classStartDate":"07\\/01\\/2019')
-            || line.includes('classStartDate":"08\\/01\\/2018'))
-        {
-          semester = 'Winter'
-        }
-        if (line.includes('classStartDate":"08\\/09\\/2015') || line.includes('classStartDate":"02\\/09\\/2014')
-            || line.includes('classStartDate":"03\\/09\\/2019') || line.includes('classStartDate":"06\\/09\\/2016')
-            || line.includes('classStartDate":"05\\/09\\/2017') || line.includes('classStartDate":"04\\/09\\/2018'))
-        {
-          semester = 'Fall'
-        }
-        if (line.includes('classStartDate":"07\\/05\\/2014') || line.includes('classStartDate":"02\\/05\\/2016')
-            || line.includes('classStartDate":"03\\/05\\/2017') || line.includes('classStartDate":"06\\/05\\/2019')
-            || line.includes('classStartDate":"04\\/05\\/2015'))
-        {
-          semester = 'Summer'
+        if (semCode[1]) {
+          switch (semCode[1]) {
+            case '1':
+              semester = "Summer";
+              break;
+            case '2':
+              semester = "Fall";
+              break;
+            case '4':
+              semester = "Winter";
+              break;
+            default:
+              semester = "Fall";
+          }
+        } else {
+          semester = "Fall";
         }
         var labSectionNumber = line.substring(line.search(/("section":)/)+10,line.search(/(,"componentCode")/));
         var instructorName = null;
