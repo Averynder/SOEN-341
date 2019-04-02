@@ -177,7 +177,7 @@ class AveryAlgorithms extends Component {
 		return root;
 	}
 
-	timeConflict1(course1, course2)
+	timeConflict1(course1, course2) // returns true if there's conflict between 2 courses
 	{
 		let lectureIndex1 = course1[1];
 		let tutorialIndex1 = course1[2];
@@ -360,7 +360,7 @@ class AveryAlgorithms extends Component {
 
 				if (tutorial2 != undefined) {
 					for (let j = 0; j < tutorial2.days.length; j++) {
-						if (tutorial1.days[k] == tutorial2.days[j]) {
+						if (lab1.days[k] == tutorial2.days[j]) {
 							start2 = this.timeToNum(tutorial2.startTime);
 							end2 = this.timeToNum(tutorial2.endTime);
 
@@ -392,9 +392,19 @@ class AveryAlgorithms extends Component {
 		return false;
 	}
 
-	timeConflict(courses)
+	timeConflict(courses) // takes array of courses and sees if there's conflicts between them
 	{
+		for (let i = 0; i < courses.length; i++) {
+			for (let j = i + 1; j < courses.length; j++) {
+				if (this.timeConflict1(courses[i], courses[j])) {
+					console.log("conflict between " + courses[i][0].course + " and " + courses[j][0].course);
+					return true;
+				}
+			}
+		}
 
+		console.log("no conflict");
+		return false;
 	}
 
 	timeToNum = time => {

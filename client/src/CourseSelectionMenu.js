@@ -893,6 +893,9 @@ class CourseSelectionMenu extends React.Component {
     // let course2 = this.state.selectedCourses[1];
     // let a = new AveryAlgorithms();
     // console.log(a.timeConflict(course1, course2));
+    let courses = this.state.selectedCourses;
+    let a = new AveryAlgorithms();
+    console.log(a.timeConflict(courses));
     this.setState({
       rubiat: true
     });
@@ -1586,108 +1589,6 @@ class CourseSelectionMenu extends React.Component {
 
       let lectureIndex = 0, tutorialIndex = 0, labIndex = 0;
       let validLecture, validTutorial, validLab;
-
-      // time conflict incomplete
-      /*for (let i = 0; i < addedClass.lecture.length; i++) {
-        validLecture = true;
-        validTutorial = true;
-        validLab = true;
-
-        for(let j=0; j<addedClass.lecture[i].days.length; j++) {
-          let initial = this.timeToNum(addedClass.lecture[i].startTime);
-          let final = this.timeToNum(addedClass.lecture[i].endTime) - 1;
-
-
-          for (let k = 0; k < 61; k++) {
-            if (
-              initial <= k &&
-              final >= k
-            ) {
-              let dayOfTheWeek = addedClass.lecture[i].days[j] + "-";
-              if (document.getElementById(dayOfTheWeek + k).innerHTML != "----------------") {
-                validLecture = false;
-                break;
-              }
-            }
-          }
-
-        }
-
-        if (validLecture) {
-          lectureIndex = i;
-        }
-        else {
-          continue; // try the next lecture section
-        }
-
-        if (validLecture) {
-          for (let l = 0; l < addedClass.lecture[lectureIndex].tutorial.length; l++) {
-            for (let m = 0; m < addedClass.lecture[lectureIndex].tutorial[l].days.length; m++) {
-              let initial = this.timeToNum(addedClass.lecture[lectureIndex].tutorial[l].startTime);
-              let final = this.timeToNum(addedClass.lecture[lectureIndex].tutorial[l].endTime) - 1;
-
-              for (let k = 0; k < 61; k++) {
-                if (
-                  initial <= k &&
-                  final >= k
-                  ) {
-                  let dayOfTheWeek = addedClass.lecture[lectureIndex].tutorial[l].days[m] + "-";
-                  if (document.getElementById(dayOfTheWeek + k).innerHTML != "----------------") {
-                    validTutorial = false;
-                    break;
-                  }
-                }
-              }
-            }
-
-            if (validTutorial) {
-              tutorialIndex = l;
-              break;
-            }
-
-          }
-        }
-
-        if (validLecture && validTutorial) {
-          for (let n = 0; n < addedClass.lab.length; n++) {
-            for (let m = 0; m < addedClass.lab[n].days.length; m++) {
-              let initial = this.timeToNum(addedClass.lab[n].startTime);
-              let final = this.timeToNum(addedClass.lab[n].endTime) - 1;
-
-              for (let k = 0; k < 61; k++) {
-                if (
-                  initial <= k &&
-                  final >= k
-                  ) {
-                  let dayOfTheWeek = addedClass.lab[n].days[m] + "-";
-                  if (document.getElementById(dayOfTheWeek + k).innerHTML != "----------------") {
-                    validLab = false;
-                    break;
-                  }
-                }
-              }
-            }
-
-            if (validLab) {
-              labIndex = n;
-              break;
-            }
-
-          }
-
-        }
-
-
-        if (validLecture && validTutorial && validLab) {
-          break;
-        }
-
-      }
-
-      if (!validLecture || !validTutorial || !validLab) {
-        console.log("Conflict");
-        return;
-      }*/
 
 // right now it's hardcoded to always add the first lecture section of a new class "[0]"
 // it doesn't verify if that section can actually fit in the table
