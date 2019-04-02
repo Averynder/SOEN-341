@@ -12,10 +12,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonObject;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import java.io.PrintWriter;
@@ -29,7 +25,7 @@ public class CourseScraper {
 		System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "/dev/null");
 		java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
 		FirefoxBinary firefoxBinary = new FirefoxBinary();
-		//firefoxBinary.addCommandLineOptions("--headless");
+	///	firefoxBinary.addCommandLineOptions("--headless");
 		FirefoxOptions firefoxOptions = new FirefoxOptions();
 		firefoxOptions.setBinary(firefoxBinary);
 		driver = new FirefoxDriver(firefoxOptions);
@@ -145,7 +141,7 @@ public class CourseScraper {
 			COURSE_KEYS[i] = GECoursesArray[i-2].code.substring(0,5);
 		System.out.println(Arrays.toString(COURSE_KEYS));
 		final Course[][] EN_ARRAYS = new Course[][]{ENCSCoursesArray, ENGRCoursesArray, GECoursesArray};
-		for (int h = 0; h<3; h++) {
+		for (int h = 2; h<3; h++) {
 			for (int i = 0; i < EN_COURSE_CODES[h].length; i++) {
 				driver.get("https://campus.concordia.ca/psp/pscsprd/EMPLOYEE/SA/c/SA_LEARNER_SERVICES.SSS_STUDENT_CENTER.GBL?");
 				driver.switchTo().frame(0);
@@ -181,7 +177,7 @@ public class CourseScraper {
 				String sectionsFoundText = sectionsFound.getText();
 				String numberOfSectionsText = sectionsFoundText.replaceAll("[^\\d.]", "").trim();
 				int numberOfSections = Integer.parseInt(numberOfSectionsText);
-				System.out.println(numberOfSections + " total sections found for " + COURSE_KEYS[h] + EN_COURSE_CODES[h][i]);
+				System.out.println(numberOfSections + " total sections found for " + EN_COURSE_CODES[h][i]);
 				String courseName = driver.findElement(By.id("win0divSSR_CLSRSLT_WRK_GROUPBOX2GP$0")).getText().split("-\\s")[1];
 				EN_ARRAYS[h][i].name = courseName;
 				System.out.print("Name: " + EN_ARRAYS[h][i].name);
@@ -195,25 +191,12 @@ public class CourseScraper {
 					EN_ARRAYS[h][i].prerequisites = prerequisites.split("[;,.]");
 				System.out.println("Prerequisites: "+Arrays.toString(EN_ARRAYS[h][i].prerequisites));
 				driver.findElement(By.id("CLASS_SRCH_WRK2_SSR_PB_BACK")).click();
-				/*
-				JsonObject value = Json.createObjectBuilder()
-						.add("course", COURSE_KEYS[h] + EN_COURSE_CODES[h][i])
-						.add("prerequisites", Arrays.toString(EN_ARRAYS[h][i].prerequisites))
-						.add("corequisites", Arrays.toString(EN_ARRAYS[h][i].prerequisites))
-						.add("name", EN_ARRAYS[h][i].name)
-						.add("credits", EN_ARRAYS[h][i].credits)
-						.build();
-
-				 */
-
-
 				for (int j = 0; j < numberOfSections; j++) {
 
 					WebElement row = driver.findElement(By.id("trSSR_CLSRCH_MTG1$" + j + "_row1"));
 					String[] rowText = row.getText().split("\\r?\\n");
-					/*
 					if (rowText[1].contains("LEC")) {
-						//System.out.println("Adding lecture " + rowText[1] + " to course " + EN_ARRAYS[h][i]);
+						System.out.println("Adding lecture " + rowText[1] + " to course " + EN_ARRAYS[h][i]);
 						Lecture lec = new Lecture(rowText[1]);
 						if (rowText[3].contains("Mo"))
 							lec.days.add("Monday");
@@ -234,10 +217,10 @@ public class CourseScraper {
 							lec.startTime = startTime;
 							lec.endTime = endTime;
 						}
-						//System.out.println(lec.code + " takes place in " + lec.room + " during " + lec.days + " from " + lec.startTime + " to " + lec.endTime + " in " + lec.semester);
+						System.out.println(lec.code + " takes place in " + lec.room + " during " + lec.days + " from " + lec.startTime + " to " + lec.endTime + " in " + lec.semester);
 						EN_ARRAYS[h][i].lectures.add(lec);
 					} else if (rowText[1].contains("TUT")) {
-						//System.out.println("Adding tutorial " + rowText[1] + " to lecture " + EN_ARRAYS[h][i].lectures.get(EN_ARRAYS[h][i].lectures.size() - 1));
+						System.out.println("Adding tutorial " + rowText[1] + " to lecture " + EN_ARRAYS[h][i].lectures.get(EN_ARRAYS[h][i].lectures.size() - 1));
 						Tutorial tut = new Tutorial(rowText[1]);
 						if (rowText[3].contains("Mo"))
 							tut.day = "Monday";
@@ -257,10 +240,10 @@ public class CourseScraper {
 							tut.startTime = startTime;
 							tut.endTime = endTime;
 						}
-						//System.out.println(tut.code + " takes place in " + tut.room + " during " + tut.day + " from " + tut.startTime + " to " + tut.endTime + " in " + tut.room);
+						System.out.println(tut.code + " takes place in " + tut.room + " during " + tut.day + " from " + tut.startTime + " to " + tut.endTime + " in " + tut.room);
 						EN_ARRAYS[h][i].lectures.get(EN_ARRAYS[h][i].lectures.size() - 1).tutorials.add(tut);
 					} else if (rowText[1].contains("LAB")) {
-						//System.out.println("Adding lab " + rowText[1] + " to lecture " + EN_ARRAYS[h][i].lectures.get(EN_ARRAYS[h][i].lectures.size() - 1));
+						System.out.println("Adding lab " + rowText[1] + " to lecture " + EN_ARRAYS[h][i].lectures.get(EN_ARRAYS[h][i].lectures.size() - 1));
 						Laboratory lab = new Laboratory(rowText[1]);
 						if (rowText[3].contains("Mo"))
 							lab.day = "Monday";
@@ -280,12 +263,11 @@ public class CourseScraper {
 							lab.startTime = startTime;
 							lab.endTime = endTime;
 						}
-						//System.out.println(lab.code + " takes place in " + lab.room + " during " + lab.day + " from " + lab.startTime + " to " + lab.endTime + " in " + lab);
+						System.out.println(lab.code + " takes place in " + lab.room + " during " + lab.day + " from " + lab.startTime + " to " + lab.endTime + " in " + lab);
 						EN_ARRAYS[h][i].lectures.get(EN_ARRAYS[h][i].lectures.size() - 1).laboratories.add(lab);
 					}
-					 */
 
-					System.out.println("Name: " + EN_ARRAYS[h][i].name + " : " + Arrays.toString(rowText));
+					System.out.println(Arrays.toString(rowText));
 				}
 
 			}

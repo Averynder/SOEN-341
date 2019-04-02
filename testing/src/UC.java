@@ -22,7 +22,7 @@ public class UC {
 	private static void setup(){
 
 		FirefoxBinary firefoxBinary = new FirefoxBinary();
-		firefoxBinary.addCommandLineOptions("--headless");
+	//	firefoxBinary.addCommandLineOptions("--headless");
 		FirefoxOptions firefoxOptions = new FirefoxOptions();
 		firefoxOptions.setBinary(firefoxBinary);
 		String URL = "http://localhost:3000";
@@ -31,7 +31,7 @@ public class UC {
 		System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE,"true");
 		System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"/dev/null");
 		driver = new FirefoxDriver(firefoxOptions);
-		driver.manage().timeouts().implicitlyWait(90, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.manage().deleteAllCookies();
 		boolean serverRunning = false;
 		Scanner review = new Scanner(System.in);
@@ -68,7 +68,7 @@ public class UC {
 		driver.findElement(By.id("waiting")).click();
 		boolean isLoggedIn = false;
 		try {
-			WebDriverWait waitForError = new WebDriverWait(driver, 15);
+			WebDriverWait waitForError = new WebDriverWait(driver, 10);
 			waitForError.until(ExpectedConditions.visibilityOfElementLocated(By.id("errorMessage")));
 			WebElement errorMessage = driver.findElement(By.id("errorMessage"));
 			System.out.println("Error message found");

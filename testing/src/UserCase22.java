@@ -21,68 +21,55 @@ public class UserCase22 extends UC{
 		if (wantLogin) {
 			if (!login(user, pass))
 				return false;
-		}else
-			noLogin();
+		}else if (!noLogin())
+			return false;
 		Random rand = new Random();
+
 		driver.findElement(By.xpath("//button[contains(.,'Semester')]")).click();
 		System.out.println("Selected semester instead of sequence");
-		WebElement DropDownSemesterMenu = driver.findElement(By.xpath("//select[@id='semester']"));
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("semester")));
+		WebElement DropDownSemesterMenu = driver.findElement(By.id("semester"));
 		Select semesterSelector = new Select((DropDownSemesterMenu));
-		final String[] ALL_SEMESTERS= {"Fall", "Winter", "Summer"};
-		int semester = rand.nextInt(3);
+		final String[] ALL_SEMESTERS= {"Fall", "Winter"};
+		int semester = rand.nextInt(2);
 		semesterSelector.selectByIndex(semester);
 		WebElement DropDownYearMenu = driver.findElement(By.xpath("//form[2]/div/select"));
 		Select yearSelector = new Select(DropDownYearMenu);
 		List<WebElement> yearsList = yearSelector.getOptions();
 		int year = rand.nextInt(yearsList.size());
+
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//form[2]/div/select")));
 		yearSelector.selectByIndex(year);
-		System.out.println("Selected " +ALL_SEMESTERS[semester]+ yearsList.get(year).getText());
-		driver.findElement(By.xpath("//button[contains(.,'Continue')]")).click();
-		Scanner input = new Scanner(System.in);
-		System.out.println("Please select up to 5 valid courses to add. Format example: COMP248 (leave blank for no course");
-		System.out.print("Course 1: ");
-		String course1 = input.nextLine();
-		System.out.print("\nCourse 2: ");
-		String course2 = input.nextLine();
-		System.out.print("\nCourse 3: ");
-		String course3 = input.nextLine();
-		System.out.print("\nCourse 4: ");
-		String course4 = input.nextLine();
-		System.out.print("\nCourse 5: ");
-		String course5 = input.nextLine();
-		System.out.print("\nInput course number if you wish to modify it (0 to continue): ");
-		try {
-			int modifyCourse = input.nextInt();
-		}catch (InputMismatchException e){
-			System.out.println("That is not an integer!");
-		}
-		driver.findElement(By.xpath("//input")).sendKeys("COMP248");//TODO: give option to choose course to add
-		WebDriverWait wait = new WebDriverWait(driver, 20);
-		WebElement button = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@type='button']")));    //splash screen workaround
-		boolean notClickableYet = true;
-		while (notClickableYet) {
-			try {
-				button.click();
-				notClickableYet = false;
-			}catch (ElementClickInterceptedException e){
-				continue;
-			}
-		}
-		driver.findElement(By.xpath("//select")).click();
+		System.out.println("Selected " +ALL_SEMESTERS[semester]+" "+ yearsList.get(year).getText());
+		driver.findElement(By.id("add-class1")).sendKeys("COMP248");
+		//	driver.findElement(By.xpath("//input")).sendKeys("COMP248");//TODO: give option to choose course to add
+		//driver.findElement(By.xpath("/html/body/div/div/div[2]/div/div/div[1]/div[5]/button"));
+
+		driver.findElement(By.xpath("/html/body/div/div/div[2]/div/div/div[1]/div[3]/div/div[2]/div[1]/button")).click();
 		WebElement sectionElement = driver.findElement(By.name("course-section"));
 		Select sectionSelector = new Select(sectionElement);
 		List<WebElement> sections = sectionSelector.getOptions();
 		int section = rand.nextInt(sections.size());
 		sectionSelector.selectByIndex(section);	//select random section
-		WebElement labElement = driver.findElement(By.xpath("//select[2]"));
-		Select labSelector = new Select(labElement);
-		List<WebElement> labList = labSelector.getOptions();
-		int lab = rand.nextInt(labList.size());
-		labSelector.selectByIndex(lab);
-		driver.findElement(By.xpath("//button[contains(.,'Change Section')]")).click();
-		System.out.println("Added COMP248, section "+ sections.get(section).getText()+ ", lab "+ labList.get(lab).getText()+" successfully");
+		WebElement tutorialElement = driver.findElement(By.xpath("//select[2]"));
+		Select tutorialSelector = new Select(tutorialElement);
+		List<WebElement> tutorialList = tutorialSelector.getOptions();
 
-		driver.findElement(By.xpath("//button[contains(.,'Color Selection')]")).click();
+		int tutorial = tutorialList.size() >0 ?rand.nextInt(tutorialList.size()):0;
+		tutorialSelector.selectByIndex(tutorial);
+		driver.findElement(By.xpath("//button[contains(.,'Change Section')]")).click();
+		System.out.println("Added COMP248, section "+ sections.get(section).getText()+ ", tutorial "+ tutorialList.get(tutorial).getText()+" successfully");//
+		driver.findElement(By.xpath("/html/body/div/div/div[2]/div/div/div[1]/div[5]/button")).click();   //generate schedule
+		System.out.println("Generating schedule...");
+		if (driver.getPageSource().contains("COMP248"))
+			System.out.println("COMP248 found in weekly schedule!");
+		else {
+			System.out.println("COMP248 was not found in the weekly schedule");
+			return false;
+		}
+		driver.findElement(By.xpath("/html/body/div/div/div[2]/div/div/div[2]/div[2]/button")).click();
+		driver.findElement(By.xpath("/html/body/div[3]/div/div/div[2]/form/div[2]/button"));
 		driver.findElement(By.id("colorChanger")).click();
 		System.out.print("Selecting color... ");
 		driver.findElement(By.xpath("//select[@id='colorChanger']/option")).click();
