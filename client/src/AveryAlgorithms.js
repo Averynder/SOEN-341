@@ -19,6 +19,8 @@ class AveryAlgorithms extends Component {
 		this.duplicateArray = this.duplicateArray.bind(this);
 		this.scrollMaker = this.scrollMaker.bind(this);
 		this.stacks2arrays = this.stacks2arrays.bind(this);
+		this.timeConflict1 = this.timeConflict1.bind(this);
+		this.timeConflict = this.timeConflict.bind(this);
 	}
 
 	duplicateArray(oldArray)
@@ -177,7 +179,7 @@ class AveryAlgorithms extends Component {
 		return root;
 	}
 
-	timeConflict(course1, course2)
+	timeConflict1(course1, course2)
 	{
 		let lectureIndex1 = course1[1];
 		let tutorialIndex1 = course1[2];
@@ -214,7 +216,7 @@ class AveryAlgorithms extends Component {
 		for (let i = 0; i < lecture1.days.length; i++) {
 			start1 = this.timeToNum(lecture1.startTime);
 			end1 = this.timeToNum(lecture1.endTime);
-			
+
 			for (let j = 0; j < lecture2.days.length; j++) {
 				if (lecture1.days[i] == lecture2.days[j]) {
 					start2 = this.timeToNum(lecture2.startTime);
@@ -231,7 +233,8 @@ class AveryAlgorithms extends Component {
 					// }
 
 					if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-						return "conflict between lecture1 and lecture2";
+						console.log("conflict between lecture1 and lecture2");
+						return true;
 					}
 				}
 			}
@@ -243,7 +246,8 @@ class AveryAlgorithms extends Component {
 						end2 = this.timeToNum(tutorial2.endTime);
 
 						if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-							return "conflict between lecture1 and tutorial2";
+							console.log("conflict between lecture1 and tutorial2");
+							return true;
 						}
 					}
 				}
@@ -256,7 +260,8 @@ class AveryAlgorithms extends Component {
 						end2 = this.timeToNum(lab2.endTime);
 
 						if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-							return "conflict between lecture1 and lab2";
+							console.log("conflict between lecture1 and lab2");
+							return true;
 						}
 					}
 				}
@@ -269,7 +274,8 @@ class AveryAlgorithms extends Component {
 						end2 = this.timeToNum(lab1.endTime);
 
 						if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-							return "conflict between lecture1 and lab1";
+							console.log("conflict between lecture1 and lab1");
+							return true;
 						}
 					}
 				}
@@ -287,7 +293,8 @@ class AveryAlgorithms extends Component {
 						end2 = this.timeToNum(lecture2.endTime);
 
 						if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-							return "conflict between tutorial1 and lecture2";
+							console.log("conflict between tutorial1 and lecture2");
+							return true;
 						}
 					}
 				}
@@ -297,9 +304,10 @@ class AveryAlgorithms extends Component {
 						if (tutorial1.days[j] == tutorial2.days[k]) {
 							start2 = this.timeToNum(tutorial2.startTime);
 							end2 = this.timeToNum(tutorial2.endTime);
-	
+
 							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-								return "conflict between tutorial1 and tutorial2";
+								console.log("conflict between tutorial1 and tutorial2");
+								return true;
 							}
 						}
 					}
@@ -310,9 +318,10 @@ class AveryAlgorithms extends Component {
 						if (tutorial1.days[j] == lab2.days[l]) {
 							start2 = this.timeToNum(lab2.startTime);
 							end2 = this.timeToNum(lab2.endTime);
-	
+
 							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-								return "conflict between tutorial1 and lab2";
+								console.log("conflict between tutorial1 and lab2");
+								return true;
 							}
 						}
 					}
@@ -323,9 +332,10 @@ class AveryAlgorithms extends Component {
 						if (tutorial1.days[j] == lab1.days[m]) {
 							start2 = this.timeToNum(lab1.startTime);
 							end2 = this.timeToNum(lab1.endTime);
-	
+
 							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-								return "conflict between tutorial1 and lab1";
+								console.log("conflict between tutorial1 and lab1");
+								return true;
 							}
 						}
 					}
@@ -344,7 +354,8 @@ class AveryAlgorithms extends Component {
 						end2 = this.timeToNum(lecture2.endTime);
 
 						if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-							return "conflict between lab1 and lecture2";
+							console.log("conflict between lab1 and lecture2");
+							return true;
 						}
 					}
 				}
@@ -354,9 +365,10 @@ class AveryAlgorithms extends Component {
 						if (tutorial1.days[k] == tutorial2.days[j]) {
 							start2 = this.timeToNum(tutorial2.startTime);
 							end2 = this.timeToNum(tutorial2.endTime);
-	
+
 							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-								return "conflict between lab1 and tutorial2";
+								console.log("conflict between lab1 and tutorial2");
+								return true;
 							}
 						}
 					}
@@ -367,9 +379,10 @@ class AveryAlgorithms extends Component {
 						if (lab1.days[k] == lab2.days[l]) {
 							start2 = this.timeToNum(lab2.startTime);
 							end2 = this.timeToNum(lab2.endTime);
-	
+
 							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-								return "conflict between lab1 and lab2";
+								console.log("conflict between lab1 and lab2");
+								return true;
 							}
 						}
 					}
@@ -377,22 +390,28 @@ class AveryAlgorithms extends Component {
 			}
 		}
 
-		return "no conflicts";
+		console.log("no conflicts");
+		return false;
+	}
+
+	timeConflict(courses)
+	{
+
 	}
 
 	timeToNum = time => {
 		// time parameter represents start time or end time of a class
-	
+
 		// algo for rounding since table is jumps of 15 mins
 		let time1, time2;
 		let time1Minute, time2Minute;
 		let timeHour = time.substring(0, time.indexOf(":"));
 		let timeMinute = time.substring(time.indexOf(":")+1);
-	
+
 		timeMinute = parseInt(timeMinute);
 		time1Minute = timeMinute - 5;
 		time2Minute = timeMinute + 5;
-	
+
 		if (time1Minute == -5) {
 		  time2 = timeHour + ":0" + time2Minute; // @@:05
 		  timeHour = parseInt(timeHour);
@@ -413,7 +432,7 @@ class AveryAlgorithms extends Component {
 		  time1 = timeHour + ":" + time1Minute;
 		  time2 = timeHour + ":" + time2Minute;
 		}
-	
+
 		for (let i = 0; i < 61; i++)
 		  if ((time1 === times.time[i].startTime) ||
 			  (time === times.time[i].startTime) ||
