@@ -152,6 +152,29 @@ public class TestMaster {
 						}
 						continue;
 					}
+
+					case 29:
+						if (UserCase29.run()){
+							System.out.println("Test #"+ numberOfRuns+" completed successfully for UC29");
+							numberOfRuns--;
+							break;
+						}else{
+							System.out.println("UC29 failed. Please check log file");
+							numberOfRuns = 0;
+							break;
+						}
+					default:
+						userCaseEntered = false;
+						while (!userCaseEntered) {
+							try {
+								System.out.println("Number doesn't match any user case implemented, try again: ");
+								userCaseNumber = userInput.nextInt();
+								userCaseEntered = true;
+							} catch (InputMismatchException e) {
+								System.out.println("Input not a number");
+								userInput.nextLine(); //Consume junk line
+							}
+						}
 				}
 			}
 

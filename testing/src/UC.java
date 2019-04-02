@@ -32,7 +32,7 @@ public class UC {
 		System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"/dev/null");
 		driver = new FirefoxDriver(firefoxOptions);
 		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		//driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.manage().deleteAllCookies();
 		boolean serverRunning = false;
 		Scanner review = new Scanner(System.in);
