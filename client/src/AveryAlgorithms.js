@@ -22,7 +22,7 @@ class AveryAlgorithms extends Component {
 		let newArray = [];
 		for (let i = 0; i < oldArray.length; i++)
 		{
-			newArray.push(oldArray[i]);
+			newArray.push(cloneDeep(oldArray[i]));
 		}
 		return newArray;
 	}
@@ -106,16 +106,16 @@ class AveryAlgorithms extends Component {
 		}
 		let c1 = courses[0];
 		let poss = this.allPossibilities(c1);
-		for (let i = 0; i < poss.length; i++)
+		for (let i = 0; i < poss.length; i++) //
 		{
 			let child = new AveryAlgorithms.Node(poss[i], parent, null);
 			parent.branches.push(child);
-			courses.splice(0,1);
-			for (let j = 0; j < child.branches.length; j++)
-			{
-				let new_courses = cloneDeep(courses);
-				this.treeMaker(new_courses,child.branches[j])
-			}
+		}
+		courses = courses.slice(1,courses.length);
+		for (let j = 0; j < parent.branches.length; j++) //
+		{
+			let new_courses = this.duplicateArray(courses);
+			this.treeMaker(new_courses,parent.branches[j]);
 		}
 		return;
 	}
