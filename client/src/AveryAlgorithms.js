@@ -4,6 +4,7 @@ import JsonClass from "./JsonClass";
 import JsonTut from "./JsonTut";
 import cloneDeep from 'lodash/cloneDeep';
 import * as times from "./data/calendar.json";
+import Stack from "./Stack";
 
 class AveryAlgorithms extends Component {
 
@@ -16,6 +17,8 @@ class AveryAlgorithms extends Component {
 		this.allPossibilities = this.allPossibilities.bind(this);
 		this.treeMaker = this.treeMaker.bind(this);
 		this.duplicateArray = this.duplicateArray.bind(this);
+		this.scrollMaker = this.scrollMaker.bind(this);
+		this.stacks2arrays = this.stacks2arrays.bind(this);
 		this.timeConflict1 = this.timeConflict1.bind(this);
 		this.timeConflict = this.timeConflict.bind(this);
 	}
@@ -123,10 +126,54 @@ class AveryAlgorithms extends Component {
 		return;
 	}
 
+	scrollMaker(parent, root, finalList)
+	{
+		if (parent.branches == null)
+			return;
+		for (let i = 0; i < parent.branches.length; i++)
+		{
+			this.scrollMaker(parent.branches[i], root, finalList);
+		}
+		if (parent.branches.length == 0)
+		{
+			let stacky = new Stack();
+			if (parent != root)
+				stacky.push(parent.course);
+			while (parent != root)
+			{
+				parent = parent.parent;
+				if (parent != root)
+					stacky.push(parent.course);
+			}
+			finalList.push(stacky);
+			return;
+		}
+	}
+
+	stacks2arrays(listOfStacks)
+	{
+		for (let i = 0; i < listOfStacks.length; i++)
+		{
+			let stacky = listOfStacks[i];
+			let newArray = [];
+			for (let j = 0; j < stacky.size(); j++)
+			{
+				newArray.push(stacky.pop1());
+			}
+			listOfStacks.splice(i,1);
+			listOfStacks.unshift(newArray);
+		}
+	}
+
 	treeCaller(courses)
 	{
 		let root = new AveryAlgorithms.Node(null, null, null);
 		this.treeMaker(courses, root);
+		let myArray = [];
+		this.scrollMaker(root, root, myArray);
+		this.stacks2arrays(myArray);
+		console.log("Array of Arrays:");
+		console.log(myArray);
 		return root;
 	}
 
@@ -167,7 +214,7 @@ class AveryAlgorithms extends Component {
 		for (let i = 0; i < lecture1.days.length; i++) {
 			start1 = this.timeToNum(lecture1.startTime);
 			end1 = this.timeToNum(lecture1.endTime);
-			
+
 			for (let j = 0; j < lecture2.days.length; j++) {
 				if (lecture1.days[i] == lecture2.days[j]) {
 					start2 = this.timeToNum(lecture2.startTime);
@@ -255,7 +302,7 @@ class AveryAlgorithms extends Component {
 						if (tutorial1.days[j] == tutorial2.days[k]) {
 							start2 = this.timeToNum(tutorial2.startTime);
 							end2 = this.timeToNum(tutorial2.endTime);
-	
+
 							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
 								console.log("conflict between tutorial1 and tutorial2");
 								return true;
@@ -269,7 +316,7 @@ class AveryAlgorithms extends Component {
 						if (tutorial1.days[j] == lab2.days[l]) {
 							start2 = this.timeToNum(lab2.startTime);
 							end2 = this.timeToNum(lab2.endTime);
-	
+
 							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
 								console.log("conflict between tutorial1 and lab2");
 								return true;
@@ -283,7 +330,7 @@ class AveryAlgorithms extends Component {
 						if (tutorial1.days[j] == lab1.days[m]) {
 							start2 = this.timeToNum(lab1.startTime);
 							end2 = this.timeToNum(lab1.endTime);
-	
+
 							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
 								console.log("conflict between tutorial1 and lab1");
 								return true;
@@ -316,7 +363,7 @@ class AveryAlgorithms extends Component {
 						if (lab1.days[k] == tutorial2.days[j]) {
 							start2 = this.timeToNum(tutorial2.startTime);
 							end2 = this.timeToNum(tutorial2.endTime);
-	
+
 							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
 								console.log("conflict between lab1 and tutorial2");
 								return true;
@@ -330,7 +377,7 @@ class AveryAlgorithms extends Component {
 						if (lab1.days[k] == lab2.days[l]) {
 							start2 = this.timeToNum(lab2.startTime);
 							end2 = this.timeToNum(lab2.endTime);
-	
+
 							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
 								console.log("conflict between lab1 and lab2");
 								return true;
@@ -362,17 +409,17 @@ class AveryAlgorithms extends Component {
 
 	timeToNum = time => {
 		// time parameter represents start time or end time of a class
-	
+
 		// algo for rounding since table is jumps of 15 mins
 		let time1, time2;
 		let time1Minute, time2Minute;
 		let timeHour = time.substring(0, time.indexOf(":"));
 		let timeMinute = time.substring(time.indexOf(":")+1);
-	
+
 		timeMinute = parseInt(timeMinute);
 		time1Minute = timeMinute - 5;
 		time2Minute = timeMinute + 5;
-	
+
 		if (time1Minute == -5) {
 		  time2 = timeHour + ":0" + time2Minute; // @@:05
 		  timeHour = parseInt(timeHour);
@@ -393,7 +440,7 @@ class AveryAlgorithms extends Component {
 		  time1 = timeHour + ":" + time1Minute;
 		  time2 = timeHour + ":" + time2Minute;
 		}
-	
+
 		for (let i = 0; i < 61; i++)
 		  if ((time1 === times.time[i].startTime) ||
 			  (time === times.time[i].startTime) ||
