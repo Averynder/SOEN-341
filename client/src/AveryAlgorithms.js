@@ -126,6 +126,71 @@ class AveryAlgorithms extends Component {
 		this.treeMaker(courses, root);
 		return root;
 	}
+
+	timeConflict(course1, course2)
+	{
+		let lectureIndex1 = course1[1];
+		let tutorialIndex1 = course1[2];
+		let labIndex1 = course1[3];
+
+		let lectureIndex2 = course2[1];
+		let tutorialIndex2 = course2[2];
+		let labIndex2 = course2[3];
+
+		let lecture1 = course1[0].lecture[lectureIndex1];
+		let tutorial1, lab1;
+
+		if (tutorialIndex1 != null) {
+			tutorial1 = course1[0].lecture[lectureIndex1].tutorial[tutorialIndex1];
+		}
+
+		if (labIndex1 != null) {
+			lab1 = course1[0].lab[labIndex1];
+		}
+
+		let lecture2 = course2[0].lecture[lectureIndex2];
+		let tutorial2, lab2;
+
+		if (tutorialIndex2 != null) {
+			tutorial2 = course2[0].lecture[lectureIndex2].tutorial[tutorialIndex2];
+		}
+
+		if (labIndex2 != null) {
+			lab2 = course2[0].lab[labIndex2];
+		}
+
+		let start1, start2, end1, end2;
+
+		for (let i = 0; i < lecture1.days.length; i++) {
+			start1 = lecture1.startTime;
+			end1 = lecture1.endTime;
+			
+			for (let j = 0; j < lecture2.days.length; j++) {
+				if (lecture1.days[i] == lecture2.days[j]) {
+					start2 = lecture2.startTime;
+					end2 = lecture2.endTime;
+					// if (start2 > start1) {
+					// 	if (!(start2 >= end1)) {
+					// 		return "conflict between lecture1 and lecture2";
+					// 	}
+					// }
+					// else {
+					// 	if (!(start1 >= end2)) {
+					// 		return "conflict betwen lecture1 and lecture2";
+					// 	}
+					// }
+
+					if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
+						return "conflict between lecture1 and lecture2";
+					}
+				}
+			}
+
+			if (tutorial1 != undefined) {
+
+			}
+		}
+	}
 }
 
 AveryAlgorithms["class"] = "AveryAlgorithms";
