@@ -172,7 +172,6 @@ class AveryAlgorithms extends Component {
 		let myArray = [];
 		this.scrollMaker(root, root, myArray);
 		this.stacks2arrays(myArray);
-		console.log("Array of Arrays:");
 		return myArray;
 	}
 
