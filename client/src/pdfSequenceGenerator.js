@@ -110,9 +110,7 @@ class PdfSequenceGenerator extends React.Component {
     //background: isDraggingOver? 'blue': 'red'
   });
 
-  offeredIn = (semClass, course) => {
-    let semester = semClass.substr(15); // remove selectedCourses from semester string
-    semester = semester.charAt(0).toUpperCase() + semester.slice(1);
+  offeredIn = (semester, course) => {
 
     return new Promise((resolve, reject) => {
       fetch('/semesters/' + course)
@@ -149,6 +147,10 @@ class PdfSequenceGenerator extends React.Component {
     }
   }
 
+  getSemFromClass = semClass => {
+    return semClass.substr(15); // remove selectedCourses from semester string
+  }
+
   onDragEnd = result => {
     const { source, destination } = result;
 
@@ -169,9 +171,8 @@ class PdfSequenceGenerator extends React.Component {
       });
     } else {
       let movingCourse = this.state[source.droppableId][source.index];
-      let semesterStr = destination.droppableId;
-      let messageElem = document.getElementById('infoMessage' + this.props.year);
-      this.offeredIn(destination.droppableId, movingCourse.course) // e.g. canMove("selectedCoursesWinter", "SOEN341")
+      let semester = this.getSemFromClass(destination.droppableId);
+      this.offeredIn(semester, movingCourse.course) // e.g. canMove("Winter", "SOEN341")
         .then(canMove => {
           if (canMove) {
             messageElem.innerHTML = '';
