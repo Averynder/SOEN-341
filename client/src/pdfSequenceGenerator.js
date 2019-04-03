@@ -132,7 +132,16 @@ class PdfSequenceGenerator extends React.Component {
         else if (this.isPrereqTo(check, course)) dependents.push({ course: check.course, prereq: course.course});
       });
     });
-    return dependents;
+    let messageElem = document.getElementById('infoMessage' + this.props.year);
+    if (dependents.length > 0) {
+      let str = "";
+      dependents.forEach(duo => {
+        str += duo.prereq + " is a prereq to " + duo.course + "<br />";
+      });
+        messageElem.innerHTML = str;
+    } else {
+      messageElem.innerHTML = '';
+    }
   }
 
   isPrereqTo = (course, maybePrereq) => {
@@ -160,6 +169,7 @@ class PdfSequenceGenerator extends React.Component {
     }
 
     if (source.droppableId === destination.droppableId) {
+      let messageElem = document.getElementById('infoMessage' + this.props.year);
       const items = this.reorder(
         this.state[source.droppableId],
         source.index,
@@ -169,13 +179,16 @@ class PdfSequenceGenerator extends React.Component {
       this.setState({
         [source.droppableId]: items
       });
+
+      messageElem.innerHTML = '';
     } else {
       let movingCourse = this.state[source.droppableId][source.index];
       let semester = this.getSemFromClass(destination.droppableId);
       this.offeredIn(semester, movingCourse.course) // e.g. canMove("Winter", "SOEN341")
         .then(canMove => {
+          let messageElem = document.getElementById('messageElem' + this.props.year);
           if (canMove) {
-            messageElem.innerHTML = '';
+            this.verifyPrereqs(semester, movingCourse);
             const moved = this.move(
               this.state[source.droppableId],
               this.state[destination.droppableId],
@@ -237,18 +250,7 @@ class PdfSequenceGenerator extends React.Component {
               errorMessage.innerHTML = "This class is not offered in this semester!";
             } else {
               let sel = "selectedCourses" + semester;
-              let dependents = this.verifyPrereqs(semester, validClass);
-              let messageElem = document.getElementById('infoMessage' + this.props.year);
-              if (dependents.length > 0) {
-                let str = "";
-                dependents.forEach(duo => {
-                  str += duo.prereq + " is a prereq to " + duo.course + "<br />";
-                });
-                  messageElem.innerHTML = str;
-              } else {
-                messageElem.innerHTML = '';
-              }
-              console.log(dependents);
+              this.verifyPrereqs(semester, validClass);
               this.setState({
                 [sel]: [...this.state[sel], validClass],
                 showAdd: !this.state.showAdd
