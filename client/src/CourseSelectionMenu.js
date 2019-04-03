@@ -137,7 +137,7 @@ class CourseSelectionMenu extends React.Component {
     let aa = new AveryAlgorithms();
     if (this.state.dataCourses[36] != undefined)
     {
-      aa.treeCaller([this.state.dataCourses[36],this.state.dataCourses[26],this.state.dataCourses[10]]);
+      console.log(aa.treeCaller([this.state.dataCourses[36],this.state.dataCourses[26],this.state.dataCourses[10]]));
     }
   }
 

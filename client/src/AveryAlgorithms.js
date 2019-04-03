@@ -173,8 +173,7 @@ class AveryAlgorithms extends Component {
 		this.scrollMaker(root, root, myArray);
 		this.stacks2arrays(myArray);
 		console.log("Array of Arrays:");
-		console.log(myArray);
-		return root;
+		return myArray;
 	}
 
 	timeConflict1(course1, course2) // returns true if there's conflict between 2 courses
