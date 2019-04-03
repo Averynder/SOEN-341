@@ -7,6 +7,7 @@ class Stack extends React.Component
 	{
 		super(props);
 		this.ll = new MyDoublyLinkedList()
+		this.arr = [];
 	}
 
 	size = function () {
@@ -20,12 +21,18 @@ class Stack extends React.Component
 	push = function (element)
 	{
 		this.ll.addFirst(element);
+		this.arr.push(element);
 	};
 
 	pop = function ()
 	{
 		return this.ll.removeFirst();
 	};
+
+	pop1 = function ()
+	{
+		return this.arr.shift();
+	}
 
 	top = function ()
 	{
