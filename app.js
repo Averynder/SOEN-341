@@ -9,7 +9,6 @@ var cors = require('cors')
 var session = require('express-session');
 var logger = require('morgan');
 var usersRouter = require('./routes/users');
-var loginRouter = require('./routes/login');
 var calendarRouter = require('./routes/calendar');
 var mysql = require("mysql2");
 // This class will run the DB script when called
