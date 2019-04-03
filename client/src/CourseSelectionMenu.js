@@ -34,6 +34,7 @@ class CourseSelectionMenu extends React.Component {
     this.regEx = this.regEx.bind(this);
     this.regEx2 = this.regEx2.bind(this);
     this.changeSection = this.changeSection.bind(this);
+    this.filterTutorialOptions = this.filterTutorialOptions.bind(this);
 
     var year;
     var semester;
@@ -574,11 +575,11 @@ class CourseSelectionMenu extends React.Component {
             if (courses31[i].lecture[j] != null) {
               if (
                 courses31[i].lecture[j].section ==
-                courses31[i].lecture[k].section &&
+                  courses31[i].lecture[k].section &&
                 courses31[i].lecture[j].startTime ==
-                courses31[i].lecture[k].startTime &&
+                  courses31[i].lecture[k].startTime &&
                 courses31[i].lecture[j].endTime ==
-                courses31[i].lecture[k].endTime &&
+                  courses31[i].lecture[k].endTime &&
                 courses31[i].lecture[j].room != courses31[i].lecture[k].room &&
                 j != k
               ) {
@@ -595,13 +596,13 @@ class CourseSelectionMenu extends React.Component {
                   if (courses31[i].lecture[j].tutorial[b] != null) {
                     if (
                       courses31[i].lecture[j].tutorial[b].section ==
-                      courses31[i].lecture[j].tutorial[a].section &&
+                        courses31[i].lecture[j].tutorial[a].section &&
                       courses31[i].lecture[j].tutorial[b].startTime ==
-                      courses31[i].lecture[j].tutorial[a].startTime &&
+                        courses31[i].lecture[j].tutorial[a].startTime &&
                       courses31[i].lecture[j].tutorial[b].endTime ==
-                      courses31[i].lecture[j].tutorial[a].endTime &&
+                        courses31[i].lecture[j].tutorial[a].endTime &&
                       courses31[i].lecture[j].tutorial[b].room !=
-                      courses31[i].lecture[j].tutorial[a].room &&
+                        courses31[i].lecture[j].tutorial[a].room &&
                       a != b
                     ) {
                       courses31[i].lecture[j].tutorial[b].room +=
@@ -636,9 +637,11 @@ class CourseSelectionMenu extends React.Component {
     }
 
     // Changing Name for duplicate tutorials to 2 if diff times but same section
-    j = 0; k = 0; a = 0; b = 0;
-    for (i = 0; i < courses31.length; i++)
-    {
+    j = 0;
+    k = 0;
+    a = 0;
+    b = 0;
+    for (i = 0; i < courses31.length; i++) {
       // lecture removing duplicates
       if (courses31[i].lecture != null) {
         for (j = 0; j < courses31[i].lecture.length; j++) {
@@ -647,12 +650,20 @@ class CourseSelectionMenu extends React.Component {
               for (b = 0; b < courses31[i].lecture[j].tutorial.length; b++) {
                 for (a = 0; a < courses31[i].lecture[j].tutorial.length; a++) {
                   if (courses31[i].lecture[j].tutorial[b] != null) {
-                    if (courses31[i].lecture[j].tutorial[b].section == courses31[i].lecture[j].tutorial[a].section
-                        && courses31[i].lecture[j].tutorial[b].startTime != courses31[i].lecture[j].tutorial[a].startTime
-                        && courses31[i].lecture[j].tutorial[b].endTime != courses31[i].lecture[j].tutorial[a].endTime
-                        && a != b) {
-                      if (courses31[i].lecture[j].tutorial[a].section.charAt(courses31[i].lecture[j].tutorial[a].section.length) != "2")
-                      {
+                    if (
+                      courses31[i].lecture[j].tutorial[b].section ==
+                        courses31[i].lecture[j].tutorial[a].section &&
+                      courses31[i].lecture[j].tutorial[b].startTime !=
+                        courses31[i].lecture[j].tutorial[a].startTime &&
+                      courses31[i].lecture[j].tutorial[b].endTime !=
+                        courses31[i].lecture[j].tutorial[a].endTime &&
+                      a != b
+                    ) {
+                      if (
+                        courses31[i].lecture[j].tutorial[a].section.charAt(
+                          courses31[i].lecture[j].tutorial[a].section.length
+                        ) != "2"
+                      ) {
                         courses31[i].lecture[j].tutorial[a].section += "*";
                       }
                       a = -1;
@@ -667,9 +678,11 @@ class CourseSelectionMenu extends React.Component {
     }
 
     // Removing duplicate tuts if Room was added but other room wasn't removed
-    j = 0; k = 0; a = 0; b = 0;
-    for (i = 0; i < courses31.length; i++)
-    {
+    j = 0;
+    k = 0;
+    a = 0;
+    b = 0;
+    for (i = 0; i < courses31.length; i++) {
       // lecture removing duplicates
       if (courses31[i].lecture != null) {
         for (j = 0; j < courses31[i].lecture.length; j++) {
@@ -678,10 +691,15 @@ class CourseSelectionMenu extends React.Component {
               for (b = 0; b < courses31[i].lecture[j].tutorial.length; b++) {
                 for (a = 0; a < courses31[i].lecture[j].tutorial.length; a++) {
                   if (courses31[i].lecture[j].tutorial[b] != null) {
-                    if (courses31[i].lecture[j].tutorial[b].section == courses31[i].lecture[j].tutorial[a].section
-                        && courses31[i].lecture[j].tutorial[b].startTime == courses31[i].lecture[j].tutorial[a].startTime
-                        && courses31[i].lecture[j].tutorial[b].endTime == courses31[i].lecture[j].tutorial[a].endTime
-                        && a != b) {
+                    if (
+                      courses31[i].lecture[j].tutorial[b].section ==
+                        courses31[i].lecture[j].tutorial[a].section &&
+                      courses31[i].lecture[j].tutorial[b].startTime ==
+                        courses31[i].lecture[j].tutorial[a].startTime &&
+                      courses31[i].lecture[j].tutorial[b].endTime ==
+                        courses31[i].lecture[j].tutorial[a].endTime &&
+                      a != b
+                    ) {
                       courses31[i].lecture[j].tutorial.splice(a, 1);
                       a = -1;
                     }
@@ -829,23 +847,37 @@ class CourseSelectionMenu extends React.Component {
           if (this.state.dataCourses[i].course == subject) {
             this.state.dataCourses[i].name = title;
             this.state.dataCourses[i].credit = parseFloat(creditNumber);
-            if (prereqs.charAt(prereqs.length) == " ")
-            {
-              prereqs = prereqs.substring(0,prereqs.length-1);
+            if (prereqs.charAt(prereqs.length) == " ") {
+              prereqs = prereqs.substring(0, prereqs.length - 1);
             }
-            while (prereqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/) > -1)
-            {
-              prereqs = prereqs.substring(0,prereqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/)+4) + prereqs.substring(prereqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/)+5);
+            while (
+              prereqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/) > -1
+            ) {
+              prereqs =
+                prereqs.substring(
+                  0,
+                  prereqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/) + 4
+                ) +
+                prereqs.substring(
+                  prereqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/) + 5
+                );
             }
             this.state.dataCourses[i].prereqs = [];
             this.state.dataCourses[i].prereqs.push(prereqs);
-            if (coreqs.charAt(coreqs.length) == " ")
-            {
-              coreqs = coreqs.substring(0,coreqs.length-1);
+            if (coreqs.charAt(coreqs.length) == " ") {
+              coreqs = coreqs.substring(0, coreqs.length - 1);
             }
-            while (coreqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/) > -1)
-            {
-              coreqs = coreqs.substring(0,coreqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/)+4) + coreqs.substring(coreqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/)+5);
+            while (
+              coreqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/) > -1
+            ) {
+              coreqs =
+                coreqs.substring(
+                  0,
+                  coreqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/) + 4
+                ) +
+                coreqs.substring(
+                  coreqs.search(/[A-Z][A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]/) + 5
+                );
             }
             this.state.dataCourses[i].coreqs = [];
             this.state.dataCourses[i].coreqs.push(coreqs);
@@ -1408,7 +1440,6 @@ class CourseSelectionMenu extends React.Component {
       }
     }
 
-    
     for (let s = 0; s < this.state.finalizedClassArray.length; s++) {
       if (courseNameInput === this.state.finalizedClassArray[s].course_number) {
         this.state.finalizedClassArray[s].course_color = color.hex;
@@ -1453,9 +1484,9 @@ class CourseSelectionMenu extends React.Component {
         let dayOfTheWeek = chosenClass[0].lecture[lectureSection].days[j] + "-";
         if (
           this.timeToNum(chosenClass[0].lecture[lectureSection].startTime) <=
-          i &&
+            i &&
           this.timeToNum(chosenClass[0].lecture[lectureSection].endTime) - 1 >=
-          i
+            i
         ) {
           color1 = document.getElementById(dayOfTheWeek + i).style
             .backgroundColor;
@@ -1502,8 +1533,8 @@ class CourseSelectionMenu extends React.Component {
               chosenClass[0].lecture[lectureSection].tutorial[tutorialSection]
                 .endTime
             ) -
-            1 >=
-            i
+              1 >=
+              i
           ) {
             //color1 = document.getElementById(dayOfTheWeek + i).style.backgroundColor;
             document.getElementById(dayOfTheWeek + i).style.backgroundColor =
@@ -1898,14 +1929,12 @@ class CourseSelectionMenu extends React.Component {
           : "",
       lab_section:
         addedClass.lab.length != 0 ? addedClass.lab[labIndex].section : "",
-      lab_room:
-        addedClass.lab.length != 0 ? addedClass.lab[labIndex].room : "",
-      lab_days:
-        addedClass.lab.length != 0 ? addedClass.lab[labIndex].days : "",
+      lab_room: addedClass.lab.length != 0 ? addedClass.lab[labIndex].room : "",
+      lab_days: addedClass.lab.length != 0 ? addedClass.lab[labIndex].days : "",
       lab_start:
         addedClass.lab.length != 0 ? addedClass.lab[labIndex].startTime : "",
       lab_end:
-        addedClass.lab.length != 0 ? addedClass.lab[labIndex].endTime : "",
+        addedClass.lab.length != 0 ? addedClass.lab[labIndex].endTime : ""
     };
 
     for (let j = 0; j < addedClass.lecture[lectureIndex].days.length; j++) {
@@ -1976,7 +2005,7 @@ class CourseSelectionMenu extends React.Component {
             if (initial <= i && final >= i) {
               let dayOfTheWeek =
                 addedClass.lecture[lectureIndex].tutorial[tutorialIndex].days[
-                k
+                  k
                 ] + "-";
               document.getElementById(
                 dayOfTheWeek + i
@@ -2015,7 +2044,7 @@ class CourseSelectionMenu extends React.Component {
             if (initial <= i && final >= i) {
               let dayOfTheWeek =
                 addedClass.lecture[lectureIndex].tutorial[tutorialIndex].days[
-                k
+                  k
                 ] + "-";
               document.getElementById(
                 dayOfTheWeek + i
@@ -2364,8 +2393,8 @@ class CourseSelectionMenu extends React.Component {
               courseToRemove.lecture[lectureIndex].tutorial[tutorialIndex]
                 .endTime
             ) -
-            1 >=
-            i
+              1 >=
+              i
           ) {
             document.getElementById(dayOfTheWeek + i).style.backgroundColor =
               ""; // (you can choose to select the return of a function)
@@ -2425,7 +2454,7 @@ class CourseSelectionMenu extends React.Component {
       selectedCourses: array,
       show2: "hidden",
       credits: credits,
-      finalizedClassArray: newFinalizedClassArray,
+      finalizedClassArray: newFinalizedClassArray
     });
 
     // this.setState({
@@ -2440,10 +2469,12 @@ class CourseSelectionMenu extends React.Component {
   };
 
   changeSection(courseName) {
-    let regEx = document.getElementById(courseName + "section").value;
+    // let regEx = document.getElementById(courseName + "section").value;
 
-    let lectureSection = regEx.substring(0, regEx.indexOf("-"));
-    let tutorialSection = regEx.substring(regEx.indexOf("-") + 1);
+    // let lectureSection = regEx.substring(0, regEx.indexOf("-"));
+    let lectureSection = document.getElementById("lecSection").value;
+    // let tutorialSection = regEx.substring(regEx.indexOf("-") + 1);
+    let tutorialSection = document.getElementById("tutSection").value;
 
     let labSection = document.getElementById(courseName + "labSection").value;
 
@@ -2462,7 +2493,7 @@ class CourseSelectionMenu extends React.Component {
     }
 
     let courseToChangeForFinalize;
-    for (let s = 0; s<this.state.finalizedClassArray.length; s++) {
+    for (let s = 0; s < this.state.finalizedClassArray.length; s++) {
       if (this.state.finalizedClassArray[s].course_number === courseName) {
         courseToChangeForFinalize = this.state.finalizedClassArray[s];
         break;
@@ -2506,8 +2537,8 @@ class CourseSelectionMenu extends React.Component {
               courseToChange.lecture[lectureIndex].tutorial[tutorialIndex]
                 .endTime
             ) -
-            1 >=
-            i
+              1 >=
+              i
           ) {
             document.getElementById(dayOfTheWeek + i).style.backgroundColor =
               ""; // (you can choose to select the return of a function)
@@ -2539,7 +2570,7 @@ class CourseSelectionMenu extends React.Component {
 
     for (let i = 0; i < courseToChange.lecture.length; i++) {
       if (courseToChange.lecture[i].section === lectureSection) {
-        lectureIndex = i;             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        lectureIndex = i; //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       }
     }
 
@@ -2553,42 +2584,59 @@ class CourseSelectionMenu extends React.Component {
           courseToChange.lecture[lectureIndex].tutorial[i].section ===
           tutorialSection
         ) {
-            tutorialIndex = i;        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-          }
+          tutorialIndex = i; //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        }
       }
     }
 
     if (courseToChange.lab.length != 0) {
       for (let i = 0; i < courseToChange.lab.length; i++) {
         if (courseToChange.lab[i].section === labSection) {
-          labIndex = i;               //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+          labIndex = i; //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         }
       }
     }
 
     courseToChangeForFinalize.course_color = colorChosen;
     courseToChangeForFinalize.lecture_section = lectureSection;
-    courseToChangeForFinalize.lecture_days = courseToChange.lecture[lectureIndex].days;
-    courseToChangeForFinalize.lecture_start = courseToChange.lecture[lectureIndex].startTime;
-    courseToChangeForFinalize.lecture_end = courseToChange.lecture[lectureIndex].endTime;
-    courseToChangeForFinalize.lecture_room = courseToChange.lecture[lectureIndex].room;
+    courseToChangeForFinalize.lecture_days =
+      courseToChange.lecture[lectureIndex].days;
+    courseToChangeForFinalize.lecture_start =
+      courseToChange.lecture[lectureIndex].startTime;
+    courseToChangeForFinalize.lecture_end =
+      courseToChange.lecture[lectureIndex].endTime;
+    courseToChangeForFinalize.lecture_room =
+      courseToChange.lecture[lectureIndex].room;
     courseToChangeForFinalize.tutorial_section = tutorialSection;
     courseToChangeForFinalize.tutorial_room =
-      (courseToChange.lecture[lectureIndex].tutorial.length !== 0) ? courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].room : "";
+      courseToChange.lecture[lectureIndex].tutorial.length !== 0
+        ? courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].room
+        : "";
     courseToChangeForFinalize.tutorial_days =
-      (courseToChange.lecture[lectureIndex].tutorial.length !== 0) ? courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].days : "";
+      courseToChange.lecture[lectureIndex].tutorial.length !== 0
+        ? courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].days
+        : "";
     courseToChangeForFinalize.tutorial_start =
-      (courseToChange.lecture[lectureIndex].tutorial.length !== 0) ? courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].startTime : "";
+      courseToChange.lecture[lectureIndex].tutorial.length !== 0
+        ? courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].startTime
+        : "";
     courseToChangeForFinalize.tutorial_end =
-      (courseToChange.lecture[lectureIndex].tutorial.length !== 0) ? courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].endTime : "";
+      courseToChange.lecture[lectureIndex].tutorial.length !== 0
+        ? courseToChange.lecture[lectureIndex].tutorial[tutorialIndex].endTime
+        : "";
     courseToChangeForFinalize.lab_section = labSection;
-    courseToChangeForFinalize.lab_room = (courseToChange.lab.length !== 0) ? courseToChange.lab[labIndex].room : "";
-    courseToChangeForFinalize.lab_days = (courseToChange.lab.length !== 0) ? courseToChange.lab[labIndex].days : "";
-    courseToChangeForFinalize.lab_start = (courseToChange.lab.length !== 0) ? courseToChange.lab[labIndex].startTime : "";
-    courseToChangeForFinalize.lab_end = (courseToChange.lab.length !== 0) ? courseToChange.lab[labIndex].endTime : "";
-
-
-
+    courseToChangeForFinalize.lab_room =
+      courseToChange.lab.length !== 0 ? courseToChange.lab[labIndex].room : "";
+    courseToChangeForFinalize.lab_days =
+      courseToChange.lab.length !== 0 ? courseToChange.lab[labIndex].days : "";
+    courseToChangeForFinalize.lab_start =
+      courseToChange.lab.length !== 0
+        ? courseToChange.lab[labIndex].startTime
+        : "";
+    courseToChangeForFinalize.lab_end =
+      courseToChange.lab.length !== 0
+        ? courseToChange.lab[labIndex].endTime
+        : "";
 
     for (let j = 0; j < courseToChange.lecture[lectureIndex].days.length; j++) {
       // add lecture
@@ -2789,6 +2837,31 @@ class CourseSelectionMenu extends React.Component {
     // }
   }
 
+  filterTutorialOptions() {
+    let tuto = document.getElementById("tutSection");
+    let selected_lec = document.getElementById("lecSection");
+    let chosen_lec;
+    for (let i = 0; i < this.state.selectedCourses.length; i++) {
+      for (
+        let j = 0;
+        j < this.state.selectedCourses[i][0].lecture.length;
+        j++
+      ) {
+        if (
+          this.state.selectedCourses[i][0].lecture[j].section ===
+          selected_lec.value
+        ) {
+          chosen_lec = this.state.selectedCourses[i][0].lecture[j];
+          break;
+        }
+      }
+    }
+
+    let x = chosen_lec.tutorial.map(tut => "<option>"+tut.section+"</option>");
+
+    tuto.innerHTML = x;
+  }
+
   render() {
     const styles = reactCSS({
       default: {
@@ -2813,7 +2886,7 @@ class CourseSelectionMenu extends React.Component {
     ));
 
     let i = 0;
-
+    let chosenClass;
     let x = this.state.selectedCourses.map(element => (
       <tr
         id={element[0].course}
@@ -2825,17 +2898,24 @@ class CourseSelectionMenu extends React.Component {
             <strong>{element[0].course}</strong>
             <br />
             <strong>{element[0].name}</strong> <br />
+            
+            {/* //////////////////////////////////////////////// */}
             <select
-              defaultValue={this.state.defaultValueLectureTutorial}
-              id={element[0].course + "section"}
-              name="course-section" /*onChange={this.changeSection(element.course)}*/
+              id="lecSection"
+              defaultValue=""
+              onChange={this.filterTutorialOptions}
             >
-              {element[0].lecture.map(element1 =>
-                element1.tutorial.map(element2 => (
-                  <option>{element1.section + "-" + element2.section}</option>
-                ))
-              )}
-            </select>{" "}
+              {element[0].lecture.map(theLec => (
+                <option>{theLec.section}</option>
+              ))}
+            </select>
+            &nbsp;
+            <select id="tutSection">
+              {element[0].lecture[0].tutorial.map(theTut => (
+                <option>{theTut.section}</option>
+              ))}
+            </select>
+            {/* ////////////////////////////////////////////////  */}
             &nbsp;
             <select
               defaultValue={this.state.defaultValueLab}
@@ -2899,8 +2979,6 @@ class CourseSelectionMenu extends React.Component {
       yeetus[i] = currentYear + i;
     }
     const years = yeetus.map(jimmy => <option>{jimmy}</option>);
-
-    
 
     const data = this.state.finalizedClassArray;
 
@@ -3044,11 +3122,7 @@ class CourseSelectionMenu extends React.Component {
                               <td>
                                 {times.time.map(element => {
                                   let myID = days + "-" + element.num;
-                                  return (
-                                    <div id={myID}>
-                                      ----------------
-                                  </div>
-                                  );
+                                  return <div id={myID}>----------------</div>;
                                 })}
                               </td>
                             </tr>
@@ -3065,10 +3139,12 @@ class CourseSelectionMenu extends React.Component {
           <Button text="Remove A Class" onClick={this.handleShow1} /> */}
             <Button text="Color Selection" onClick={this.openRubiat} />
             <Button text="Download Schedule" onClick={this.downloadJson} />
-            <Link to={{
-              pathname: "/finalize-export-sem",
-              selectedCourses: data
-            }}>
+            <Link
+              to={{
+                pathname: "/finalize-export-sem",
+                selectedCourses: data
+              }}
+            >
               <Button text="Finalize" />
             </Link>
 
@@ -3078,7 +3154,6 @@ class CourseSelectionMenu extends React.Component {
             />
           </div>
         </div>
-
 
         {/* <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
