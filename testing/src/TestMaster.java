@@ -94,32 +94,17 @@ public class TestMaster {
 							//	continue;
 						}
 					case 5:
-						if(!answeredQuestion) {
-							System.out.print("Do you want to perform this use case while logged in? [y/n]: ");
-							String answer = userInput.nextLine();
-							System.out.println();
-							withLogin =answer.equals("y");
-							answeredQuestion = true;
-						}if(UserCase5.run(username, password, withLogin)){
-						System.out.println("Test #"+ numberOfRuns+" completed successfully for UC5");
-						numberOfRuns--;
-						break ;
-					} else {
-						System.out.println("Closing driver... ");
-						UC.driver.quit();
-						System.out.print("Driver closed");
-						System.out.println("Please re-enter credentials and run again (0 for either to exit):");
-						System.out.print("username: ");
-						username = userInput.nextLine();
-						System.out.print("\nPassword: ");
-						password = userInput.nextLine();
-						if (username.equals("0") || password.equals("0")) {
-							System.out.println("Goodbye");
-							userInput.close();
-							break outerloop;
+						if(UserCase5.run()){
+							System.out.println("Test #"+ numberOfRuns+" completed successfully for UC5");
+							UC.driver.quit();
+							numberOfRuns--;
+							break ;
+						} else {
+							System.out.println("UC5 failed. Please check log file");
+							UC.driver.quit();
+							numberOfRuns=0;
+							break ;
 						}
-						continue;
-					}
 					case 14:
 						if (UserCase14.run(username, password)) {
 							System.out.println("Test #" + numberOfRuns + " completed successfully for UC14");
@@ -140,7 +125,18 @@ public class TestMaster {
 								userInput.close();
 								break outerloop;
 							}
-						//	continue;
+						}
+					case 16:
+						if(UserCase16.run()){
+							System.out.println("Test #"+ numberOfRuns+" completed successfully for UC16");
+							numberOfRuns--;
+							UC.driver.quit();
+							break;
+						}else{
+							System.out.println("UC16 failed. Please check log file");
+							numberOfRuns = 0;
+							UC.driver.quit();
+							break;
 						}
 					case 18:
 						if (UserCase18.run()) {

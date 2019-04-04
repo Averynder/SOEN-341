@@ -8,11 +8,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 
 public class UserCase5 extends UC{
-	static boolean run (String username, String password, boolean wantLogin){
-		if (wantLogin) {
-			if (!login(username, password))
-				return false;
-		}else if (!noLogin())
+	static boolean run (){
+
+		if (!noLogin())
 			return false;
 
 		driver.findElement(By.xpath("/html/body/div/div/div[2]/div/div/div/div/a[2]/div/button")).click();
@@ -24,6 +22,7 @@ public class UserCase5 extends UC{
 		String[][] courses = {{"COMP248", "ENGR213", "COMP232", "ENCS282","SOEN287"},{"COMP249", "ENGR233", "ENGR202", "SOEN228"}};
 		for (int i = 0; i< courses.length; i++)
 			for (int j = 0; j<courses[i].length; j++) {
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[1]/div/div[2]/div/div/div/div[2]/div/table/tr/td[1]/div/button")));
 				driver.findElement(By.xpath("/html/body/div[1]/div/div[2]/div/div/div/div[2]/div/table/tr/td[1]/div/button")).click();
 				driver.findElement(By.id("add-class")).sendKeys(courses[i][j]);
 				WebElement DropDownSemesterMenu = driver.findElement(By.id("semester"));
