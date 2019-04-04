@@ -59,7 +59,7 @@ public class UserCase29  extends  UserCase14{
 			driver.quit();
 			return true;
 		}else{
-			System.out.println("Course was not successfully removed, please run the case without closing the driver for additional info.");
+			System.out.println("Course was not successfully removed, please run the case without closing the driver and check the webdriver for additional info.");
 			driver.quit();
 			return false;
 		}

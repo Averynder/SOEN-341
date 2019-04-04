@@ -108,6 +108,7 @@ public class TestMaster {
 					case 14:
 						if (UserCase14.run(username, password)) {
 							System.out.println("Test #" + numberOfRuns + " completed successfully for UC14");
+							UC.driver.quit();
 							numberOfRuns--;
 							break ;
 
@@ -126,18 +127,7 @@ public class TestMaster {
 								break outerloop;
 							}
 						}
-					case 30:
-						if(UserCase30.run()){
-							System.out.println("Test #"+ numberOfRuns+" completed successfully for UC16");
-							numberOfRuns--;
-							UC.driver.quit();
-							break;
-						}else{
-							System.out.println("UC16 failed. Please check log file");
-							numberOfRuns = 0;
-							UC.driver.quit();
-							break;
-						}
+
 					case 18:
 						if (UserCase18.run()) {
 							System.out.println("Test #" + numberOfRuns + " completed successfully for UC18");
@@ -185,6 +175,18 @@ public class TestMaster {
 						}else{
 							System.out.println("UC29 failed. Please check log file");
 							numberOfRuns = 0;
+							break;
+						}
+					case 30:
+						if(UserCase30.run()){
+							System.out.println("Test #"+ numberOfRuns+" completed successfully for UC16");
+							numberOfRuns--;
+							UC.driver.quit();
+							break;
+						}else{
+							System.out.println("UC16 failed. Please check log file");
+							numberOfRuns = 0;
+							UC.driver.quit();
 							break;
 						}
 					default:

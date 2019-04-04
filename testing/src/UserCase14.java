@@ -27,14 +27,14 @@ public class UserCase14 extends UC{
 		Select semesterSelector = new Select((DropDownSemesterMenu));
 		final String[] ALL_SEMESTERS= {"Fall", "Winter"};
 		int semester = rand.nextInt(2);
-
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("semester")));
 		semesterSelector.selectByIndex(semester);
 		WebElement DropDownYearMenu = driver.findElement(By.xpath("//form[2]/div/select"));
 		Select yearSelector = new Select(DropDownYearMenu);
 		List<WebElement> yearsList = yearSelector.getOptions();
 		int year = rand.nextInt(yearsList.size());
 
-		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//form[2]/div/select")));
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("semester-year")));
 		yearSelector.selectByIndex(year);
 		System.out.println("Selected " +ALL_SEMESTERS[semester]+" "+ yearsList.get(year).getText());
 		driver.findElement(By.id("add-class1")).sendKeys("COMP248");
@@ -50,11 +50,16 @@ public class UserCase14 extends UC{
 		WebElement tutorialElement = driver.findElement(By.xpath("//select[2]"));
 		Select tutorialSelector = new Select(tutorialElement);
 		List<WebElement> tutorialList = tutorialSelector.getOptions();
-
-		int tutorial = tutorialList.size() >0 ?rand.nextInt(tutorialList.size()):0;
-		tutorialSelector.selectByIndex(tutorial);
+		int tutorial =0;
+		if (tutorialList.size() >0){
+			tutorial = rand.nextInt(tutorialList.size());
+			tutorialSelector.selectByIndex(tutorial);
+		}
 		driver.findElement(By.xpath("//button[contains(.,'Change Section')]")).click();
-		System.out.println("Added COMP248, section "+ sections.get(section).getText()+ ", tutorial "+ tutorialList.get(tutorial).getText()+" successfully");//
+		System.out.print("Added COMP248, section "+ sections.get(section).getText());
+		if (tutorialList.size()>0)
+			System.out.println( ", tutorial "+tutorialList.get(tutorial).getText());
+
 		driver.findElement(By.xpath("/html/body/div/div/div[2]/div/div/div[1]/div[5]/button")).click();   //generate schedule
 		System.out.println("Generating schedule...");
 		if (driver.getPageSource().contains("COMP248"))
@@ -65,7 +70,7 @@ public class UserCase14 extends UC{
 		}
 
 
-		driver.quit();	//TODO: make more robust by confirming that the course is displayed on the schedule before returning true
+
 		return true;
 	}
 }

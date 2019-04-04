@@ -1,12 +1,12 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.concurrent.TimeUnit;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -53,7 +53,22 @@ public class UC {
 
 
 			}
+		}Robot robot = null;
+		try {
+			 robot = new Robot();
+		}catch (AWTException e){
+			System.out.println("Robot didn't work");
+			System.out.println(e.getMessage());
+			System.exit(1);
 		}
+		System.out.println("Zooming in to 170%...");
+		for (int i = 0; i<5;i++){
+			robot.keyPress(KeyEvent.VK_CONTROL);
+			robot.keyPress(KeyEvent.VK_ADD);
+			robot.keyRelease(KeyEvent.VK_ADD);
+			robot.keyRelease(KeyEvent.VK_CONTROL);
+		}
+
 
 	}
 	public  static boolean login (String user, String pass) {
@@ -61,6 +76,7 @@ public class UC {
 
 		System.out.println("Navigated to url (logged out)");
 		driver.findElement(By.xpath("//button[contains(.,'I am a Student')]")).click();
+
 		System.out.println("filling credentials with username and password...");
 
 		//System.out.println("Authentication meant to succeed");
@@ -90,8 +106,6 @@ public class UC {
 	}
 	public static boolean noLogin (){
 		setup();
-
-		driver.get(URL);
 		System.out.println("Navigated to url (logged out)");
 		driver.findElement(By.xpath("//button[contains(.,'No Login')]")).click();
 
