@@ -231,7 +231,7 @@ class AveryAlgorithms extends Component {
 			lab2 = course2[0].lab[labIndex2];
 		}
 		else {
-			lab2 = course2.lab[0];
+			lab2 = course2.lab;
 		}
 
 		let start1, start2, end1, end2;
