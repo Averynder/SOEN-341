@@ -52,7 +52,7 @@ class AveryAlgorithms extends Component {
 							for (let j = 0; j < lecturesTut[i].tutorial.length; j++)
 							{
 								let pos = new JsonClass(aCourse.course,aCourse.semester,aCourse.prerequisites,aCourse.corequisites,aCourse.name,aCourse.credit);
-								pos.lab = labs[k];
+								pos.lab = [labs[k]];
 								pos.lecture = [cloneDeep(lecturesTut[i])];
 								pos.lecture[0].tutorial = cloneDeep(lecturesTut[i].tutorial);
 								pos.lecture[0].tutorial = pos.lecture[0].tutorial.slice(j, pos.lecture[0].tutorial.length);
@@ -64,7 +64,7 @@ class AveryAlgorithms extends Component {
 						else
 						{
 							let pos = new JsonClass(aCourse.course,aCourse.semester,aCourse.prerequisites,aCourse.corequisites,aCourse.name,aCourse.credit);
-							pos.lab = labs[k];
+							pos.lab = [labs[k]];
 							pos.lecture = [cloneDeep(lecturesTut[i])];
 							possibilities.push(pos);
 						}
