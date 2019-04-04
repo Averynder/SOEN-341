@@ -23,6 +23,7 @@ class AveryRegEx extends Component
 			coursesFall: null,
 			coursesWinter: null,
 			coursesSummer: null,
+			coursesTakenSet: null,
 			coursesTaken: coursesTaken,
 			loggedIn: loggedIn,
 			credits: 0,
@@ -376,6 +377,7 @@ class AveryRegEx extends Component
 		this.regEx2();
 		console.log(this.state.dataCourses);
 		// Removing Courses Already taken from set
+		this.state.coursesTakenSet = [];
 		if (this.state.loggedIn)
 		{
 			var jjj;
@@ -391,7 +393,7 @@ class AveryRegEx extends Component
 				{
 					if (this.state.dataCourses[jjj].course == course)
 					{
-						this.state.dataCourses.splice(jjj, 1);
+						this.state.coursesTakenSet.push(this.state.dataCourses.splice(jjj, 1));
 					}
 				}
 			}
@@ -550,6 +552,7 @@ class AveryRegEx extends Component
 		returnMe.push(coursesWinter);
 		returnMe.push(coursesSummer);
 		returnMe.push(this.state.dataCourses);
+		returnMe.push(this.state.coursesTakenSet);
 		return returnMe;
 		//this.state.courses2 = courses31; //CHANGE TO GET PROPER COURSES
 	}

@@ -8,12 +8,7 @@ import * as data1 from "./data/courses2.json";
 import { CirclePicker } from "react-color";
 import reactCSS from "reactcss";
 import LoadingScreen from 'react-loading-screen';
-import JsonLecture from "./JsonLecture";
-import JsonClass from "./JsonClass";
-import JsonTut from "./JsonTut";
-import Course from "./Course";
 import axios from 'axios';
-import * as ReactDOM from "react-dom";
 import AveryAlgorithms from "./AveryAlgorithms";
 import AveryRegEx from "./AveryRegEx";
 
@@ -64,6 +59,7 @@ class CourseSelectionMenu extends React.Component {
       coursesWinter: null,
       coursesSummer: null,
       coursesTaken: null,
+      coursesTakenSet: null,
       loggedIn: false,
       semester: semester,
       year: year,
@@ -138,6 +134,9 @@ class CourseSelectionMenu extends React.Component {
     this.state.coursesSummer = oldVars[2];
     this.state.courses2 = this.state.coursesFall;
     this.state.dataCourses = oldVars[3];
+    this.state.coursesTakenSet = oldVars[4];
+    console.log("coursesTakenSet:");
+    console.log(this.state.coursesTakenSet);
     let aa = new AveryAlgorithms();
     if (this.state.dataCourses[36] != undefined)
     {
@@ -211,7 +210,6 @@ class CourseSelectionMenu extends React.Component {
           colorChosen = this.state.selectedCourses[z][4];
         }
       }
-      console.log(colorChosen);
 
       for(let j=0; j<addedClass.lecture[lectureIndex].days.length; j++){ // add lecture
 
@@ -617,8 +615,24 @@ class CourseSelectionMenu extends React.Component {
         }
 
         if (classExists === false) {
-          document.getElementById("addStatus1").innerHTML =
-            "Invalid Class/Class Not Found";
+          let bool1 = false;
+          for (let i = 0; i < this.state.coursesTakenSet.length; i++)
+          {
+            if (input == this.state.coursesTakenSet[i][0].course)
+            {
+              bool1 = true;
+            }
+          }
+          if (bool1)
+          {
+            document.getElementById("addStatus1").innerHTML =
+                "Class Has Already Been Taken";
+          }
+          else
+          {
+            document.getElementById("addStatus1").innerHTML =
+                "Invalid Class/Class Not Found";
+          }
           this.setState({ show2: "visible" });
           return;
         }
@@ -1062,8 +1076,24 @@ class CourseSelectionMenu extends React.Component {
     }
 
     if (classExists === false) {
-      document.getElementById("addStatus1").innerHTML =
-        "Invalid Class/Class Not Found";
+      let bool1 = false;
+      for (let i = 0; i < this.state.coursesTakenSet.length; i++)
+      {
+        if (input == this.state.coursesTakenSet[i][0].course)
+        {
+          bool1 = true;
+        }
+      }
+      if (bool1)
+      {
+        document.getElementById("addStatus1").innerHTML =
+            "Class Has Already Been Taken";
+      }
+      else
+      {
+        document.getElementById("addStatus1").innerHTML =
+            "Invalid Class/Class Not Found";
+      }
       this.setState({ show2: "visible" });
       return;
     }
@@ -2221,8 +2251,8 @@ else {
           
           <div class="btn-group" style={{visibility: this.state.showTryAll}}>
           <Button text="Previous" onClick={this.tryAll1} />
+            <p>{this.state.tryAllIndex + 1} / {this.state.validTryAll.length}</p>
           <Button text="Next" onClick={this.tryAll2} />
-          <p>{this.state.tryAllIndex + 1} / {this.state.validTryAll.length}</p>
           </div>
 
 
