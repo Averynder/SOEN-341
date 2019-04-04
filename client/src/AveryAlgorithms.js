@@ -52,7 +52,7 @@ class AveryAlgorithms extends Component {
 							for (let j = 0; j < lecturesTut[i].tutorial.length; j++)
 							{
 								let pos = new JsonClass(aCourse.course,aCourse.semester,aCourse.prerequisites,aCourse.corequisites,aCourse.name,aCourse.credit);
-								pos.lab = labs[k];
+								pos.lab = [labs[k]];
 								pos.lecture = [cloneDeep(lecturesTut[i])];
 								pos.lecture[0].tutorial = cloneDeep(lecturesTut[i].tutorial);
 								pos.lecture[0].tutorial = pos.lecture[0].tutorial.slice(j, pos.lecture[0].tutorial.length);
@@ -64,7 +64,7 @@ class AveryAlgorithms extends Component {
 						else
 						{
 							let pos = new JsonClass(aCourse.course,aCourse.semester,aCourse.prerequisites,aCourse.corequisites,aCourse.name,aCourse.credit);
-							pos.lab = labs[k];
+							pos.lab = [labs[k]];
 							pos.lecture = [cloneDeep(lecturesTut[i])];
 							possibilities.push(pos);
 						}
@@ -185,26 +185,53 @@ class AveryAlgorithms extends Component {
 		let tutorialIndex2 = course2[2];
 		let labIndex2 = course2[3];
 
-		let lecture1 = course1[0].lecture[lectureIndex1];
-		let tutorial1, lab1;
+		console.log(course1);
+		console.log(course2);
+
+		let lecture1, tutorial1, lab1;
+
+		if (lectureIndex1 != undefined) {
+			lecture1 = course1[0].lecture[lectureIndex1];
+		}
+		else {
+			lecture1 = course1.lecture[0];
+		}
 
 		if (tutorialIndex1 != null) {
 			tutorial1 = course1[0].lecture[lectureIndex1].tutorial[tutorialIndex1];
+		}
+		else {
+			tutorial1 = course1.lecture[0].tutorial[0];
 		}
 
 		if (labIndex1 != null) {
 			lab1 = course1[0].lab[labIndex1];
 		}
+		else {
+			lab1 = course1.lab;
+		}
 
-		let lecture2 = course2[0].lecture[lectureIndex2];
-		let tutorial2, lab2;
+		let lecture2, tutorial2, lab2;
+
+		if (lectureIndex1 != undefined) {
+			lecture2 = course2[0].lecture[lectureIndex2];
+		}
+		else {
+			lecture2 = course2.lecture[0];
+		}
 
 		if (tutorialIndex2 != null) {
 			tutorial2 = course2[0].lecture[lectureIndex2].tutorial[tutorialIndex2];
 		}
+		else {
+			tutorial2 = course2.lecture[0].tutorial[0];
+		}
 
 		if (labIndex2 != null) {
 			lab2 = course2[0].lab[labIndex2];
+		}
+		else {
+			lab2 = course2.lab;
 		}
 
 		let start1, start2, end1, end2;
