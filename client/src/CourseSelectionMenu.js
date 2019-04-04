@@ -95,8 +95,9 @@ class CourseSelectionMenu extends React.Component {
 
       uploadedFile: null,
 
-      defaultValueLectureTutorial: "",
+      defaultValueLecture: "",
       defaultValueLab: "",
+      defaultValueTutorial: "",
 
       showSelection: "block",
       showSchedule: "none",
@@ -1081,14 +1082,57 @@ class CourseSelectionMenu extends React.Component {
           }
         }
 
+
         if (colorChosen === null || colorChosen === undefined) {
           return;
         }
+
+
 
         let lectureIndex = JSONified[i][1];
         let tutorialIndex = JSONified[i][2];
         let labIndex = JSONified[i][3];
 
+        let newClassForFinalize = {
+          course_number: addedClass.course,
+          course_name: addedClass.name,
+          course_semester: addedClass.semester,
+          course_year: "2019",
+          course_color: colorChosen,
+          lecture_section: addedClass.lecture[lectureIndex].section,
+          lecture_room: addedClass.lecture[lectureIndex].room,
+          lecture_days: addedClass.lecture[lectureIndex].days,
+          lecture_start: addedClass.lecture[lectureIndex].startTime,
+          lecture_end: addedClass.lecture[lectureIndex].endTime,
+          tutorial_section:
+            addedClass.lecture[0].tutorial.length !== 0
+              ? addedClass.lecture[lectureIndex].tutorial[tutorialIndex].section
+              : "",
+          tutorial_room:
+            addedClass.lecture[0].tutorial.length !== 0
+              ? addedClass.lecture[lectureIndex].tutorial[tutorialIndex].room
+              : "",
+          tutorial_days:
+            addedClass.lecture[0].tutorial.length !== 0
+              ? addedClass.lecture[lectureIndex].tutorial[tutorialIndex].days
+              : "",
+          tutorial_start:
+            addedClass.lecture[0].tutorial.length !== 0
+              ? addedClass.lecture[lectureIndex].tutorial[tutorialIndex].startTime
+              : "",
+          tutorial_end:
+            addedClass.lecture[0].tutorial.length !== 0
+              ? addedClass.lecture[lectureIndex].tutorial[tutorialIndex].endTime
+              : "",
+          lab_section:
+            addedClass.lab.length != 0 ? addedClass.lab[labIndex].section : "",
+          lab_room: addedClass.lab.length != 0 ? addedClass.lab[labIndex].room : "",
+          lab_days: addedClass.lab.length != 0 ? addedClass.lab[labIndex].days : "",
+          lab_start:
+            addedClass.lab.length != 0 ? addedClass.lab[labIndex].startTime : "",
+          lab_end:
+            addedClass.lab.length != 0 ? addedClass.lab[labIndex].endTime : ""
+        };
         for (let j = 0; j < addedClass.lecture[lectureIndex].days.length; j++) {
           // add lecture
 
@@ -1326,6 +1370,8 @@ class CourseSelectionMenu extends React.Component {
           }
         }
 
+        this.state.finalizedClassArray.push(newClassForFinalize);
+
         let oldColors = [];
 
         for (let o = 0; o < this.state.selectedCourses.length; o++) {
@@ -1338,10 +1384,18 @@ class CourseSelectionMenu extends React.Component {
         oldColors.push(colorChosen); // add the color of new course to the list also
         this.setState({ colorOfNewClass: oldColors }); // when rendering the selection menu it will render it with all the old colors + the newly added color
 
+        // the code for defaultValue1 should be changed after issue #119
         let defaultValue1 =
-          addedClass.lecture[lectureIndex].section +
-          "-" +
-          addedClass.lecture[lectureIndex].tutorial[tutorialIndex].section;
+          addedClass.lecture[lectureIndex].section;
+
+        let defaultValue3 = "";
+
+        if (addedClass.lecture[lectureIndex].tutorial.length != 0) {
+          defaultValue3 =
+            addedClass.lecture[lectureIndex].tutorial[tutorialIndex].section;
+        }
+
+
         let defaultValue2 = "";
 
         if (addedClass.lab.length != 0) {
@@ -1350,7 +1404,8 @@ class CourseSelectionMenu extends React.Component {
 
         let credits = this.state.credits + addedClass.credit;
         this.setState({
-          defaultValueLectureTutorial: defaultValue1,
+          defaultValueLecture: defaultValue1,
+          defaultValueTutorial: defaultValue3,
           defaultValueLab: defaultValue2,
           credits: credits
         });
@@ -2195,15 +2250,16 @@ class CourseSelectionMenu extends React.Component {
     let credits = this.state.credits + addedClass.credit;
 
     // the code for defaultValue1 should be changed after issue #119
-    let defaultValue1 = "";
+    let defaultValue1 = 
+      addedClass.lecture[lectureIndex].section;
+
+    let defaultValue3 = "";
+
     if (addedClass.lecture[lectureIndex].tutorial.length != 0) {
-      defaultValue1 =
-        addedClass.lecture[lectureIndex].section +
-        "-" +
+      defaultValue3 =
         addedClass.lecture[lectureIndex].tutorial[tutorialIndex].section;
-    } else {
-      defaultValue1 = addedClass.lecture[lectureIndex].section + "";
     }
+
 
     let defaultValue2 = "";
 
@@ -2214,7 +2270,8 @@ class CourseSelectionMenu extends React.Component {
     this.setState({
       selectedCourses: array,
       credits: credits,
-      defaultValueLectureTutorial: defaultValue1,
+      defaultValueLecture: defaultValue1,
+      defaultValueTutorial: defaultValue3,
       defaultValueLab: defaultValue2
     });
     console.log(array1);
@@ -2901,7 +2958,7 @@ class CourseSelectionMenu extends React.Component {
             {/* //////////////////////////////////////////////// */}
             <select
               id={element[0].course + "lecSection"}
-              defaultValue=""
+              defaultValue={this.state.defaultValueLecture}
               onChange={() => this.filterTutorialOptions(element[0].course)}
             >
               {element[0].lecture.map(theLec => (
@@ -2909,7 +2966,10 @@ class CourseSelectionMenu extends React.Component {
               ))}
             </select>
             &nbsp;
-            <select id={element[0].course + "tutSection"}>
+            <select
+              defaultValue={this.state.defaultValueTutorial}
+              id={element[0].course + "tutSection"}
+            >
               {element[0].lecture[0].tutorial.map(theTut => (
                 <option>{theTut.section}</option>
               ))}
