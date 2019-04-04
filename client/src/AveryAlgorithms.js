@@ -185,26 +185,53 @@ class AveryAlgorithms extends Component {
 		let tutorialIndex2 = course2[2];
 		let labIndex2 = course2[3];
 
-		let lecture1 = course1[0].lecture[lectureIndex1];
-		let tutorial1, lab1;
+		console.log(course1);
+		console.log(course2);
+
+		let lecture1, tutorial1, lab1;
+
+		if (lectureIndex1 != undefined) {
+			lecture1 = course1[0].lecture[lectureIndex1];
+		}
+		else {
+			lecture1 = course1.lecture[0];
+		}
 
 		if (tutorialIndex1 != null) {
 			tutorial1 = course1[0].lecture[lectureIndex1].tutorial[tutorialIndex1];
+		}
+		else {
+			tutorial1 = course1.lecture[0].tutorial[0];
 		}
 
 		if (labIndex1 != null) {
 			lab1 = course1[0].lab[labIndex1];
 		}
+		else {
+			lab1 = course1.lab;
+		}
 
-		let lecture2 = course2[0].lecture[lectureIndex2];
-		let tutorial2, lab2;
+		let lecture2, tutorial2, lab2;
+
+		if (lectureIndex1 != undefined) {
+			lecture2 = course2[0].lecture[lectureIndex2];
+		}
+		else {
+			lecture2 = course2.lecture[0];
+		}
 
 		if (tutorialIndex2 != null) {
 			tutorial2 = course2[0].lecture[lectureIndex2].tutorial[tutorialIndex2];
 		}
+		else {
+			tutorial2 = course2.lecture[0].tutorial[0];
+		}
 
 		if (labIndex2 != null) {
 			lab2 = course2[0].lab[labIndex2];
+		}
+		else {
+			lab2 = course2.lab[0];
 		}
 
 		let start1, start2, end1, end2;

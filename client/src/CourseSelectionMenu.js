@@ -195,6 +195,21 @@ class CourseSelectionMenu extends React.Component {
     }
   }
 
+  tryAll = () => {
+    let aa = new AveryAlgorithms();
+    let courses = [];
+
+    for (let i = 0; i < this.state.selectedCourses.length; i++) {
+      courses[i] = this.state.selectedCourses[i][0];
+    }
+
+    let allOptions = aa.treeCaller(courses);
+
+    //console.log(allOptions);
+
+    console.log(aa.timeConflict(allOptions[0]));
+  }
+
   handleSemesterChange = () => {
 
     this.removeAll();
@@ -1931,6 +1946,8 @@ else {
                 <Button text="Generate Schedule" onClick={this.handleDisplay}/>
 
                 <Button text="Color Selection" onClick={this.openRubiat} />
+
+                <Button text="Try All" onClick={this.tryAll} />
 
                 <Link to="/build-seq-or-sem">
                   <Button text="Main Selector" />
