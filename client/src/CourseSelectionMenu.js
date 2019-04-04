@@ -206,7 +206,8 @@ class CourseSelectionMenu extends React.Component {
       semester: document.getElementById("semester").value,
       selectedCourses: [],
       credits: 0,
-      showConflict: "hidden"
+      showConflict: "hidden",
+      show2: "hidden"
     });
 
     for (let i = 0; i < this.state.colors.length; i++) {
@@ -318,11 +319,11 @@ class CourseSelectionMenu extends React.Component {
       //console.log(reader.result);
       var JSONified = JSON.parse(reader.result);
 
-      let array = [];
+      let aa = new AveryAlgorithms();
+
+      let array = []; // let array = aa.duplicateArray(this.state.selectedCourses); perhaps?
 
       for (let i = 0; i < JSONified.length; i++) {
-        // document.getElementById("add-class1").value = JSONified[i].course;
-        // this.addClass();
 
         //let array = this.state.selectedCourses; //Keep track of user selected classes
         let input = JSONified[i][0].course;
@@ -558,15 +559,6 @@ class CourseSelectionMenu extends React.Component {
         }
       }
 
-        // let oldColors = [];
-
-        // for (let o = 0; o < this.state.selectedCourses.length; o++) { // get list of all the colors in the selection menu before change
-        //   oldColors[o] = document.getElementById(this.state.selectedCourses[o][0].course).style.backgroundColor;
-        // }
-
-        // oldColors.push(colorChosen); // add the color of new course to the list also
-        // this.setState({colorOfNewClass: oldColors}) // when rendering the selection menu it will render it with all the old colors + the newly added color
-
         let defaultValue1 = addedClass.lecture[lectureIndex].section + "-" + addedClass.lecture[lectureIndex].tutorial[tutorialIndex].section;
         let defaultValue2 = "";
 
@@ -586,10 +578,16 @@ class CourseSelectionMenu extends React.Component {
         array1[3] = labIndex; //addedClass.lab[0].section;
         array1[4] = colorChosen;
         array.push(array1);
-        // this.setState({
-        //   selectedCourses: array
-        // });
 
+      }
+
+      if (aa.timeConflict(array)) {
+        this.removeAll();
+        document.getElementById("timeConflict").innerHTML = "No Results";
+        this.setState({showConflict: "visible"})
+      }
+      else {
+        this.setState({showConflict: "hidden"});
       }
 
       this.setState({
@@ -1533,14 +1531,13 @@ else {
       }
     }
 
-    courseArray[1] = lectureIndex; //addedClass.lecture[0].section;
-    courseArray[2] = tutorialIndex; //addedClass.lecture[0].tutorial[0].section;
-    courseArray[3] = labIndex; //addedClass.lab[0].section;
+    courseArray[1] = lectureIndex; // update the indexes of the new section
+    courseArray[2] = tutorialIndex;
+    courseArray[3] = labIndex;
 
     let aa = new AveryAlgorithms();
-    let array = aa.duplicateArray(this.state.selectedCourses);
 
-    if (!(aa.timeConflict(array))) {
+    if (!(aa.timeConflict(this.state.selectedCourses))) {
 
       this.setState({showConflict: "hidden"});
 
@@ -1747,26 +1744,6 @@ else {
       this.setState({ showConflict: "visible" });
       this.removeAll();
     }
-
-
-    // for (let i = 0; i < courseToRemove.lecture.length; i++) {
-    //   if (courseToRemove.lecture[i].section === lectureSection) {
-    //     lectureIndex = i;
-    //   }
-    // }
-
-    // for (let i = 0; i < courseToRemove.lecture[lectureIndex].tutorial.length; i++) {
-    //   if (courseToRemove.lecture[lectureIndex].tutorial[i].section === tutorialSection) {
-    //     tutorialIndex = i;
-    //   }
-    // }
-
-    // for (let i = 0; i < courseToRemove.lab.length; i++) {
-    //   if (courseToRemove.lab[i].section === labSection) {
-    //     labIndex = i;
-    //   }
-    // }
-
 
   }
 
