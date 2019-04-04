@@ -2472,9 +2472,9 @@ class CourseSelectionMenu extends React.Component {
     // let regEx = document.getElementById(courseName + "section").value;
 
     // let lectureSection = regEx.substring(0, regEx.indexOf("-"));
-    let lectureSection = document.getElementById("lecSection").value;
+    let lectureSection = document.getElementById(courseName + "lecSection").value;
     // let tutorialSection = regEx.substring(regEx.indexOf("-") + 1);
-    let tutorialSection = document.getElementById("tutSection").value;
+    let tutorialSection = document.getElementById(courseName + "tutSection").value;
 
     let labSection = document.getElementById(courseName + "labSection").value;
 
@@ -2837,9 +2837,9 @@ class CourseSelectionMenu extends React.Component {
     // }
   }
 
-  filterTutorialOptions() {
-    let tuto = document.getElementById("tutSection");
-    let selected_lec = document.getElementById("lecSection");
+  filterTutorialOptions(theName) {
+    let tuto = document.getElementById(theName + "tutSection");
+    let selected_lec = document.getElementById(theName + "lecSection");
     let chosen_lec;
     for (let i = 0; i < this.state.selectedCourses.length; i++) {
       for (
@@ -2898,19 +2898,18 @@ class CourseSelectionMenu extends React.Component {
             <strong>{element[0].course}</strong>
             <br />
             <strong>{element[0].name}</strong> <br />
-            
             {/* //////////////////////////////////////////////// */}
             <select
-              id="lecSection"
+              id={element[0].course + "lecSection"}
               defaultValue=""
-              onChange={this.filterTutorialOptions}
+              onChange={() => this.filterTutorialOptions(element[0].course)}
             >
               {element[0].lecture.map(theLec => (
                 <option>{theLec.section}</option>
               ))}
             </select>
             &nbsp;
-            <select id="tutSection">
+            <select id={element[0].course + "tutSection"}>
               {element[0].lecture[0].tutorial.map(theTut => (
                 <option>{theTut.section}</option>
               ))}
