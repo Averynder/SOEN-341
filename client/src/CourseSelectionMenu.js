@@ -426,7 +426,8 @@ class CourseSelectionMenu extends React.Component {
     this.setState({
       showTryAll: "visible",
       validTryAll: validOptions,
-      showConflict: "hidden"
+      showConflict: "hidden",
+      tryAllIndex: 0
     })
     this.handleDisplay();
   }
