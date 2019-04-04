@@ -4,7 +4,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Sleeper;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class UserCase16 extends UC {
+public class UserCase30 extends UC {
 	static boolean run(){
 		UserCase5.run();
 		System.out.println("Dragging course...");

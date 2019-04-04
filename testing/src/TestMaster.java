@@ -126,8 +126,8 @@ public class TestMaster {
 								break outerloop;
 							}
 						}
-					case 16:
-						if(UserCase16.run()){
+					case 30:
+						if(UserCase30.run()){
 							System.out.println("Test #"+ numberOfRuns+" completed successfully for UC16");
 							numberOfRuns--;
 							UC.driver.quit();
