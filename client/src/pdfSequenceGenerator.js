@@ -26,7 +26,7 @@ class PdfSequenceGenerator extends React.Component {
   }
 
   convertToPDF = () => {
-    const input = document.getElementById("divToPrint");
+    const input = document.getElementById("divToPrint" + this.props.year);
     const dummies = document.getElementsByClassName("dummyRow");
 
     //This block below formats the div-to-print properly so it is sized correctly on the pdf
@@ -359,7 +359,7 @@ class PdfSequenceGenerator extends React.Component {
     if (summerRemove === 0) semesterArray.push(summer);
 
     let result = (
-      <Container className={newID} id="divToPrint">
+      <Container className={newID} id={"divToPrint" + this.props.year}>
         <Row>{semesterArray.map(element => element.code)}</Row>
       </Container>
     );
@@ -444,7 +444,7 @@ class PdfSequenceGenerator extends React.Component {
     let newID = "mt-" + 12 / newArray.length;
 
     let result = (
-      <Container className={newID} id="divToPrint">
+      <Container className={newID} id={"divToPrint" + this.props.year}>
         <Row>{newArray.map(element => element.code)}</Row>
       </Container>
     );
@@ -694,21 +694,20 @@ class PdfSequenceGenerator extends React.Component {
             className="jumbotron j-greetings"
             id="soen341"
           >
-            <h3>Year {this.state.year}</h3>
-            <br />
+            <div id={"divToPrint" + this.props.year}>
+              <h3>Year {this.props.year}</h3>
+              <br />
 
-            {/* Printing this part */}
+              {/* Printing this part */}
 
-            {this.state.semesterDisplay ? (
-              <Container className="mt-4" id="divToPrint">
-                <Row>{this.state.semesterDisplay}</Row>
-              </Container>
-            ) : (
-              <Container className="mt-4" id="divToPrint">
-                {semesterDisplay}
-              </Container>
-            ) /* semesterDisplay is default 3 semester, the state version of this will change dynamically */}
-
+              {this.state.semesterDisplay ? (
+                <Container className="mt-4">
+                  <Row>{this.state.semesterDisplay}</Row>
+                </Container>
+              ) : (
+                <Container className="mt-4">{semesterDisplay}</Container>
+              ) /* semesterDisplay is default 3 semester, the state version of this will change dynamically */}
+            </div>
             {/* End of print part */}
 
             <table style={{ marginLeft: "auto", marginRight: "auto" }}>
