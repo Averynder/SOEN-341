@@ -8,12 +8,7 @@ import * as data1 from "./data/courses2.json";
 import { CirclePicker } from "react-color";
 import reactCSS from "reactcss";
 import LoadingScreen from 'react-loading-screen';
-import JsonLecture from "./JsonLecture";
-import JsonClass from "./JsonClass";
-import JsonTut from "./JsonTut";
-import Course from "./Course";
 import axios from 'axios';
-import * as ReactDOM from "react-dom";
 import AveryAlgorithms from "./AveryAlgorithms";
 import AveryRegEx from "./AveryRegEx";
 
@@ -64,6 +59,7 @@ class CourseSelectionMenu extends React.Component {
       coursesWinter: null,
       coursesSummer: null,
       coursesTaken: null,
+      coursesTakenSet: null,
       loggedIn: false,
       semester: semester,
       year: year,
@@ -97,7 +93,10 @@ class CourseSelectionMenu extends React.Component {
 
       showSelection: 'block',
       showSchedule: 'none',
-      showConflict: "hidden"
+      showConflict: "hidden",
+      showTryAll: "hidden",
+      tryAllIndex: 0,
+      validTryAll: []
 
     };
     //console.log("data.sequence: " + JSON.stringify(data.sequence));
@@ -135,6 +134,9 @@ class CourseSelectionMenu extends React.Component {
     this.state.coursesSummer = oldVars[2];
     this.state.courses2 = this.state.coursesFall;
     this.state.dataCourses = oldVars[3];
+    this.state.coursesTakenSet = oldVars[4];
+    console.log("coursesTakenSet:");
+    console.log(this.state.coursesTakenSet);
     let aa = new AveryAlgorithms();
     if (this.state.dataCourses[36] != undefined)
     {
@@ -195,6 +197,210 @@ class CourseSelectionMenu extends React.Component {
     }
   }
 
+  display = (courses) => {
+    for (let r = 0; r < courses.length; r++) {
+      let addedClass = courses[r]
+      let lectureIndex = 0;
+      let tutorialIndex = 0;
+      let labIndex = 0;
+      let colorChosen = "";
+
+      for (let z = 0; z < this.state.selectedCourses.length; z++) {
+        if (addedClass.course == this.state.selectedCourses[z][0].course) {
+          colorChosen = this.state.selectedCourses[z][4];
+        }
+      }
+
+      for(let j=0; j<addedClass.lecture[lectureIndex].days.length; j++){ // add lecture
+
+        let initial = this.timeToNum(addedClass.lecture[lectureIndex].startTime);
+        let final = this.timeToNum(addedClass.lecture[lectureIndex].endTime) - 1;
+        let middle = parseInt((initial + final)/2);
+    
+          for (let i = 0; i < 61; i++) {
+            if (
+              initial <= i &&
+              final >= i
+            ) {
+              let dayOfTheWeek = addedClass.lecture[lectureIndex].days[j] + "-";
+              document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+              if (i === middle - 2) {
+                document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+              }else if (i === middle - 1) {
+                document.getElementById(dayOfTheWeek + i).innerHTML = "Lecture";
+              }else if(i === middle){
+                document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].startTime;
+              }
+              else if(i === middle + 1){
+                document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+              }
+              else if(i === middle + 2){
+                document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].endTime;
+              }else{
+                document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+              }
+    
+              if ((colorChosen == "#795548") || (colorChosen == "#ff5722") || (colorChosen == "#607d8b") || 
+                  (colorChosen == "#009688") || (colorChosen == "#f44336") ||
+                  (colorChosen == "#9c27b0") || (colorChosen == "#673ab7") || (colorChosen == "#3f51b5")) {
+                    document.getElementById(dayOfTheWeek + i).style.color = "beige";
+              }
+              else {
+              document.getElementById(dayOfTheWeek + i).style.color = "black";
+              }
+            }
+          }
+        }
+    
+      if (addedClass.lecture[lectureIndex].tutorial.length != 0) {
+        for (let k = 0; k < addedClass.lecture[lectureIndex].tutorial[tutorialIndex].days.length; k++) { // add tutorial
+    
+          let initial = this.timeToNum(addedClass.lecture[lectureIndex].tutorial[tutorialIndex].startTime);
+          let final = this.timeToNum(addedClass.lecture[lectureIndex].tutorial[tutorialIndex].endTime) - 1;
+          let middle = parseInt((initial + final)/2);
+    
+          if ((final - initial) <= 3) {
+            for (let i = 0; i < 61; i++) {
+              if (
+                initial <= i &&
+                final >= i
+              ) {
+                let dayOfTheWeek = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].days[k] + "-";
+                document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+                if (i === middle - 1) {
+                  document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+                }else if (i === middle) {
+                  document.getElementById(dayOfTheWeek + i).innerHTML = "Tutorial";
+                }else if(i === middle + 1){
+                  document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].startTime +
+                  "-" + addedClass.lecture[lectureIndex].tutorial[tutorialIndex].endTime;
+                }else{
+                  document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+                }
+                if ((colorChosen == "#795548") || (colorChosen == "#ff5722") || (colorChosen == "#607d8b") || 
+                    (colorChosen == "#009688") || (colorChosen == "#f44336") ||
+                    (colorChosen == "#9c27b0") || (colorChosen == "#673ab7") || (colorChosen == "#3f51b5")) {
+                      document.getElementById(dayOfTheWeek + i).style.color = "beige";
+                }
+                else {
+                document.getElementById(dayOfTheWeek + i).style.color = "black";
+                }
+              }
+            }
+          }
+          else {
+            for (let i = 0; i < 61; i++) {
+              if (
+                initial <= i &&
+                final >= i
+              ) {
+                let dayOfTheWeek = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].days[k] + "-";
+                document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+                if (i === middle - 2) {
+                  document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+                }else if (i === middle - 1) {
+                  document.getElementById(dayOfTheWeek + i).innerHTML = "Tutorial";
+                }else if(i === middle){
+                  document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].startTime;
+                }
+                else if(i === middle + 1){
+                  document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+                }
+                else if(i === middle + 2){
+                  document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lecture[lectureIndex].tutorial[tutorialIndex].endTime;
+                }else{
+                  document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+                }
+    
+                if ((colorChosen == "#795548") || (colorChosen == "#ff5722") || (colorChosen == "#607d8b") || 
+                    (colorChosen == "#009688") || (colorChosen == "#f44336") ||
+                    (colorChosen == "#9c27b0") || (colorChosen == "#673ab7") || (colorChosen == "#3f51b5")) {
+                    document.getElementById(dayOfTheWeek + i).style.color = "beige";
+                }
+                else {
+                document.getElementById(dayOfTheWeek + i).style.color = "black";
+                }
+              }
+            }
+          }
+        }
+      }
+    
+        if (addedClass.lab.length != 0) {
+          for (let l = 0; l < addedClass.lab[labIndex].days.length; l++) { // add lab
+    
+            let initial = this.timeToNum(addedClass.lab[labIndex].startTime);
+            let final = this.timeToNum(addedClass.lab[labIndex].endTime) - 1;
+            let middle = parseInt((initial + final)/2);
+    
+          if ((final - initial) <= 3) {
+            for (let i = 0; i < 61; i++) {
+              if (
+                initial <= i &&
+                final >= i
+              ) {
+                let dayOfTheWeek = addedClass.lab[labIndex].days[l] + "-";
+                document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+                if (i === middle - 1) {
+                  document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+                }else if (i === middle) {
+                  document.getElementById(dayOfTheWeek + i).innerHTML = "Lab";
+                }else if(i === middle + 1){
+                  document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[labIndex].startTime +
+                  "-" + addedClass.lab[labIndex].endTime;
+                } else {
+                  document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+                }
+    
+                if ((colorChosen == "#795548") || (colorChosen == "#ff5722") || (colorChosen == "#607d8b") || 
+                    (colorChosen == "#009688") || (colorChosen == "#f44336") ||
+                    (colorChosen == "#9c27b0") || (colorChosen == "#673ab7") || (colorChosen == "#3f51b5")) {
+                      document.getElementById(dayOfTheWeek + i).style.color = "beige";
+                }
+                else {
+                document.getElementById(dayOfTheWeek + i).style.color = "black";
+                }
+              }
+            }
+          }
+          else {
+            for (let i = 0; i < 61; i++) {
+              if (
+                initial <= i &&
+                final >= i
+              ) {
+                let dayOfTheWeek = addedClass.lab[labIndex].days[l] + "-";
+                document.getElementById(dayOfTheWeek + i).style.backgroundColor = colorChosen; // (you can choose to select the return of a function)
+                if (i === middle - 2) {
+                  document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.course;
+                }else if (i === middle - 1) {
+                  document.getElementById(dayOfTheWeek + i).innerHTML = "Lab";
+                }else if(i === middle){
+                  document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[labIndex].startTime;
+                }else if(i === middle + 1){
+                  document.getElementById(dayOfTheWeek + i).innerHTML = "to";
+                }else if(i === middle + 2){
+                  document.getElementById(dayOfTheWeek + i).innerHTML = addedClass.lab[labIndex].endTime;
+                }else{
+                  document.getElementById(dayOfTheWeek + i).innerHTML = "<br />";
+                }
+    
+                if ((colorChosen == "#795548") || (colorChosen == "#ff5722") || (colorChosen == "#607d8b") || 
+                    (colorChosen == "#009688") || (colorChosen == "#f44336") ||
+                    (colorChosen == "#9c27b0") || (colorChosen == "#673ab7") || (colorChosen == "#3f51b5")) {
+                      document.getElementById(dayOfTheWeek + i).style.color = "beige";
+                }
+                else {
+                document.getElementById(dayOfTheWeek + i).style.color = "black";
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   tryAll = () => {
     let aa = new AveryAlgorithms();
     let courses = [];
@@ -205,9 +411,55 @@ class CourseSelectionMenu extends React.Component {
 
     let allOptions = aa.treeCaller(courses);
 
-    //console.log(allOptions);
+    console.log(allOptions);
 
-    console.log(aa.timeConflict(allOptions[0]));
+    let validOptions = allOptions.filter(
+      data => (!(aa.timeConflict(data)))
+    );
+
+    console.log(validOptions);
+
+    this.removeAll();
+    this.display(validOptions[0]);
+    this.setState({
+      showTryAll: "visible",
+      validTryAll: validOptions,
+      showConflict: "hidden",
+      tryAllIndex: 0
+    })
+    this.handleDisplay();
+  }
+
+  tryAll1 = () => {
+    let number = this.state.tryAllIndex;
+    let validOptions = this.state.validTryAll;
+    
+    if (number != 0) {
+      number--;
+    }
+
+    this.removeAll();
+    this.display(validOptions[number]);
+
+    this.setState({
+      tryAllIndex: number
+    })
+  }
+
+  tryAll2 = () => {
+    let number = this.state.tryAllIndex;
+    let validOptions = this.state.validTryAll;
+
+    if (number != validOptions.length - 1) {
+      number++;
+    }
+
+    this.removeAll();
+    this.display(validOptions[number]);
+
+    this.setState({
+      tryAllIndex: number
+    })
   }
 
   handleSemesterChange = () => {
@@ -363,8 +615,24 @@ class CourseSelectionMenu extends React.Component {
         }
 
         if (classExists === false) {
-          document.getElementById("addStatus1").innerHTML =
-            "Invalid Class/Class Not Found";
+          let bool1 = false;
+          for (let i = 0; i < this.state.coursesTakenSet.length; i++)
+          {
+            if (input == this.state.coursesTakenSet[i][0].course)
+            {
+              bool1 = true;
+            }
+          }
+          if (bool1)
+          {
+            document.getElementById("addStatus1").innerHTML =
+                "Class Has Already Been Taken";
+          }
+          else
+          {
+            document.getElementById("addStatus1").innerHTML =
+                "Invalid Class/Class Not Found";
+          }
           this.setState({ show2: "visible" });
           return;
         }
@@ -808,8 +1076,24 @@ class CourseSelectionMenu extends React.Component {
     }
 
     if (classExists === false) {
-      document.getElementById("addStatus1").innerHTML =
-        "Invalid Class/Class Not Found";
+      let bool1 = false;
+      for (let i = 0; i < this.state.coursesTakenSet.length; i++)
+      {
+        if (input == this.state.coursesTakenSet[i][0].course)
+        {
+          bool1 = true;
+        }
+      }
+      if (bool1)
+      {
+        document.getElementById("addStatus1").innerHTML =
+            "Class Has Already Been Taken";
+      }
+      else
+      {
+        document.getElementById("addStatus1").innerHTML =
+            "Invalid Class/Class Not Found";
+      }
       this.setState({ show2: "visible" });
       return;
     }
@@ -843,13 +1127,8 @@ class CourseSelectionMenu extends React.Component {
     let array3 = aa.duplicateArray(this.state.selectedCourses);
     array2[0] = addedClass;
     array2[1] = lectureIndex;
-    if (addedClass.lecture[lectureIndex].tutorial.length != 0) {
-      array2[2] = tutorialIndex;
-    }
-
-    if (addedClass.lab.length != 0) {
+    array2[2] = tutorialIndex;
     array2[3] = labIndex;
-    }
 
     array3.push(array2);
 
@@ -1969,6 +2248,12 @@ else {
             id="timeConflict"
             style={{ color: "red", visibility: this.state.showConflict }}
             />
+          
+          <div class="btn-group" style={{visibility: this.state.showTryAll}}>
+          <Button text="Previous" onClick={this.tryAll1} />
+            <p>{this.state.tryAllIndex + 1} / {this.state.validTryAll.length}</p>
+          <Button text="Next" onClick={this.tryAll2} />
+          </div>
 
 
 
