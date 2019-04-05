@@ -222,6 +222,7 @@ class CourseSelectionMenu extends React.Component {
   };
 
   display = courses => {
+    if (courses == undefined) {return;} 
     for (let r = 0; r < courses.length; r++) {
       let addedClass = courses[r];
       let lectureIndex = 0;
@@ -522,6 +523,8 @@ class CourseSelectionMenu extends React.Component {
     this.removeAll();
     this.display(validOptions[0]);
     console.log("default has been clicked");
+    console.log(validOptions);
+    if (validOptions[0] !== undefined) {
     for (let i = 0 ; i < validOptions[0].length ; i++) {
       console.log("default run " + (i+1));
       let courseToChangeForFinalize;
@@ -543,7 +546,9 @@ class CourseSelectionMenu extends React.Component {
       courseToChangeForFinalize.lecture_room =
         validOptions[0][i].lecture[0].room;
       courseToChangeForFinalize.tutorial_section =
-        validOptions[0][i].lecture[0].tutorial[0].section;
+        validOptions[0][i].lecture[0].tutorial.length !== 0
+        ? validOptions[0][i].lecture[0].tutorial[0].section
+          : "";
       courseToChangeForFinalize.tutorial_room =
         validOptions[0][i].lecture[0].tutorial.length !== 0
         ? validOptions[0][i].lecture[0].tutorial[0].room
@@ -580,7 +585,7 @@ class CourseSelectionMenu extends React.Component {
         validOptions[0][i].lab.length !== 0
           ? validOptions[0][i].lab[0].endTime
           : "";
-    }
+    }}
 
     this.setState({
       showTryAll: "visible",
@@ -710,7 +715,9 @@ class CourseSelectionMenu extends React.Component {
       courseToChangeForFinalize.lecture_room =
         validOptions[number][i].lecture[0].room;
       courseToChangeForFinalize.tutorial_section =
-        validOptions[number][i].lecture[0].tutorial[0].section;
+        validOptions[number][i].lecture[0].tutorial.length !== 0
+          ? validOptions[number][i].lecture[0].tutorial[0].section
+          : "";
       courseToChangeForFinalize.tutorial_room =
         validOptions[number][i].lecture[0].tutorial.length !== 0
           ? validOptions[number][i].lecture[0].tutorial[0].room
@@ -3189,7 +3196,13 @@ class CourseSelectionMenu extends React.Component {
             >
               <Button text="Previous" onClick={this.tryAll1} />
               <p>
-                {this.state.tryAllIndex + 1} / {this.state.validTryAll.length}
+                {this.state.validTryAll.length === 1
+                  ? 0
+                  : this.state.tryAllIndex + 1}
+                /
+                {this.state.validTryAll.length === 1
+                  ? 0
+                  : this.state.validTryAll.length}
               </p>
               <Button text="Next" onClick={this.tryAll2} />
             </div>
@@ -3225,7 +3238,9 @@ class CourseSelectionMenu extends React.Component {
                               <td>
                                 {times.time.map(element => {
                                   let myID = days + "-" + element.num;
-                                  return <div id={myID}>----------------</div>;
+                                  return (
+                                    <div id={myID}>----------------</div>
+                                  );
                                 })}
                               </td>
                             </tr>
@@ -3320,7 +3335,11 @@ class CourseSelectionMenu extends React.Component {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="primary" onClick={this.closeRubiat} text="Close" />
+            <Button
+              variant="primary"
+              onClick={this.closeRubiat}
+              text="Close"
+            />
           </Modal.Footer>
         </Modal>
 
@@ -3375,7 +3394,11 @@ class CourseSelectionMenu extends React.Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="primary" onClick={this.closeUpload} text="Close" />
+            <Button
+              variant="primary"
+              onClick={this.closeUpload}
+              text="Close"
+            />
           </Modal.Footer>
         </Modal>
       </div>
