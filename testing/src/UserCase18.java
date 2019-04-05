@@ -2,6 +2,10 @@
 the semester or sequence page by clicking the no login button.
 */
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+
 public class UserCase18 extends UC{
 	public static boolean run () {
 		//System.setOut(new PrintStream(new FileOutputStream(fileName)));
