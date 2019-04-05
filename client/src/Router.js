@@ -29,6 +29,8 @@ import JsonClass from "./JsonClass";
 import JsonLecture from "./JsonLecture";
 import ConcordiaSimilar from "./ConcordiaSimilar";
 import LoadingCourses from "./LoadingCourses";
+import AveryAlgorithms from "./AveryAlgorithms";
+import AveryRegEx from "./AveryRegEx";
 
 class Router extends React.Component {
   constructor(props, context) {
@@ -98,6 +100,8 @@ class Router extends React.Component {
             <Route path="/JsonLecture" component={JsonLecture} />
             <Route path="/LoadingCourses" component={LoadingCourses} />
             <Route path="/concordia-similar" component={ConcordiaSimilar} />
+            <Route path="/AveryAlgorithms" component={AveryAlgorithms} />
+            <Route path="/AveryRegEx" component={AveryRegEx} />
           </div>
         </BrowserRouter>
       </div>
