@@ -133,6 +133,7 @@ class PdfSequenceGenerator extends React.Component {
       });
     });
     let messageElem = document.getElementById('infoMessage' + this.props.year);
+    console.log(dependents);
     if (dependents.length > 0) {
       let str = "";
       dependents.forEach(duo => {
@@ -145,11 +146,14 @@ class PdfSequenceGenerator extends React.Component {
   }
 
   isPrereqTo = (course, maybePrereq) => {
-    let prereqs = course["prerequisites"].match(/\w{4} \d{3}/g);
+    let prereqs = course["prerequisites"].match(/\w{4}\s?\d{3}/g);
     if (prereqs) {
       let name = maybePrereq.course;
-      let addSpace = name.substring(0, 4) + ' ' + name.slice(4);
-      let isPrereq = prereqs.includes(addSpace);
+      let subject = name.substring(0, 4);
+      let classNum = name.slice(4);
+      let addSpace = subject + ' ' + classNum;
+      let noSpace = subject + classNum;
+      let isPrereq = prereqs.includes(addSpace) || prereqs.includes(noSpace);
       return isPrereq;
     } else {
       return false;
