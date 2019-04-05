@@ -18,7 +18,7 @@ class PdfSequenceGenerator extends React.Component {
       showAdd: false,
       showRemove: false,
       modify: false,
-      year: (new Date()).getFullYear(),
+      year: new Date().getFullYear(),
       numberOfDisplayedSemesters: 3,
       semesterDisplay: null, //holds the code for the Container tag #divtoprint
       semesterArray: null //Holds the Col tags
@@ -30,42 +30,44 @@ class PdfSequenceGenerator extends React.Component {
     const dummies = document.getElementsByClassName("dummyRow");
 
     //This block below formats the div-to-print properly so it is sized correctly on the pdf
-      [].forEach.call(dummies, row => {
-        row.style.display = "none";
-      });
-      const tableCols = document.getElementsByClassName('tableCol');
-      [].forEach.call(tableCols, tableCol => {
-        tableCol.classList.add('col-md-12');
-      });
-      const reduce = document.querySelectorAll('table, #pdfTable');
-      [].forEach.call(reduce, col => {
-        col.style.width = '606px';
-      });
-      document.getElementById('soen341').style.width = "896px";
-    //End of formatting code  
+    [].forEach.call(dummies, row => {
+      row.style.display = "none";
+    });
+    const tableCols = document.getElementsByClassName("tableCol");
+    [].forEach.call(tableCols, tableCol => {
+      tableCol.classList.add("col-md-12");
+    });
+    const reduce = document.querySelectorAll("table, #pdfTable");
+    [].forEach.call(reduce, col => {
+      col.style.width = "606px";
+    });
+    document.getElementById("soen341").style.width = "896px";
+    //End of formatting code
 
     html2canvas(input, {
       dpi: 9000, //supposed to make it less blurry on retina
       scale: 1.2 //approximately fills the width of pdf page with the sequence table
-    }).then(canvas => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF();
-      pdf.addImage(imgData, "JPEG", 0, 0);
-      pdf.output("/jimmyTest.pdf");
-      pdf.save("jimmyTest.pdf");
-    }).then(() => { //This then() call will put back the div-to-print to its original size
-      [].forEach.call(dummies, row => {
-        row.style.display = "contents";
+    })
+      .then(canvas => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF();
+        pdf.addImage(imgData, "JPEG", 0, 0);
+        pdf.output("/jimmyTest.pdf");
+        pdf.save("jimmyTest.pdf");
+      })
+      .then(() => {
+        //This then() call will put back the div-to-print to its original size
+        [].forEach.call(dummies, row => {
+          row.style.display = "contents";
+        });
+        [].forEach.call(tableCols, tableCol => {
+          tableCol.classList.remove("col-md-12");
+        });
+        [].forEach.call(reduce, col => {
+          col.style.width = "100%";
+        });
+        document.getElementById("soen341").style.width = "100%";
       });
-      [].forEach.call(tableCols, tableCol => {
-        tableCol.classList.remove("col-md-12");
-      });
-      [].forEach.call(reduce, col => {
-        col.style.width = "100%";
-      });
-      document.getElementById('soen341').style.width = "100%";
-    });
-
   };
 
   /*
@@ -287,9 +289,7 @@ class PdfSequenceGenerator extends React.Component {
         "You have not selected anything.";
       return;
     }
-    fall = fall.filter(
-      element => element.course !== removedFallClass.value
-    ); //Remove json course object from fall array
+    fall = fall.filter(element => element.course !== removedFallClass.value); //Remove json course object from fall array
     winter = winter.filter(
       element => element.course !== removedWinterClass.value
     ); //Remove json course object from winter array
@@ -300,139 +300,164 @@ class PdfSequenceGenerator extends React.Component {
       selectedCoursesFall: fall,
       selectedCoursesWinter: winter,
       selectedCoursesSummer: summer,
-      showRemove: !this.state.showRemove,
+      showRemove: !this.state.showRemove
     });
 
     this.bootlegUpdateSettings(falltable, wintertable, summertable);
   };
 
   updateSettings = (falltable, wintertable, summertable) => {
-
     let semesterArray = []; //this.state.semesterDisplay will take on this value
     let fallRemove = 0;
     let winterRemove = 0;
     let summerRemove = 0;
-    if(document.getElementById('fallSetting')){
-      fallRemove = document.getElementById('fallSetting').value === "Remove" ? 1 : 0; //if removed, set 1 else 0
-      winterRemove = document.getElementById('winterSetting').value === "Remove" ? 1 : 0;
-      summerRemove = document.getElementById('summerSetting').value === "Remove" ? 1 : 0;
+    if (document.getElementById("fallSetting")) {
+      fallRemove =
+        document.getElementById("fallSetting").value === "Remove" ? 1 : 0; //if removed, set 1 else 0
+      winterRemove =
+        document.getElementById("winterSetting").value === "Remove" ? 1 : 0;
+      summerRemove =
+        document.getElementById("summerSetting").value === "Remove" ? 1 : 0;
     }
 
     const numberOfSemesters = 3 - fallRemove - winterRemove - summerRemove; //Number of semester visible for the year
-    const division = numberOfSemesters === 0 ? 12 : 12/ numberOfSemesters; //The number used for the md attribute
+    const division = numberOfSemesters === 0 ? 12 : 12 / numberOfSemesters; //The number used for the md attribute
     const newID = "mt-" + division; //New id of the <Container />
 
-    let fall = {semester: "Fall",
-                code: <Col className='tableCol' md={division}>
-                        <p style={{textAlign: "center"}}>Fall</p>
-                        {falltable}
-                      </Col>
-              }
+    let fall = {
+      semester: "Fall",
+      code: (
+        <Col className="tableCol" md={division}>
+          <p style={{ textAlign: "center" }}>Fall</p>
+          {falltable}
+        </Col>
+      )
+    };
 
-    let winter = {semester: "Winter",
-                  code: <Col className='tableCol' md={division}>
-                          <p style={{textAlign: "center"}}>Winter</p>
-                          {wintertable}
-                        </Col>
-                }
+    let winter = {
+      semester: "Winter",
+      code: (
+        <Col className="tableCol" md={division}>
+          <p style={{ textAlign: "center" }}>Winter</p>
+          {wintertable}
+        </Col>
+      )
+    };
 
-    let summer = {semester: "Summer",
-                  code: <Col className='tableCol' md={division}>
-                          <p style={{textAlign: "center"}}>Summer</p>
-                          {summertable}
-                        </Col>
-                }
+    let summer = {
+      semester: "Summer",
+      code: (
+        <Col className="tableCol" md={division}>
+          <p style={{ textAlign: "center" }}>Summer</p>
+          {summertable}
+        </Col>
+      )
+    };
 
-    if(fallRemove === 0)
-      semesterArray.push(fall);
-    if(winterRemove === 0)
-      semesterArray.push(winter);
-    if(summerRemove === 0)
-      semesterArray.push(summer);
+    if (fallRemove === 0) semesterArray.push(fall);
+    if (winterRemove === 0) semesterArray.push(winter);
+    if (summerRemove === 0) semesterArray.push(summer);
 
-    let result = <Container className={newID} id="divToPrint">
-                    <Row>
-                      {semesterArray.map((element) => element.code)}
-                    </Row>
-                 </Container>
+    let result = (
+      <Container className={newID} id="divToPrint">
+        <Row>{semesterArray.map(element => element.code)}</Row>
+      </Container>
+    );
 
     this.setState({
       semesterDisplay: result,
       semesterArray: semesterArray,
-      year: document.getElementById('settingYear').value
-    })
+      year: document.getElementById("settingYear").value
+    });
+  };
 
-  }
-
-  bootlegUpdateSettings = (falltable, wintertable, summertable) => { //this just updates the tables
-    let semesterArray = this.state.semesterArray ? this.state.semesterArray : [
-      {semester: "Fall",
-       code: <Col className='tableCol' md={4}>
-                <p style={{textAlign: "center"}}>Fall</p>
+  bootlegUpdateSettings = (falltable, wintertable, summertable) => {
+    //this just updates the tables
+    let semesterArray = this.state.semesterArray
+      ? this.state.semesterArray
+      : [
+          {
+            semester: "Fall",
+            code: (
+              <Col className="tableCol" md={4}>
+                <p style={{ textAlign: "center" }}>Fall</p>
                 {falltable}
               </Col>
-      },
-      {semester: "Winter",
-       code: <Col className='tableCol' md={4}>
-                <p style={{textAlign: "center"}}>Winter</p>
+            )
+          },
+          {
+            semester: "Winter",
+            code: (
+              <Col className="tableCol" md={4}>
+                <p style={{ textAlign: "center" }}>Winter</p>
                 {wintertable}
               </Col>
-      },
-      {semester: "Summer",
-       code: <Col className='tableCol' md={4}>
-                <p style={{textAlign: "center"}}>Summer</p>
+            )
+          },
+          {
+            semester: "Summer",
+            code: (
+              <Col className="tableCol" md={4}>
+                <p style={{ textAlign: "center" }}>Summer</p>
                 {summertable}
               </Col>
-      }] ; //contains code for Col tags
+            )
+          }
+        ]; //contains code for Col tags
     let newArray = []; //New col tags array
 
     semesterArray.forEach(element => {
-      if(element.semester === "Fall"){
-        element.code = <Col className='tableCol' md={12/ semesterArray.length}>
-                        <p style={{textAlign: "center"}}>Fall</p>
-                        {falltable}
-                      </Col>;
-        
+      if (element.semester === "Fall") {
+        element.code = (
+          <Col className="tableCol" md={12 / semesterArray.length}>
+            <p style={{ textAlign: "center" }}>Fall</p>
+            {falltable}
+          </Col>
+        );
+
         newArray.push(element);
       }
 
-      if(element.semester === "Winter"){
-        element.code = <Col className='tableCol' md={12/ semesterArray.length}>
-                        <p style={{textAlign: "center"}}>Winter </p>
-                        {wintertable}
-                      </Col>;
-        
+      if (element.semester === "Winter") {
+        element.code = (
+          <Col className="tableCol" md={12 / semesterArray.length}>
+            <p style={{ textAlign: "center" }}>Winter </p>
+            {wintertable}
+          </Col>
+        );
+
         newArray.push(element);
       }
 
-      if(element.semester === "Summer"){
-        element.code = <Col className='tableCol' md={12/ semesterArray.length}>
-                        <p style={{textAlign: "center"}}>Summer</p>
-                        {summertable}
-                      </Col>;
-        
+      if (element.semester === "Summer") {
+        element.code = (
+          <Col className="tableCol" md={12 / semesterArray.length}>
+            <p style={{ textAlign: "center" }}>Summer</p>
+            {summertable}
+          </Col>
+        );
+
         newArray.push(element);
       }
-    })
+    });
 
-    let newID = "mt-" + (12 / newArray.length);
+    let newID = "mt-" + 12 / newArray.length;
 
-    let result = <Container className={newID} id="divToPrint">
-                    <Row>
-                      {newArray.map((element) => element.code)}
-                    </Row>
-                 </Container>
+    let result = (
+      <Container className={newID} id="divToPrint">
+        <Row>{newArray.map(element => element.code)}</Row>
+      </Container>
+    );
 
     this.setState({
       semesterDisplay: result,
-      semesterArray: newArray,
-    })
-  }
+      semesterArray: newArray
+    });
+  };
 
   // RENDER() HERE *********************************************************
 
   render() {
-
     let falltable = (
       <Table id="pdfTable" striped bordered hover variant="dark">
         <thead>
@@ -640,49 +665,51 @@ class PdfSequenceGenerator extends React.Component {
     }
     const years = yeetus.map(jimmy => <option value={jimmy}>{jimmy}</option>);
 
-    let semesterDisplay = <Row>
-                
-    <Col className='tableCol' md={4}>
-      <p style={{textAlign: "center"}}>Fall</p>
-      {falltable}
-    </Col>
-    
-    <Col className='tableCol' md={4}>
-      <p style={{textAlign: "center"}}>Winter </p>
-      {wintertable}
-    </Col>
+    let semesterDisplay = (
+      <Row>
+        <Col className="tableCol" md={4}>
+          <p style={{ textAlign: "center" }}>Fall</p>
+          {falltable}
+        </Col>
 
-    <Col className='tableCol' md={4}>
-      <p style={{textAlign: "center"}}>Summer</p>
-      {summertable}
-    </Col>
+        <Col className="tableCol" md={4}>
+          <p style={{ textAlign: "center" }}>Winter </p>
+          {wintertable}
+        </Col>
 
-  </Row>;
-
-
+        <Col className="tableCol" md={4}>
+          <p style={{ textAlign: "center" }}>Summer</p>
+          {summertable}
+        </Col>
+      </Row>
+    );
 
     /**************************************** JSX here *******************************************************/
 
     return (
       <div className="container">
-        
-        <DragDropContext onDragEnd={this.onDragEnd}>  
-
+        <DragDropContext onDragEnd={this.onDragEnd}>
           <div
             style={{ padding: "4rem 1rem" }}
             className="jumbotron j-greetings"
             id="soen341"
           >
             <h3>Year {this.state.year}</h3>
-            <br/>
-            
+            <br />
+
             {/* Printing this part */}
 
-              {this.state.semesterDisplay ? <Container className="mt-4" id="divToPrint"><Row>{this.state.semesterDisplay}</Row></Container> : <Container className="mt-4" id="divToPrint">{semesterDisplay}</Container> /* semesterDisplay is default 3 semester, the state version of this will change dynamically */}
-            
+            {this.state.semesterDisplay ? (
+              <Container className="mt-4" id="divToPrint">
+                <Row>{this.state.semesterDisplay}</Row>
+              </Container>
+            ) : (
+              <Container className="mt-4" id="divToPrint">
+                {semesterDisplay}
+              </Container>
+            ) /* semesterDisplay is default 3 semester, the state version of this will change dynamically */}
+
             {/* End of print part */}
-
-
 
             <table style={{ marginLeft: "auto", marginRight: "auto" }}>
               <tr>
@@ -708,7 +735,10 @@ class PdfSequenceGenerator extends React.Component {
               </tr>
             </table>
 
-            <Button text="Sequence Settings" onClick={() => this.setState({modify: !this.state.modify})}/>
+            <Button
+              text="Sequence Settings"
+              onClick={() => this.setState({ modify: !this.state.modify })}
+            />
             {/* <Button
               text="Add Course"
               onClick={() => {
@@ -743,7 +773,11 @@ class PdfSequenceGenerator extends React.Component {
               <option value="Summer">Summer</option>
             </select>
             <p id="addStatus" style={{ color: "red" }} />
-            <Button type="submit" text="Add Course" onClick={() => this.addClass(falltable, wintertable, summertable)} />
+            <Button
+              type="submit"
+              text="Add Course"
+              onClick={() => this.addClass(falltable, wintertable, summertable)}
+            />
           </Modal.Body>
         </Modal>
 
@@ -767,62 +801,69 @@ class PdfSequenceGenerator extends React.Component {
             <Button
               type="submit"
               text="Remove Course"
-              onClick={() => this.removeClass(falltable, wintertable, summertable)}
+              onClick={() =>
+                this.removeClass(falltable, wintertable, summertable)
+              }
             />
           </Modal.Body>
         </Modal>
 
-        <Modal 
+        <Modal
           show={this.state.modify}
-          onHide={() => this.setState({modify: !this.state.modify})}
+          onHide={() => this.setState({ modify: !this.state.modify })}
         >
           <Modal.Header>
             <Modal.Title>Sequence Settings</Modal.Title>
           </Modal.Header>
 
           <Modal.Body style={{ textAlign: "center" }}>
-              <Container className="mt-3">
-                <Row>
-                  <Col md={3}>
-                      Choose Year
-                      <br/>
-                      <br/>
-                      <select id="settingYear" style={{width: "100%"}}>
-                        <option>{this.state.year}</option>
-                        {years}
-                      </select>
-                  </Col>
+            <Container className="mt-3">
+              <Row>
+                <Col md={3}>
+                  Choose Year
+                  <br />
+                  <br />
+                  <select id="settingYear" style={{ width: "100%" }}>
+                    <option>{this.state.year}</option>
+                    {years}
+                  </select>
+                </Col>
 
-                  <Col md={3}>
-                    Fall Semester
-                    <br/>
-                    <select id="fallSetting" style={{width: "100%"}}>
-                      <option value="Keep">Keep</option>
-                      <option value="Remove">Remove</option>
-                    </select>
-                  </Col>
+                <Col md={3}>
+                  Fall Semester
+                  <br />
+                  <select id="fallSetting" style={{ width: "100%" }}>
+                    <option value="Keep">Keep</option>
+                    <option value="Remove">Remove</option>
+                  </select>
+                </Col>
 
-                  <Col md={3}>
-                    Winter Semester
-                    <br/>
-                    <select id="winterSetting" style={{width: "100%"}}>
-                        <option value="Keep">Keep</option>
-                        <option value="Remove">Remove</option>
-                      </select>
-                  </Col>
+                <Col md={3}>
+                  Winter Semester
+                  <br />
+                  <select id="winterSetting" style={{ width: "100%" }}>
+                    <option value="Keep">Keep</option>
+                    <option value="Remove">Remove</option>
+                  </select>
+                </Col>
 
-                  <Col md={3}>
-                    Summer Semester
-                    <br/>
-                    <select id="summerSetting" style={{width: "100%"}}>
-                      <option value="Keep">Keep</option>
-                      <option value="Remove">Remove</option>
-                    </select>
-                  </Col>
-                </Row>
-              </Container>
+                <Col md={3}>
+                  Summer Semester
+                  <br />
+                  <select id="summerSetting" style={{ width: "100%" }}>
+                    <option value="Keep">Keep</option>
+                    <option value="Remove">Remove</option>
+                  </select>
+                </Col>
+              </Row>
+            </Container>
 
-              <Button text="Apply Settings" onClick={() => this.updateSettings(falltable, wintertable, summertable)}/>
+            <Button
+              text="Apply Settings"
+              onClick={() =>
+                this.updateSettings(falltable, wintertable, summertable)
+              }
+            />
           </Modal.Body>
         </Modal>
       </div>

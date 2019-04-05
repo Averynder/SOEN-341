@@ -69,7 +69,9 @@ class DraftSequenceMenu extends React.Component {
       arr[i] = parseInt(theStartingYear) + i;
     }
 
-    let theSequence = arr.map(index => <PdfSequenceGenerator year={index} />);
+    let theSequence = arr.map(index => (
+      <PdfSequenceGenerator id={"divToPrint" + index} year={index} />
+    ));
 
     // for (let i = 0; i < this.state.numberOfYear; i++) {
     //   theSequence += (
@@ -79,7 +81,6 @@ class DraftSequenceMenu extends React.Component {
 
     return (
       <div className="container">
-
         <div className="container">
           <div className="jumbotron j-greetings">
             {/* <h2 className="display-4">Draft Sequence Menu</h2>
