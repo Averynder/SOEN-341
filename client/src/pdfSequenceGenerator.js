@@ -186,7 +186,7 @@ class PdfSequenceGenerator extends React.Component {
       let semester = this.getSemFromClass(destination.droppableId);
       this.offeredIn(semester, movingCourse.course) // e.g. canMove("Winter", "SOEN341")
         .then(canMove => {
-          let messageElem = document.getElementById('messageElem' + this.props.year);
+          let messageElem = document.getElementById('infoMessage' + this.props.year);
           if (canMove) {
             this.verifyPrereqs(semester, movingCourse);
             const moved = this.move(
