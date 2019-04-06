@@ -21,7 +21,7 @@ class PdfSequenceGenerator extends React.Component {
       year: new Date().getFullYear(),
       numberOfDisplayedSemesters: 3,
       semesterDisplay: null, //holds the code for the Container tag #divtoprint
-      semesterArray: null //Holds the Col tags
+      semesterArray: null, //Holds the Col tags
       data: null,
     };
   }
