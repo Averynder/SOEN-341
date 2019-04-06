@@ -52,7 +52,7 @@ class AveryAlgorithms extends Component {
 							for (let j = 0; j < lecturesTut[i].tutorial.length; j++)
 							{
 								let pos = new JsonClass(aCourse.course,aCourse.semester,aCourse.prerequisites,aCourse.corequisites,aCourse.name,aCourse.credit);
-								pos.lab = labs[k];
+								pos.lab = [labs[k]];
 								pos.lecture = [cloneDeep(lecturesTut[i])];
 								pos.lecture[0].tutorial = cloneDeep(lecturesTut[i].tutorial);
 								pos.lecture[0].tutorial = pos.lecture[0].tutorial.slice(j, pos.lecture[0].tutorial.length);
@@ -64,7 +64,7 @@ class AveryAlgorithms extends Component {
 						else
 						{
 							let pos = new JsonClass(aCourse.course,aCourse.semester,aCourse.prerequisites,aCourse.corequisites,aCourse.name,aCourse.credit);
-							pos.lab = labs[k];
+							pos.lab = [labs[k]];
 							pos.lecture = [cloneDeep(lecturesTut[i])];
 							possibilities.push(pos);
 						}
@@ -185,31 +185,55 @@ class AveryAlgorithms extends Component {
 		let tutorialIndex2 = course2[2];
 		let labIndex2 = course2[3];
 
-		let lecture1 = course1[0].lecture[lectureIndex1];
-		let tutorial1, lab1;
+		let lecture1, tutorial1, lab1;
+
+		if (lectureIndex1 != undefined) {
+			lecture1 = course1[0].lecture[lectureIndex1];
+		}
+		else {
+			lecture1 = course1.lecture[0];
+		}
 
 		if (tutorialIndex1 != null) {
 			tutorial1 = course1[0].lecture[lectureIndex1].tutorial[tutorialIndex1];
+		}
+		else {
+			tutorial1 = course1.lecture[0].tutorial[0];
 		}
 
 		if (labIndex1 != null) {
 			lab1 = course1[0].lab[labIndex1];
 		}
+		else {
+			lab1 = course1.lab[0];
+		}
 
-		let lecture2 = course2[0].lecture[lectureIndex2];
-		let tutorial2, lab2;
+		let lecture2, tutorial2, lab2;
+
+		if (lectureIndex1 != undefined) {
+			lecture2 = course2[0].lecture[lectureIndex2];
+		}
+		else {
+			lecture2 = course2.lecture[0];
+		}
 
 		if (tutorialIndex2 != null) {
 			tutorial2 = course2[0].lecture[lectureIndex2].tutorial[tutorialIndex2];
+		}
+		else {
+			tutorial2 = course2.lecture[0].tutorial[0];
 		}
 
 		if (labIndex2 != null) {
 			lab2 = course2[0].lab[labIndex2];
 		}
+		else {
+			lab2 = course2.lab[0];
+		}
 
 		let start1, start2, end1, end2;
 
-		for (let i = 0; i < lecture1.days.length; i++) {
+		for (let i = 0; i < lecture1.days.length; i++) { // compare lec1 to lec2, tut2, lab2, & lab1
 			start1 = this.timeToNum(lecture1.startTime);
 			end1 = this.timeToNum(lecture1.endTime);
 
@@ -217,19 +241,9 @@ class AveryAlgorithms extends Component {
 				if (lecture1.days[i] == lecture2.days[j]) {
 					start2 = this.timeToNum(lecture2.startTime);
 					end2 = this.timeToNum(lecture2.endTime);
-					// if (start2 > start1) {
-					// 	if (!(start2 >= end1)) {
-					// 		return "conflict between lecture1 and lecture2";
-					// 	}
-					// }
-					// else {
-					// 	if (!(start1 >= end2)) {
-					// 		return "conflict betwen lecture1 and lecture2";
-					// 	}
-					// }
 
 					if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-						console.log("conflict between lecture1 and lecture2");
+						//console.log("conflict between lecture1 and lecture2");
 						return true;
 					}
 				}
@@ -242,7 +256,7 @@ class AveryAlgorithms extends Component {
 						end2 = this.timeToNum(tutorial2.endTime);
 
 						if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-							console.log("conflict between lecture1 and tutorial2");
+							//console.log("conflict between lecture1 and tutorial2");
 							return true;
 						}
 					}
@@ -256,7 +270,7 @@ class AveryAlgorithms extends Component {
 						end2 = this.timeToNum(lab2.endTime);
 
 						if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-							console.log("conflict between lecture1 and lab2");
+							//console.log("conflict between lecture1 and lab2");
 							return true;
 						}
 					}
@@ -270,7 +284,7 @@ class AveryAlgorithms extends Component {
 						end2 = this.timeToNum(lab1.endTime);
 
 						if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-							console.log("conflict between lecture1 and lab1");
+							//console.log("conflict between lecture1 and lab1");
 							return true;
 						}
 					}
@@ -278,7 +292,7 @@ class AveryAlgorithms extends Component {
 			}
 		}
 
-		if (tutorial1 != undefined) {
+		if (tutorial1 != undefined) { // compare tut1 to lec2, tut2, lab2, & lab1
 			for (let j = 0; j < tutorial1.days.length; j++) {
 				start1 = this.timeToNum(tutorial1.startTime);
 				end1 = this.timeToNum(tutorial1.endTime);
@@ -289,7 +303,7 @@ class AveryAlgorithms extends Component {
 						end2 = this.timeToNum(lecture2.endTime);
 
 						if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-							console.log("conflict between tutorial1 and lecture2");
+							//console.log("conflict between tutorial1 and lecture2");
 							return true;
 						}
 					}
@@ -302,7 +316,7 @@ class AveryAlgorithms extends Component {
 							end2 = this.timeToNum(tutorial2.endTime);
 
 							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-								console.log("conflict between tutorial1 and tutorial2");
+								//console.log("conflict between tutorial1 and tutorial2");
 								return true;
 							}
 						}
@@ -316,7 +330,7 @@ class AveryAlgorithms extends Component {
 							end2 = this.timeToNum(lab2.endTime);
 
 							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-								console.log("conflict between tutorial1 and lab2");
+								//console.log("conflict between tutorial1 and lab2");
 								return true;
 							}
 						}
@@ -330,7 +344,7 @@ class AveryAlgorithms extends Component {
 							end2 = this.timeToNum(lab1.endTime);
 
 							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-								console.log("conflict between tutorial1 and lab1");
+								//console.log("conflict between tutorial1 and lab1");
 								return true;
 							}
 						}
@@ -339,7 +353,7 @@ class AveryAlgorithms extends Component {
 			}
 		}
 
-		if (lab1 != undefined) {
+		if (lab1 != undefined) { // compare lab1 to lec2, tut2, & lab2
 			for (let k = 0; k < lab1.days.length; k++) {
 				start1 = this.timeToNum(lab1.startTime);
 				end1 = this.timeToNum(lab1.endTime);
@@ -350,7 +364,7 @@ class AveryAlgorithms extends Component {
 						end2 = this.timeToNum(lecture2.endTime);
 
 						if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-							console.log("conflict between lab1 and lecture2");
+							//console.log("conflict between lab1 and lecture2");
 							return true;
 						}
 					}
@@ -363,7 +377,7 @@ class AveryAlgorithms extends Component {
 							end2 = this.timeToNum(tutorial2.endTime);
 
 							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-								console.log("conflict between lab1 and tutorial2");
+								//console.log("conflict between lab1 and tutorial2");
 								return true;
 							}
 						}
@@ -377,7 +391,7 @@ class AveryAlgorithms extends Component {
 							end2 = this.timeToNum(lab2.endTime);
 
 							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
-								console.log("conflict between lab1 and lab2");
+								//console.log("conflict between lab1 and lab2");
 								return true;
 							}
 						}
@@ -386,7 +400,40 @@ class AveryAlgorithms extends Component {
 			}
 		}
 
-		console.log("no conflicts");
+		if (lab2 != undefined) { // compare lab22 to lec2 & tut2
+			for (let l = 0; l < lab2.days.length; l++) {
+				start1 = this.timeToNum(lab2.startTime);
+				end1 = this.timeToNum(lab2.endTime);
+
+				for (let i = 0; i < lecture2.days.length; i++) {
+					if (lab2.days[l] == lecture2.days[i]) {
+						start2 = this.timeToNum(lecture2.startTime);
+						end2 = this.timeToNum(lecture2.endTime);
+
+						if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
+							console.log("conflict between lab2 and lecture2");
+							return true;
+						}
+					}
+				}
+
+				if (tutorial2 != undefined) {
+					for (let j = 0; j < tutorial2.days.length; j++) {
+						if (lab2.days[l] == tutorial2.days[j]) {
+							start2 = this.timeToNum(tutorial2.startTime);
+							end2 = this.timeToNum(tutorial2.endTime);
+
+							if (((start2 > start1) && (!(start2 >= end1))) || ((!(start2 > start1)) && (!(start1 >= end2)))) {
+								console.log("conflict between lab2 and tutorial2");
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		//console.log("no conflicts");
 		return false;
 	}
 
@@ -395,13 +442,18 @@ class AveryAlgorithms extends Component {
 		for (let i = 0; i < courses.length; i++) {
 			for (let j = i + 1; j < courses.length; j++) {
 				if (this.timeConflict1(courses[i], courses[j])) {
-					console.log("conflict between " + courses[i][0].course + " and " + courses[j][0].course);
+					// try {
+					// 	console.log("conflict between " + courses[i][0].course + " and " + courses[j][0].course);
+					// }
+					// catch (err) {
+					// 	console.log("conflict between " + courses[i].course + " and " + courses[i].course); 
+					// }
 					return true;
 				}
 			}
 		}
 
-		console.log("no conflict");
+		//console.log("no conflict");
 		return false;
 	}
 
