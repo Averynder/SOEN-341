@@ -20,7 +20,7 @@ import MyDoublyLinkedList from "./MyDoublyLinkedList";
 import LectureSequence from "./LectureSequence";
 import LabSequence from "./LabSequence";
 import TutorialSequence from "./TutorialSequence";
-import Navbar from './components/Navbar';
+import Navbar from "./components/Navbar";
 
 import Stack from "./Stack";
 import Course from "./Course";
@@ -29,18 +29,19 @@ import JsonClass from "./JsonClass";
 import JsonLecture from "./JsonLecture";
 import ConcordiaSimilar from "./ConcordiaSimilar";
 import LoadingCourses from "./LoadingCourses";
-
+import AveryAlgorithms from "./AveryAlgorithms";
+import AveryRegEx from "./AveryRegEx";
 
 class Router extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.state = { firstName: '' };
+    this.state = { firstName: "" };
   }
 
   onUpdate = val => {
     this.setState({ firstName: val });
-  }
+  };
 
   render() {
     return (
@@ -50,22 +51,43 @@ class Router extends React.Component {
           <div>
             <Route exact path="/" component={App} />
             <Route path="/select-semester" component={SelectSemester} />
-            <Route path="/course-selection-menu" component={CourseSelectionMenu}/>
-            <Route path="/build-seq-or-sem" render={routerProps => (
-              <BuildSeqOrSem {...routerProps} firstName={this.state.firstName} />
-            )}/>
+            <Route
+              path="/course-selection-menu"
+              component={CourseSelectionMenu}
+            />
+            <Route
+              path="/build-seq-or-sem"
+              render={routerProps => (
+                <BuildSeqOrSem
+                  {...routerProps}
+                  firstName={this.state.firstName}
+                />
+              )}
+            />
             <Route path="/seq-based-confirmation" component={BasedOnSeq} />
             <Route path="/andre's-App" component={AndreLink} />
             <Route path="/rubiat-seq-table" component={RubiatSeqLink} />
             <Route path="/BinaryTree" component={BinaryTree} />
-            <Route path="/pull-previous-courses" component={PullPreviousCourses}/>
-            <Route path="/previous-courses-taken" component={PreviousCoursesTaken}/>
-            <Route path="/obtain-uploaded-sequence" component={ObtainUploadedSequence}/>
+            <Route
+              path="/pull-previous-courses"
+              component={PullPreviousCourses}
+            />
+            <Route
+              path="/previous-courses-taken"
+              component={PreviousCoursesTaken}
+            />
+            <Route
+              path="/obtain-uploaded-sequence"
+              component={ObtainUploadedSequence}
+            />
             <Route path="/finalize-export-sem" component={FinalizeExportSem} />
             <Route path="/finalize-export-seq" component={FinalizeExportSeq} />
             <Route path="/draft-sequence-menu" component={DraftSequenceMenu} />
             <Route path="/formalize" component={Formalize} />
-            <Route path="/pdfSequenceGenerator" component={pdfSequenceGenerator}/>
+            <Route
+              path="/pdfSequenceGenerator"
+              component={pdfSequenceGenerator}
+            />
             <Route path="/MyDoublyLinkedList" component={MyDoublyLinkedList} />
             <Route path="/LectureSequence" component={LectureSequence} />
             <Route path="/LabSequence" component={LabSequence} />
@@ -78,6 +100,8 @@ class Router extends React.Component {
             <Route path="/JsonLecture" component={JsonLecture} />
             <Route path="/LoadingCourses" component={LoadingCourses} />
             <Route path="/concordia-similar" component={ConcordiaSimilar} />
+            <Route path="/AveryAlgorithms" component={AveryAlgorithms} />
+            <Route path="/AveryRegEx" component={AveryRegEx} />
           </div>
         </BrowserRouter>
       </div>

@@ -7,8 +7,8 @@ import * as html2canvas from "html2canvas";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 class PdfSequenceGenerator extends React.Component {
-  constructor() {
-    super();
+  constructor(props, context) {
+    super(props, context);
 
     this.state = {
       courses: data.default.sequence,
@@ -22,7 +22,18 @@ class PdfSequenceGenerator extends React.Component {
       numberOfDisplayedSemesters: 3,
       semesterDisplay: null, //holds the code for the Container tag #divtoprint
       semesterArray: null //Holds the Col tags
+      data: null,
     };
+  }
+
+  componentDidMount() {
+    fetch('/semjson')
+      .then(res => res.json())
+      .then(data => {this.setState({ data: data });})
+  }
+
+  loggedIn = () => {
+    return this.state.data.names !== null;
   }
 
   convertToPDF = () => {
@@ -115,8 +126,46 @@ class PdfSequenceGenerator extends React.Component {
     //background: isDraggingOver? 'blue': 'red'
   });
 
+  offeredIn = (semClass, course) => {
+    let semester = semClass.substr(15); // remove selectedCourses from semester string
+    semester = semester.charAt(0).toUpperCase() + semester.slice(1);
+
+    return new Promise((resolve, reject) => {
+      fetch('/semesters/' + course)
+        .then(res => res.json())
+        .then(semesters => resolve(semesters.includes(semester)));
+    });
+  }
+
+  verifyPrereqs = (semester, check) => {
+    let dependents = [];
+    let fall = this.state.selectedCoursesFall;
+    let winter = this.state.selectedCoursesWinter;
+    let summer = this.state.selectedCoursesSummer;
+
+    // see if check is a prereq to present courses or if check has prereq already present
+    [fall, winter, summer].forEach(semester => {
+      semester.forEach(course => {
+        if (this.isPrereqTo(course, check)) dependents.push({ course: course.course, prereq: check.course});
+        else if (this.isPrereqTo(check, course)) dependents.push({ course: check.course, prereq: course.course});
+      });
+    });
+    return dependents;
+  }
+
+  isPrereqTo = (course, maybePrereq) => {
+    let prereqs = course["prerequisites"].match(/\w{4} \d{3}/g);
+    if (prereqs) {
+      let name = maybePrereq.course;
+      let addSpace = name.substring(0, 4) + ' ' + name.slice(4);
+      let isPrereq = prereqs.includes(addSpace);
+      return isPrereq;
+    } else {
+      return false;
+    }
+  }
+
   onDragEnd = result => {
-    console.log(result);
     const { source, destination } = result;
 
     // dropped outside a droppable element
@@ -135,29 +184,36 @@ class PdfSequenceGenerator extends React.Component {
         [source.droppableId]: items
       });
     } else {
-      const moved = this.move(
-        this.state[source.droppableId],
-        this.state[destination.droppableId],
-        source,
-        destination
-      );
+      let movingCourse = this.state[source.droppableId][source.index];
+      let semesterStr = destination.droppableId;
+      let messageElem = document.getElementById('infoMessage' + this.props.year);
+      this.offeredIn(destination.droppableId, movingCourse.course) // e.g. canMove("selectedCoursesWinter", "SOEN341")
+        .then(canMove => {
+          if (canMove) {
+            messageElem.innerHTML = '';
+            const moved = this.move(
+              this.state[source.droppableId],
+              this.state[destination.droppableId],
+              source,
+              destination
+            );
 
-      if (!moved) {
-        return;
-      }
+            if (!moved) {
+              return;
+            }
 
-      this.setState(
-        {
-          [source.droppableId]: moved[source.droppableId],
-          [destination.droppableId]: moved[destination.droppableId]
-        },
-        () => {
-          console.log(this.state);
-          console.log(moved);
-        }
-      );
+            this.setState({
+                [source.droppableId]: moved[source.droppableId],
+                [destination.droppableId]: moved[destination.droppableId]
+              }, () => {}
+            );
+          } else {
+            messageElem.innerHTML = 'Course not offered in this semester!';
+          }
+        });
     }
   };
+
 
   // FUNCTIONS() HERE *********************************************************
   addClass = (falltable, wintertable, summertable) => {
@@ -165,91 +221,60 @@ class PdfSequenceGenerator extends React.Component {
     let winter = this.state.selectedCoursesWinter; //Keep track of user selected classes for Winter
     let summer = this.state.selectedCoursesSummer; //Keep track of user selected classes for Summer
     let input = document.getElementById("add-class").value; //Get user input
-    let classList = this.state.courses; //Gets the whole list of courses of concordia
+    let classList = this.state.data.catalog; //Gets the whole list of courses of concordia
     let errorMessage = document.getElementById("addStatus");
     let semester = document.getElementById("semester").value;
-    let addedClass; //object
-    let classExists = false;
 
-    for (let i = 0; i < fall.length; i++) {
-      //This loop prevents duplicates for fall table
-      if (fall[i].course === input) {
-        errorMessage.innerHTML = "You have already added this class";
-        return;
+    let classFound;
+    // already added
+    [fall, winter, summer].forEach(semester => {
+      semester.forEach(course => {
+        if (course.course === input) {
+          classFound = course;
+        }
+      });
+    });
+
+    // exists
+    if (!classFound) {
+      let validClass;
+      classList.forEach(course => {
+        if (course.course === input) {
+          validClass = course;
+        }
+      });
+
+      if (validClass) {
+        fetch('/semesters/' + input)
+          .then(res => res.json())
+          .then(semesters => {
+            if (!semesters.includes(semester)) {
+              errorMessage.innerHTML = "This class is not offered in this semester!";
+            } else {
+              let sel = "selectedCourses" + semester;
+              let dependents = this.verifyPrereqs(semester, validClass);
+              let messageElem = document.getElementById('infoMessage' + this.props.year);
+              if (dependents.length > 0) {
+                let str = "";
+                dependents.forEach(duo => {
+                  str += duo.prereq + " is a prereq to " + duo.course + "<br />";
+                });
+                  messageElem.innerHTML = str;
+              } else {
+                messageElem.innerHTML = '';
+              }
+              console.log(dependents);
+              this.setState({
+                [sel]: [...this.state[sel], validClass],
+                showAdd: !this.state.showAdd
+              }, () => console.log(this.state));
+            }
+          });
+      } else {
+        errorMessage.innerHTML = "Invalid Class/Class Not Found";
       }
-    }
-
-    for (let i = 0; i < winter.length; i++) {
-      //This loop prevents duplicates for winter table
-      if (winter[i].course === input) {
-        errorMessage.innerHTML = "You have already added this class";
-        return;
-      }
-    }
-
-    for (let i = 0; i < summer.length; i++) {
-      //This loop prevents duplicates for summer table
-      if (summer[i].course === input) {
-        errorMessage.innerHTML = "You have already added this class";
-        return;
-      }
-    }
-
-    for (let i = 0; i < classList.length; i++) {
-      // Finds if input class exists and stores it in addedClass
-      if (classList[i].course === input) {
-        addedClass = classList[i];
-        classExists = true;
-        break;
-      }
-    }
-
-    if (classExists === false) {
-      errorMessage.innerHTML = "Invalid Class/Class Not Found";
-      return;
-    }
-
-    let boool = false;
-
-    for (let i = 0; i < addedClass.semester.length; i++) {
-      if (semester === addedClass.semester[i]) {
-        boool = true;
-        break;
-      }
-    }
-
-    if (boool === false) {
-      let str = "";
-      for (let i = 0; i < addedClass.semester.length; i++) {
-        str += addedClass.semester[i] + "<br />";
-      }
-      errorMessage.innerHTML = "This class is only offered in: <br />" + str;
-      return;
-    }
-
-    switch (semester) {
-      case "Fall":
-        fall.push(addedClass);
-        this.setState({
-          selectedCoursesFall: fall,
-          showAdd: !this.state.showAdd
-        });
-        break;
-      case "Summer":
-        summer.push(addedClass);
-        this.setState({
-          selectedCoursesSummer: summer,
-          showAdd: !this.state.showAdd
-        });
-        break;
-      case "Winter":
-        winter.push(addedClass);
-        this.setState({
-          selectedCoursesWinter: winter,
-          showAdd: !this.state.showAdd
-        });
-        break;
-      default:
+    } else {
+      errorMessage.innerHTML = "You have already added this class";
     }
 
     let totalNumberOfClasses = //Damn I really forgot why we need this
@@ -289,6 +314,8 @@ class PdfSequenceGenerator extends React.Component {
         "You have not selected anything.";
       return;
     }
+    let messageElem = document.getElementById('infoMessage' + this.props.year);
+    messageElem.innerHTML = '';
     fall = fall.filter(element => element.course !== removedFallClass.value); //Remove json course object from fall array
     winter = winter.filter(
       element => element.course !== removedWinterClass.value
@@ -493,8 +520,8 @@ class PdfSequenceGenerator extends React.Component {
                       {...provided.dragHandleProps}
                     >
                       <td>{course.course}</td>
-                      <td>{course.name}</td>
-                      <td>{course.credit}</td>
+                      <td>{course.courseTitle}</td>
+                      <td>{course.credits}</td>
                     </tr>
                   )}
                 </Draggable>
@@ -545,8 +572,8 @@ class PdfSequenceGenerator extends React.Component {
                       {...provided.dragHandleProps}
                     >
                       <td>{course.course}</td>
-                      <td>{course.name}</td>
-                      <td>{course.credit}</td>
+                      <td>{course.courseTitle}</td>
+                      <td>{course.credits}</td>
                     </tr>
                   )}
                 </Draggable>
@@ -597,8 +624,8 @@ class PdfSequenceGenerator extends React.Component {
                       {...provided.dragHandleProps}
                     >
                       <td>{course.course}</td>
-                      <td>{course.name}</td>
-                      <td>{course.credit}</td>
+                      <td>{course.courseTitle}</td>
+                      <td>{course.credits}</td>
                     </tr>
                   )}
                 </Draggable>
@@ -733,7 +760,6 @@ class PdfSequenceGenerator extends React.Component {
                 </td>
               </tr>
             </table>
-
             <Button
               text="Sequence Settings"
               onClick={() => this.setState({ modify: !this.state.modify })}
@@ -751,6 +777,7 @@ class PdfSequenceGenerator extends React.Component {
               }}
             />
             <Button id="mb5" text="PDF" onClick={this.convertToPDF} /> */}
+            <div style={{ background: 'yellow' }} id={ this.props.year? 'infoMessage' + this.props.year: 'infoMessage' }></div>
           </div>
         </DragDropContext>
 

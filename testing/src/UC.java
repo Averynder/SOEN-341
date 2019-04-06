@@ -1,13 +1,13 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.util.concurrent.TimeUnit;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,11 +20,9 @@ public class UC {
 
 	static final String URL = "http://localhost:3000";
 	private static void setup(){
-//		System.setProperty("webdriver.gecko.driver","src/main/resources/drivers/geckodriver.exe");
-//		System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE,"true");
-//		System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"/dev/null");
+
 		FirefoxBinary firefoxBinary = new FirefoxBinary();
-		firefoxBinary.addCommandLineOptions("--headless");
+	//	firefoxBinary.addCommandLineOptions("--headless");
 		FirefoxOptions firefoxOptions = new FirefoxOptions();
 		firefoxOptions.setBinary(firefoxBinary);
 		String URL = "http://localhost:3000";
@@ -33,7 +31,8 @@ public class UC {
 		System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE,"true");
 		System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"/dev/null");
 		driver = new FirefoxDriver(firefoxOptions);
-		driver.manage().timeouts().implicitlyWait(90, TimeUnit.SECONDS);
+		driver.manage().window().maximize();
+		//driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.manage().deleteAllCookies();
 		boolean serverRunning = false;
 		Scanner review = new Scanner(System.in);
@@ -42,12 +41,34 @@ public class UC {
 				driver.get(URL);
 				serverRunning = true;
 			} catch (WebDriverException e) {
-				System.out.println("Webpage unavailable yo. Did you make sure the server is running properly?\nPlease review then type click enter.");
-				try{
-					System.in.read();
-				}catch (Exception nada){}
+
+				System.out.print("Webpage unavailable yo. Did you make sure the server is running properly? Please review.\nWould you like to continue?[y/n]: ");
+				String answer = review.nextLine();
+				if (answer.equals("n")) {
+					System.out.println("Goodbye");
+					review.close();
+					driver.quit();
+					System.exit(0);
+				}
+
+
 			}
+		}Robot robot = null;
+		try {
+			 robot = new Robot();
+		}catch (AWTException e){
+			System.out.println("Robot didn't work");
+			System.out.println(e.getMessage());
+			System.exit(1);
 		}
+		System.out.println("Zooming in to 170%...");
+		for (int i = 0; i<5;i++){
+			robot.keyPress(KeyEvent.VK_CONTROL);
+			robot.keyPress(KeyEvent.VK_ADD);
+			robot.keyRelease(KeyEvent.VK_ADD);
+			robot.keyRelease(KeyEvent.VK_CONTROL);
+		}
+
 
 	}
 	public  static boolean login (String user, String pass) {
@@ -55,6 +76,7 @@ public class UC {
 
 		System.out.println("Navigated to url (logged out)");
 		driver.findElement(By.xpath("//button[contains(.,'I am a Student')]")).click();
+
 		System.out.println("filling credentials with username and password...");
 
 		//System.out.println("Authentication meant to succeed");
@@ -63,7 +85,7 @@ public class UC {
 		driver.findElement(By.id("waiting")).click();
 		boolean isLoggedIn = false;
 		try {
-			WebDriverWait waitForError = new WebDriverWait(driver, 11);
+			WebDriverWait waitForError = new WebDriverWait(driver, 10);
 			waitForError.until(ExpectedConditions.visibilityOfElementLocated(By.id("errorMessage")));
 			WebElement errorMessage = driver.findElement(By.id("errorMessage"));
 			System.out.println("Error message found");
@@ -84,8 +106,6 @@ public class UC {
 	}
 	public static boolean noLogin (){
 		setup();
-
-		driver.get(URL);
 		System.out.println("Navigated to url (logged out)");
 		driver.findElement(By.xpath("//button[contains(.,'No Login')]")).click();
 
