@@ -1,11 +1,18 @@
-import React from "react"
+import React from "react";
 
-function Button(props){
-  return(
+function Button(props) {
+  return (
     <div className="container">
-        <button type="button" onClick={props.onClick} className="btn btn-dark">{props.text}</button>
+      <button
+        type="button"
+        id={props.id}
+        onClick={props.onClick}
+        className="btn btn-dark"
+      >
+        {props.text}
+      </button>
     </div>
-  )
+  );
 }
 
-export default Button
+export default Button;

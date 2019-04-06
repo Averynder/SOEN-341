@@ -102,7 +102,8 @@ class CourseSelectionMenu extends React.Component {
       tryAllIndex: 0,
       validTryAll: [],
 
-      finalizedClassArray: []
+      finalizedClassArray: [],
+      showConflictForFinalize: false,
     };
     //console.log("data.sequence: " + JSON.stringify(data.sequence));
     //console.log("courses: " + JSON.stringify(data.default.sequence));
@@ -222,7 +223,9 @@ class CourseSelectionMenu extends React.Component {
   };
 
   display = courses => {
-    if (courses == undefined) {return;} 
+    if (courses == undefined) {
+      return;
+    }
     for (let r = 0; r < courses.length; r++) {
       let addedClass = courses[r];
       let lectureIndex = 0;
@@ -519,78 +522,83 @@ class CourseSelectionMenu extends React.Component {
     console.log(validOptions);
     console.log(validOptions[0]);
 
-
     this.removeAll();
     this.display(validOptions[0]);
     console.log("default has been clicked");
     console.log(validOptions);
     if (validOptions[0] !== undefined) {
-    for (let i = 0 ; i < validOptions[0].length ; i++) {
-      console.log("default run " + (i+1));
-      let courseToChangeForFinalize;
+      for (let i = 0; i < validOptions[0].length; i++) {
+        console.log("default run " + (i + 1));
+        let courseToChangeForFinalize;
 
-      for (let s = 0; s < this.state.finalizedClassArray.length; s++) {
-        if (this.state.finalizedClassArray[s].course_number === validOptions[0][i].course) {
-          courseToChangeForFinalize = this.state.finalizedClassArray[s];
-          break;
+        for (let s = 0; s < this.state.finalizedClassArray.length; s++) {
+          if (
+            this.state.finalizedClassArray[s].course_number ===
+            validOptions[0][i].course
+          ) {
+            courseToChangeForFinalize = this.state.finalizedClassArray[s];
+            break;
+          }
         }
+
+        courseToChangeForFinalize.lecture_section =
+          validOptions[0][i].lecture[0].section;
+        courseToChangeForFinalize.lecture_days =
+          validOptions[0][i].lecture[0].days;
+        courseToChangeForFinalize.lecture_start =
+          validOptions[0][i].lecture[0].startTime;
+        courseToChangeForFinalize.lecture_end =
+          validOptions[0][i].lecture[0].endTime;
+        courseToChangeForFinalize.lecture_room =
+          validOptions[0][i].lecture[0].room;
+        courseToChangeForFinalize.tutorial_section =
+          validOptions[0][i].lecture[0].tutorial.length !== 0
+            ? validOptions[0][i].lecture[0].tutorial[0].section
+            : "";
+        courseToChangeForFinalize.tutorial_room =
+          validOptions[0][i].lecture[0].tutorial.length !== 0
+            ? validOptions[0][i].lecture[0].tutorial[0].room
+            : "";
+        courseToChangeForFinalize.tutorial_days =
+          validOptions[0][i].lecture[0].tutorial.length !== 0
+            ? validOptions[0][i].lecture[0].tutorial[0].days
+            : "";
+        courseToChangeForFinalize.tutorial_start =
+          validOptions[0][i].lecture[0].tutorial.length !== 0
+            ? validOptions[0][i].lecture[0].tutorial[0].startTime
+            : "";
+        courseToChangeForFinalize.tutorial_end =
+          validOptions[0][i].lecture[0].tutorial.length !== 0
+            ? validOptions[0][i].lecture[0].tutorial[0].endTime
+            : "";
+        courseToChangeForFinalize.lab_section =
+          validOptions[0][i].lab.length !== 0
+            ? validOptions[0][i].lab[0].section
+            : "";
+        courseToChangeForFinalize.lab_room =
+          validOptions[0][i].lab.length !== 0
+            ? validOptions[0][i].lab[0].room
+            : "";
+        courseToChangeForFinalize.lab_days =
+          validOptions[0][i].lab.length !== 0
+            ? validOptions[0][i].lab[0].days
+            : "";
+        courseToChangeForFinalize.lab_start =
+          validOptions[0][i].lab.length !== 0
+            ? validOptions[0][i].lab[0].startTime
+            : "";
+        courseToChangeForFinalize.lab_end =
+          validOptions[0][i].lab.length !== 0
+            ? validOptions[0][i].lab[0].endTime
+            : "";
       }
-      
-      courseToChangeForFinalize.lecture_section = validOptions[0][i].lecture[0].section;
-      courseToChangeForFinalize.lecture_days =
-        validOptions[0][i].lecture[0].days;
-      courseToChangeForFinalize.lecture_start =
-        validOptions[0][i].lecture[0].startTime;
-      courseToChangeForFinalize.lecture_end =
-        validOptions[0][i].lecture[0].endTime;
-      courseToChangeForFinalize.lecture_room =
-        validOptions[0][i].lecture[0].room;
-      courseToChangeForFinalize.tutorial_section =
-        validOptions[0][i].lecture[0].tutorial.length !== 0
-        ? validOptions[0][i].lecture[0].tutorial[0].section
-          : "";
-      courseToChangeForFinalize.tutorial_room =
-        validOptions[0][i].lecture[0].tutorial.length !== 0
-        ? validOptions[0][i].lecture[0].tutorial[0].room
-          : "";
-      courseToChangeForFinalize.tutorial_days =
-        validOptions[0][i].lecture[0].tutorial.length !== 0
-          ? validOptions[0][i].lecture[0].tutorial[0].days
-          : "";
-      courseToChangeForFinalize.tutorial_start =
-        validOptions[0][i].lecture[0].tutorial.length !== 0
-          ? validOptions[0][i].lecture[0].tutorial[0].startTime
-          : "";
-      courseToChangeForFinalize.tutorial_end =
-        validOptions[0][i].lecture[0].tutorial.length !== 0
-          ? validOptions[0][i].lecture[0].tutorial[0].endTime
-          : "";
-      courseToChangeForFinalize.lab_section =
-        validOptions[0][i].lab.length !== 0
-        ? validOptions[0][i].lab[0].section
-          : "";
-      courseToChangeForFinalize.lab_room =
-        validOptions[0][i].lab.length !== 0
-        ? validOptions[0][i].lab[0].room
-          : "";
-      courseToChangeForFinalize.lab_days =
-        validOptions[0][i].lab.length !== 0
-          ? validOptions[0][i].lab[0].days
-          : "";
-      courseToChangeForFinalize.lab_start =
-        validOptions[0][i].lab.length !== 0
-          ? validOptions[0][i].lab[0].startTime
-          : "";
-      courseToChangeForFinalize.lab_end =
-        validOptions[0][i].lab.length !== 0
-          ? validOptions[0][i].lab[0].endTime
-          : "";
-    }}
+    }
 
     this.setState({
       showTryAll: "visible",
       validTryAll: validOptions,
       showConflict: "hidden",
+      showConflictForFinalize: false,
       tryAllIndex: 0
     });
     this.handleDisplay();
@@ -611,18 +619,21 @@ class CourseSelectionMenu extends React.Component {
     console.log("previous has been clicked");
 
     for (let i = 0; i < validOptions[number].length; i++) {
-
-      console.log("previous run " + (i+1));
+      console.log("previous run " + (i + 1));
       let courseToChangeForFinalize;
 
       for (let s = 0; s < this.state.finalizedClassArray.length; s++) {
-        if (this.state.finalizedClassArray[s].course_number === validOptions[number][i].course) {
+        if (
+          this.state.finalizedClassArray[s].course_number ===
+          validOptions[number][i].course
+        ) {
           courseToChangeForFinalize = this.state.finalizedClassArray[s];
           break;
         }
       }
 
-      courseToChangeForFinalize.lecture_section = validOptions[number][i].lecture[0].section;
+      courseToChangeForFinalize.lecture_section =
+        validOptions[number][i].lecture[0].section;
       courseToChangeForFinalize.lecture_days =
         validOptions[number][i].lecture[0].days;
       courseToChangeForFinalize.lecture_start =
@@ -669,7 +680,7 @@ class CourseSelectionMenu extends React.Component {
         validOptions[number][i].lab.length !== 0
           ? validOptions[number][i].lab[0].endTime
           : "";
-    } 
+    }
 
     this.setState({
       tryAllIndex: number
@@ -754,7 +765,7 @@ class CourseSelectionMenu extends React.Component {
         validOptions[number][i].lab.length !== 0
           ? validOptions[number][i].lab[0].endTime
           : "";
-    } 
+    }
 
     this.setState({
       tryAllIndex: number
@@ -772,6 +783,7 @@ class CourseSelectionMenu extends React.Component {
       selectedCourses: [],
       credits: 0,
       showConflict: "hidden",
+      showConflictForFinalize: false,
       show2: "hidden"
     });
 
@@ -1280,9 +1292,9 @@ class CourseSelectionMenu extends React.Component {
       if (aa.timeConflict(array)) {
         this.removeAll();
         document.getElementById("timeConflict").innerHTML = "No Results";
-        this.setState({ showConflict: "visible" });
+        this.setState({ showConflict: "visible", showConflictForFinalize: true });
       } else {
-        this.setState({ showConflict: "hidden" });
+        this.setState({ showConflict: "hidden", showConflictForFinalize: false });
       }
 
       this.setState({
@@ -1644,7 +1656,7 @@ class CourseSelectionMenu extends React.Component {
     };
 
     if (!aa.timeConflict(array3)) {
-      this.setState({ showConflict: "hidden" });
+      this.setState({ showConflict: "hidden", showConflictForFinalize: false });
 
       for (let j = 0; j < addedClass.lecture[lectureIndex].days.length; j++) {
         // add lecture
@@ -1911,7 +1923,7 @@ class CourseSelectionMenu extends React.Component {
       }
     } else {
       document.getElementById("timeConflict").innerHTML = "No Results";
-      this.setState({ showConflict: "visible" });
+      this.setState({ showConflict: "visible", showConflictForFinalize: true });
 
       let array4 = aa.duplicateArray(this.state.selectedCourses);
       let courseToRemove, lectureIndex1, tutorialIndex1, labIndex1, color1;
@@ -2168,7 +2180,7 @@ class CourseSelectionMenu extends React.Component {
     let aa = new AveryAlgorithms();
 
     if (!aa.timeConflict(array)) {
-      this.setState({ showConflict: "hidden" });
+      this.setState({ showConflict: "hidden", showConflictForFinalize: false });
 
       let addedClass, lectureIndex, tutorialIndex, labIndex, colorChosen;
 
@@ -2639,7 +2651,7 @@ class CourseSelectionMenu extends React.Component {
     let aa = new AveryAlgorithms();
 
     if (!aa.timeConflict(this.state.selectedCourses)) {
-      this.setState({ showConflict: "hidden" });
+      this.setState({ showConflict: "hidden", showConflictForFinalize: false });
 
       for (let n = 0; n < this.state.selectedCourses.length; n++) {
         courseToChange = this.state.selectedCourses[n][0];
@@ -2925,7 +2937,7 @@ class CourseSelectionMenu extends React.Component {
       }
     } else {
       document.getElementById("timeConflict").innerHTML = "No Results";
-      this.setState({ showConflict: "visible" });
+      this.setState({ showConflict: "visible", showConflictForFinalize: true });
       this.removeAll();
     }
   }
@@ -2990,6 +3002,7 @@ class CourseSelectionMenu extends React.Component {
             <br />
             <strong>{element[0].name}</strong> <br />
             {/* //////////////////////////////////////////////// */}
+            <label>LEC:&nbsp;</label>
             <select
               id={element[0].course + "lecSection"}
               defaultValue={this.state.defaultValueLecture}
@@ -3000,9 +3013,27 @@ class CourseSelectionMenu extends React.Component {
               ))}
             </select>
             &nbsp;
+            &nbsp;
+            <label
+              for={element[0].course + "tutSection"}
+              style={{
+                visibility:
+                  element[0].lecture[0].tutorial.length === 0
+                    ? "hidden"
+                    : "visible"
+              }}
+            >
+              TUT:&nbsp;
+            </label>
             <select
               defaultValue={this.state.defaultValueTutorial}
               id={element[0].course + "tutSection"}
+              style={{
+                visibility:
+                  element[0].lecture[0].tutorial.length === 0
+                    ? "hidden"
+                    : "visible"
+              }}
             >
               {element[0].lecture[0].tutorial.map(theTut => (
                 <option>{theTut.section}</option>
@@ -3010,9 +3041,23 @@ class CourseSelectionMenu extends React.Component {
             </select>
             {/* ////////////////////////////////////////////////  */}
             &nbsp;
+            &nbsp;
+            <label
+              for={element[0].course + "labSection"}
+              style={{
+                visibility:
+                  element[0].lab.length === 0 ? "hidden" : "visible"
+              }}
+            >
+              LAB:&nbsp;
+            </label>
             <select
               defaultValue={this.state.defaultValueLab}
               id={element[0].course + "labSection"}
+              style={{
+                visibility:
+                  element[0].lab.length === 0 ? "hidden" : "visible"
+              }}
             >
               {element[0].lab.map(element1 => (
                 <option>{element1.section}</option>
@@ -3074,6 +3119,7 @@ class CourseSelectionMenu extends React.Component {
     const years = yeetus.map(jimmy => <option>{jimmy}</option>);
 
     const data = this.state.finalizedClassArray;
+    const data2 = this.state.showConflictForFinalize;
 
     return (
       <div className="container">
@@ -3238,9 +3284,7 @@ class CourseSelectionMenu extends React.Component {
                               <td>
                                 {times.time.map(element => {
                                   let myID = days + "-" + element.num;
-                                  return (
-                                    <div id={myID}>----------------</div>
-                                  );
+                                  return <div id={myID}>----------------</div>;
                                 })}
                               </td>
                             </tr>
@@ -3260,7 +3304,8 @@ class CourseSelectionMenu extends React.Component {
             <Link
               to={{
                 pathname: "/finalize-export-sem",
-                selectedCourses: data
+                selectedCourses: data,
+                theShowConflict: data2
               }}
             >
               <Button text="Finalize" />
@@ -3335,11 +3380,7 @@ class CourseSelectionMenu extends React.Component {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button
-              variant="primary"
-              onClick={this.closeRubiat}
-              text="Close"
-            />
+            <Button variant="primary" onClick={this.closeRubiat} text="Close" />
           </Modal.Footer>
         </Modal>
 
@@ -3394,11 +3435,7 @@ class CourseSelectionMenu extends React.Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button
-              variant="primary"
-              onClick={this.closeUpload}
-              text="Close"
-            />
+            <Button variant="primary" onClick={this.closeUpload} text="Close" />
           </Modal.Footer>
         </Modal>
       </div>

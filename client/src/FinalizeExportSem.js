@@ -1,6 +1,8 @@
 import React from "react";
 import Button from "./components/Button";
 import { Link } from "react-router-dom";
+import * as jsPDF from "jspdf";
+import * as html2canvas from "html2canvas";
 
 class FinalizeExportSem extends React.Component {
   // constructor(props, context) {
@@ -726,10 +728,13 @@ class FinalizeExportSem extends React.Component {
   // }
   render() {
     const { selectedCourses } = this.props.location;
+    const { theShowConflict } = this.props.location;
     console.log(selectedCourses);
 
     let displayInfo =
-      selectedCourses === undefined || selectedCourses.length === 0 ? (
+      theShowConflict === true ||
+      selectedCourses === undefined ||
+      selectedCourses.length === 0 ? (
         <h3>No Class Chosen Yet</h3>
       ) : (
         selectedCourses.map(element => (
@@ -788,17 +793,18 @@ class FinalizeExportSem extends React.Component {
           <div className="jumbotron j-greetings">
             <h1>This is your Finalized Format</h1>
             <hr color="#7E1530" />
-            <div>
+            <div id="divToPrint">
               <table style={{ marginLeft: "auto", marginRight: "auto" }}>
                 {displayInfo}
               </table>
             </div>
+            <div />
             {/* <p id='pasteMe7000' name='pasteMe7000' class="pasteMe7000">
             </p>
             <hr color="#7E1530" /> */}
-            <Link to="/select-semester">
-              <Button text="Export as PDF" />
-            </Link>
+            {/* <Link to="/"> */}
+            <Button text="Export as PDF" />
+            {/* </Link> */}
             <Link to="/course-selection-menu">
               <Button text="Back to Course Selection" />
             </Link>
