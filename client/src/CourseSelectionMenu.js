@@ -643,7 +643,9 @@ class CourseSelectionMenu extends React.Component {
       courseToChangeForFinalize.lecture_room =
         validOptions[number][i].lecture[0].room;
       courseToChangeForFinalize.tutorial_section =
-        validOptions[number][i].lecture[0].tutorial[0].section;
+        validOptions[number][i].lecture[0].tutorial.length !== 0
+        ? validOptions[number][i].lecture[0].tutorial[0].section
+        : "";
       courseToChangeForFinalize.tutorial_room =
         validOptions[number][i].lecture[0].tutorial.length !== 0
           ? validOptions[number][i].lecture[0].tutorial[0].room
