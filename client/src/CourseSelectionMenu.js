@@ -161,9 +161,7 @@ class CourseSelectionMenu extends React.Component {
       console.log("Array of Arrays:");
       console.log(
         aa.treeCaller([
-          this.state.dataCourses[36],
-          this.state.dataCourses[26],
-          this.state.dataCourses[10]
+          this.state.dataCourses[38]
         ])
       );
     }

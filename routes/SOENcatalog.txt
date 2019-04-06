@@ -1,4 +1,5 @@
-[{"ID":"032001","title":"System Hardware","subject":"SOEN","catalog":"228","career":"UGRD","classUnit":"4.00","prerequisites":"Course Prerequisite: MATH203; MATH204","crosslisted":null},
+[
+{"ID":"032001","title":"System Hardware","subject":"SOEN","catalog":"228","career":"UGRD","classUnit":"4.00","prerequisites":"Course Prerequisite: MATH203; MATH204","crosslisted":null},
 {"ID":"032001","title":"System Hardware","subject":"SOEN","catalog":"228","career":"UGRD","classUnit":"4.00","prerequisites":"Course Prerequisite: MATH203; MATH204","crosslisted":null},
 {"ID":"032001","title":"System Hardware","subject":"SOEN","catalog":"228","career":"UGRD","classUnit":"4.00","prerequisites":"Course Prerequisite: MATH203; MATH204","crosslisted":null},
 {"ID":"032001","title":"System Hardware","subject":"SOEN","catalog":"228","career":"UGRD","classUnit":"4.00","prerequisites":"Course Prerequisite: MATH203; MATH204","crosslisted":null},
@@ -74,4 +75,5 @@
 {"ID":"048873","title":"MULTIMEDIA COMPUTING","subject":"SOEN","catalog":"6761","career":"GRAD","classUnit":"4.00","prerequisites":"","crosslisted":null},
 {"ID":"048957","title":"TOPICS IN SOFTWARE ENGINEERING","subject":"SOEN","catalog":"499","career":"UGRD","classUnit":"4.00","prerequisites":"PREREQ COMP498","crosslisted":null},
 {"ID":"048957","title":"TOPICS IN SOFTWARE ENGINEERING","subject":"SOEN","catalog":"499","career":"UGRD","classUnit":"4.00","prerequisites":"PREREQ COMP498","crosslisted":null},
-{"ID":"049308","title":"SOFTWARE RE-ENGINEERING","subject":"SOEN","catalog":"6021","career":"GRAD","classUnit":"4.00","prerequisites":"","crosslisted":null}]
+{"ID":"049308","title":"SOFTWARE RE-ENGINEERING","subject":"SOEN","catalog":"6021","career":"GRAD","classUnit":"4.00","prerequisites":"","crosslisted":null}
+]
