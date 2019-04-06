@@ -786,7 +786,8 @@ class CourseSelectionMenu extends React.Component {
       credits: 0,
       showConflict: "hidden",
       showConflictForFinalize: false,
-      show2: "hidden"
+      show2: "hidden",
+      finalizedClassArray: []
     });
 
     for (let i = 0; i < this.state.colors.length; i++) {
