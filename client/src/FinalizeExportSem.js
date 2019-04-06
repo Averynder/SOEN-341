@@ -1,6 +1,8 @@
 import React from "react";
 import Button from "./components/Button";
 import { Link } from "react-router-dom";
+import * as jsPDF from "jspdf";
+import * as html2canvas from "html2canvas";
 
 class FinalizeExportSem extends React.Component {
   // constructor(props, context) {
@@ -724,12 +726,38 @@ class FinalizeExportSem extends React.Component {
   //     }
   //   }
   // }
+
+  convertToPDF = () => {
+    const input = document.getElementById("divToPrint");
+
+    document.getElementById("divToPrint").style.width = "800px";
+    //End of formatting code
+
+    html2canvas(input, {
+      dpi: 9000, //supposed to make it less blurry on retina
+      scale: 1 //approximately fills the width of pdf page with the sequence table
+    })
+      .then(canvas => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF();
+        pdf.addImage(imgData, "JPEG", 0, 0);
+        pdf.output("/semester.pdf");
+        pdf.save("semester.pdf");
+      })
+      .then(() => {
+        document.getElementById("divToPrint").style.width = "100%";
+      });
+  };
+
   render() {
     const { selectedCourses } = this.props.location;
+    const { theShowConflict } = this.props.location;
     console.log(selectedCourses);
 
     let displayInfo =
-      selectedCourses === undefined || selectedCourses.length === 0 ? (
+      theShowConflict === true ||
+      selectedCourses === undefined ||
+      selectedCourses.length === 0 ? (
         <h3>No Class Chosen Yet</h3>
       ) : (
         selectedCourses.map(element => (
@@ -749,7 +777,12 @@ class FinalizeExportSem extends React.Component {
               <h5>LEC</h5>
               <p>Section: {element.lecture_section}</p>
               <p>Room: {element.lecture_room}</p>
-              <p>Days: {element.lecture_days}</p>
+              <p>
+                Days:{" "}
+                {element.lecture_days !== ""
+                  ? element.lecture_days.map(day => day + " ")
+                  : ""}
+              </p>
               <p>Start Time: {element.lecture_start}</p>
               <p>End Time: {element.lecture_end}</p>
             </td>
@@ -759,7 +792,12 @@ class FinalizeExportSem extends React.Component {
                 <h5>TUT</h5>
                 <p>Section: {element.tutorial_section}</p>
                 <p>Room: {element.tutorial_room}</p>
-                <p>Days: {element.tutorial_days}</p>
+                <p>
+                  Days:{" "}
+                  {element.tutorial_days !== ""
+                    ? element.tutorial_days.map(day => day + " ")
+                    : ""}
+                </p>
                 <p>Start Time: {element.tutorial_start}</p>
                 <p>End Time: {element.tutorial_end}</p>
               </td>
@@ -771,7 +809,12 @@ class FinalizeExportSem extends React.Component {
                 <h5>LAB</h5>
                 <p>Section: {element.lab_section}</p>
                 <p>Room: {element.lab_room}</p>
-                <p>Days: {element.lab_days}</p>
+                <p>
+                  Days:{" "}
+                  {element.lab_days !== ""
+                    ? element.lab_days.map(day => day + " ")
+                    : ""}
+                </p>
                 <p>Start Time: {element.lab_start}</p>
                 <p>End Time: {element.lab_end}</p>
               </td>
@@ -788,17 +831,18 @@ class FinalizeExportSem extends React.Component {
           <div className="jumbotron j-greetings">
             <h1>This is your Finalized Format</h1>
             <hr color="#7E1530" />
-            <div>
+            <div id="divToPrint">
               <table style={{ marginLeft: "auto", marginRight: "auto" }}>
                 {displayInfo}
               </table>
             </div>
+            <div />
             {/* <p id='pasteMe7000' name='pasteMe7000' class="pasteMe7000">
             </p>
             <hr color="#7E1530" /> */}
-            <Link to="/select-semester">
-              <Button text="Export as PDF" />
-            </Link>
+            {/* <Link to="/"> */}
+            <Button text="Export as PDF" onClick={this.convertToPDF} />
+            {/* </Link> */}
             <Link to="/course-selection-menu">
               <Button text="Back to Course Selection" />
             </Link>
