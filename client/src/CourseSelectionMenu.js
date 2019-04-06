@@ -2885,23 +2885,6 @@ class CourseSelectionMenu extends React.Component {
   }
 
   render() {
-    const styles = reactCSS({
-      default: {
-        popover: {
-          position: "fixed",
-          top: "23%",
-          left: "38%",
-          zIndex: "2"
-        },
-        cover: {
-          position: "fixed",
-          top: "0px",
-          right: "0px",
-          bottom: "0px",
-          left: "0px"
-        }
-      }
-    });
 
     let myAddedClasses = this.state.selectedCourses.map(theClass => (
       <option value={theClass[0].course}>{theClass[0].course}</option>
@@ -3305,19 +3288,12 @@ class CourseSelectionMenu extends React.Component {
             <Modal.Title>Color Selector</Modal.Title>
           </Modal.Header>
           <Modal.Body style={{ textAlign: "center" }}>
-            <p style={{ margin: "0px 0px 25% 0px" }}>
-              Select a Color for Course (replace with course name)
+            <p style={{ margin: "0px 0px 15px 0px" }}>
+              Select a Color
             </p>
-            <Form inline style={{ textAlign: "center" }}>
-              <div className="container" style={{ width: "40%" }}>
-                <div style={styles.popover}>
-                  <CirclePicker
-                    style={{ margin: "0px 0px 0px 0px" }}
-                    onChangeComplete={this.handleChangeComplete}
-                  />
-                </div>
-              </div>
-            </Form>
+            <div style={{margin: "0px 0px 0px 115px"}}>
+              <CirclePicker onChangeComplete={this.handleChangeComplete} />
+            </div>
           </Modal.Body>
 
           <Modal.Footer style={{ backgroundColor: "#82100d" }}>
