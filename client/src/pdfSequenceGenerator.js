@@ -126,9 +126,7 @@ class PdfSequenceGenerator extends React.Component {
     //background: isDraggingOver? 'blue': 'red'
   });
 
-  offeredIn = (semClass, course) => {
-    let semester = semClass.substr(15); // remove selectedCourses from semester string
-    semester = semester.charAt(0).toUpperCase() + semester.slice(1);
+  offeredIn = (semester, course) => {
 
     return new Promise((resolve, reject) => {
       fetch('/semesters/' + course)
@@ -150,19 +148,36 @@ class PdfSequenceGenerator extends React.Component {
         else if (this.isPrereqTo(check, course)) dependents.push({ course: check.course, prereq: course.course});
       });
     });
-    return dependents;
+    let messageElem = document.getElementById('infoMessage' + this.props.year);
+    console.log(dependents);
+    if (dependents.length > 0) {
+      let str = "";
+      dependents.forEach(duo => {
+        str += duo.prereq + " is a prereq to " + duo.course + "<br />";
+      });
+        messageElem.innerHTML = str;
+    } else {
+      messageElem.innerHTML = '';
+    }
   }
 
   isPrereqTo = (course, maybePrereq) => {
-    let prereqs = course["prerequisites"].match(/\w{4} \d{3}/g);
+    let prereqs = course["prerequisites"].match(/\w{4}\s?\d{3}/g);
     if (prereqs) {
       let name = maybePrereq.course;
-      let addSpace = name.substring(0, 4) + ' ' + name.slice(4);
-      let isPrereq = prereqs.includes(addSpace);
+      let subject = name.substring(0, 4);
+      let classNum = name.slice(4);
+      let addSpace = subject + ' ' + classNum;
+      let noSpace = subject + classNum;
+      let isPrereq = prereqs.includes(addSpace) || prereqs.includes(noSpace);
       return isPrereq;
     } else {
       return false;
     }
+  }
+
+  getSemFromClass = semClass => {
+    return semClass.substr(15); // remove selectedCourses from semester string
   }
 
   onDragEnd = result => {
@@ -174,6 +189,7 @@ class PdfSequenceGenerator extends React.Component {
     }
 
     if (source.droppableId === destination.droppableId) {
+      let messageElem = document.getElementById('infoMessage' + this.props.year);
       const items = this.reorder(
         this.state[source.droppableId],
         source.index,
@@ -183,14 +199,16 @@ class PdfSequenceGenerator extends React.Component {
       this.setState({
         [source.droppableId]: items
       });
+
+      messageElem.innerHTML = '';
     } else {
       let movingCourse = this.state[source.droppableId][source.index];
-      let semesterStr = destination.droppableId;
-      let messageElem = document.getElementById('infoMessage' + this.props.year);
-      this.offeredIn(destination.droppableId, movingCourse.course) // e.g. canMove("selectedCoursesWinter", "SOEN341")
+      let semester = this.getSemFromClass(destination.droppableId);
+      this.offeredIn(semester, movingCourse.course) // e.g. canMove("Winter", "SOEN341")
         .then(canMove => {
+          let messageElem = document.getElementById('infoMessage' + this.props.year);
           if (canMove) {
-            messageElem.innerHTML = '';
+            this.verifyPrereqs(semester, movingCourse);
             const moved = this.move(
               this.state[source.droppableId],
               this.state[destination.droppableId],
@@ -252,18 +270,7 @@ class PdfSequenceGenerator extends React.Component {
               errorMessage.innerHTML = "This class is not offered in this semester!";
             } else {
               let sel = "selectedCourses" + semester;
-              let dependents = this.verifyPrereqs(semester, validClass);
-              let messageElem = document.getElementById('infoMessage' + this.props.year);
-              if (dependents.length > 0) {
-                let str = "";
-                dependents.forEach(duo => {
-                  str += duo.prereq + " is a prereq to " + duo.course + "<br />";
-                });
-                  messageElem.innerHTML = str;
-              } else {
-                messageElem.innerHTML = '';
-              }
-              console.log(dependents);
+              this.verifyPrereqs(semester, validClass);
               this.setState({
                 [sel]: [...this.state[sel], validClass],
                 showAdd: !this.state.showAdd

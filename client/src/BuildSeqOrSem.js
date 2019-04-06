@@ -19,7 +19,7 @@ class BuildSeqOrSem extends Component {
               <Link to="/course-selection-menu">
                 <Button text="Semester"/>
               </Link>
-              <Link to="/obtain-uploaded-sequence">
+              <Link to="/draft-sequence-menu">
                 <Button text="Sequence"/>
               </Link>
             </div>
