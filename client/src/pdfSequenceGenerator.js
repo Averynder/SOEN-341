@@ -244,6 +244,7 @@ class PdfSequenceGenerator extends React.Component {
     let semester = document.getElementById("semester").value;
 
     let classFound;
+    var added = false;
     // already added
     [fall, winter, summer].forEach(semester => {
       semester.forEach(course => {
@@ -274,7 +275,7 @@ class PdfSequenceGenerator extends React.Component {
               this.setState({
                 [sel]: [...this.state[sel], validClass],
                 showAdd: !this.state.showAdd
-              }, () => console.log(this.state));
+              }, () => this.bootlegUpdateSettings(falltable, wintertable, summertable));
             }
           });
       } else {
@@ -295,8 +296,6 @@ class PdfSequenceGenerator extends React.Component {
       yeetus[i] = new Date().getFullYear() + i;
     }
     const years = yeetus.map(jimmy => <option value={jimmy}>{jimmy}</option>);
-
-    this.bootlegUpdateSettings(falltable, wintertable, summertable);
   };
 
   removeClass = (falltable, wintertable, summertable) => {
@@ -335,9 +334,7 @@ class PdfSequenceGenerator extends React.Component {
       selectedCoursesWinter: winter,
       selectedCoursesSummer: summer,
       showRemove: !this.state.showRemove
-    });
-
-    this.bootlegUpdateSettings(falltable, wintertable, summertable);
+    }, () => this.bootlegUpdateSettings(falltable, wintertable, summertable));
   };
 
   updateSettings = (falltable, wintertable, summertable) => {
