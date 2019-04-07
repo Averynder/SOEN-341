@@ -643,7 +643,9 @@ class CourseSelectionMenu extends React.Component {
       courseToChangeForFinalize.lecture_room =
         validOptions[number][i].lecture[0].room;
       courseToChangeForFinalize.tutorial_section =
-        validOptions[number][i].lecture[0].tutorial[0].section;
+          validOptions[number][i].lecture[0].tutorial.length !== 0
+              ? validOptions[number][i].lecture[0].tutorial[0].section
+              : "";
       courseToChangeForFinalize.tutorial_room =
         validOptions[number][i].lecture[0].tutorial.length !== 0
           ? validOptions[number][i].lecture[0].tutorial[0].room
@@ -784,7 +786,8 @@ class CourseSelectionMenu extends React.Component {
       credits: 0,
       showConflict: "hidden",
       showConflictForFinalize: false,
-      show2: "hidden"
+      show2: "hidden",
+      finalizedClassArray: [],
     });
 
     for (let i = 0; i < this.state.colors.length; i++) {
@@ -1925,94 +1928,7 @@ class CourseSelectionMenu extends React.Component {
       document.getElementById("timeConflict").innerHTML = "No Results";
       this.setState({ showConflict: "visible", showConflictForFinalize: true });
 
-      let array4 = aa.duplicateArray(this.state.selectedCourses);
-      let courseToRemove, lectureIndex1, tutorialIndex1, labIndex1, color1;
-
-      for (let i = 0; i < array4.length; i++) {
-        courseToRemove = array4[i][0];
-        lectureIndex1 = array4[i][1];
-        tutorialIndex1 = array4[i][2];
-        labIndex1 = array4[i][3];
-        color1 = array4[i][4];
-
-        for (
-          let j = 0;
-          j < courseToRemove.lecture[lectureIndex1].days.length;
-          j++
-        ) {
-          for (let i = 0; i < 61; i++) {
-            let dayOfTheWeek =
-              courseToRemove.lecture[lectureIndex1].days[j] + "-";
-            if (
-              this.timeToNum(courseToRemove.lecture[lectureIndex1].startTime) <=
-                i &&
-              this.timeToNum(courseToRemove.lecture[lectureIndex1].endTime) -
-                1 >=
-                i
-            ) {
-              document.getElementById(dayOfTheWeek + i).style.backgroundColor =
-                ""; // (you can choose to select the return of a function)
-              document.getElementById(dayOfTheWeek + i).innerHTML =
-                "----------------";
-              document.getElementById(dayOfTheWeek + i).style.color = "black";
-            }
-          }
-        }
-
-        if (courseToRemove.lecture[lectureIndex1].tutorial.length != 0) {
-          for (
-            let j = 0;
-            j <
-            courseToRemove.lecture[lectureIndex1].tutorial[tutorialIndex1].days
-              .length;
-            j++
-          ) {
-            let dayOfTheWeek =
-              courseToRemove.lecture[lectureIndex1].tutorial[tutorialIndex1]
-                .days[j] + "-";
-            for (let i = 0; i < 61; i++) {
-              if (
-                this.timeToNum(
-                  courseToRemove.lecture[lectureIndex1].tutorial[tutorialIndex1]
-                    .startTime
-                ) <= i &&
-                this.timeToNum(
-                  courseToRemove.lecture[lectureIndex1].tutorial[tutorialIndex1]
-                    .endTime
-                ) -
-                  1 >=
-                  i
-              ) {
-                document.getElementById(
-                  dayOfTheWeek + i
-                ).style.backgroundColor = ""; // (you can choose to select the return of a function)
-                document.getElementById(dayOfTheWeek + i).innerHTML =
-                  "----------------";
-                document.getElementById(dayOfTheWeek + i).style.color = "black";
-              }
-            }
-          }
-        }
-
-        if (courseToRemove.lab.length != 0) {
-          for (let j = 0; j < courseToRemove.lab[labIndex1].days.length; j++) {
-            let dayOfTheWeek = courseToRemove.lab[labIndex1].days[j] + "-";
-            for (let i = 0; i < 61; i++) {
-              if (
-                this.timeToNum(courseToRemove.lab[labIndex1].startTime) <= i &&
-                this.timeToNum(courseToRemove.lab[labIndex1].endTime) - 1 >= i
-              ) {
-                document.getElementById(
-                  dayOfTheWeek + i
-                ).style.backgroundColor = ""; // (you can choose to select the return of a function)
-                document.getElementById(dayOfTheWeek + i).innerHTML =
-                  "----------------";
-                document.getElementById(dayOfTheWeek + i).style.color = "black";
-              }
-            }
-          }
-        }
-      }
+      this.removeAll();
     }
 
     this.state.finalizedClassArray.push(newClassForFinalize);
@@ -2969,23 +2885,6 @@ class CourseSelectionMenu extends React.Component {
   }
 
   render() {
-    const styles = reactCSS({
-      default: {
-        popover: {
-          position: "fixed",
-          top: "23%",
-          left: "38%",
-          zIndex: "2"
-        },
-        cover: {
-          position: "fixed",
-          top: "0px",
-          right: "0px",
-          bottom: "0px",
-          left: "0px"
-        }
-      }
-    });
 
     let myAddedClasses = this.state.selectedCourses.map(theClass => (
       <option value={theClass[0].course}>{theClass[0].course}</option>
@@ -3389,19 +3288,12 @@ class CourseSelectionMenu extends React.Component {
             <Modal.Title>Color Selector</Modal.Title>
           </Modal.Header>
           <Modal.Body style={{ textAlign: "center" }}>
-            <p style={{ margin: "0px 0px 25% 0px" }}>
-              Select a Color for Course (replace with course name)
+            <p style={{ margin: "0px 0px 15px 0px" }}>
+              Select a Color
             </p>
-            <Form inline style={{ textAlign: "center" }}>
-              <div className="container" style={{ width: "40%" }}>
-                <div style={styles.popover}>
-                  <CirclePicker
-                    style={{ margin: "0px 0px 0px 0px" }}
-                    onChangeComplete={this.handleChangeComplete}
-                  />
-                </div>
-              </div>
-            </Form>
+            <div style={{margin: "0px 0px 0px 115px"}}>
+              <CirclePicker onChangeComplete={this.handleChangeComplete} />
+            </div>
           </Modal.Body>
 
           <Modal.Footer style={{ backgroundColor: "#82100d" }}>
