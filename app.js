@@ -157,7 +157,7 @@ app.get('/concordia', function(req, res) {
 		if (err) throw err;
 		console.log('\nCOMPcatalog opened');
 		});
-		
+
 		async.series([getCOMPclasses(), getSOENclasses(), getSOENschedule(), getCOMPschedule()], function (err, results) {
 			if (err){
 				console.log(err);
@@ -605,7 +605,7 @@ getCOMPclasses=()=>{
 			}).on('error', (e) => {
 				console.log(e);
 			});
-	
+
 };
 getSOENschedule=()=>{
 			console.log("Getting SOEN schedule");
@@ -617,7 +617,7 @@ getSOENschedule=()=>{
 				});
 			}).on('error', (e) => {
 				console.log(e);
-			});		
+			});
 };
 getCOMPschedule=()=>{
 			console.log("Getting COMP schedule");
@@ -629,8 +629,9 @@ getCOMPschedule=()=>{
 				});
 			}).on('error', (e) => {
 				console.log(e);
-			});	
+			});
 };
+/*
 orderFiles=()=>{
 			fs.readFile('routes/SOENcatalog.txt', 'utf-8', function(err, data){
 						if (err) throw err;
@@ -661,7 +662,7 @@ orderFiles=()=>{
 							if (err) throw err;
 							console.log('SOEN Schedule is ordered');
 							});
-							
+
 					});
 					fs.readFile('routes/COMPschedule.txt', 'utf-8', function(err, data){
 						if (err) throw err;
@@ -692,11 +693,12 @@ orderFiles=()=>{
 							if (err) throw err;
 							console.log('COMP Catalog is ordered');
 							});
-							
+
 					});
 };
+*/
 
-setTimeout(orderFiles, 15000);
+//setTimeout(orderFiles, 15000);
 
 
 // var testme = new DBcheck;
