@@ -22,6 +22,7 @@ class AveryAlgorithms extends Component {
 		this.timeConflict1 = this.timeConflict1.bind(this);
 		this.timeConflict = this.timeConflict.bind(this);
 		this.timeConflict2 = this.timeConflict2.bind(this);
+		this.courseCrusher = this.courseCrusher.bind(this);
 	}
 
 	duplicateArray(oldArray)
@@ -166,9 +167,62 @@ class AveryAlgorithms extends Component {
 		}
 	}
 
+	courseCrusher(courses)
+	{
+		courses = this.duplicateArray(courses);
+		for (let i = 0; i < courses.length; i++)
+		{
+			// removing same time tutorials
+			if (courses[i].lecture != null)
+			{
+				for (let j = 0; j < courses[i].lecture.length; j++)
+				{
+					if (courses[i].lecture[j].tutorial != null)
+					{
+						for (let a = 0; a < courses[i].lecture[j].tutorial.length; a++)
+						{
+							for (let b = 0; b < courses[i].lecture[j].tutorial.length; b++)
+							{
+								if (courses[i].lecture[j].tutorial[a].startTime == courses[i].lecture[j].tutorial[b].startTime &&
+									courses[i].lecture[j].tutorial[a].endTime == courses[i].lecture[j].tutorial[b].endTime && a != b)
+								{
+									let a1 = courses[i].lecture[j].tutorial.slice(0,b);
+									let a2 = courses[i].lecture[j].tutorial.slice(b+1);
+									courses[i].lecture[j].tutorial = a1.concat(a2);
+									b = -1;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			// removing same time labs
+			if (courses[i].lab != null)
+			{
+				for (let j = 0; j < courses[i].lab.length; j++)
+				{
+					for (let k = 0; k < courses[i].lab.length; k++)
+					{
+						if (courses[i].lab[j].startTime == courses[i].lab[k].startTime
+						&& courses[i].lab[j].endTime == courses[i].lab[k].endTime)
+						{
+							let a1 = courses[i].lab.slice(0,k);
+							let a2 = courses[i].lab.slice(k+1);
+							courses[i].lab = a1.concat(a2);
+							k = -1;
+						}
+					}
+				}
+			}
+		}
+		return courses;
+	}
+
 	treeCaller(courses)
 	{
 		let root = new AveryAlgorithms.Node(null, null, null);
+		courses = this.courseCrusher(courses);
 		this.treeMaker(courses, root);
 		let myArray = [];
 		this.scrollMaker(root, root, myArray);
