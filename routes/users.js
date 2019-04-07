@@ -3,6 +3,7 @@ var mysql = require("mysql2");
 var async = require('async');
 var app = express();
 var fs = require("fs");
+var rp = require('request-promise');
 const Course = require('./Course');
 const MyDoublyLinkedList = require('./MyDoublyLinkedList');
 
@@ -216,9 +217,20 @@ console.log("hello");
 
 
 
-async.waterfall([task0,task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14,task15,task16], function() {
-  console.log('tasks done!');
-});
+if (!fs.existsSync('routes/SOENcatalog.txt') &&
+  !fs.existsSync('routes/SOENschedule.txt') &&
+  !fs.existsSync('routes/COMPcatalog.txt') &&
+  !fs.existsSync('routes/COMPschedule.txt')) {
+  console.log('Regenerating DB');
+  async.waterfall([task0,task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14,task15,task16], function() {
+    console.log('tasks done');
+  });
+} else {
+  console.log('DB is good!');
+  async.waterfall([task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14,task15,task16], function() {
+    console.log('tasks done');
+  });
+}
 //
 // function task1(cb) {
 //   console.log('task1:started');
@@ -233,13 +245,15 @@ async.waterfall([task0,task1,task2,task3,task4,task5,task6,task7,task8,task9,tas
 // var asyncOps = [
 function task0(done){
 	console.log('0.Lets get the .txt files');
-	opn('http://localhost:3001/concordia');
-	setTimeout(() =>{
-	console.log("Here we go");
-	done();
-	},20000) ;
+  rp('http://localhost:3001/concordia')
+    .then(response => {
+      console.log('Requested new DB update');
+    });
+  setTimeout(() => {
+    done();
+  }, 20000);
 }
-	
+
 function task1(done) {
   console.log('1. Lets delete old db');
 
@@ -2169,19 +2183,3 @@ app.get("/", function(req, res, next) {
 
 module.exports = app;
 // module.exports = connection;
-function exitHandler(options, exitCode) {
-	fs.unlink('routes/SOENschedule.txt',function(file){console.log("Deleted")});
-	fs.unlink('routes/COMPschedule.txt',function(file){console.log("Deleted")});
-	fs.unlink('routes/COMPcatalog.txt',function(file){console.log("Deleted")});
-	fs.unlink('routes/SOENcatalog.txt',function(file){console.log("Deleted")});
-	
-	
-    if (options.cleanup) console.log('clean');
-    if (exitCode || exitCode === 0) console.log(exitCode);
-    if (options.exit) process.exit();
-};
-process.on('exit', exitHandler.bind(null,{cleanup:true}));
-process.on('SIGINT', exitHandler.bind(null, {exit:true}));
-process.on('SIGUSR1', exitHandler.bind(null, {exit:true}));
-process.on('SIGUSR2', exitHandler.bind(null, {exit:true}));
-process.on('uncaughtException', exitHandler.bind(null, {exit:true}));
