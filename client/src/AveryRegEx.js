@@ -414,25 +414,7 @@ class AveryRegEx extends Component
 				}
 			}
 		}
-		// Placing Courses into Semesters
-		var coursesFall = [];
-		var coursesWinter = [];
-		var coursesSummer = [];
-		for (i = 0; i < courses31.length; i++)
-		{
-			if (courses31[i].semester == "Fall")
-			{
-				coursesFall.push(courses31[i]);
-			}
-			else if (courses31[i].semester == "Winter")
-			{
-				coursesWinter.push(courses31[i]);
-			}
-			else
-			{
-				coursesSummer.push(courses31[i]);
-			}
-		}
+
 		var j, k, a, b;
 		for (i = 0; i < courses31.length; i++)
 		{
@@ -518,6 +500,24 @@ class AveryRegEx extends Component
 					}
 				}
 			}
+
+			// labs removing duplicates
+			j = 0; k = 0; a = 0; b = 0;
+			if (courses31[i].lab != null) {
+				for (j = 0; j < courses31[i].lab.length; j++) {
+					if (courses31[i].lab[j] != null) {
+						for (a = 0; a < courses31[i].lab.length; a++) {
+							if (courses31[i].lab[a] != null) {
+								if (courses31[i].lab[j].section == courses31[i].lab[a].section
+									&& a != j) {
+									courses31[i].lab[j].section += "*";
+									a = -1;
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 
 		// Removing duplicate tuts if Room was added but other room wasn't removed
@@ -544,6 +544,26 @@ class AveryRegEx extends Component
 						}
 					}
 				}
+			}
+		}
+
+		// Placing Courses into Semesters
+		var coursesFall = [];
+		var coursesWinter = [];
+		var coursesSummer = [];
+		for (i = 0; i < courses31.length; i++)
+		{
+			if (courses31[i].semester == "Fall")
+			{
+				coursesFall.push(courses31[i]);
+			}
+			else if (courses31[i].semester == "Winter")
+			{
+				coursesWinter.push(courses31[i]);
+			}
+			else
+			{
+				coursesSummer.push(courses31[i]);
 			}
 		}
 
