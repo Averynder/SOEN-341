@@ -184,7 +184,8 @@ class AveryAlgorithms extends Component {
 							for (let b = 0; b < courses[i].lecture[j].tutorial.length; b++)
 							{
 								if (courses[i].lecture[j].tutorial[a].startTime == courses[i].lecture[j].tutorial[b].startTime &&
-									courses[i].lecture[j].tutorial[a].endTime == courses[i].lecture[j].tutorial[b].endTime && a != b)
+									courses[i].lecture[j].tutorial[a].endTime == courses[i].lecture[j].tutorial[b].endTime &&
+									a != b)
 								{
 									let a1 = courses[i].lecture[j].tutorial.slice(0,b);
 									let a2 = courses[i].lecture[j].tutorial.slice(b+1);
@@ -205,7 +206,8 @@ class AveryAlgorithms extends Component {
 					for (let k = 0; k < courses[i].lab.length; k++)
 					{
 						if (courses[i].lab[j].startTime == courses[i].lab[k].startTime
-						&& courses[i].lab[j].endTime == courses[i].lab[k].endTime)
+						&& courses[i].lab[j].endTime == courses[i].lab[k].endTime
+						&& j != k)
 						{
 							let a1 = courses[i].lab.slice(0,k);
 							let a2 = courses[i].lab.slice(k+1);
