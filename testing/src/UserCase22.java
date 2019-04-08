@@ -12,23 +12,22 @@ the tester to ensure visually that the color has changing. You need to close the
 iteration.
  */
 public class UserCase22 extends UC{
-	public static boolean run(String user, String pass, boolean wantLogin) {
-		if (!UserCase14.run(user, pass))
+	public static boolean run() {
+		if (!UserCase14.run()) {
+			System.out.println("Could not start test because UC14 failed. Please check");
 			return false;
-
-		driver.findElement(By.xpath("/html/body/div/div/div[2]/div/div/div[2]/div[2]/button")).click();
-		driver.findElement(By.xpath("/html/body/div[3]/div/div/div[2]/form/div[2]/button"));
-		driver.findElement(By.id("colorChanger")).click();
+		}
+		driver.findElement(By.xpath("/html/body/div/div/div[2]/div/div/div[2]/div[3]/button")).click();
 		System.out.print("Selecting color... ");
-		driver.findElement(By.xpath("//select[@id='colorChanger']/option")).click();
-		driver.findElement(By.xpath("//form/div[2]/button")).click();
+	//	driver.findElement(By.xpath("//select[@id='colorChanger']/option")).click();
+		driver.findElement(By.xpath("/html/body/div[3]/div/div/div[2]/form/div[2]/button")).click();
 		Random rand = new Random();
 		int color = rand.nextInt(19-1)+1;
 
 		driver.findElement(By.xpath("//span["+color+"]/div/span/div")).click();
 		driver.findElement(By.xpath("//div[5]/div/div/div[3]/div/button")).click();
 		driver.findElement(By.xpath("//div[3]/div/button")).click();
-		System.out.println("Color selected, Check it out on the browser B)");
+		System.out.println("Color selected, Check it out on the browser");
 		return true;
 	}
 }

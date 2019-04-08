@@ -13,7 +13,7 @@ This class tests UC 14: student adds course. When run, it will login using the c
  and will attempt to add a random section of COMP248 to a random semester of a random year.
  */
 public class UserCase14 extends UC{
-	public static boolean run(String user, String pass) {	//TODO: give option to choose how many courses to add.
+	public static boolean run() {
 
 		if (!noLogin())
 			return false;
@@ -42,7 +42,7 @@ public class UserCase14 extends UC{
 		//driver.findElement(By.xpath("/html/body/div/div/div[2]/div/div/div[1]/div[5]/button"));
 
 		driver.findElement(By.xpath("/html/body/div/div/div[2]/div/div/div[1]/div[3]/div/div[2]/div[1]/button")).click();
-		WebElement sectionElement = driver.findElement(By.name("course-section"));
+		WebElement sectionElement = driver.findElement(By.id("COMP248lecSection"));
 		Select sectionSelector = new Select(sectionElement);
 		List<WebElement> sections = sectionSelector.getOptions();
 		int section = rand.nextInt(sections.size());

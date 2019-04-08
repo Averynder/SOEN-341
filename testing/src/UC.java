@@ -7,10 +7,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.concurrent.TimeUnit;
+
 import java.util.Scanner;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+
 /*
 This is a parent class to all use cases. It is not meant to be run, contains initial methods necessary for all UCs.
  */
@@ -47,7 +47,7 @@ public class UC {
 				if (answer.equals("n")) {
 					System.out.println("Goodbye");
 					review.close();
-					driver.quit();
+//					driver.quit();
 					System.exit(0);
 				}
 

@@ -73,6 +73,17 @@ public class TestMaster {
 							}
 							continue ;
 						}
+					case 2:
+						if (UserCase2.run()){
+							System.out.println("Test #"+numberOfRuns+" completed successfully for UC2");
+							numberOfRuns--;
+							UC.driver.quit();
+							break ;
+						}else{
+							System.out.println("UC2 failed. Please check browser and console log");
+							numberOfRuns = 0;
+							break ;
+						}
 					case 3:
 						if(UserCase3.run(username, password)){
 							System.out.println("Test #"+ numberOfRuns+" completed successfully for UC3");
@@ -91,81 +102,92 @@ public class TestMaster {
 								userInput.close();
 								break outerloop;
 							}
-							//	continue;
+							continue;
 						}
 					case 5:
 						if(UserCase5.run()){
 							System.out.println("Test #"+ numberOfRuns+" completed successfully for UC5");
-							UC.driver.quit();
+							//UC.driver.quit();
 							numberOfRuns--;
 							break ;
 						} else {
-							System.out.println("UC5 failed. Please check log file");
-							UC.driver.quit();
+							System.out.println("UC5 failed. Please check console log");
 							numberOfRuns=0;
 							break ;
 						}
+					case 19:
+						if (UserCase19.run()){
+							System.out.println("Test #"+numberOfRuns+" completed successfully for UC19");
+							UC.driver.quit();
+							numberOfRuns--;
+							break ;
+						}else{
+							System.out.println("UC19 failed. Please check console log and browser");
+							numberOfRuns = 0;
+							break ;
+						}
 					case 14:
-						if (UserCase14.run(username, password)) {
+						if (UserCase14.run()) {
 							System.out.println("Test #" + numberOfRuns + " completed successfully for UC14");
 							UC.driver.quit();
 							numberOfRuns--;
 							break ;
 
 						} else {
-							System.out.println("Closing driver... ");
-							UC.driver.quit();
-							System.out.print("Driver closed");
-							System.out.println("Please re-enter credentials and run again (0 for either to exit):");
-							System.out.print("username: ");
-							username = userInput.nextLine();
-							System.out.print("\nPassword: ");
-							password = userInput.nextLine();
-							if (username.equals("0") || password.equals("0")) {
-								System.out.println("Goodbye");
-								userInput.close();
-								break outerloop;
-							}
+							System.out.println("UC14 failed. Please check console log");
+							numberOfRuns = 0;
+							break;
 						}
-
+					case 15:
+						if (UserCase15.run()){
+							System.out.println("Test #"+numberOfRuns+" completed successfully for UC15");
+							numberOfRuns--;
+							break;
+						}else{
+							System.out.println("UC16 failed. Please check console log");
+						}
+					case 16:
+						if (UserCase16.run()){
+							System.out.println("Test #"+ numberOfRuns+" completed successfully for UC16");
+							numberOfRuns--;
+							UC.driver.quit();
+							break;
+						}else{
+							System.out.println("UC16 failed. Please check console log and browser");
+							numberOfRuns = 0;
+							break ;
+						}
 					case 18:
 						if (UserCase18.run()) {
 							System.out.println("Test #" + numberOfRuns + " completed successfully for UC18");
 							numberOfRuns--;
 							break;
 						} else {
-							System.out.println("UC18 failed. Please check log file");
+							System.out.println("UC18 failed. Please check console log");
 							numberOfRuns = 0;
 							break;
 						}
-
-					case 22:
-						if(!answeredQuestion) {
-							System.out.print("Do you want to perform this use case while logged in? [y/n]: ");
-							String answer = userInput.nextLine();
-							System.out.println();
-							withLogin =answer.equals("y");
-							answeredQuestion = true;
-						}if(UserCase22.run(username, password, withLogin)){
-						System.out.println("Test #"+ numberOfRuns+" completed successfully for UC22");
-						numberOfRuns--;
-						break ;
-					} else {
-						System.out.println("Closing driver... ");
-						UC.driver.quit();
-						System.out.print("Driver closed");
-						System.out.println("Please re-enter credentials and run again (0 for either to exit):");
-						System.out.print("username: ");
-						username = userInput.nextLine();
-						System.out.print("\nPassword: ");
-						password = userInput.nextLine();
-						if (username.equals("0") || password.equals("0")) {
-							System.out.println("Goodbye");
-							userInput.close();
-							break outerloop;
+					case 20:
+						if (UserCase20.run()){
+							System.out.println("Test #"+ numberOfRuns+" completed successfully for UC22");
+							numberOfRuns--;
+							break ;
+						}else{
+							System.out.println("UC22 failed. Please check console log and browser");
+							numberOfRuns= 0;
+							break ;
 						}
-						continue;
-					}
+					case 22:
+						if(UserCase22.run()){
+							System.out.println("Test #"+ numberOfRuns+" completed successfully for UC22");
+							numberOfRuns--;
+							UC.driver.quit();
+							break ;
+						} else {
+							System.out.println("UC22 failed. Please check console log");
+							numberOfRuns = 0;
+							break;
+						}
 
 					case 29:
 						if (UserCase29.run()){
@@ -173,7 +195,7 @@ public class TestMaster {
 							numberOfRuns--;
 							break;
 						}else{
-							System.out.println("UC29 failed. Please check log file");
+							System.out.println("UC29 failed. Please check console log");
 							numberOfRuns = 0;
 							break;
 						}
@@ -184,9 +206,8 @@ public class TestMaster {
 							UC.driver.quit();
 							break;
 						}else{
-							System.out.println("UC16 failed. Please check log file");
+							System.out.println("UC16 failed. Please check console log");
 							numberOfRuns = 0;
-							UC.driver.quit();
 							break;
 						}
 					default:
