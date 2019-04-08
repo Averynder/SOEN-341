@@ -8,7 +8,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 class PdfSequenceGenerator extends React.Component {
   constructor(props, context) {
-    super(props, context);
+    super(props);
 
     this.state = {
       courses: data.default.sequence,
@@ -206,6 +206,9 @@ class PdfSequenceGenerator extends React.Component {
       let semester = this.getSemFromClass(destination.droppableId);
       this.offeredIn(semester, movingCourse.course) // e.g. canMove("Winter", "SOEN341")
         .then(canMove => {
+          let falltable = document.getElementById('fallTable');
+          let wintertable = document.getElementById('winterTable');
+          let summertable = document.getElementById('summerTable');
           let messageElem = document.getElementById('infoMessage' + this.props.year);
           if (canMove) {
             this.verifyPrereqs(semester, movingCourse);
@@ -223,7 +226,7 @@ class PdfSequenceGenerator extends React.Component {
             this.setState({
                 [source.droppableId]: moved[source.droppableId],
                 [destination.droppableId]: moved[destination.droppableId]
-              }, () => {}
+              }, () => this.bootlegUpdateSettings(falltable, wintertable, summertable)
             );
           } else {
             messageElem.innerHTML = 'Course not offered in this semester!';
@@ -244,7 +247,6 @@ class PdfSequenceGenerator extends React.Component {
     let semester = document.getElementById("semester").value;
 
     let classFound;
-    var added = false;
     // already added
     [fall, winter, summer].forEach(semester => {
       semester.forEach(course => {
@@ -489,8 +491,9 @@ class PdfSequenceGenerator extends React.Component {
   // RENDER() HERE *********************************************************
 
   render() {
+    console.log('RE-RENDERING');
     let falltable = (
-      <Table id="pdfTable" striped bordered hover variant="dark">
+      <Table id="pdfTable fallTable" striped bordered hover variant="dark">
         <thead>
           <tr>
             <th>Course</th>
@@ -542,7 +545,7 @@ class PdfSequenceGenerator extends React.Component {
     );
 
     let wintertable = (
-      <Table id="pdfTable" striped bordered hover variant="dark">
+      <Table id="pdfTable winterTable" striped bordered hover variant="dark">
         <thead>
           <tr>
             <th>Course</th>
@@ -594,7 +597,7 @@ class PdfSequenceGenerator extends React.Component {
     );
 
     let summertable = (
-      <Table id="pdfTable" striped bordered hover variant="dark">
+      <Table id="pdfTable summerTable" striped bordered hover variant="dark">
         <thead>
           <tr>
             <th>Course</th>
@@ -725,11 +728,27 @@ class PdfSequenceGenerator extends React.Component {
             className="jumbotron j-greetings"
             id="soen341"
           >
-            <div id={"divToPrint" + this.props.year}>
+            <h3>Year {this.props.year}</h3>
+            <Container className="mt-4" id="divToPrint">
+                <Row>
+                  <Col className="tableCol" md={4}>
+                  Fall
+                  {falltable}
+                </Col>
+                <Col className="tableCol" md={4}>
+                  Winter
+                  {wintertable}
+                </Col>
+                <Col className="tableCol" md={4}>
+                  Summer
+                  {summertable}
+                </Col>
+              </Row>
+            </Container>
+
+            {/*<div id={"divToPrint" + this.props.year}>
               <h3>Year {this.props.year}</h3>
               <br />
-
-              {/* Printing this part */}
 
               {this.state.semesterDisplay ? (
                 <Container className="mt-4">
@@ -737,9 +756,9 @@ class PdfSequenceGenerator extends React.Component {
                 </Container>
               ) : (
                 <Container className="mt-4">{semesterDisplay}</Container>
-              ) /* semesterDisplay is default 3 semester, the state version of this will change dynamically */}
-            </div>
-            {/* End of print part */}
+              ) }
+              </div>
+            {*/}
 
             <table style={{ marginLeft: "auto", marginRight: "auto" }}>
               <tr>
