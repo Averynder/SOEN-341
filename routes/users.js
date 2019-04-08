@@ -3,6 +3,7 @@ var mysql = require("mysql2");
 var async = require('async');
 var app = express();
 var fs = require("fs");
+var rp = require('request-promise');
 const Course = require('./Course');
 const MyDoublyLinkedList = require('./MyDoublyLinkedList');
 
@@ -39,6 +40,7 @@ var connection = mysql.createConnection({
   database: "soen341"
 });
 
+var opn = require("opn");
 //connection.connect();
 // Issue is not the fact of doing this retrieval, it's the actual timing of the thread
 
@@ -215,9 +217,20 @@ console.log("hello");
 
 
 
-async.waterfall([task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14,task15,task16], function() {
-  console.log('tasks done!');
-});
+if (!fs.existsSync('routes/SOENcatalog.txt') &&
+  !fs.existsSync('routes/SOENschedule.txt') &&
+  !fs.existsSync('routes/COMPcatalog.txt') &&
+  !fs.existsSync('routes/COMPschedule.txt')) {
+  console.log('Regenerating DB');
+  async.waterfall([task0,task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14,task15,task16], function() {
+    console.log('tasks done');
+  });
+} else {
+  console.log('DB is good!');
+  async.waterfall([task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,task11,task12,task13,task14,task15,task16], function() {
+    console.log('tasks done');
+  });
+}
 //
 // function task1(cb) {
 //   console.log('task1:started');
@@ -230,6 +243,16 @@ async.waterfall([task1,task2,task3,task4,task5,task6,task7,task8,task9,task10,ta
 
 
 // var asyncOps = [
+function task0(done){
+	console.log('0.Lets get the .txt files');
+  rp('http://localhost:3001/concordia')
+    .then(response => {
+      console.log('Requested new DB update');
+    });
+  setTimeout(() => {
+    done();
+  }, 20000);
+}
 
 function task1(done) {
   console.log('1. Lets delete old db');
@@ -2160,4 +2183,3 @@ app.get("/", function(req, res, next) {
 
 module.exports = app;
 // module.exports = connection;
-

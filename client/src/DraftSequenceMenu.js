@@ -44,12 +44,13 @@ class DraftSequenceMenu extends React.Component {
       arr[i] = parseInt(theStartingYear) + i;
     }
 
-    let theSequence = arr.map(index => <PdfSequenceGenerator year={index} />);
+    let theSequence = arr.map(index => (
+      <PdfSequenceGenerator id={"divToPrint" + index} year={index} />
+    ));
 
 
     return (
       <div className="container">
-
         <div className="container">
           <div className="jumbotron j-greetings">
             <h2 className="display-4">Sequence To PDF</h2>

@@ -17,9 +17,9 @@ public class UserCase5 extends UC{
 		driver.findElement(By.xpath("/html/body/div/div/div[2]/div/div/div/div/a[2]/div/button")).click();
 		System.out.println("Selected sequence instead of semester");
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div/div/div[2]/div/div[2]/div/a/div/button")));
-		driver.findElement(By.xpath("/html/body/div/div/div[2]/div/div[2]/div/a/div/button")).click();
-		System.out.println("Clicked on generate sequence");
+//		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div/div/div[2]/div/div[2]/div/a/div/button")));
+//		driver.findElement(By.xpath("/html/body/div/div/div[2]/div/div[2]/div/a/div/button")).click();
+//		System.out.println("Clicked on generate sequence");
 		String[][] courses = {{"COMP248", "ENGR213", "COMP232", "ENCS282","SOEN287"},{"COMP249", "ENGR233", "ENGR202", "SOEN228"}};
 		for (int i = 0; i< courses.length; i++)
 			for (int j = 0; j<courses[i].length; j++) {
@@ -47,6 +47,7 @@ public class UserCase5 extends UC{
 					return false;
 				}
 			}
+		}
 		return true;
 	}
 }

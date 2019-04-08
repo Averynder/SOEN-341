@@ -161,9 +161,7 @@ class CourseSelectionMenu extends React.Component {
       console.log("Array of Arrays:");
       console.log(
         aa.treeCaller([
-          this.state.dataCourses[36],
-          this.state.dataCourses[26],
-          this.state.dataCourses[10]
+          this.state.dataCourses[38]
         ])
       );
     }
@@ -643,9 +641,9 @@ class CourseSelectionMenu extends React.Component {
       courseToChangeForFinalize.lecture_room =
         validOptions[number][i].lecture[0].room;
       courseToChangeForFinalize.tutorial_section =
-          validOptions[number][i].lecture[0].tutorial.length !== 0
-              ? validOptions[number][i].lecture[0].tutorial[0].section
-              : "";
+        validOptions[number][i].lecture[0].tutorial.length !== 0
+        ? validOptions[number][i].lecture[0].tutorial[0].section
+        : "";
       courseToChangeForFinalize.tutorial_room =
         validOptions[number][i].lecture[0].tutorial.length !== 0
           ? validOptions[number][i].lecture[0].tutorial[0].room
@@ -787,7 +785,7 @@ class CourseSelectionMenu extends React.Component {
       showConflict: "hidden",
       showConflictForFinalize: false,
       show2: "hidden",
-      finalizedClassArray: [],
+      finalizedClassArray: []
     });
 
     for (let i = 0; i < this.state.colors.length; i++) {

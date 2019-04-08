@@ -11,8 +11,3 @@ SELECT "All engineers here!";
 SELECT* FROM `teacher`;
 END;
 END IF
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetTeachers`()
-BEGIN
-SELECT* FROM `teacher`;
-END
