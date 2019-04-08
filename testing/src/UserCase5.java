@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -22,15 +23,24 @@ public class UserCase5 extends UC{
 		String[][] courses = {{"COMP248", "ENGR213", "COMP232", "ENCS282","SOEN287"},{"COMP249", "ENGR233", "ENGR202", "SOEN228"}};
 		for (int i = 0; i< courses.length; i++)
 			for (int j = 0; j<courses[i].length; j++) {
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[1]/div/div[2]/div/div/div/div[2]/div/table/tr/td[1]/div/button")));
-				driver.findElement(By.xpath("/html/body/div[1]/div/div[2]/div/div/div/div[2]/div/table/tr/td[1]/div/button")).click();
+
+				boolean clicked = false;
+				while (!clicked) {
+					try {
+						wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[1]/div/div[2]/div/div/div/div[2]/div/table/tr/td[1]/div/button")));
+						driver.findElement(By.xpath("/html/body/div[1]/div/div[2]/div/div/div/div[2]/div/table/tr/td[1]/div/button")).click();
+						clicked = true;
+					} catch (ElementClickInterceptedException e) {
+					}
+				}
 				driver.findElement(By.id("add-class")).sendKeys(courses[i][j]);
 				WebElement DropDownSemesterMenu = driver.findElement(By.id("semester"));
 				Select semesterSelector = new Select((DropDownSemesterMenu));
 				semesterSelector.selectByIndex(i);
 				String semester = semesterSelector.getOptions().get(i).getText();
 				driver.findElement(By.xpath("/html/body/div[4]/div/div/div[2]/div/button")).click();
-				if (driver.findElement(By.xpath("/html/body/div[1]/div/div[2]/div/div/div/div[2]/div/div[1]/div/div["+(i+1)+"]")).getText().contains(courses[i][j]))
+				List <WebElement> listOfSemesterTables = driver.findElements(By.id("pdfTable"));
+				if (listOfSemesterTables.get(i).getText().contains(courses[i][j]))
 					System.out.println("Added "+courses[i][j]+" successfully to "+semester+" 2019");
 				else {
 					System.out.println("Could not add " + courses[i][j] + " to " + semester + " 2019. Please inspect.");
