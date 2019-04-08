@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="dependencies">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dependencies/libs/byte-buddy-1.8.15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/libs/commons-exec-1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/libs/guava-25.0-jre.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/libs/okhttp-3.11.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/libs/okio-1.14.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/client-combined-3.141.59.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/selenium-server-standalone-3.141.59.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/libs/json-simple-1.1.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/dependencies/client-combined-3.141.59-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
