@@ -107,7 +107,7 @@ public class TestMaster {
 					case 5:
 						if(UserCase5.run()){
 							System.out.println("Test #"+ numberOfRuns+" completed successfully for UC5");
-							UC.driver.quit();
+							//UC.driver.quit();
 							numberOfRuns--;
 							break ;
 						} else {
@@ -145,6 +145,16 @@ public class TestMaster {
 							break;
 						}else{
 							System.out.println("UC16 failed. Please check console log");
+						}
+					case 16:
+						if (UserCase16.run()){
+							System.out.println("Test #"+ numberOfRuns+" completed successfully for UC16");
+							numberOfRuns--;
+							break;
+						}else{
+							System.out.println("UC16 failed. Please check console log and browser");
+							numberOfRuns = 0;
+							break ;
 						}
 					case 18:
 						if (UserCase18.run()) {

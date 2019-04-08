@@ -27,7 +27,7 @@ public class UserCase22 extends UC{
 		driver.findElement(By.xpath("//span["+color+"]/div/span/div")).click();
 		driver.findElement(By.xpath("//div[5]/div/div/div[3]/div/button")).click();
 		driver.findElement(By.xpath("//div[3]/div/button")).click();
-		System.out.println("Color selected, Check it out on the browser B)");
+		System.out.println("Color selected, Check it out on the browser");
 		return true;
 	}
 }

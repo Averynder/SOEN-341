@@ -47,7 +47,7 @@ public class UC {
 				if (answer.equals("n")) {
 					System.out.println("Goodbye");
 					review.close();
-					driver.quit();
+//					driver.quit();
 					System.exit(0);
 				}
 
