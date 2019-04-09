@@ -28,7 +28,6 @@ class DraftSequenceMenu extends React.Component {
 
 
   render() {
-    console.log(this.state.data);
     const currentYear = new Date().getFullYear();
     var yeetus = [];
     for (let i = 0; i < 8; i++) {
@@ -45,7 +44,7 @@ class DraftSequenceMenu extends React.Component {
     }
 
     let theSequence = arr.map(index => (
-      <PdfSequenceGenerator id={"divToPrint" + index} year={index} />
+      <PdfSequenceGenerator data={this.state.data} id={"divToPrint" + index} year={index} />
     ));
 
 

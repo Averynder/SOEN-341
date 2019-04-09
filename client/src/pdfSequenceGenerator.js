@@ -22,18 +22,19 @@ class PdfSequenceGenerator extends React.Component {
       numberOfDisplayedSemesters: 3,
       semesterDisplay: null, //holds the code for the Container tag #divtoprint
       semesterArray: null, //Holds the Col tags
-      data: null,
     };
   }
 
+  /*
   componentDidMount() {
     fetch('/semjson')
       .then(res => res.json())
       .then(data => {this.setState({ data: data });})
   }
+  */
 
   loggedIn = () => {
-    return this.state.data.names !== null;
+    return this.props.data.names !== null;
   }
 
   convertToPDF = () => {
@@ -242,7 +243,7 @@ class PdfSequenceGenerator extends React.Component {
     let winter = this.state.selectedCoursesWinter; //Keep track of user selected classes for Winter
     let summer = this.state.selectedCoursesSummer; //Keep track of user selected classes for Summer
     let input = document.getElementById("add-class").value; //Get user input
-    let classList = this.state.data.catalog; //Gets the whole list of courses of concordia
+    let classList = this.props.data.catalog; //Gets the whole list of courses of concordia
     let errorMessage = document.getElementById("addStatus");
     let semester = document.getElementById("semester").value;
 
@@ -266,20 +267,28 @@ class PdfSequenceGenerator extends React.Component {
       });
 
       if (validClass) {
-        fetch('/semesters/' + input)
-          .then(res => res.json())
-          .then(semesters => {
-            if (!semesters.includes(semester)) {
-              errorMessage.innerHTML = "This class is not offered in this semester!";
-            } else {
-              let sel = "selectedCourses" + semester;
-              this.verifyPrereqs(semester, validClass);
-              this.setState({
-                [sel]: [...this.state[sel], validClass],
-                showAdd: !this.state.showAdd
-              }, () => this.bootlegUpdateSettings(falltable, wintertable, summertable));
-            }
-          });
+        let name = input;
+        let subject = name.substring(0, 4);
+        let classNum = name.slice(4);
+        let addSpace = subject + ' ' + classNum;
+        if (this.loggedIn() && this.props.data.names.includes(addSpace)) {
+          errorMessage.innerHTML = 'You have already taken this class!';
+        } else {
+          fetch('/semesters/' + input)
+            .then(res => res.json())
+            .then(semesters => {
+              if (!semesters.includes(semester)) {
+                errorMessage.innerHTML = "This class is not offered in this semester!";
+              } else {
+                let sel = "selectedCourses" + semester;
+                this.verifyPrereqs(semester, validClass);
+                this.setState({
+                  [sel]: [...this.state[sel], validClass],
+                  showAdd: !this.state.showAdd
+                }, () => this.bootlegUpdateSettings(falltable, wintertable, summertable));
+              }
+            });
+        }
       } else {
         errorMessage.innerHTML = "Invalid Class/Class Not Found";
       }
