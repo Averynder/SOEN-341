@@ -3134,6 +3134,7 @@ class CourseSelectionMenu extends React.Component {
               <Button text="Color Selection" onClick={this.openRubiat} />
 
               <Button text="Try All" onClick={this.tryAll} />
+              <Button text="Send to Calender" onClick={this.sendCalendar} />
 
               <Link to="/build-seq-or-sem">
                 <Button text="Main Selector" />
