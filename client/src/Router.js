@@ -31,6 +31,7 @@ import ConcordiaSimilar from "./ConcordiaSimilar";
 import LoadingCourses from "./LoadingCourses";
 import AveryAlgorithms from "./AveryAlgorithms";
 import AveryRegEx from "./AveryRegEx";
+import hamburger from "./hamburger";
 
 class Router extends React.Component {
   constructor(props, context) {
@@ -102,6 +103,7 @@ class Router extends React.Component {
             <Route path="/concordia-similar" component={ConcordiaSimilar} />
             <Route path="/AveryAlgorithms" component={AveryAlgorithms} />
             <Route path="/AveryRegEx" component={AveryRegEx} />
+            <Route path="/hamburger" component={hamburger} />
           </div>
         </BrowserRouter>
       </div>
