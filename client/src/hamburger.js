@@ -12,10 +12,10 @@ class hamburger extends React.Component {
 				<button className="hamburger hamburger--squeeze" type="button">
 					<span className="hamburger-box">
 						<span className="hamburger-inner">
-							<p>Hey</p>
 						</span>
 					</span>
 				</button>
+				<p>Hey</p>
 			</div>
 		)
 	}
