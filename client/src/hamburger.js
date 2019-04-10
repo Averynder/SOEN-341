@@ -104,9 +104,42 @@ class hamburger extends React.Component {
 
 	render(){
 		const myStyle = {
-			backgroundColor: "red",
+			backgroundColor: "#f44336",
 			display : "inline-block",
 		};
+		const myStyle1 = {
+			backgroundColor: "#e91e63",
+			display : "inline-block",
+		};
+		const myStyle2 = {
+			backgroundColor: "#9c27b0",
+			display : "inline-block",
+		};
+		const myStyle3 = {
+			backgroundColor: "#3f51b5",
+			display : "inline-block",
+		};
+		const myStyle4 = {
+			backgroundColor: "#2196f3",
+			display : "inline-block",
+		};
+		const myStyle5 = {
+			backgroundColor: "#673ab7",
+			display : "inline-block",
+		};
+		const myStyle6 = {
+			backgroundColor: "#ffeb3b",
+			display : "inline-block",
+		};
+		const myStyle7 = {
+			backgroundColor: "#ffc107",
+			display : "inline-block",
+		};
+		const myStyle8 = {
+			backgroundColor: "#ff9800",
+			display : "inline-block",
+		};
+
 		var forEach=function(t,o,r){if("[object Object]"===Object.prototype.toString.call(t))for(var c in t)Object.prototype.hasOwnProperty.call(t,c)&&o.call(r,t[c],c,t);else for(var e=0,l=t.length;l>e;e++)o.call(r,t[e],e,t)};
 
 		var hamburgers = document.querySelectorAll(".hamburger");
@@ -126,10 +159,75 @@ class hamburger extends React.Component {
 						<div style={{textAlign: "center"}}>
 							<div style={myStyle}>
 								<button className="hamburger hamburger--squeeze" type="button">
-			<span className="hamburger-box">
-			<span className="hamburger-inner">
-			</span>
-	</span><p>Hey</p>
+								<span className="hamburger-box">
+									<span className="hamburger-inner">
+									</span>
+								</span><p>COMP248</p>
+								</button>
+							</div>
+							<div style={myStyle6}>
+								<button className="hamburger hamburger--squeeze" type="button">
+								<span className="hamburger-box">
+									<span className="hamburger-inner">
+									</span>
+								</span><p>COMP249</p>
+								</button>
+							</div>
+							<div style={myStyle1}>
+								<button className="hamburger hamburger--squeeze" type="button">
+								<span className="hamburger-box">
+									<span className="hamburger-inner">
+									</span>
+								</span><p>COMP352</p>
+								</button>
+							</div>
+							<div style={myStyle7}>
+								<button className="hamburger hamburger--squeeze" type="button">
+								<span className="hamburger-box">
+									<span className="hamburger-inner">
+									</span>
+								</span><p>SOEN341</p>
+								</button>
+							</div>
+							<div style={myStyle2}>
+								<button className="hamburger hamburger--squeeze" type="button">
+								<span className="hamburger-box">
+									<span className="hamburger-inner">
+									</span>
+								</span><p>SOEN342</p>
+								</button>
+							</div>
+							<div style={myStyle8}>
+								<button className="hamburger hamburger--squeeze" type="button">
+								<span className="hamburger-box">
+									<span className="hamburger-inner">
+									</span>
+								</span><p>SOEN343</p>
+								</button>
+							</div>
+							<br/>
+							<div style={myStyle8}>
+								<button className="hamburger hamburger--squeeze" type="button">
+								<span className="hamburger-box">
+									<span className="hamburger-inner">
+									</span>
+								</span><p>SOEN422</p>
+								</button>
+							</div>
+							<div style={myStyle2}>
+								<button className="hamburger hamburger--squeeze" type="button">
+								<span className="hamburger-box">
+									<span className="hamburger-inner">
+									</span>
+								</span><p>COMP445</p>
+								</button>
+							</div>
+							<div style={myStyle7}>
+								<button className="hamburger hamburger--squeeze" type="button">
+								<span className="hamburger-box">
+									<span className="hamburger-inner">
+									</span>
+								</span><p>COMP428</p>
 								</button>
 							</div>
 						</div>
