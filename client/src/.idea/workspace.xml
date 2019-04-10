@@ -4,7 +4,11 @@
     <bookmark url="file://$PROJECT_DIR$/Stack.js" line="45" mnemonic="9" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="77ea2fbf-66b4-448c-ba16-a6c6bbcc4949" name="Default Changelist" comment="" />
+    <list default="true" id="77ea2fbf-66b4-448c-ba16-a6c6bbcc4949" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hambergurCSS.css" beforeDir="false" afterPath="$PROJECT_DIR$/hambergurCSS.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hamburger.js" beforeDir="false" afterPath="$PROJECT_DIR$/hamburger.js" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -15,14 +19,26 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="true">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/App.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
+            <state relative-caret-position="240">
               <caret line="24" column="40" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/hamburger.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="86">
+              <caret line="155" column="26" selection-start-line="155" selection-start-column="26" selection-end-line="155" selection-end-column="26" />
+              <folding>
+                <element signature="e#0#31#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -58,6 +74,7 @@
         <option value="$PROJECT_DIR$/BinaryTree.js" />
         <option value="$PROJECT_DIR$/CourseSelectionMenu.js" />
         <option value="$PROJECT_DIR$/components/Navbar.js" />
+        <option value="$PROJECT_DIR$/hamburger.js" />
       </list>
     </option>
   </component>
@@ -75,6 +92,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -91,7 +109,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -135,14 +152,16 @@
       <workItem from="1552254456431" duration="7567000" />
       <workItem from="1553133308685" duration="1742000" />
       <workItem from="1553491952994" duration="1460000" />
+      <workItem from="1554861162290" duration="971000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22643000" />
+    <option name="totallyTimeSpent" value="23614000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="7" width="1004" height="760" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24948241" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -298,16 +317,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CourseSelectionMenu.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9375">
-          <caret line="625" column="12" selection-start-line="625" selection-start-column="12" selection-end-line="625" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DraftSequenceMenu.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-855">
@@ -371,10 +380,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/App.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
+        <state relative-caret-position="240">
           <caret line="24" column="40" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CourseSelectionMenu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-36154">
+          <caret line="863" column="3" lean-forward="true" selection-start-line="841" selection-start-column="2" selection-end-line="863" selection-end-column="3" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hamburger.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="86">
+          <caret line="155" column="26" selection-start-line="155" selection-start-column="26" selection-end-line="155" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>
