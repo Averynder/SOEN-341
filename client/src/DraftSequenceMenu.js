@@ -1,4 +1,6 @@
 import React from "react";
+import * as jsPDF from "jspdf";
+import * as html2canvas from "html2canvas";
 import Button from "./components/Button";
 import { Link } from "react-router-dom";
 import { Modal, Form, FormControl } from "react-bootstrap";
@@ -26,6 +28,24 @@ class DraftSequenceMenu extends React.Component {
     });
   };
 
+  convertToPDF = () => {
+    const input = document.getElementById('master');
+
+    //This block below formats the div-to-print properly so it is sized correctly on the pdf
+
+    html2canvas(input, {
+      dpi: 9000, //supposed to make it less blurry on retina
+      scale: 0.7 //approximately fills the width of pdf page with the sequence table
+    })
+      .then(canvas => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF();
+        pdf.addImage(imgData, "JPEG", 0, 0);
+        pdf.output("/jimmyTest.pdf");
+        pdf.save("jimmyTest.pdf");
+      });
+  };
+
 
   render() {
     const currentYear = new Date().getFullYear();
@@ -49,7 +69,7 @@ class DraftSequenceMenu extends React.Component {
 
 
     return (
-      <div className="container">
+      <div id="master" className="container">
         <div className="container">
           <div className="jumbotron j-greetings">
             <h2 className="display-4">Sequence To PDF</h2>
@@ -66,9 +86,7 @@ class DraftSequenceMenu extends React.Component {
               later.
             </p>
             {theSequence}
-            <Link to="/finalize-export-seq">
-              <Button text="Finalize" />
-            </Link>
+            <Button text="Finalize" onClick={this.convertToPDF} />
             <Link to="/formalize">
               <Button text="Formalize" />
             </Link>

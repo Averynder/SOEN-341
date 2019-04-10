@@ -25,14 +25,6 @@ class PdfSequenceGenerator extends React.Component {
     };
   }
 
-  /*
-  componentDidMount() {
-    fetch('/semjson')
-      .then(res => res.json())
-      .then(data => {this.setState({ data: data });})
-  }
-  */
-
   loggedIn = () => {
     return this.props.data.names !== null;
   }
@@ -78,7 +70,7 @@ class PdfSequenceGenerator extends React.Component {
         [].forEach.call(reduce, col => {
           col.style.width = "100%";
         });
-        document.getElementById("soen341").style.width = "100%";
+        //document.getElementById("soen341").style.width = "100%";
       });
   };
 
@@ -498,11 +490,45 @@ class PdfSequenceGenerator extends React.Component {
   };
 
   // RENDER() HERE *********************************************************
+  removeSemester = () => {
+    let year = document.getElementById('settingYear').value;
+    let removeFall = document.getElementById('fallSetting').value === 'Remove'? true: false;
+    let removeWinter = document.getElementById('winterSetting').value === 'Remove'? true: false;
+    let removeSummer = document.getElementById('summerSetting').value === 'Remove'? true: false;
+
+    if (removeFall) {
+      let toRemove = document.getElementsByClassName('fall' + year);
+      if (toRemove) {
+        let child = toRemove[0];
+        if (child) {
+          child.parentNode.removeChild(child);
+        }
+      }
+    }
+    if (removeWinter) {
+      let toRemove = document.getElementsByClassName('winter' + year);
+      if (toRemove) {
+        let child = toRemove[0];
+        if (child) {
+          child.parentNode.removeChild(child);
+        }
+      }
+    }
+    if (removeSummer) {
+      let toRemove = document.getElementsByClassName('summer' + year);
+      if (toRemove) {
+        let child = toRemove[0];
+        if (child) {
+          child.parentNode.removeChild(child);
+        }
+      }
+    }
+  }
 
   render() {
     console.log('RE-RENDERING');
     let falltable = (
-      <Table id="pdfTable fallTable" striped bordered hover variant="dark">
+      <Table id="pdfTable fallTable" className={"fall" + this.state.year} striped bordered hover variant="dark">
         <thead>
           <tr>
             <th>Course</th>
@@ -554,7 +580,7 @@ class PdfSequenceGenerator extends React.Component {
     );
 
     let wintertable = (
-      <Table id="pdfTable winterTable" striped bordered hover variant="dark">
+      <Table id="pdfTable winterTable" className={"winter" + this.state.year} striped bordered hover variant="dark">
         <thead>
           <tr>
             <th>Course</th>
@@ -606,7 +632,7 @@ class PdfSequenceGenerator extends React.Component {
     );
 
     let summertable = (
-      <Table id="pdfTable summerTable" striped bordered hover variant="dark">
+      <Table id="pdfTable summerTable" className={"summer" + this.state.year} striped bordered hover variant="dark">
         <thead>
           <tr>
             <th>Course</th>
@@ -738,7 +764,7 @@ class PdfSequenceGenerator extends React.Component {
             id="soen341"
           >
             <h3>Year {this.props.year}</h3>
-            <Container className="mt-4" id="divToPrint">
+            <Container className="mt-4" id={"divToPrint"+ this.props.year}>
                 <Row>
                   <Col className="tableCol" md={4}>
                   Fall
@@ -796,19 +822,6 @@ class PdfSequenceGenerator extends React.Component {
               text="Sequence Settings"
               onClick={() => this.setState({ modify: !this.state.modify })}
             />
-            {/* <Button
-              text="Add Course"
-              onClick={() => {
-                this.setState({ showAdd: !this.state.showAdd });
-              }}
-            />
-            <Button
-              text="Remove Course"
-              onClick={() => {
-                this.setState({ showRemove: !this.state.showRemove });
-              }}
-            />
-            <Button id="mb5" text="PDF" onClick={this.convertToPDF} /> */}
             <div style={{ background: 'yellow' }} id={ this.props.year? 'infoMessage' + this.props.year: 'infoMessage' }></div>
           </div>
         </DragDropContext>
@@ -919,7 +932,7 @@ class PdfSequenceGenerator extends React.Component {
             <Button
               text="Apply Settings"
               onClick={() =>
-                this.updateSettings(falltable, wintertable, summertable)
+                this.removeSemester()
               }
             />
           </Modal.Body>
