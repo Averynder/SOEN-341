@@ -496,26 +496,31 @@ class PdfSequenceGenerator extends React.Component {
     let removeWinter = document.getElementById('winterSetting').value === 'Remove'? true: false;
     let removeSummer = document.getElementById('summerSetting').value === 'Remove'? true: false;
 
-    console.log(removeFall);
     if (removeFall) {
       let toRemove = document.getElementsByClassName('fall' + year);
       if (toRemove) {
-        toRemove = toRemove[0];
-        toRemove.parentNode.removeChild(toRemove);
+        let child = toRemove[0];
+        if (child) {
+          child.parentNode.removeChild(child);
+        }
       }
     }
     if (removeWinter) {
       let toRemove = document.getElementsByClassName('winter' + year);
       if (toRemove) {
-        toRemove = toRemove[0];
-        toRemove.parentNode.removeChild(toRemove);
+        let child = toRemove[0];
+        if (child) {
+          child.parentNode.removeChild(child);
+        }
       }
     }
     if (removeSummer) {
       let toRemove = document.getElementsByClassName('summer' + year);
       if (toRemove) {
-        toRemove = toRemove[0];
-        toRemove.parentNode.removeChild(toRemove);
+        let child = toRemove[0];
+        if (child) {
+          child.parentNode.removeChild(child);
+        }
       }
     }
   }
@@ -817,19 +822,6 @@ class PdfSequenceGenerator extends React.Component {
               text="Sequence Settings"
               onClick={() => this.setState({ modify: !this.state.modify })}
             />
-            {/* <Button
-              text="Add Course"
-              onClick={() => {
-                this.setState({ showAdd: !this.state.showAdd });
-              }}
-            />
-            <Button
-              text="Remove Course"
-              onClick={() => {
-                this.setState({ showRemove: !this.state.showRemove });
-              }}
-            />
-            <Button id="mb5" text="PDF" onClick={this.convertToPDF} /> */}
             <div style={{ background: 'yellow' }} id={ this.props.year? 'infoMessage' + this.props.year: 'infoMessage' }></div>
           </div>
         </DragDropContext>
