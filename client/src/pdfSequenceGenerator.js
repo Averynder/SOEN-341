@@ -490,11 +490,40 @@ class PdfSequenceGenerator extends React.Component {
   };
 
   // RENDER() HERE *********************************************************
+  removeSemester = () => {
+    let year = document.getElementById('settingYear').value;
+    let removeFall = document.getElementById('fallSetting').value === 'Remove'? true: false;
+    let removeWinter = document.getElementById('winterSetting').value === 'Remove'? true: false;
+    let removeSummer = document.getElementById('summerSetting').value === 'Remove'? true: false;
+
+    console.log(removeFall);
+    if (removeFall) {
+      let toRemove = document.getElementsByClassName('fall' + year);
+      if (toRemove) {
+        toRemove = toRemove[0];
+        toRemove.parentNode.removeChild(toRemove);
+      }
+    }
+    if (removeWinter) {
+      let toRemove = document.getElementsByClassName('winter' + year);
+      if (toRemove) {
+        toRemove = toRemove[0];
+        toRemove.parentNode.removeChild(toRemove);
+      }
+    }
+    if (removeSummer) {
+      let toRemove = document.getElementsByClassName('summer' + year);
+      if (toRemove) {
+        toRemove = toRemove[0];
+        toRemove.parentNode.removeChild(toRemove);
+      }
+    }
+  }
 
   render() {
     console.log('RE-RENDERING');
     let falltable = (
-      <Table id="pdfTable fallTable" striped bordered hover variant="dark">
+      <Table id="pdfTable fallTable" className={"fall" + this.state.year} striped bordered hover variant="dark">
         <thead>
           <tr>
             <th>Course</th>
@@ -546,7 +575,7 @@ class PdfSequenceGenerator extends React.Component {
     );
 
     let wintertable = (
-      <Table id="pdfTable winterTable" striped bordered hover variant="dark">
+      <Table id="pdfTable winterTable" className={"winter" + this.state.year} striped bordered hover variant="dark">
         <thead>
           <tr>
             <th>Course</th>
@@ -598,7 +627,7 @@ class PdfSequenceGenerator extends React.Component {
     );
 
     let summertable = (
-      <Table id="pdfTable summerTable" striped bordered hover variant="dark">
+      <Table id="pdfTable summerTable" className={"summer" + this.state.year} striped bordered hover variant="dark">
         <thead>
           <tr>
             <th>Course</th>
@@ -911,7 +940,7 @@ class PdfSequenceGenerator extends React.Component {
             <Button
               text="Apply Settings"
               onClick={() =>
-                this.updateSettings(falltable, wintertable, summertable)
+                this.removeSemester()
               }
             />
           </Modal.Body>
