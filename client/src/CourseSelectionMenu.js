@@ -11,6 +11,7 @@ import LoadingScreen from "react-loading-screen";
 import axios from "axios";
 import AveryAlgorithms from "./AveryAlgorithms";
 import AveryRegEx from "./AveryRegEx";
+import hamburger from "./hamburger";
 
 class CourseSelectionMenu extends React.Component {
   constructor(props, context) {
@@ -3119,6 +3120,13 @@ class CourseSelectionMenu extends React.Component {
                         onClick={this.openUpload}
                         style={{ float: "left" }}
                     />
+                    <Button
+                        text="Drop Down Menu"
+                        onClick={this.addClass1}
+                        style={{ float: "left" }}
+                    />
+                    <hamburger>
+                    </hamburger>
                   </div>
                 </div>
 

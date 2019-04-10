@@ -12,7 +12,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var app = express();
 
-router.use(bodyParser.json())
+router.use(bodyParser.json());
 
 var fs = require('fs');
 var readline = require('readline');

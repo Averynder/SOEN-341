@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a4b13f8f-02e5-4807-8f3e-93c5e1e178d4" name="Default Changelist" comment="" />
+    <list default="true" id="a4b13f8f-02e5-4807-8f3e-93c5e1e178d4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/client/src/CourseSelectionMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/CourseSelectionMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/hamburger.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/hamburger.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/calendar.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/calendar.js" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -12,7 +16,32 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/client/src/CourseSelectionMenu.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="354">
+              <caret line="3127" column="31" lean-forward="true" selection-start-line="3127" selection-start-column="31" selection-end-line="3127" selection-end-column="31" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/src/hamburger.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1005">
+              <caret line="67" column="23" selection-start-line="65" selection-start-column="16" selection-end-line="67" selection-end-column="23" />
+              <folding>
+                <element signature="e#0#33#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -41,6 +70,8 @@
       <find>next</find>
       <find>Invalid Class/Class Not Found</find>
       <find>validOptions[number][i].lecture[0].tutorial[0].section;</find>
+      <find>calen</find>
+      <find>Select c</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -82,9 +113,11 @@
         <option value="$PROJECT_DIR$/client/src/MyDoublyLinkedList.js" />
         <option value="$PROJECT_DIR$/client/src/Stack.js" />
         <option value="$PROJECT_DIR$/client/src/Router.js" />
-        <option value="$PROJECT_DIR$/client/src/CourseSelectionMenu.js" />
         <option value="$PROJECT_DIR$/client/src/AveryRegEx.js" />
         <option value="$PROJECT_DIR$/client/src/AveryAlgorithms.js" />
+        <option value="$PROJECT_DIR$/routes/calendar.js" />
+        <option value="$PROJECT_DIR$/client/src/hamburger.js" />
+        <option value="$PROJECT_DIR$/client/src/CourseSelectionMenu.js" />
       </list>
     </option>
   </component>
@@ -101,6 +134,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -123,7 +157,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -211,11 +244,12 @@
       <workItem from="1554398343537" duration="7880000" />
       <workItem from="1554585692205" duration="2075000" />
       <workItem from="1554672635068" duration="7537000" />
+      <workItem from="1554850144143" duration="1860000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="303155000" />
+    <option name="totallyTimeSpent" value="305015000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -228,6 +262,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1040" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24051896" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -271,14 +306,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../../../../Masterapp.js" />
-    <entry file="file://$PROJECT_DIR$/routes/Stack.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-36">
-          <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/SpanningTree.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
@@ -308,13 +335,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/Selenium.js" />
     <entry file="file://$PROJECT_DIR$/routes/index.js" />
-    <entry file="file://$PROJECT_DIR$/routes/login.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="945">
-          <caret line="63" selection-start-line="63" selection-end-line="63" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/login.js" />
     <entry file="file://$PROJECT_DIR$/client/node_modules/react-loading-screen/demo/demo-bundle.js" />
     <entry file="file://$PROJECT_DIR$/client/node_modules/react-loading-screen/demo/index.js" />
     <entry file="file://$PROJECT_DIR$/client/node_modules/react-loading-screen/demo/server.js" />
@@ -550,27 +571,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="111" column="36" selection-start-line="111" selection-start-column="36" selection-end-line="111" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/pdfSequenceGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="16" column="20" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/CourseSelectionMenu.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="47265">
-          <caret line="3295" column="18" selection-start-line="3295" selection-start-column="18" selection-end-line="3295" selection-end-column="18" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
@@ -614,6 +618,43 @@
           <caret line="567" column="9" selection-start-line="567" selection-start-column="9" selection-end-line="567" selection-end-column="9" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="111" column="36" selection-start-line="111" selection-start-column="36" selection-end-line="111" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/calendar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="885">
+          <caret line="59" column="19" lean-forward="true" selection-start-line="59" selection-start-column="19" selection-end-line="59" selection-end-column="19" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/hamburger.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1005">
+          <caret line="67" column="23" selection-start-line="65" selection-start-column="16" selection-end-line="67" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/CourseSelectionMenu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="354">
+          <caret line="3127" column="31" lean-forward="true" selection-start-line="3127" selection-start-column="31" selection-end-line="3127" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
