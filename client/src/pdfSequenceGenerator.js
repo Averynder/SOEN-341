@@ -70,7 +70,7 @@ class PdfSequenceGenerator extends React.Component {
         [].forEach.call(reduce, col => {
           col.style.width = "100%";
         });
-        document.getElementById("soen341").style.width = "100%";
+        //document.getElementById("soen341").style.width = "100%";
       });
   };
 
@@ -764,7 +764,7 @@ class PdfSequenceGenerator extends React.Component {
             id="soen341"
           >
             <h3>Year {this.props.year}</h3>
-            <Container className="mt-4" id="divToPrint">
+            <Container className="mt-4" id={"divToPrint"+ this.props.year}>
                 <Row>
                   <Col className="tableCol" md={4}>
                   Fall
