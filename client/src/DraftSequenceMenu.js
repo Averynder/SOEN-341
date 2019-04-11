@@ -74,17 +74,7 @@ class DraftSequenceMenu extends React.Component {
           <div className="jumbotron j-greetings">
             <h2 className="display-4">Sequence To PDF</h2>
             <h2>Starting at Year {theStartingYear}</h2>
-            <hr color="#7e1530" />
             <Button text="Options" onClick={this.handleStartingYear} />
-            <p className="lead">
-              Click Add Course and try out COMP248, COMP232, SOEN228 or ENGR213
-              to test it out.
-              <br />
-              <br />
-              These 4 classes are only available because this is a test. The
-              real json file with all the classes can easily be substituted
-              later.
-            </p>
             {theSequence}
             <Button text="Finalize" onClick={this.convertToPDF} />
             <Link to="/formalize">
