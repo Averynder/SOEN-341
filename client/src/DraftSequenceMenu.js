@@ -77,9 +77,9 @@ class DraftSequenceMenu extends React.Component {
             <Button text="Options" onClick={this.handleStartingYear} />
             {theSequence}
             <Button text="Finalize" onClick={this.convertToPDF} />
-            <Link to="/formalize">
+            {/* <Link to="/formalize">
               <Button text="Formalize" />
-            </Link>
+            </Link> */}
             <Link to="/build-seq-or-sem">
               <Button text="Back to Main Selector" />
             </Link>

@@ -3120,11 +3120,11 @@ class CourseSelectionMenu extends React.Component {
                         onClick={this.openUpload}
                         style={{ float: "left" }}
                     />
-                    <Button
+                    {/* <Button
                         text="Drop Down Menu"
                         onClick={this.addClass1}
                         style={{ float: "left" }}
-                    />
+                    /> */}
                     <hamburger>
                     </hamburger>
                   </div>
